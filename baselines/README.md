@@ -27,7 +27,7 @@
 
 - Feasibility is checked by re-evaluating the returned point in AMPL. The maximum violation over all constraints and variable bounds must be at most 1e-6.
 - **Global solvers** (BARON, Couenne, SCIP, LindoGlobal, Gurobi, Xpress): solved if the point is feasible and the solver's primal and dual bounds satisfy P - D <= max(1e-5, 1e-4 * max(1, |P|, |D|)).
-  - The certificate is not counted if any run found a feasible point better than the certified bound.
+  - The certificate is not counted if the solver returns AMPL status `solved?` (for example BARON's "Globality is therefore not guaranteed"), or if any run found a feasible point better than the certified bound.
 - **Local solvers** (LGO, Knitro, IPOPT, SNOPT, MINOS, CONOPT): solved if the point is feasible and its objective P is within the same tolerance of a dual bound D certified by a global solver.
 
 ## Results
@@ -35,19 +35,19 @@
 | Solver | gams_world | minlplib_linear | Total | % |
 |---|---|---|---|---|
 | SCIP | 200 | 155 | 355 | 70.3 |
-| Gurobi | 183 | 172 | 355 | 70.3 |
-| BARON | 169 | 126 | 295 | 58.4 |
+| Gurobi | 182 | 172 | 354 | 70.1 |
+| BARON | 166 | 126 | 292 | 57.8 |
 | Couenne | 181 | 100 | 281 | 55.6 |
 | LindoGlobal | 163 | 110 | 273 | 54.1 |
-| Xpress | 140 | 118 | 258 | 51.1 |
-| Knitro | 232 | 170 | 402 | 79.6 |
-| IPOPT | 205 | 117 | 322 | 63.8 |
-| CONOPT | 205 | 91 | 296 | 58.6 |
-| LGO | 207 | 78 | 285 | 56.4 |
-| MINOS | 194 | 53 | 247 | 48.9 |
-| SNOPT | 184 | 51 | 235 | 46.5 |
+| Xpress | 136 | 118 | 254 | 50.3 |
+| Knitro | 230 | 170 | 400 | 79.2 |
+| IPOPT | 203 | 117 | 320 | 63.4 |
+| CONOPT | 204 | 91 | 295 | 58.4 |
+| LGO | 206 | 78 | 284 | 56.2 |
+| MINOS | 193 | 53 | 246 | 48.7 |
+| SNOPT | 182 | 51 | 233 | 46.1 |
 
-427 instances (243 gams_world, 184 minlplib_linear) are solved by at least one global solver.
+425 instances (241 gams_world, 184 minlplib_linear) are solved by at least one global solver.
 
 ## Versions
 

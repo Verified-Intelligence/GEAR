@@ -10,7 +10,9 @@ Criteria (per solver run, per instance)
   (b) uniform standard: AMPL-audited violation <= 1e-6 and the solver's own final
       primal P_s and dual D_s with |P_s - D_s| <= max(1e-5, 1e-4*max(1,|P_s|,|D_s|)),
       and the AMPL objective within the same tolerance of P_s (the returned point
-      is the one the solver priced).
+      is the one the solver priced).  AMPL status 'solved?' (the solver warns that
+      the result may be wrong, e.g. BARON "Globality is therefore not guaranteed")
+      is not a certificate.
 A certificate is *sound* if no point from any run, audited at the same feasibility
 level, beats its objective by more than the criterion's gap tolerance.
 """
@@ -131,7 +133,7 @@ def eval_run(run: str, solver: str, subset: set[str] | None = None) -> list[dict
         # criterion (b)
         cert_b = False
         if solver in GLOBAL and feas6 and ps is not None and ds is not None \
-                and pa is not None and sr not in ("infeasible", "unbounded"):
+                and pa is not None and sr not in ("infeasible", "unbounded", "solved?"):
             t = tol_b(ps, ds)
             cert_b = abs(ps - ds) <= t and abs(pa - ps) <= t
         rows.append({

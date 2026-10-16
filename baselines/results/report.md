@@ -7,32 +7,32 @@ Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <
 
 | Solver | gams_world | minlplib | Solved@180s | Solved % |
 |---|---|---|---|---|
-| baron | 169 | 126 | 295 | 58.4 |
+| baron | 166 | 126 | 292 | 57.8 |
 | couenne | 181 | 100 | 281 | 55.6 |
 | scip | 200 | 155 | 355 | 70.3 |
 | lindoglobal | 163 | 110 | 273 | 54.1 |
-| gurobi | 183 | 172 | 355 | 70.3 |
-| xpress | 140 | 118 | 258 | 51.1 |
+| gurobi | 182 | 172 | 354 | 70.1 |
+| xpress | 136 | 118 | 254 | 50.3 |
 
 ### Local/heuristic solvers matching a sound certified objective (uniform standard (1e-6 feasibility, gap rule))
 
 | Solver | gams_world | minlplib | Matched@180s | Matched % |
 |---|---|---|---|---|
-| lgo | 207 | 78 | 285 | 56.4 |
-| knitro | 232 | 170 | 402 | 79.6 |
-| ipopt | 205 | 117 | 322 | 63.8 |
-| snopt | 184 | 51 | 235 | 46.5 |
-| minos | 194 | 53 | 247 | 48.9 |
-| conopt | 205 | 91 | 296 | 58.6 |
+| lgo | 206 | 78 | 284 | 56.2 |
+| knitro | 230 | 170 | 400 | 79.2 |
+| ipopt | 203 | 117 | 320 | 63.4 |
+| snopt | 182 | 51 | 233 | 46.1 |
+| minos | 193 | 53 | 246 | 48.7 |
+| conopt | 204 | 91 | 295 | 58.4 |
 
 ## Union sizes
 
 | Set | size | gams_world | minlplib |
 |---|---|---|---|
-| all global solvers | 427 | 243 | 184 |
-| all global + local-matched | 427 | 243 | 184 |
+| all global solvers | 425 | 241 | 184 |
+| all global + local-matched | 425 | 241 | 184 |
 | (extra, not credited) strict 1e-8/1e-6-gap global | 349 | | |
-| (diagnostic) raw unfiltered global union | 433 | | |
+| (diagnostic) raw unfiltered global union | 431 | | |
 
 ## Chosen configurations and tuning evidence
 
