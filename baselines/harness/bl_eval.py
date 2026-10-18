@@ -75,6 +75,14 @@ def solver_bounds(solver: str, text: str):
             p = ub
         elif p is None and pre is not None and "solved during preprocessing" in text:
             p = pre
+        # AUDIT PATCH (baron): "Problem solved during preprocessing" prints only "Lower bound is"; the
+        # "Preprocessing found feasible solution" value can be a stale incumbent (st_bpv1: 160 vs optimum 10)
+        # and may be absent (schitt_s234, prob09).  The driver line "Objective X" is the returned solution value.
+        if ub is None and lb is not None and "solved during preprocessing" in text \
+                and re.search(r"optimal within tolerances", text):
+            o = last(text, rf"^Objective\s+({NUM})\s*$")
+            if o is not None:
+                p = o
     elif solver == "lindoglobal":
         p = last(text, rf"^\s*Objective value\s*:\s*({NUM})")
         d = last(text, rf"^\s*Best Bound\s*:\s*({NUM})")
@@ -82,9 +90,25 @@ def solver_bounds(solver: str, text: str):
         m = re.findall(rf"Best objective\s+({NUM}), best bound\s+({NUM})", text)
         if m:
             p, d = m[-1]
+        elif "Solving non-convex" not in text and re.search(r"^Gurobi [\d.]+: optimal solution", text, re.M):
+            # AUDIT PATCH (gurobi): presolve-solved or convex LP/QP/QCP finished by simplex/barrier, no B&B line.
+            # "Optimal objective X" with no nonconvex spatial B&B is a proof of global optimality (P = D = X).
+            o = last(text, rf"^Optimal objective\s+({NUM})")
+            if o is not None:
+                p = d = o
     elif solver == "xpress":
-        p = last(text, rf"Final MINLP objective[^:]*:\s*({NUM})")
+        p = last(text, rf"Final MI\w*P objective[^:]*:\s*({NUM})")
         d = last(text, rf"Final MINLP bound\s*:\s*({NUM})")
+        # AUDIT PATCH (xpress): (i) "Final MIQP objective (global optimum)" with no bound line (st_bpv2);
+        # (ii) convex LP/QP solved by simplex/barrier: no "Final MI..." block, final status "optimal solution"
+        # (not "locally optimal"), "Final objective : X" => P = D = X.
+        if p is not None and d is None and re.search(r"Final MI\w*P objective \(global optimum\)", text):
+            d = p
+        elif p is None and d is None and not re.search(r"Final MI\w*P ", text) \
+                and re.search(r"^XPRESS [\d.]+ \([\d.]+\): optimal solution", text, re.M):
+            o = last(text, rf"^Final objective\s*:\s*({NUM})")
+            if o is not None:
+                p = d = o
     f = lambda x: float(x) if x is not None else None  # noqa: E731
     p, d = f(p), f(d)
     if p is not None and abs(p) >= INF:
@@ -182,6 +206,25 @@ def mark_sound(rows: list[dict], best: dict) -> None:
                     ok = False
             r[f"cert_{lvl}"] = ok
             r[f"contra_{lvl}"] = raw and not ok
+
+
+def credit_infeasible(final: dict, pool: list[dict], min_solvers: int = 2, limit: float = 180.0) -> set:
+    """Rule (b): an instance is confirmed infeasible when no run of any solver (global or local, final or
+    tuning) returned a point feasible at 1e-6 and at least `min_solvers` global solvers report AMPL status
+    'infeasible' within the time limit.  Those global solvers' verdicts count as solved (cert_b);
+    local solvers get no credit.  Returns the set of (family, instance) keys."""
+    feasible = {(r["family"], r["instance"]) for r in pool if r["feas6"]}
+    said = {}
+    for s in GLOBAL:
+        for r in final.get(s, []):
+            if r["solve_result"] == "infeasible" and r["wall_time"] is not None and float(r["wall_time"]) <= limit:
+                said.setdefault((r["family"], r["instance"]), []).append(r)
+    keys = {k for k, v in said.items() if k not in feasible and len(v) >= min_solvers}
+    for k in keys:
+        for r in said[k]:
+            r["cert_b"] = r["cert_b_raw"] = True
+            r["infeasible_cert"] = True
+    return keys
 
 
 def summarize(rows: list[dict]) -> dict:

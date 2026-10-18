@@ -34,6 +34,7 @@ def main():
     for s in ev.GLOBAL:
         if s in final:
             ev.mark_sound(final[s], best)
+    infeas = ev.credit_infeasible(final, pool)
 
     # ---- certified references per instance and criterion
     ref = {"a": defaultdict(list), "b": defaultdict(list)}

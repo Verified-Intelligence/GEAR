@@ -9,9 +9,10 @@ for run in ev.RUNS.glob("tune_*"):
     if sv: pool += ev.eval_run(run.name, sv.name)
 for rows in final.values(): pool += rows
 best = ev.best_known(pool)
+for s in ev.GLOBAL: ev.mark_sound(final[s], best)
+INFEAS = ev.credit_infeasible(final, pool)
 cert_by = defaultdict(set); Dref = defaultdict(list); counts = {}
 for s in ev.GLOBAL:
-    ev.mark_sound(final[s], best)
     counts[s] = collections.Counter(r['family'] for r in final[s] if r['cert_b'])
     for r in final[s]:
         if r['cert_b']:
@@ -33,7 +34,7 @@ U_glob = set(cert_by); U_all = U_glob | set(local_by)
 res = {s: {'gams': c.get('gams_world', 0), 'minlp': c.get('minlplib_linear', 0)} for s, c in counts.items()}
 for s in res: res[s]['total'] = res[s]['gams'] + res[s]['minlp']
 summary = {'counts': res, 'U_global': len(U_glob), 'U_global_by_family': dict(collections.Counter(f for f, _ in U_glob)),
-           'U_all': len(U_all)}
+           'U_all': len(U_all), 'confirmed_infeasible': sorted('/'.join(k) for k in INFEAS)}
 json.dump(summary, open(ev.ROOT / 'results' / 'final_table.json', 'w'), indent=1)
 for s, v in res.items(): print(f"{s:12s} {v['gams']:3d} {v['minlp']:3d} {v['total']:3d} {100*v['total']/505:.1f}")
 print({k: v for k, v in summary.items() if k != 'counts'})

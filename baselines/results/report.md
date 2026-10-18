@@ -7,12 +7,12 @@ Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <
 
 | Solver | gams_world | minlplib | Solved@180s | Solved % |
 |---|---|---|---|---|
-| baron | 166 | 126 | 292 | 57.8 |
-| couenne | 181 | 100 | 281 | 55.6 |
-| scip | 200 | 155 | 355 | 70.3 |
-| lindoglobal | 163 | 110 | 273 | 54.1 |
-| gurobi | 182 | 172 | 354 | 70.1 |
-| xpress | 136 | 118 | 254 | 50.3 |
+| baron | 168 | 129 | 297 | 58.8 |
+| couenne | 182 | 100 | 282 | 55.8 |
+| scip | 201 | 155 | 356 | 70.5 |
+| lindoglobal | 164 | 110 | 274 | 54.3 |
+| gurobi | 227 | 174 | 401 | 79.4 |
+| xpress | 176 | 120 | 296 | 58.6 |
 
 ### Local/heuristic solvers matching a sound certified objective (uniform standard (1e-6 feasibility, gap rule))
 
@@ -29,10 +29,10 @@ Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <
 
 | Set | size | gams_world | minlplib |
 |---|---|---|---|
-| all global solvers | 425 | 241 | 184 |
-| all global + local-matched | 425 | 241 | 184 |
+| all global solvers | 426 | 242 | 184 |
+| all global + local-matched | 426 | 242 | 184 |
 | (extra, not credited) strict 1e-8/1e-6-gap global | 349 | | |
-| (diagnostic) raw unfiltered global union | 431 | | |
+| (diagnostic) raw unfiltered global union | 432 | | |
 
 ## Chosen configurations and tuning evidence
 
