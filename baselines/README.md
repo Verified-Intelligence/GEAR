@@ -13,6 +13,7 @@
 | `commands.md` | exact AMPL options, thread layout and command per solver |
 | `harness/` | runner, tuning campaign and scoring scripts |
 | `results/` | per-instance results, final table, tuning log |
+| `../logs/` | solver logs of the final runs (see the top-level README) |
 
 ## Setup
 

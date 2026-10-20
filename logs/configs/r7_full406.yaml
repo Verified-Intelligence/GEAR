@@ -1,0 +1,126 @@
+# GEAR r7 configuration (v406 release, commit 7b2e88ea0); the configuration of every run in gear.tar.xz
+model:
+  bound_opts: '{''domain_aware_ops'': True, ''compare_crown_with_ibp_intermediate'': True, ''undefined_relaxation_rows'': True, ''pow_negative_exponent'': True, ''pow_variable_exponent_exp_log'': True, ''hidden_square_rewrite'': True, ''undefined_relaxation_interval'': True, ''complete_square_rewrite'': True, ''square_row_to_abs'': True, ''objective_row_alias'': True}'
+general:
+  root_path: ../../nlp_benchmarks/nlplib
+  csv_name: instances_new.csv
+  double_fp: true
+  complete_verifier: bab
+solver:
+  batch_size: 1
+  bound_prop_method: crown
+  auto_enlarge_batch_size: true
+  min_batch_size_ratio: 0.0
+  crown:
+    compare_crown_with_ibp: false
+  nlp:
+    enabled: true
+    method: ipopt
+    enable_alm: true
+    bab_br_budget: 20480
+    expand_input_constraints_as_outputs: true
+    verbose: true
+    in_bab: true
+    bab_outer_max_iter: 20
+    bab_inner_steps: 200
+    dual_ascent_enabled: true
+    dual_lp_pdhg_iters: 500
+    dual_lp_exact_max: 16
+    dual_bound_record_all: true
+    quadratic_tangent_bound: true
+    ipopt_constraint_slack_frac: 0.99
+    root_lp_local_start: true
+    concretize_max_constraint_rows: 16
+    root_local_solver_warmstart: true
+    root_hybrid_term_bound: true
+    qtb_quadratic_dual: true
+    convex_row_cuts: true
+    convex_tangent_objective: true
+    convex_tangent_rows: true
+    gp_certificate: true
+    clear_denominators: true
+    lifted_lp_rlt: true
+    bab_alm_stop_after_failures: 4
+    lifted_lp_convex_objective: true
+    exp_certificate: true
+    concretize_fused_kernel: true
+    lifted_lp_bound: true
+    lifted_lp_obbt: true
+    lifted_lp_branching: true
+    lifted_lp_bab_time: 30.0
+    lifted_lp_bab_handoff: true
+    lifted_lp_leaf_ipopt: true
+    qtb_accept_blend: true
+    root_alm_inner_lr: 0.01
+    root_alm_inner_lr_outer_decay: 0.6
+    root_alm_scale_eps_with_bias: false
+    root_alm_rho0: 1.0
+    root_alm_kappa: 2.0
+    root_alm_update_multipliers_always: true
+    root_alm_deduplicate_expanded_input_constraints: true
+    root_alm_constraint_normalize: true
+    root_alm_constraint_scale_floor: 1.0
+    root_alm_constraint_scale_decay: 0.5
+    root_alm_first_feas_patience: 5
+    root_alm_output_affine_project_init: true
+    root_alm_output_affine_project_fraction: 0.25
+    root_alm_output_affine_project_sweeps: 50
+    root_alm_output_affine_inner_sweeps: 1
+    root_alm_raw_polish_steps: 250
+    root_alm_raw_polish_lr: 0.001
+    root_alm_raw_polish_restarts: 64
+    root_alm_raw_polish_jitter: 0.0
+    root_alm_raw_polish_max_viol: 1000000000000.0
+    root_alm_batched_gn_steps: 50
+    root_alm_batched_gn_seeds: 256
+    root_alm_batched_gn_interior: 1.0e-12
+    root_alm_batched_gn_max_elems: 67108864
+    root_alm_endgame_time_frac: 0.15
+    root_alm_batched_gn_max_time: 0.0
+    root_alm_init_scaled_fraction: 0.25
+    alm_batched_gn_steps: 30
+    alm_batched_gn_seeds: 8
+    alm_batched_gn_interior: 1.0e-12
+    alm_batched_gn_max_time: 2.0
+    alm_endgame_time_frac: 0.2
+    alm_batched_gn_improve: true
+    alm_opt_polish_candidates: 32
+    alm_opt_polish_seeds: 32
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    bab_alm_opt_polish_candidates: 8
+    bab_alm_opt_polish_time: 1.0
+    constr_viol_tol: 1.0e-06
+    bab_feas_tol: 1.0e-06
+    ipopt_constr_viol_tol: 1.0e-06
+    enable_ipopt_in_bab: true
+    ipopt_bab_topk: 2
+    ipopt_bab_timeout: 10.0
+    ipopt_timeout: 30.0
+    root_parallel: true
+    alm_outer_max_iter: 20
+    alm_inner_steps: 200
+bab:
+  sort_domain_interval: 1
+  lazy_sort_domains: true
+  domain_storage_gpu_mb: 2048
+  branching:
+    method: sb
+    input_split:
+      enable: true
+      reorder_bab: true
+      sb_min_width_ratio: 0.001
+      angle_first_ratio: 0.15
+      sb_strong_candidates_unconstrained: -1
+      sb_strong_max_inputs_unconstrained: 6
+      sb_strong_max_domains: 10000
+      sb_sum: true
+  clip_n_verify:
+    clip_input_domain:
+      enabled: true
+      clip_type: complete
+attack:
+  pgd_order: skip
+solving:
+  solving_mode: true
+  obj_index: 0
