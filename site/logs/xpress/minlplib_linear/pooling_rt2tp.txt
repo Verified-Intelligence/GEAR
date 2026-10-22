@@ -1,0 +1,141 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=minlplib_linear instance=pooling_rt2tp model=benchmarks/minlplib/minlplib_mods/pooling_rt2tp.mod model_sha256=9b62dd1e22e351e6bff2dbb159726ab223944e7704d8ed1daf796b5e5afa221b time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=d947b52213a594b21cceb68eccc19d7b97e981c79aac6707e0693a6ea279d1c7
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 34 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  21 linear; 18 quadratic;
+
+AMPL MP final model has 34 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  21 linear; 18 quadratic;
+
+
+Original problem size
+   linear:    39 rows, 34 columns, 166 linear coefficients
+   quadratic: 0 in obj, 18 rows, 18 in rows
+Nonlinear presolve
+   converted 18 quadratic matrices to formulas
+   linear presolve removed 4 rows, 0 columns, 29 linear coefficients
+Presolved problem size
+   linear:    35 rows, 35 columns, 137 linear coefficients
+   nonlinear: 18 coefficients, 90 tokens
+              36 mul             0 div         0 sqrt
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:52:35, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 5  (row 'R1')
+Total tokens: 90
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+          18 base AD formula, 5 average complexity
+          36 in the Jacobian, 3 average complexity
+Initial point objective: -1239.6000
+Absolute / relative validation:           3.375  /      .771
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:52:35, Oct 14, 2026
+Heap usage: 186KB (peak 186KB, 193KB system)
+Minimizing Nonconvex-QCP  using up to 16 threads and up to 249GB memory
+Original problem has:
+        35 rows           35 cols          137 elements         0 entities
+Presolved problem has:
+        35 rows           52 cols          155 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1315KB (peak 1354KB, 193KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e-02,  1.90e+01] / [ 8.00e-02,  1.19e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  6.10e+01] / [ 1.00e+00,  6.10e+01]
+  Objective      [min,max] : [ 7.00e+01,  1.81e+02] / [ 7.00e+01,  1.81e+02]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   sum inf 
+ P -5528.2533   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 26 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg        Sum Inf  Time
+    26      -5528.253313      P      0     0        .000000     0
+Dual solved problem
+  26 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : -5.528253313368388e+03
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max dual violation        (abs/rel) : 2.274e-13 / 2.165e-13
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 3 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c        -4391.783105 -5528.253313      1                 20.56%       0      0
+c        -4391.825893 -5528.253313      2                 20.56%       0      0
+   1     -4391.825893 -5528.253313      2      2     43   20.56%       6      0
+   2     -4391.825893 -5528.253313      2      0      2   20.56%       6      0
+   3     -4391.825893 -5528.253313      2      0      0   20.56%       6      0
+ 
+Cuts in the matrix         : 11
+Cut elements in the matrix : 26
+
+Starting tree search.
+Deterministic mode with up to 16 running threads and up to 32 tasks.
+Heap usage: 3829KB (peak 3997KB, 200KB system)
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+       1 -4391.825893 -5528.253313      2      2      1   20.56%       6      0
+       2 -4391.825893 -5528.253313      2      2      2   20.56%      16      0
+       3 -4391.825893 -5528.253313      2      1      2   20.56%      10      0
+       4 -4391.825893 -5528.253313      2      1      3   20.56%      10      0
+       5 -4391.825893 -5528.253313      2      1      4   20.56%       5      0
+       6 -4391.825893 -4791.361845      2      4      4    8.34%      16      0
+       7 -4391.825893 -4791.361845      2      3      5    8.34%       7      0
+       8 -4391.825893 -4791.361845      2      2      3    8.34%      10      0
+       9 -4391.825893 -4409.108386      2      1      5    0.39%       5      0
+      10 -4391.825893 -4409.108386      2      1      6    0.39%       5      0
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3461KB (peak 17MB, 92KB system)
+Final MINLP objective (global optimum): -4.391825892774752e+03
+Final MINLP bound                     : -4.391830284600645e+03
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) : 7.105e-15 / 5.829e-15
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         2 /        11
+  Observed primal integral            :   24.210%
+  Solution time / primaldual integral :      0.10s/ 37.637465%
+  Work / work units per second        :      0.06 /      0.64
+*** Search completed ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -4391.825893
+0 simplex iterations
+11 branching nodes
+HARNESS_RESULT solver=xpress family=minlplib_linear instance=pooling_rt2tp solve_result=solved solve_result_num=0 objective=-4391.825892774752 constraint_violation=7.5495165674510645e-15 variable_violation=0 nvars=34 ncons=52 elapsed=0.111368
+RESOURCE_USAGE wall=0.12 user=0.11 sys=0.01 maxrss_kb=48668 cpu_pct=101% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.164129694 initialization=model_default config_hash=d947b52213a594b21cceb68eccc19d7b97e981c79aac6707e0693a6ea279d1c7
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.164334584 config_hash=d947b52213a594b21cceb68eccc19d7b97e981c79aac6707e0693a6ea279d1c7

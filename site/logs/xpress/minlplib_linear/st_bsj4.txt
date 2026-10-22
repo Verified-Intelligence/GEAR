@@ -1,0 +1,126 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=minlplib_linear instance=st_bsj4 model=benchmarks/minlplib/minlplib_mods/st_bsj4.mod model_sha256=189886d9413b1bbdcae7c4b2a6b8386a3fb4a594e212217ea9e7627d6fe049d8 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=71615c82b71efe9cfa4fe317f8ada1a7e7bb8d51b21bfca9f3c4aca5dd34dbbc
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 6 variables (0 integer, 0 binary);
+Objectives: 1 quadratic; 
+Constraints:  4 linear;
+
+AMPL MP final model has 6 variables (0 integer, 0 binary);
+Objectives: 1 quadratic; 
+Constraints:  4 linear;
+
+
+Original problem size
+   linear:    4 rows, 6 columns, 16 linear coefficients
+   quadratic: 6 in obj, 0 rows, 0 in rows
+Nonlinear presolve
+   converted quadratic objective into an SLP constraint
+   linear presolve removed 1 rows, 0 columns, 9 linear coefficients
+   objective transfer row R5 through variable C8
+   creating 1 '+' clusters removed 3 tokens
+Presolved problem size
+   linear:    3 rows, 7 columns, 7 linear coefficients
+   nonlinear: 1 coefficients, 32 tokens
+              6 mul             0 div         0 sqrt
+              0 exp             0 log         6 pow
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:32:17, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 32  (row 'R5')
+Total tokens: 32
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+           1 base AD formula, 31 average complexity
+           5 in the Jacobian, 5 average complexity
+Initial point is within initial feasibility target with objective: -28878.300
+Absolute / relative validation:            .000  /      .000
+User solution (initial point) stored.
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:32:17, Oct 14, 2026
+Heap usage: 172KB (peak 172KB, 193KB system)
+Minimizing Nonconvex-QCP  using up to 16 threads and up to 249GB memory
+Original problem has:
+         3 rows            7 cols            7 elements         0 entities
+Presolved problem has:
+         3 rows           11 cols            7 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1268KB (peak 1287KB, 193KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e+00,  4.00e+00] / [ 5.00e-01,  1.50e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  3.50e+02] / [ 1.25e+01,  9.80e+03]
+  Objective      [min,max] : [ 1.00e+00,  1.05e+01] / [ 1.00e+00,  1.05e+01]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+ *** Solution found: -28878.30000   Time:   0.00    Heuristic: U ***
+User solution (initial point) accepted: Feasible solution.
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D -72700.050   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 7 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+     7      -72700.05000      D      0     0        .000000     0
+Dual solved problem
+  7 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : -7.270005000000000e+04
+  Max primal violation      (abs/rel) : 1.421e-14 / 1.421e-14
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 2 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c        -70262.05000 -72700.05000      2                  3.35%       0      0
+   1     -70262.05000 -72677.05000      2      1     20    3.32%       1      0
+   2     -70262.05000 -70741.87316      2      4      0    0.68%       1      0
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3333KB (peak 9614KB, 83KB system)
+Final MINLP objective (global optimum): -7.026205000000000e+04
+Final MINLP bound                     : -7.026212026205000e+04
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         2 /         1
+  Observed primal integral            :   31.114%
+  Solution time / primaldual integral :      0.01s/ 31.191140%
+  Work / work units per second        :      0.00 /      0.06
+*** Search completed ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -70262.05
+0 simplex iterations
+1 branching nodes
+HARNESS_RESULT solver=xpress family=minlplib_linear instance=st_bsj4 solve_result=solved solve_result_num=0 objective=-70262.050000000003 constraint_violation=0 variable_violation=0 nvars=6 ncons=4 elapsed=0.016709
+RESOURCE_USAGE wall=0.02 user=0.01 sys=0.01 maxrss_kb=41624 cpu_pct=96% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.031552838 initialization=model_default config_hash=71615c82b71efe9cfa4fe317f8ada1a7e7bb8d51b21bfca9f3c4aca5dd34dbbc
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.031654879 config_hash=71615c82b71efe9cfa4fe317f8ada1a7e7bb8d51b21bfca9f3c4aca5dd34dbbc

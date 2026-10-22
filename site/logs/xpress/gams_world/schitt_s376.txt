@@ -1,0 +1,163 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=gams_world instance=schitt_s376 model=neurips_code/benchmarks/gams_world/gams_mods/converted_mod/schitt_s376.mod model_sha256=a30ba1e75789087fbce92b5a5c3c6591ab3e2df840a9c7c34b7b2b68abc0554e time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=18fe6c6500d039b68174e76e92fab901132c6d35c820c944d1f8c04cdc2f87ac
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 10 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  20 linear; 17 quadratic;
+Algebraic expressions:  7 div; 12 exp; 6 log; 1 powc;
+
+AMPL MP final model has 74 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  18 linear; 17 quadratic; 14 nonlinear;
+Algebraic expressions:  7 div; 12 exp; 6 log; 1 powc;
+
+
+User solution (AMPL_initial_guess) stored.
+Original problem size
+   linear:    21 rows, 74 columns, 23 linear coefficients
+   nonlinear: 20 coefficients, 186 tokens
+              50 mul             7 div         0 sqrt
+              12 exp             6 log         1 pow
+Nonlinear presolve
+   removed 4 fixed variables from formulas
+   linear presolve removed 0 rows, 58 columns, 0 linear coefficients
+   bound tightening reduced 12 bounds
+   objective transfer row R21 through variable C63
+   creating 3 '+' clusters removed 1 tokens
+Presolved problem size
+   linear:    21 rows, 17 columns, 23 linear coefficients
+   nonlinear: 20 coefficients, 185 tokens
+              49 mul             7 div         0 sqrt
+              12 exp             6 log         2 pow
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:38:50, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 26  (row 'R10')
+Total tokens: 185
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+          20 base AD formula, 7.95 average complexity
+          42 in the Jacobian, 11.5238 average complexity
+Initial point objective: -2931.4696
+Absolute / relative validation:        999000.0  /      .999
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:38:50, Oct 14, 2026
+Heap usage: 184KB (peak 189KB, 193KB system)
+Minimizing NLP  using up to 16 threads and up to 249GB memory
+Original problem has:
+        21 rows           17 cols           23 elements         0 entities
+Presolved problem has:
+        41 rows           79 cols           87 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1335KB (peak 1361KB, 193KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e+00,  1.00e+04] / [ 7.98e-10,  1.88e+00]
+  RHS and bounds [min,max] : [ 5.00e-05,  1.00e+09] / [ 8.95e-11,  1.00e+09]
+  Objective      [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.00e+00]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+User solution (AMPL_initial_guess) postponed: Partial solution
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D -477737.87   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 107 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+   107      -477737.8723      D      0     0        .000000     0
+Dual solved problem
+  107 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : -4.777378722781424e+05
+  Max primal violation      (abs/rel) : 2.602e-09 / 2.602e-09
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+High attention level predicted from matrix features
+
+Starting root cutting & heuristics
+Deterministic mode with up to 3 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+User solution (AMPL_initial_guess) accepted: Feasible after optimizing with fixed MIP entities.
+U        -4429.962701 -477737.8723      1                 99.07%       0      0
+   1     -4429.962701 -5115.071115      1     21    127   13.39%      11      0
+   2     -4429.962701 -4440.860485      1     20     23    0.25%      12      0
+   3     -4429.962701 -4440.583776      1      7     14    0.24%      12      0
+   4     -4429.962701 -4439.910000      1     12      6    0.22%      12      0
+   5     -4429.962701 -4439.751570      1      9     11    0.22%       9      0
+   6     -4429.962701 -4439.704495      1     25      7    0.22%      10      0
+   7     -4429.962701 -4439.552885      1     12     21    0.22%       9      0
+   8     -4429.962701 -4439.552885      1     13     13    0.22%       8      0
+   9     -4429.962701 -4439.552885      1      2      9    0.22%       8      0
+  10     -4429.962701 -4439.552885      1      0      2    0.22%       8      0
+  11     -4429.962701 -4439.552885      1      0      0    0.22%       8      0
+ 
+Cuts in the matrix         : 54
+Cut elements in the matrix : 143
+
+Starting tree search.
+Deterministic mode with up to 16 running threads and up to 32 tasks.
+Heap usage: 4628KB (peak 4963KB, 200KB system)
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+       1 -4429.962701 -4435.230460      1      2      1    0.12%      12      0
+       2 -4429.962701 -4435.230460      1      2      2    0.12%      12      0
+       3 -4429.962701 -4435.230460      1      1      2    0.12%      12      0
+       4 -4429.962701 -4435.230460      1      1      3    0.12%      10      0
+       5 -4429.962701 -4435.230460      1      1      4    0.12%      10      0
+       6 -4429.962701 -4431.262702      1      4      4    0.03%      12      0
+       7 -4429.962701 -4431.262702      1      3      3    0.03%       9      0
+STOPPING - MIPRELSTOP target reached (MIPRELSTOP=0.0001  gap=7.16072e-05).
+STOPPING - MIPRELSTOP target reached (MIPRELSTOP=0.0001  gap=7.16072e-05).
+ *** Search completed ***
+Numerical issues encountered:
+   Dual failures    :      4 out of       269 (ratio: 0.0149)
+   Predicted att. level   : 0.1687
+Uncrunching matrix
+User solution (AMPL_initial_guess) dropped.
+Problem is nonlinear postsolved
+Heap usage: 3721KB (peak 23MB, 92KB system)
+Final MINLP objective (global optimum): -4.429962700556008e+03
+Final MINLP bound                     : -4.430279940679714e+03
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) : 4.963e+00 / 9.466e-07
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         1 /         7
+  Observed primal integral            :    9.900%
+  Solution time / primaldual integral :      0.10s/ 26.149265%
+  Work / work units per second        :      0.08 /      0.74
+*** MIP gap is less than MIPABSSTOP/MIPRELSTOP ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -4429.962701
+0 simplex iterations
+7 branching nodes
+HARNESS_RESULT solver=xpress family=gams_world instance=schitt_s376 solve_result=solved solve_result_num=0 objective=-4429.9627005560078 constraint_violation=9.466911584377069e-07 variable_violation=0 nvars=10 ncons=15 elapsed=0.112123
+RESOURCE_USAGE wall=0.12 user=0.11 sys=0.01 maxrss_kb=55392 cpu_pct=104% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.163879911 initialization=model_default config_hash=18fe6c6500d039b68174e76e92fab901132c6d35c820c944d1f8c04cdc2f87ac
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.164030042 config_hash=18fe6c6500d039b68174e76e92fab901132c6d35c820c944d1f8c04cdc2f87ac

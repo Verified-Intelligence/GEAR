@@ -1,0 +1,124 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=minlplib_linear instance=pooling_bental4pq model=benchmarks/minlplib/minlplib_mods/pooling_bental4pq.mod model_sha256=21f21cf737da29906962a41c7347c72e7c2e4c894934256d37e71cc730b3bdf5 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=ff89812f73da4f20035d826c36fbd9890ce6d23b0a1930bb48cea6c6a315cc20
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 13 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  7 linear; 6 quadratic;
+
+AMPL MP final model has 13 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  7 linear; 6 quadratic;
+
+
+Original problem size
+   linear:    13 rows, 13 columns, 33 linear coefficients
+   quadratic: 0 in obj, 6 rows, 6 in rows
+Nonlinear presolve
+   converted 6 quadratic matrices to formulas
+Presolved problem size
+   linear:    13 rows, 14 columns, 33 linear coefficients
+   nonlinear: 6 coefficients, 30 tokens
+             12 mul             0 div         0 sqrt
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:35:32, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 5  (row 'R1')
+Total tokens: 30
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+           6 base AD formula, 5 average complexity
+          12 in the Jacobian, 3 average complexity
+Initial point objective:    -2.0000
+Absolute / relative validation:          49.000  /      .980
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:35:32, Oct 14, 2026
+Heap usage: 173KB (peak 173KB, 193KB system)
+Minimizing Nonconvex-QCP  using up to 16 threads and up to 249GB memory
+Original problem has:
+        13 rows           14 cols           33 elements         0 entities
+Presolved problem has:
+        13 rows           19 cols           39 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1276KB (peak 1298KB, 193KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 5.00e-01,  1.50e+00] / [ 5.00e-01,  1.50e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  3.00e+02] / [ 1.00e+00,  3.00e+02]
+  Objective      [min,max] : [ 1.00e+00,  9.00e+00] / [ 1.00e+00,  9.00e+00]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D -550.00000   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 10 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+    10       -550.000000      D      0     0        .000000     0
+Dual solved problem
+  10 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : -5.500000000000000e+02
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 3 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c             .000000  -550.000000      1                   550        0      0
+c         -450.000000  -525.000000      2                 14.29%       0      0
+   1      -450.000000  -525.000000      2      6     14   14.29%       6      0
+   2      -450.000000  -525.000000      2      0      4   14.29%       6      0
+   3      -450.000000  -525.000000      2      0      0   14.29%       6      0
+ 
+Cuts in the matrix         : 6
+Cut elements in the matrix : 16
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3377KB (peak 9763KB, 83KB system)
+Final MINLP objective (global optimum): -4.499999999988543e+02
+Final MINLP bound                     : -4.500004499988543e+02
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) : 2.054e-10 / 2.054e-10
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         2 /         1
+  Observed primal integral            :   64.285%
+  Solution time / primaldual integral :      0.01s/ 65.660011%
+  Work / work units per second        :      0.00 /      0.20
+*** Search completed ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -450
+0 simplex iterations
+1 branching nodes
+HARNESS_RESULT solver=xpress family=minlplib_linear instance=pooling_bental4pq solve_result=solved solve_result_num=0 objective=-449.99999999885432 constraint_violation=2.0538659661895053e-10 variable_violation=0 nvars=13 ncons=16 elapsed=0.023514
+RESOURCE_USAGE wall=0.03 user=0.02 sys=0.00 maxrss_kb=42352 cpu_pct=103% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.063637813 initialization=model_default config_hash=ff89812f73da4f20035d826c36fbd9890ce6d23b0a1930bb48cea6c6a315cc20
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.063736055 config_hash=ff89812f73da4f20035d826c36fbd9890ce6d23b0a1930bb48cea6c6a315cc20

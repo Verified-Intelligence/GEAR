@@ -1,0 +1,160 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=gams_world instance=ModRosenbrock model=neurips_code/benchmarks/gams_world/gams_mods/converted_mod/ModRosenbrock.mod model_sha256=96d6bda1215b0b732480ce3b4e3f3f003db9deb6beb6f5d7eea61b45ae5a084d time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=dd9a1d5e4b79ee0df944224cc70c6eddc668af3c5538822fd07130d9f16f0a56
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 2 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  2 quadratic;
+Algebraic expressions:  2 powc;
+
+AMPL MP final model has 7 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  1 linear; 2 quadratic;
+Algebraic expressions:  2 powc;
+
+
+Original problem size
+   linear:    1 rows, 7 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 29 tokens
+              7 mul             0 div         0 sqrt
+              0 exp             0 log         2 pow
+Nonlinear presolve
+   linear presolve removed 0 rows, 4 columns, 0 linear coefficients
+   objective transfer row R1 through variable C7
+   creating 1 '+' clusters removed 1 tokens
+Presolved problem size
+   linear:    1 rows, 4 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 28 tokens
+              5 mul             0 div         0 sqrt
+              0 exp             0 log         4 pow
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:58:49, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 28  (row 'R1')
+Total tokens: 28
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+           1 base AD formula, 24 average complexity
+           2 in the Jacobian, 35 average complexity
+Initial point is within initial feasibility target with objective:     1.0000
+Absolute / relative validation:            .000  /      .000
+User solution (initial point) stored.
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:58:49, Oct 14, 2026
+Heap usage: 171KB (peak 171KB, 176KB system)
+Minimizing NLP  using up to 16 threads and up to 249GB memory
+Original problem has:
+         1 rows            4 cols            1 elements         0 entities
+Presolved problem has:
+         7 rows           13 cols           16 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1270KB (peak 1286KB, 176KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e+00,  1.00e+00] / [ 2.50e-01,  1.60e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  5.00e+00] / [ 1.00e+00,  3.92e+04]
+  Objective      [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.00e+02]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+ *** Solution found:     1.000000   Time:   0.00    Heuristic: U ***
+User solution (initial point) accepted: Feasible solution.
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D   .0000000   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 13 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+    13           .000000      D      0     0        .000000     0
+Dual solved problem
+  13 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : 0.000000000000000e+00
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 2 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c         1.80112E-04      .000000      2               0.000180       0      0
+   1      1.80112E-04      .000000      2      6     19 0.000180       1      0
+   2      1.80112E-04      .000000      2      6      6 0.000180       1      0
+   3      1.80112E-04      .000000      2      2      4 0.000180       1      0
+   4      1.80112E-04      .000000      2      4      3 0.000180       1      0
+   5      1.80112E-04      .000000      2      0      3 0.000180       1      0
+   6      1.80112E-04      .000000      2      0      0 0.000180       1      0
+ 
+Cuts in the matrix         : 3
+Cut elements in the matrix : 6
+
+Starting tree search.
+Deterministic mode with up to 16 running threads and up to 32 tasks.
+Heap usage: 3630KB (peak 3760KB, 183KB system)
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+       1  1.80112E-04      .000000      2      2      1 0.000180       1      0
+       2  1.66676E-04      .000000      3      2      2 0.000166       2      0
+       3  1.66676E-04      .000000      3      2      2 0.000166       2      0
+       4  1.66676E-04      .000000      3      2      3 0.000166       2      0
+       5  1.66676E-04      .000000      3      2      3 0.000166       2      0
+       6  1.66676E-04      .000000      3      2      4 0.000166       2      0
+       7  1.66676E-04      .000000      3      5      5 0.000166       2      0
+       8  1.66676E-04      .000000      3      5      4 0.000166       2      0
+       9  1.66676E-04      .000000      3      8      6 0.000166       2      0
+      10  1.66676E-04      .000000      3      7      1 0.000166       2      0
+      20  1.66676E-04      .000000      3      8      4 0.000166       2      0
+      30  6.61008E-05      .000000      6      8      7 6.61e-05       1      0
+      41  6.61008E-05      .000000      6      7      1 6.61e-05       2      0
+      51  2.17669E-05      .000000      8      6      6 2.18e-05       2      0
+      62  2.17669E-05      .000000      8      3      9 2.18e-05       1      0
+*     68      .000000      .000000      9      2     13 7.61e-06       0      0
+STOPPING - MIPABSSTOP target reached (MIPABSSTOP=1e-05  gap=7.61433e-06).
+STOPPING - MIPABSSTOP target reached (MIPABSSTOP=1e-05  gap=7.61433e-06).
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3340KB (peak 43MB, 109KB system)
+Final MINLP objective (global optimum): 7.614331643320221e-06
+Final MINLP bound                     : 0.000000000000000e-01
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         9 /        68
+  Observed primal integral            :   93.921%
+  Solution time / primaldual integral :      0.11s/ 100.000000%
+  Work / work units per second        :      0.01 /      0.06
+*** MIP gap is less than MIPABSSTOP/MIPRELSTOP ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective 7.614331643e-06
+0 simplex iterations
+68 branching nodes
+HARNESS_RESULT solver=xpress family=gams_world instance=ModRosenbrock solve_result=solved solve_result_num=0 objective=7.6143316433203248e-06 constraint_violation=0 variable_violation=0 nvars=2 ncons=0 elapsed=0.117613
+RESOURCE_USAGE wall=0.12 user=0.11 sys=0.01 maxrss_kb=58992 cpu_pct=105% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.163906175 initialization=model_default config_hash=dd9a1d5e4b79ee0df944224cc70c6eddc668af3c5538822fd07130d9f16f0a56
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.164040304 config_hash=dd9a1d5e4b79ee0df944224cc70c6eddc668af3c5538822fd07130d9f16f0a56

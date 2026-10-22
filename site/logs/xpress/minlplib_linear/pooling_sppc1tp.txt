@@ -1,0 +1,136 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=minlplib_linear instance=pooling_sppc1tp model=benchmarks/minlplib/minlplib_mods/pooling_sppc1tp.mod model_sha256=86a9bfa1f17a70560b9d18fdeabeb2fa5869b7c2c6b6d479cbf3c2b072f29596 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=6634788058c92b26918b92822510514fe7fd5308d1662ba5b4324cf131b219ab
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 5840 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  1480 linear; 4770 quadratic;
+
+AMPL MP final model has 5840 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  1480 linear; 4770 quadratic;
+
+
+Original problem size
+   linear:    6250 rows, 5840 columns, 186146 linear coefficients
+   quadratic: 0 in obj, 4770 rows, 4770 in rows
+Nonlinear presolve
+   converted 4770 quadratic matrices to formulas
+   linear presolve removed 122 rows, 0 columns, 15693 linear coefficients
+Presolved problem size
+   linear:    6128 rows, 5841 columns, 170453 linear coefficients
+   nonlinear: 4770 coefficients, 23850 tokens
+              9540 mul             0 div         0 sqrt
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 6:28:27, Oct 15, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 5  (row 'R1')
+Total tokens: 23850
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+        4770 base AD formula, 5 average complexity
+        9540 in the Jacobian, 3 average complexity
+Initial point objective: -78989.000
+Absolute / relative validation:        4254.050  /      .980
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 6:28:27, Oct 15, 2026
+Heap usage: 4432KB (peak 4432KB, 2335KB system)
+Minimizing Nonconvex-QCP  using up to 16 threads and up to 249GB memory
+Original problem has:
+      6128 rows         5841 cols       170453 elements         0 entities
+Presolved problem has:
+      6128 rows        10610 cols       175223 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 12MB (peak 22MB, 2335KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [10.00e-03,  7.80e+01] / [ 1.56e-04,  2.00e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  3.02e+02] / [ 1.00e+00,  3.02e+02]
+  Objective      [min,max] : [ 1.00e+00,  4.00e+01] / [ 1.00e+00,  4.00e+01]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+Starting concurrent solve with dual (1 thread) and barrier (15 threads)
+
+              Concurrent-Solve,   0s
+            Dual                      Barrier      
+    objective   dual inf        p.obj.     d.obj.  
+ D -160185.37   .0000000 |  B -6971388.6 -46909504.
+ D -125794.59   .0000000 |  B -116096.61 -3715795.1
+ D -123268.55   .0000000 |  B -104159.88 -202636.69
+ D -121781.62   .0000000 |  B -117559.86 -127066.60
+ D -121105.62   .0000000 |  B -120103.23 -120443.77
+ D -120739.65   .0000000 |  B -120219.32 -120229.08
+ D -120607.95   .0000000 |  B -120221.86 -120221.86
+----- interrupted ------ | ------- optimal --------
+Concurrent statistics:
+           Dual: 4864 simplex iterations, 0.62s
+        Barrier: 22 barrier and 423 simplex iterations, 0.69s
+            Barrier used 15 threads 8 cores
+            Barrier used AVX2 support, crossover used 8 threads
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg        Sum Inf  Time
+     0      -120221.8591      P      0     0        .000000     0
+Barrier solved problem
+  22 barrier and 423 simplex iterations in 0.70 seconds at time 0
+
+Final objective                       : -1.202218591269868e+05
+  Max primal violation      (abs/rel) : 1.110e-16 / 1.110e-16
+  Max dual violation        (abs/rel) : 2.354e-12 / 2.354e-12
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 3 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+d        -100324.5384 -120221.8591      1                 16.55%       0     66
+   1     -100324.5384 -120221.8591      1    169  13841   16.55%     933    147
+STOPPING - MAXTIME limit reached (TIMELIMIT=180.00  time=180.04).
+   2     -100324.5384 -120191.3935      1     36    178   16.53%     901    180
+ 
+Cuts in the matrix         : 496
+Cut elements in the matrix : 1927
+ *** Search unfinished ***    Time:   180.05 Nodes:          0
+Heap usage: 90MB (peak 135MB, 2342KB system)
+Final MINLP objective (feasible sol.) : -1.003245384267287e+05
+Final MINLP bound                     : -1.201913934794424e+05
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         1 /         0
+  Observed primal integral            :   36.746%
+  Solution time / primaldual integral :    180.19s/ 47.169315%
+  Work / work units per second        :   1793.16 /      9.95
+*** Time limit reached ***
+XPRESS 9.8.1 (46.01.02): locally optimal solution, no duals; objective -100324.5384
+0 simplex iterations
+ 
+------------ WARNINGS ------------
+WARNING:  "Tolerance violations"
+  Type                         MaxAbs [Name]   MaxRel [Name]
+* algebraic con(s)             1E-05           -             
+*: Using the solver's aux variable values.
+Documentation: mp.ampl.com/modeling-tools.html#automatic-solution-check.
+HARNESS_RESULT solver=xpress family=minlplib_linear instance=pooling_sppc1tp solve_result=solved? solve_result_num=120 objective=-100324.53842672872 constraint_violation=1.4230673173187824e-05 variable_violation=1.4882890475576005e-09 nvars=5840 ncons=6530 elapsed=180.244533
+RESOURCE_USAGE wall=180.46 user=293.07 sys=6.29 maxrss_kb=246368 cpu_pct=165% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=180.497657 initialization=model_default config_hash=6634788058c92b26918b92822510514fe7fd5308d1662ba5b4324cf131b219ab
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=180.49776 config_hash=6634788058c92b26918b92822510514fe7fd5308d1662ba5b4324cf131b219ab

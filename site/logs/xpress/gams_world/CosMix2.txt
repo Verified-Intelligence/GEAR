@@ -1,0 +1,101 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=gams_world instance=CosMix2 model=neurips_code/benchmarks/gams_world/gams_mods/converted_mod/CosMix2.mod model_sha256=457dbd9a8f9d14e7c31945b35e805944d8a58aaee7c2ac2522bd07a022dd2be4 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=f4f015618a04371296435fd6c23d513de2bd55e099509a7811b3c8e08f9eed88
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 2 variables (0 integer, 0 binary);
+Objectives: 1 quadratic; 
+Constraints:  2 linear;
+Algebraic expressions:  2 cos;
+
+AMPL MP final model has 7 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  2 linear; 1 quadratic;
+Algebraic expressions:  2 cos;
+
+
+Original problem size
+   linear:    1 rows, 7 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 23 tokens
+              6 mul             0 div         0 sqrt
+              0 sin             2 cos         0 tan
+Nonlinear presolve
+   linear presolve removed 0 rows, 4 columns, 0 linear coefficients
+   objective transfer row R1 through variable C7
+   creating 1 '+' clusters removed 1 tokens
+Presolved problem size
+   linear:    1 rows, 4 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 22 tokens
+              4 mul             0 div         0 sqrt
+              0 exp             0 log         2 pow
+              0 sin             2 cos         0 tan
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:35:33, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 22  (row 'R1')
+Total tokens: 22
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+           1 base AD formula, 17 average complexity
+           2 in the Jacobian, 14 average complexity
+Initial point is within initial feasibility target with objective:     -.2000
+Absolute / relative validation:            .000  /      .000
+User solution (initial point) stored.
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:35:33, Oct 14, 2026
+Heap usage: 171KB (peak 171KB, 176KB system)
+Minimizing NLP  using up to 16 threads and up to 249GB memory
+Original problem has:
+         1 rows            4 cols            1 elements         0 entities
+Presolved problem has:
+         3 rows            9 cols            5 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1266KB (peak 1282KB, 176KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.25e-01,  1.96e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.57e+01]
+  Objective      [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e-01,  1.00e+00]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+ *** Solution found:     -.200000   Time:   0.00    Heuristic: U ***
+User solution (initial point) accepted: Feasible solution.
+STOPPING - MIPABSSTOP target reached (MIPABSSTOP=1e-05  gap=0).
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3290KB (peak 4018KB, 77KB system)
+Final MINLP objective (global optimum): -2.000000000000000e-01
+Final MINLP bound                     : -2.000000000000000e-01
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         1 /         0
+  Observed primal integral            :   50.000%
+  Solution time / primaldual integral :      0.00s/ 82.298547%
+  Work / work units per second        :      0.00 /      0.01
+*** MIP gap is less than MIPABSSTOP/MIPRELSTOP ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -0.2
+0 simplex iterations
+HARNESS_RESULT solver=xpress family=gams_world instance=CosMix2 solve_result=solved solve_result_num=0 objective=-0.20000000000000001 constraint_violation=0 variable_violation=0 nvars=2 ncons=0 elapsed=0.010824
+RESOURCE_USAGE wall=0.01 user=0.01 sys=0.00 maxrss_kb=38996 cpu_pct=100% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.031529121 initialization=model_default config_hash=f4f015618a04371296435fd6c23d513de2bd55e099509a7811b3c8e08f9eed88
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.031632844 config_hash=f4f015618a04371296435fd6c23d513de2bd55e099509a7811b3c8e08f9eed88

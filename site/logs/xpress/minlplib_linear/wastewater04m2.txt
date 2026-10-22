@@ -1,0 +1,126 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=minlplib_linear instance=wastewater04m2 model=benchmarks/minlplib/minlplib_mods/wastewater04m2.mod model_sha256=5529d088108bf5c640d328794a98702c386f95d6e5e77840d8ebc0a0329d6f00 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=d65d3b3be25beead47081ef33823f33877c6b8e16d634e2040fd01ee3c397c65
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 55 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  47 linear; 18 quadratic;
+
+AMPL MP final model has 55 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  47 linear; 18 quadratic;
+
+
+Original problem size
+   linear:    65 rows, 55 columns, 173 linear coefficients
+   quadratic: 0 in obj, 18 rows, 18 in rows
+Nonlinear presolve
+   converted 18 quadratic matrices to formulas
+   linear presolve removed 24 rows, 18 columns, 66 linear coefficients
+Presolved problem size
+   linear:    41 rows, 38 columns, 107 linear coefficients
+   nonlinear: 18 coefficients, 54 tokens
+              18 mul             0 div         0 sqrt
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 23:58:49, Oct 14, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 3  (row 'R1')
+Total tokens: 54
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+          18 base AD formula, 3 average complexity
+          36 in the Jacobian, 1 average complexity
+Initial point objective:   200.0000
+Absolute / relative validation:        7960.000  /   265.666
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 23:58:49, Oct 14, 2026
+Heap usage: 191KB (peak 191KB, 193KB system)
+Minimizing Nonconvex-QCP  using up to 16 threads and up to 249GB memory
+Original problem has:
+        41 rows           38 cols          107 elements         0 entities
+Presolved problem has:
+        41 rows           55 cols          125 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1321KB (peak 1359KB, 193KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 2.40e-02,  2.00e+02] / [ 7.81e-03,  1.67e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  1.00e+06] / [ 1.00e+00,  1.00e+06]
+  Objective      [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.00e+00]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D  69.238579   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 45 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+    45         69.238579      D      0     0        .000000     0
+Dual solved problem
+  45 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : 6.923857868020306e+01
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 3 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c           89.836066    69.238579      1                 22.93%       0      0
+   1        89.836066    77.897392      1     43     48   13.29%      16      0
+   2        89.836066    82.424787      1     14     38    8.25%      14      0
+   3        89.836066    83.045727      1      7      7    7.56%      12      0
+   4        89.836066    83.045727      1      0      1    7.56%      12      0
+   5        89.836066    83.045727      1      0      0    7.56%      12      0
+ 
+Cuts in the matrix         : 24
+Cut elements in the matrix : 80
+STOPPING - MIPRELSTOP target reached (MIPRELSTOP=0.0001  gap=1.58905e-05).
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3476KB (peak 10059KB, 83KB system)
+Final MINLP objective (global optimum): 8.983606553689825e+01
+Final MINLP bound                     : 8.983463799946298e+01
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) : 2.150e-07 / 2.170e-08
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :         1 /         0
+  Observed primal integral            :   21.212%
+  Solution time / primaldual integral :      0.03s/ 26.868510%
+  Work / work units per second        :      0.02 /      0.73
+*** MIP gap is less than MIPABSSTOP/MIPRELSTOP ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective 89.83606554
+0 simplex iterations
+HARNESS_RESULT solver=xpress family=minlplib_linear instance=wastewater04m2 solve_result=solved solve_result_num=0 objective=89.836065536898246 constraint_violation=2.150375841836194e-07 variable_violation=0 nvars=55 ncons=65 elapsed=0.04338
+RESOURCE_USAGE wall=0.05 user=0.04 sys=0.00 maxrss_kb=43252 cpu_pct=101% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.063734934 initialization=model_default config_hash=d65d3b3be25beead47081ef33823f33877c6b8e16d634e2040fd01ee3c397c65
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.063872671 config_hash=d65d3b3be25beead47081ef33823f33877c6b8e16d634e2040fd01ee3c397c65

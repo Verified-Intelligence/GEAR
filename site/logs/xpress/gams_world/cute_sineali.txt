@@ -1,0 +1,224 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=xpress version='xpress (AMPL module); cfg=x3_cuts:2a14778b7a89' family=gams_world instance=cute_sineali model=neurips_code/benchmarks/gams_world/gams_mods/converted_mod/cute_sineali.mod model_sha256=e43cbe4b804b49058c5cf8f28f2b046abc0fdaa3d2cb031e0eaad7ca135e65bb time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6 alg:nlpsolver=2 cut:rltcuts=1 global:xprs_globalspatialbranchcuttingeffort=0.5' config_hash=4b3c58d2a3b649bfc2564004368e986b5af1c4b970fa29b05ccf068fbe3b5cc1
+XPRESS 9.8.1 (46.01.02):   lim:time = 180
+  tech:threads = 16
+  tech:outlev = 1
+  mip:gap = 0.0001
+  mip:gapabs = 1.0000000000000001e-05
+  alg:feastol = 9.9999999999999995e-07
+  alg:nlpsolver = 2
+  cut:rltcuts = 1
+  global:xprs_globalspatialbranchcuttingeffort = 0.5
+
+AMPL MP initial flat model has 20 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  1 linear; 19 quadratic;
+Algebraic expressions:  20 sin;
+
+AMPL MP final model has 61 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  2 linear; 19 quadratic;
+Algebraic expressions:  20 sin;
+
+
+Original problem size
+   linear:    1 rows, 61 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 233 tokens
+             57 mul             0 div         0 sqrt
+             20 sin             0 cos         0 tan
+Nonlinear presolve
+   linear presolve removed 0 rows, 40 columns, 0 linear coefficients
+   objective transfer row R1 through variable C61
+   creating 1 '+' clusters removed 17 tokens
+Presolved problem size
+   linear:    1 rows, 22 columns, 1 linear coefficients
+   nonlinear: 1 coefficients, 216 tokens
+             38 mul             0 div         0 sqrt
+              0 exp             0 log        19 pow
+             20 sin             0 cos         0 tan
+Problem is nonlinear presolved
+FICO Xpress v9.8.1, Hyper, solve started 0:36:22, Oct 15, 2026
+Control settings used:
+THREADS = 16
+RLTCUTS = 1
+FEASTOL = 1.e-6
+MIPABSSTOP = 1.e-5
+MIPRELSTOP = .0001
+INPUTTOL = 0
+GLOBALSPATIALBRANCHCUTTINGEFFORT = .5
+TIMELIMIT = 180
+NLPSOLVER = 2
+Maximum expanded nl-formula size: 216  (row 'R1')
+Total tokens: 216
+  16  parallel calculation threads
+  Jacobian: symbolic differentiation
+           1 base AD formula, 176 average complexity
+          20 in the Jacobian, 27.8 average complexity
+Initial point is within initial feasibility target with objective:   246.9321
+Absolute / relative validation:            .000  /      .000
+User solution (initial point) stored.
+ ------------------- Calling global solver ----------------- 
+FICO Xpress v9.8.1, Hyper, solve started 0:36:22, Oct 15, 2026
+Heap usage: 182KB (peak 184KB, 176KB system)
+Minimizing NLP  using up to 16 threads and up to 249GB memory
+Original problem has:
+         1 rows           22 cols            1 elements         0 entities
+Presolved problem has:
+        40 rows           99 cols           98 elements         0 entities
+Presolve finished in 0 seconds
+Heap usage: 1347KB (peak 1366KB, 176KB system)
+
+Coefficient range                    original                 solved        
+  Coefficients   [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.00e+00]
+  RHS and bounds [min,max] : [ 1.00e+00,  4.71e+00] / [ 5.71e-01,  2.67e+01]
+  Objective      [min,max] : [ 1.00e+00,  1.00e+00] / [ 1.00e+00,  1.00e+02]
+Autoscaling applied standard scaling
+
+Will try to keep branch and bound tree memory usage below 236.9GB
+ *** Solution found:   246.932154   Time:   0.00    Heuristic: U ***
+User solution (initial point) accepted: Feasible solution.
+Starting concurrent solve with dual (1 thread)
+
+ Concurrent-Solve,   0s
+            Dual        
+    objective   dual inf
+ D -1901.0000   .0000000
+                        
+------- optimal --------
+Concurrent statistics:
+           Dual: 57 simplex iterations, 0.00s
+Optimal solution found
+ 
+   Its         Obj Value      S   Ninf  Nneg   Sum Dual Inf  Time
+    57      -1901.000000      D      0     0        .000000     0
+Dual solved problem
+  57 simplex iterations in 0.00 seconds at time 0
+
+Final objective                       : -1.901000000000000e+03
+  Max primal violation      (abs/rel) :       0.0 /       0.0
+  Max dual violation        (abs/rel) :       0.0 /       0.0
+  Max complementarity viol. (abs/rel) :       0.0 /       0.0
+
+Starting root cutting & heuristics
+Deterministic mode with up to 2 additional threads
+ 
+ Its Type    BestSoln    BestBound   Sols    Add    Del     Gap     GInf   Time
+c        -1862.974849 -1901.000000      2                  2.00%       0      0
+   1     -1862.974849 -1901.000000      2     90    116    2.00%       1      0
+   2     -1862.974849 -1901.000000      2     18     90    2.00%       1      0
+   3     -1862.974849 -1901.000000      2      0     18    2.00%       1      0
+   4     -1862.974849 -1901.000000      2      0      0    2.00%       1      0
+ 
+Cuts in the matrix         : 38
+Cut elements in the matrix : 76
+
+Starting tree search.
+Deterministic mode with up to 16 running threads and up to 32 tasks.
+Heap usage: 4045KB (peak 4250KB, 183KB system)
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+       1 -1862.974849 -1901.000000      2      2      1    2.00%       1      0
+       2 -1862.974849 -1901.000000      2      2      2    2.00%       2      0
+       3 -1862.974849 -1901.000000      2      2      3    2.00%       2      0
+       4 -1887.637410 -1901.000000      3      2      2    0.70%       2      0
+       5 -1887.637410 -1901.000000      3      2      4    0.70%       2      0
+       6 -1887.637410 -1901.000000      3      5      3    0.70%       2      0
+       7 -1887.637410 -1901.000000      3      5      4    0.70%       2      0
+       9 -1887.637410 -1901.000000      3      4      1    0.70%       2      0
+      10 -1887.637410 -1901.000000      3      4      4    0.70%       2      0
+      20 -1897.251237 -1901.000000      4     10      5    0.20%       2      0
+      58 -1899.145051 -1901.000000      5     16     37    0.10%       2      0
+      87 -1899.145051 -1901.000000      5     14      1    0.10%       2      0
+     125 -1899.145051 -1901.000000      5     14     38    0.10%       2      0
+     238 -1899.145051 -1901.000000      5     45      1    0.10%       2      0
+     406 -1899.145051 -1901.000000      5     66     76    0.10%       2      0
+     516 -1899.145051 -1901.000000      5     96     68    0.10%       2      0
+     620 -1899.145051 -1901.000000      5     92     22    0.10%       2      0
+     723 -1899.145051 -1901.000000      5    106     31    0.10%       2      0
+     823 -1899.145051 -1901.000000      5    196      1    0.10%       2      0
+Elapsed time (sec): 0, estimated tree completion: 0.64830
+Heap usage: 165MB (peak 165MB, 2903KB system)
+B&B tree size: 2.0MB total
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+     962 -1899.145051 -1901.000000      5    196     73    0.10%       2      0
+    1064 -1899.145051 -1901.000000      5    195     30    0.10%       2      0
+    1166 -1899.145051 -1901.000000      5    246     24    0.10%       2      0
+    1284 -1899.145051 -1901.000000      5    296     34    0.10%       2      0
+    1388 -1899.145051 -1901.000000      5    353     30    0.10%       2      0
+    1498 -1899.145051 -1901.000000      5    383     27    0.10%       2      0
+    1601 -1899.460726 -1901.000000      7    405     20    0.08%       2      0
+    1701 -1899.460726 -1901.000000      7    400      1    0.08%       2      0
+    1839 -1899.731869 -1901.000000      9    391     48    0.07%       1      0
+    1950 -1900.440869 -1901.000000     11    396     27    0.03%       2      0
+    2054 -1900.461159 -1901.000000     13    344     25    0.03%       2      0
+    2183 -1900.461159 -1901.000000     13    372     54    0.03%       2      0
+    2283 -1900.461159 -1901.000000     13    388     43    0.03%       2      0
+    2403 -1900.461159 -1901.000000     13    420     34    0.03%       2      0
+    2508 -1900.461159 -1901.000000     13    422     35    0.03%       2      0
+    2658 -1900.461159 -1901.000000     13    418      1    0.03%       2      0
+    2759 -1900.461159 -1901.000000     13    423     29    0.03%       2      0
+    2860 -1900.461159 -1901.000000     13    430     26    0.03%       2      0
+    2990 -1900.461159 -1901.000000     13    427      1    0.03%       2      0
+    3090 -1900.461159 -1901.000000     13    418     43    0.03%       2      0
+Elapsed time (sec): 0, estimated tree completion: 0.80361
+Heap usage: 168MB (peak 171MB, 2905KB system)
+B&B tree size: 3.0MB total
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+    3192 -1900.461159 -1901.000000     13    418     31    0.03%       2      0
+    3301 -1900.461159 -1901.000000     13    413     42    0.03%       2      0
+    3408 -1900.461159 -1901.000000     13    413     28    0.03%       2      0
+    3511 -1900.461159 -1901.000000     13    418     31    0.03%       2      0
+    3615 -1900.461159 -1901.000000     13    418     18    0.03%       2      0
+    3751 -1900.461159 -1901.000000     13    413      1    0.03%       2      0
+    3858 -1900.461159 -1901.000000     13    413     23    0.03%       2      0
+    3963 -1900.461159 -1901.000000     13    410     29    0.03%       2      0
+    4068 -1900.461159 -1901.000000     13    408     31    0.03%       2      0
+    4172 -1900.461159 -1901.000000     13    408     34    0.03%       2      0
+    4280 -1900.461159 -1901.000000     13    433     36    0.03%       2      0
+    4384 -1900.461159 -1901.000000     13    456     32    0.03%       2      0
+    4491 -1900.659176 -1901.000000     14    458     27    0.02%       2      0
+    4628 -1900.659176 -1901.000000     14    337      1    0.02%       2      0
+    4729 -1900.659176 -1901.000000     14    379     30    0.02%       2      0
+    4830 -1900.659176 -1901.000000     14    393     32    0.02%       2      0
+    4941 -1900.659176 -1901.000000     14    448     44    0.02%       2      0
+    5046 -1900.659176 -1901.000000     14    496     30    0.02%       2      0
+    5151 -1900.666455 -1901.000000     15    496     34    0.02%       2      0
+    5255 -1900.753452 -1901.000000     17    505     30    0.01%       2      0
+Elapsed time (sec): 0, estimated tree completion: 0.91176
+Heap usage: 170MB (peak 171MB, 2906KB system)
+B&B tree size: 4.7MB total
+ 
+    Node     BestSoln    BestBound   Sols Active  Depth     Gap     GInf   Time
+    5388 -1900.753452 -1901.000000     17    497      1    0.01%       2      0
+    5514 -1900.753452 -1901.000000     17    462      1    0.01%       2      0
+    5615 -1900.753452 -1901.000000     17    514     39    0.01%       2      0
+    5716 -1900.753452 -1901.000000     17    545     42    0.01%       2      0
+    5824 -1900.753452 -1901.000000     17    558     30    0.01%       2      0
+    5936 -1900.766067 -1901.000000     18    558     34    0.01%       2      0
+    6049 -1900.766067 -1901.000000     18    547      1    0.01%       2      0
+STOPPING - MIPRELSTOP target reached (MIPRELSTOP=0.0001  gap=9.20625e-05).
+STOPPING - MIPRELSTOP target reached (MIPRELSTOP=0.0001  gap=9.20625e-05).
+ *** Search completed ***
+Uncrunching matrix
+Problem is nonlinear postsolved
+Heap usage: 3504KB (peak 171MB, 218KB system)
+Final MINLP objective (global optimum): -1.900824989262814e+03
+Final MINLP bound                     : -1.901000000000000e+03
+  Max validation error      (abs/rel) :      .000 /      .000
+  Max primal violation      (abs/rel) : 4.547e-13 / 2.392e-16
+  Max integer violation     (abs    ) :       0.0
+  Number of solutions found / nodes   :        19 /      6060
+  Observed primal integral            :    1.568%
+  Solution time / primaldual integral :      0.50s/ 1.296124%
+  Work / work units per second        :      0.15 /      0.30
+*** MIP gap is less than MIPABSSTOP/MIPRELSTOP ***
+XPRESS 9.8.1 (46.01.02): optimal solution, no duals; objective -1900.824989
+0 simplex iterations
+6060 branching nodes
+HARNESS_RESULT solver=xpress family=gams_world instance=cute_sineali solve_result=solved solve_result_num=0 objective=-1900.8249892628141 constraint_violation=0 variable_violation=0 nvars=20 ncons=0 elapsed=0.518902
+RESOURCE_USAGE wall=0.52 user=3.47 sys=0.07 maxrss_kb=168168 cpu_pct=671% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.565288586 initialization=model_default config_hash=4b3c58d2a3b649bfc2564004368e986b5af1c4b970fa29b05ccf068fbe3b5cc1
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.565442523 config_hash=4b3c58d2a3b649bfc2564004368e986b5af1c4b970fa29b05ccf068fbe3b5cc1
