@@ -1,0 +1,2774 @@
+#CMD <env>/bin/python nlp_example.py --problem_name cute_hs080 --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792651778.119525817
+INFO     01:49:39     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/cute_hs080.vnnlib.compiled
+[W1022 01:49:39.966049533 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:125: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if y.shape[-1] > k:
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/8): BoundBuffers(name=/8, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/17): BoundBuffers(name=/17, inputs=[], perturbed=False)
+  (/19): BoundBuffers(name=/19, inputs=[], perturbed=False)
+  (/22): BoundBuffers(name=/22, inputs=[], perturbed=False)
+  (/23): BoundBuffers(name=/23, inputs=[], perturbed=False)
+  (/24): BoundBuffers(name=/24, inputs=[], perturbed=False)
+  (/25): BoundBuffers(name=/25, inputs=[], perturbed=False)
+  (/26): BoundBuffers(name=/26, inputs=[], perturbed=False)
+  (/28): BoundBuffers(name=/28, inputs=[], perturbed=False)
+  (/30): BoundBuffers(name=/30, inputs=[], perturbed=False)
+  (/32): BoundBuffers(name=/32, inputs=[], perturbed=False)
+  (/34): BoundBuffers(name=/34, inputs=[], perturbed=False)
+  (/35): BoundBuffers(name=/35, inputs=[], perturbed=False)
+  (/36): BoundGather(name=/36, inputs=[/0, /1], perturbed=True)
+  (/37): BoundGather(name=/37, inputs=[/0, /2], perturbed=True)
+  (/38): BoundGather(name=/38, inputs=[/0, /3], perturbed=True)
+  (/39): BoundGather(name=/39, inputs=[/0, /4], perturbed=True)
+  (/40): BoundGather(name=/40, inputs=[/0, /5], perturbed=True)
+  (/41): BoundMul(name=/41, inputs=[/39, /40], perturbed=True)
+  (/42): BoundMul(name=/42, inputs=[/38, /41], perturbed=True)
+  (/43): BoundMul(name=/43, inputs=[/37, /42], perturbed=True)
+  (/44): BoundMul(name=/44, inputs=[/36, /43], perturbed=True)
+  (/45): BoundExp(name=/45, inputs=[/44], perturbed=True)
+  (/46): BoundShape(name=/46, inputs=[/6], perturbed=False)
+  (/47): BoundConstantOfShape(name=/47, inputs=[/46], perturbed=False)
+  (/48): BoundGather(name=/48, inputs=[/0, /8], perturbed=True)
+  (/50): BoundConstant(name=/50, value=0)
+  (/53): BoundMul(name=/53, inputs=[/62/sqr, /147], perturbed=True)
+  (/54): BoundConstant(name=/54, value=tensor([-1], device='cuda:0'))
+  (/55): BoundReduceSum(name=/55, inputs=[/53, /54], perturbed=True)
+  (/56): BoundConstant(name=/56, value=1)
+  (/57): BoundSub(name=/57, inputs=[/55, /47], perturbed=True)
+  (/58): BoundAdd(name=/58, inputs=[/6, /57], perturbed=True)
+  (/59): BoundShape(name=/59, inputs=[/10], perturbed=False)
+  (/60): BoundConstantOfShape(name=/60, inputs=[/59], perturbed=False)
+  (/65): BoundMul(name=/65, inputs=[/62/sqr, /157], perturbed=True)
+  (/66): BoundReduceSum(name=/66, inputs=[/65, /54], perturbed=True)
+  (/67): BoundSub(name=/67, inputs=[/66, /60], perturbed=True)
+  (/68): BoundAdd(name=/68, inputs=[/10, /67], perturbed=True)
+  (/76): BoundMul(name=/76, inputs=[/113, /147], perturbed=True)
+  (/77): BoundSub(name=/77, inputs=[/76, /110], perturbed=True)
+  (/78): BoundAdd(name=/78, inputs=[/22, /77], perturbed=True)
+  (/79): BoundSub(name=/79, inputs=[/78, /22], perturbed=True)
+  (/80): BoundSub(name=/80, inputs=[/79, /77], perturbed=True)
+  (/81): BoundGather(name=/81, inputs=[/0, /19], perturbed=True)
+  (/84): BoundConstant(name=/84, value=2)
+  (/106): BoundMul(name=/106, inputs=[/139, /147], perturbed=True)
+  (/107): BoundSub(name=/107, inputs=[/106, /80], perturbed=True)
+  (/108): BoundAdd(name=/108, inputs=[/78, /107], perturbed=True)
+  (/109): BoundShape(name=/109, inputs=[/22], perturbed=False)
+  (/110): BoundConstantOfShape(name=/110, inputs=[/109], perturbed=False)
+  (/113): BoundMul(name=/113, inputs=[/40, /38], perturbed=True)
+  (/114): BoundSub(name=/114, inputs=[/113, /110], perturbed=True)
+  (/115): BoundAdd(name=/115, inputs=[/22, /114], perturbed=True)
+  (/116): BoundSub(name=/116, inputs=[/115, /22], perturbed=True)
+  (/117): BoundSub(name=/117, inputs=[/116, /114], perturbed=True)
+  (/119): BoundTranspose(name=/119, inputs=[/26], perturbed=False)
+  (/120): BoundMatMul(name=/120, inputs=[/81, /119], perturbed=True)
+  (/126): BoundUnsqueeze(name=/126, inputs=[/84, /156], perturbed=False)
+  (/129): BoundSlice(name=/129, inputs=[/120, /137, /126, /137, /137], perturbed=True)
+  (/133): BoundUnsqueeze(name=/133, inputs=[/50, /156], perturbed=False)
+  (/137): BoundUnsqueeze(name=/137, inputs=[/56, /156], perturbed=False)
+  (/138): BoundSlice(name=/138, inputs=[/120, /133, /137, /137, /137], perturbed=True)
+  (/139): BoundMul(name=/139, inputs=[/129, /138], perturbed=True)
+  (/140): BoundSub(name=/140, inputs=[/139, /117], perturbed=True)
+  (/141): BoundAdd(name=/141, inputs=[/115, /140], perturbed=True)
+  (/142): BoundShape(name=/142, inputs=[/28], perturbed=False)
+  (/143): BoundConstantOfShape(name=/143, inputs=[/142], perturbed=False)
+  (/144): BoundGather(name=/144, inputs=[/0, /30], perturbed=True)
+  (/147): BoundUnsqueeze(name=/147, inputs=[/28, /156], perturbed=False)
+  (/148): BoundMul(name=/148, inputs=[/155, /147], perturbed=True)
+  (/149): BoundReduceSum(name=/149, inputs=[/148, /54], perturbed=True)
+  (/150): BoundSub(name=/150, inputs=[/149, /143], perturbed=True)
+  (/151): BoundAdd(name=/151, inputs=[/28, /150], perturbed=True)
+  (/152): BoundShape(name=/152, inputs=[/32], perturbed=False)
+  (/153): BoundConstantOfShape(name=/153, inputs=[/152], perturbed=False)
+  (/155): BoundPow(name=/155, inputs=[/144, /35], perturbed=True)
+  (/156): BoundConstant(name=/156, value=tensor([0], device='cuda:0'))
+  (/157): BoundUnsqueeze(name=/157, inputs=[/32, /156], perturbed=False)
+  (/158): BoundMul(name=/158, inputs=[/155, /157], perturbed=True)
+  (/159): BoundReduceSum(name=/159, inputs=[/158, /54], perturbed=True)
+  (/160): BoundSub(name=/160, inputs=[/159, /153], perturbed=True)
+  (/161): BoundAdd(name=/161, inputs=[/32, /160], perturbed=True)
+  (/162): BoundConcat(name=/162, inputs=[/45, /58, /68, /108, /141, /151, /161], perturbed=True)
+  (/62/sqr): BoundSqr(name=/62/sqr, inputs=[/48], perturbed=True)
+)
+Original output in the first batch: tensor([[  1.,  10., -10.,  -0.,   0.,  -1.,   1.]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [-9.52878594439325e+75, -31.300000000016826, -10.000000000002235, -175.6800000000443, -175.6800000000443, -25.334000000004714, -23.334000000004664]
+Global lower bound: -9.52878594439325e+75
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 7), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 7), values=[[-9.52878594439325e+75, -31.300000000016826, -10.000000000002235, -175.6800000000443, -175.6800000000443, -25.334000000004714, -23.334000000004664]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 1., 0., 0., 0., 0., 0.],
+         [0., 0., 1., 0., 0., 0., 0.],
+         [0., 0., 0., 1., 0., 0., 0.],
+         [0., 0., 0., 0., 1., 0., 0.],
+         [0., 0., 0., 0., 0., 1., 0.],
+         [0., 0., 0., 0., 0., 0., 1.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([6], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 179.49799227714539
+Model prediction is: tensor([  1.,  10., -10.,  -0.,   0.,  -1.,   1.], device='cuda:0')
+[Op] setup t=2.319 s=2.3182 work=1 dD=0 dP=0
+[Op] reference_bounds t=2.319 s=0.0000 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=2.320 s=0.0017 work=1 dD=0 dP=0
+[Structure] objective=atoms rows={'quad': 4, 'poly': 2} duplicates=0 opposites=0 redundant=0 aliases=0 pool={'rows': 3, 'ranged': 3, 'merged': 3, 'masked': 0, 'opaque': 0} spent=54 time=0.007s
+[Op] struct_forms t=2.329 s=0.0081 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'objective is not a quadratic polynomial', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.001s
+[Op] struct_cert t=2.330 s=0.0016 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=5.22652733235e-76 (root lb was -9.52878594439e+75)
+[Op] hybrid t=2.369 s=0.0388 work=1 dD=9.52879e+75 dP=0
+[Op] initial_verify t=2.369 s=0.0001 work=1 dD=0 dP=0
+[Op] lp_alternation t=2.371 s=0.0022 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 5 vars, 6 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=6 merged=3 atoms=1 nnzJ=11 nnzH=15 hessian=exact reproduces=True build=0.00s
+    [ALM-PGD] Positive-residual RMS scale: min=3.696e+00 median=4.700e+00 max=1.119e+01
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+  [IPOPT] LP-point start kept: obj=0.4388511877125518 viol=8.620938007908308e-08 (center start: obj=1.0 viol=10.0)
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=0.438851, viol=8.62e-08
+    [ALM-FEAS] GN iter 1: live=256/256 accepted=256 best_viol_min=2.617e-06 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=256/256 accepted=256 best_viol_min=1.156e-12 feasible=15 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=256 iters=7/50 min_viol=1.204e-02->3.619e-08 feasible=1/1 improved=1 newly_feasible=1
+    [ALM-SQP] it=0 running=64/64 accepted=63 feasible=1 best=0.054106 |d|=5.07e-01
+    [ALM-SQP] it=1 running=64/64 accepted=63 feasible=1 best=0.054106 |d|=5.51e-01
+    [ALM-SQP] it=2 running=63/64 accepted=63 feasible=30 best=0.0539498 |d|=3.94e-01
+    [ALM-SQP] it=9 running=56/64 accepted=41 feasible=47 best=0.0539498 |d|=4.65e-01
+    [ALM-SQP] it=19 running=21/64 accepted=17 feasible=52 best=0.0539498 |d|=4.80e-01
+    [ALM-SQP] it=29 running=18/64 accepted=18 feasible=54 best=0.0539498 |d|=3.99e-01
+    [ALM-SQP] it=39 running=16/64 accepted=13 feasible=56 best=0.0539498 |d|=4.33e-01
+    [ALM-SQP] it=49 running=13/64 accepted=11 feasible=56 best=0.0539498 |d|=3.75e-01
+    [ALM-SQP] Optimality polish: candidates=32+32 iters=50 feasible=56 improved=2 best_feas_obj=0.054106->0.0539498 time=0.93s
+    [ALM-PGD] k=0: local_min_viol=1.20e-02 local_obj_at_min_viol=1.0000 local_domain=0 local_restart=11717 rho=1 eps=1.00e+00 eta=1.00e+00 grad=3.83e-03 ||mu||=6.57e-04 feas=0/20480 good=18571 bad=1909 iter_best_feas_obj=NA global_best_feas_obj=NA
+    [ALM-PGD] Constraint scale continuation: k=1 max=5.593e+00
+    [ALM-PGD] Unified root: progress exhausted after outer iteration 1: target residual=2, work=400 inner steps
+    [ALM-FEAS] GN iter 1: live=256/256 accepted=256 best_viol_min=1.302e-05 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=256/256 accepted=256 best_viol_min=2.247e-11 feasible=215 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=256 iters=3/50 min_viol=1.204e-02->4.800e-08 feasible=1/1 improved=1 newly_feasible=1
+    [ALM-SQP] it=0 running=64/64 accepted=63 feasible=1 best=0.0539508 |d|=5.07e-01
+    [ALM-SQP] it=1 running=64/64 accepted=63 feasible=31 best=0.0539498 |d|=5.51e-01
+    [ALM-SQP] it=2 running=63/64 accepted=63 feasible=32 best=0.0539498 |d|=3.94e-01
+    [ALM-SQP] it=9 running=43/64 accepted=47 feasible=47 best=0.0539498 |d|=4.65e-01
+    [ALM-SQP] it=19 running=21/64 accepted=17 feasible=52 best=0.0539498 |d|=4.80e-01
+    [ALM-SQP] it=29 running=18/64 accepted=18 feasible=54 best=0.0539498 |d|=3.99e-01
+    [ALM-SQP] it=39 running=16/64 accepted=13 feasible=56 best=0.0539498 |d|=4.33e-01
+    [ALM-SQP] it=49 running=13/64 accepted=11 feasible=56 best=0.0539498 |d|=3.75e-01
+    [ALM-SQP] Optimality polish: candidates=32+32 iters=50 feasible=56 improved=1 best_feas_obj=0.0539536->0.0539498 time=0.91s
+  [ALM] Verification: valid=True, obj=0.053950, viol=9.68e-07
+  [Root] Parallel done: IPOPT 0.27s, ALM 2.84s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 0.438851
+  Violation: 8.62e-08
+  Time: 0.27s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 0.053950
+  Violation: 9.68e-07
+  Time: 2.84s
+  Verified: True
+  Outer iterations: 2
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: alm
+Best objective: 0.053950
+======================================================================
+NLP Comparison: Best objective = 0.053950 (not counterexample)
+  Local (IPOPT): verified=True, obj=0.4388511877125518, time=0.27s
+  ALM:   verified=True, obj=0.053949772234090525, time=2.84s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=5.212 s=2.8411 work=1 dD=0 dP=0
+[Op] search_state t=5.213 s=0.0002 work=1 dD=0 dP=0
+[Op] incumbent t=5.213 s=0.0001 work=1 dD=0 dP=inf
+[Op] tangent t=5.253 s=0.0406 work=1 dD=0 dP=0
+[Op] consistency t=5.254 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=5.254 s=0.0001 work=1 dD=0 dP=0
+[Symmetry] 1 chains of interchangeable blocks (blocks x size: [(2, 1)]), 1 ordering rows, time=0.000s
+[Op] symmetry t=5.255 s=0.0009 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=5.256 s=0.0012 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=5.262 s=0.0061 work=1 dD=0 dP=0
+[ConvexRowCuts] round 1: added 1 global rows
+[Op] convex_cuts t=5.381 s=0.1187 work=1 dD=0 dP=0
+[LiftedLP] 6/6 constraint rows and no polynomial objective lifted: n=5, 0 atoms, 9 products (5 squares), 46 McCormick rows
+[LiftedLP] built in 0.10s
+[Op] lifted_lp t=5.479 s=0.0978 work=1 dD=0 dP=0
+[Op] lifted_bound t=5.479 s=0.0000 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.111 (28 LPs, 0.0s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 1: mean relative shrink 0.032 (56 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 2: mean relative shrink 0.012 (84 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 3: mean relative shrink 0.005 (112 LPs, 0.2s) [0 dual replays, 0 deferred]
+[LiftedLP] McCormick OBBT warm-up in 0.16s
+[Op] lifted_warm_up t=5.637 s=0.1578 work=1 dD=0 dP=0
+[Op] lifted_rlt t=5.637 s=0.0002 work=1 dD=0 dP=0
+[Op] lifted_bound t=5.637 s=0.0000 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.002 (28 LPs, 0.0s) [0 dual replays, 0 deferred]
+[LiftedLP] root OBBT in 0.20s: mean width ratio 0.8504, min 0.671, no cutoff
+[LiftedLP] audit: incumbent inside the OBBT box: True (min slack 0.552)
+[Op] lifted_obbt t=5.677 s=0.0399 work=1 dD=0 dP=0
+[Op] lifted_bab t=5.681 s=0.0035 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+	Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=5.689 s=0.0077 work=1 dD=0 dP=0
+[M3] compiler complete=False squares=0 census={'non-affine objective': 1, 'unknown quadratic identity': 4, 'inexact/unsupported': 2} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 4, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 4, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 4, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0007    bounding 0.2547    filtering 0.0019    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0021    summary 0.0001    
+		Accumulated time: sort_domains 0.0000    pickout 0.0007    bounding 0.2547    init 0.0058    concretize 0.0171    filtering 0.0019    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0021    summary 0.0001    
+		Length of domains: 4
+		3 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=5.952 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=5.952 s=0.0007 work=2 dD=0 dP=0
+	[Op] split t=5.952 s=0.0004 work=2 dD=0 dP=0
+	[Op] bounding t=5.952 s=0.2547 work=2 dD=0 dP=0
+	[Op] filtering t=5.952 s=0.0019 work=2 dD=0 dP=0
+	[Op] clip t=5.952 s=0.0007 work=2 dD=0 dP=0
+	[Op] decision t=5.952 s=0.0003 work=2 dD=0 dP=0
+	[Op] add_domain t=5.952 s=0.0021 work=2 dD=0 dP=0
+	[Op] summary t=5.952 s=0.0001 work=2 dD=0 dP=0
+	[Op] lifted_bab t=5.952 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 4
+	Cumulative time: 3.6336021423339844
+
+Iteration 2
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 4
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 4, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 4, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 8, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0005    bounding 0.1697    filtering 0.0018    decision 0.0003    split 0.0004    clip 0.0006    add_domain 0.0021    summary 0.0001    
+		Accumulated time: sort_domains 0.0000    pickout 0.0012    bounding 0.4244    init 0.0117    concretize 0.0333    filtering 0.0036    decision 0.0006    split 0.0007    clip 0.0013    add_domain 0.0042    summary 0.0002    
+		Length of domains: 8
+		7 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=6.128 s=0.0000 work=4 dD=0 dP=0
+	[Op] pickout t=6.128 s=0.0006 work=4 dD=0 dP=0
+	[Op] split t=6.128 s=0.0004 work=4 dD=0 dP=0
+	[Op] bounding t=6.128 s=0.1697 work=4 dD=0 dP=0
+	[Op] filtering t=6.128 s=0.0018 work=4 dD=0 dP=0
+	[Op] clip t=6.128 s=0.0006 work=4 dD=0 dP=0
+	[Op] decision t=6.128 s=0.0003 work=4 dD=0 dP=0
+	[Op] add_domain t=6.128 s=0.0021 work=4 dD=0 dP=0
+	[Op] summary t=6.128 s=0.0001 work=4 dD=0 dP=0
+	[Op] lifted_bab t=6.128 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 8
+	Cumulative time: 3.810286045074463
+
+Iteration 3
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0005    init 0.0002    concretize 0.0007    bounding 0.1774    filtering 0.0018    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0021    summary 0.0001    
+		Accumulated time: sort_domains 0.0000    pickout 0.0018    bounding 0.6018    init 0.0174    concretize 0.0489    filtering 0.0054    decision 0.0009    split 0.0011    clip 0.0022    add_domain 0.0063    summary 0.0004    
+		Length of domains: 15
+		15 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=6.313 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=6.313 s=0.0005 work=8 dD=0 dP=0
+	[Op] split t=6.313 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=6.313 s=0.1774 work=8 dD=0 dP=0
+	[Op] filtering t=6.313 s=0.0018 work=8 dD=0 dP=0
+	[Op] clip t=6.313 s=0.0009 work=8 dD=0 dP=0
+	[Op] decision t=6.313 s=0.0003 work=8 dD=0 dP=0
+	[Op] add_domain t=6.313 s=0.0021 work=8 dD=0 dP=0
+	[Op] summary t=6.313 s=0.0001 work=8 dD=0 dP=0
+	[Op] lifted_bab t=6.313 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 16
+	Cumulative time: 3.994988203048706
+
+Iteration 4
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 15
+<gear>/complete_verifier/input_split/batch_branch_and_bound.py:1095: UserWarning: Non-finite lower bounds encountered in input BaB; replacing NaN with -inf and keeping infinities.
+  warnings.warn(
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 15, filter from obj: 2, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 15, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 26, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 26, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 26, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0005    init 0.0005    concretize 0.0014    bounding 0.2037    filtering 0.0020    decision 0.0003    split 0.0003    clip 0.0007    add_domain 0.0021    summary 0.0001    
+		Accumulated time: sort_domains 0.0000    pickout 0.0023    bounding 0.8055    init 0.0237    concretize 0.0679    filtering 0.0074    decision 0.0012    split 0.0014    clip 0.0028    add_domain 0.0084    summary 0.0005    
+		Length of domains: 26
+		30 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=6.524 s=0.0000 work=15 dD=0 dP=0
+	[Op] pickout t=6.524 s=0.0005 work=15 dD=0 dP=0
+	[Op] split t=6.524 s=0.0003 work=15 dD=0 dP=0
+	[Op] bounding t=6.524 s=0.2037 work=15 dD=0 dP=0
+	[Op] filtering t=6.524 s=0.0020 work=15 dD=0 dP=0
+	[Op] clip t=6.524 s=0.0007 work=15 dD=0 dP=0
+	[Op] decision t=6.524 s=0.0003 work=15 dD=0 dP=0
+	[Op] add_domain t=6.524 s=0.0021 work=15 dD=0 dP=0
+	[Op] summary t=6.524 s=0.0001 work=15 dD=0 dP=0
+	[Op] lifted_bab t=6.524 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 4.205883026123047
+
+Iteration 5
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 16
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=6, useful_mean=3.81, kept_mean=3.81, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/16 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0677)
+	  [ALM-BaB] Replaced 14 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=16, restarts=62, B*R=992/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=1.30e-03 local_obj_at_min_viol=0.9998 local_domain=9 local_restart=56 rho=10 eps=3.16e-02 eta=1.58e-02 grad=6.64e-01 ||mu||=5.38e-02 feas=0/992 good=598 bad=394 iter_best_feas_obj=NA global_best_feas_obj=0.0539
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=0.0539 unchanged since k=0, patience=1)
+	    [ALM-FEAS] GN iter 1: live=120/120 accepted=107 best_viol_min=4.635e-10 feasible=51 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=72/120 accepted=51 best_viol_min=1.400e-12 feasible=64 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=56/120 accepted=30 best_viol_min=1.400e-12 feasible=64 alpha_idx_med=0 lam_rel_med=3.7e-08 radius_med=2.5e-01
+	    [ALM-FEAS] GN iter 20: live=48/120 accepted=38 best_viol_min=1.400e-12 feasible=64 alpha_idx_med=1 lam_rel_med=1.0e-06 radius_med=2.5e-01
+	    [ALM-FEAS] GN iter 30: live=38/120 accepted=28 best_viol_min=1.400e-12 feasible=64 alpha_idx_med=1 lam_rel_med=2.1e-08 radius_med=6.2e-02
+	    [ALM-FEAS] Batched GN restoration: domains=15/16 seeds=8 iters=30/30 min_viol=1.485e-04->2.181e-11 feasible=8/15 improved=13 newly_feasible=8
+	    [ALM-FEAS] GN iter 1: live=128/128 accepted=119 best_viol_min=2.181e-11 feasible=9 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=128/128 accepted=117 best_viol_min=2.181e-11 feasible=9 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=128/128 accepted=94 best_viol_min=2.181e-11 feasible=9 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 20: live=128/128 accepted=90 best_viol_min=2.181e-11 feasible=9 alpha_idx_med=0 lam_rel_med=1.0e-06 radius_med=2.5e-01
+	    [ALM-FEAS] GN iter 30: live=105/128 accepted=85 best_viol_min=2.181e-11 feasible=9 alpha_idx_med=1 lam_rel_med=1.0e-06 radius_med=1.2e-01
+	    [ALM-FEAS] Batched GN restoration: domains=16/16 seeds=8 iters=30/30 min_viol=2.181e-11->2.181e-11 feasible=9/16 improved=4 newly_feasible=0 below_level=0
+	    [ALM-SQP] it=0 running=24/24 accepted=24 feasible=5 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=1 running=24/24 accepted=24 feasible=5 best=0.0539498 |d|=6.74e-01
+	    [ALM-SQP] it=2 running=24/24 accepted=22 feasible=7 best=0.0539498 |d|=5.55e-01
+	    [ALM-SQP] it=9 running=20/24 accepted=13 feasible=17 best=0.0539498 |d|=2.01e-01
+	    [ALM-SQP] it=19 running=6/24 accepted=6 feasible=17 best=0.0539498 |d|=1.81e-03
+	    [ALM-SQP] it=29 running=5/24 accepted=5 feasible=17 best=0.0539498 |d|=1.78e-02
+	    [ALM-SQP] it=39 running=3/24 accepted=2 feasible=17 best=0.0539498 |d|=1.00e-01
+	    [ALM-SQP] it=49 running=3/24 accepted=3 feasible=17 best=0.0539498 |d|=6.78e-03
+	    [ALM-SQP] Optimality polish: candidates=8+16 iters=50 feasible=17 improved=11 best_feas_obj=0.0539498->0.0539498 time=0.88s
+	  [ALM-BaB] Solved 16 domains: success=tensor(shape=(16,), dtype=torch.bool, device=cuda:0, preview=[False, False, True, False, True, True, True, True], ... 8 more), obj=tensor(shape=(16,), dtype=torch.float64, device=cuda:0, preview=[467.81469548243336, 0.999114117455234, 11.328287752733598, 0.4628901673399417, 0.9536047623952365, 0.9999999999999994, 0.05860543764090261, 0.053949772234090525], ... 8 more), time=1.84s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=7/16, success=10/16, shifted_obj=0.053950, raw_obj=0.053950, rhs_obj=0.000000
+	  ALM-PGD found obj=0.053950
+	  ALM-PGD raw obj=0.053950
+	  Running IPOPT-in-BaB parallelly on top 2 domains (timeout=10.0s)
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: divide by zero encountered in power
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: invalid value encountered in multiply
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+	[SparseDerivatives] rows=8 merged=5 atoms=1 nnzJ=18 nnzH=15 hessian=exact reproduces=True build=0.00s
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'hessian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'constraints_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'objective_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     01:49:46     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     01:49:46     [ipopt_solver.py:428] b'gradient_cb'
+	  [IPOPT-in-BaB] No improvement found. Best local obj: inf
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 16, filter from obj: 2, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 28, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 28, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 28, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0008    bounding 0.2160    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0020    summary 0.0001    alm_attack 2.2871    
+		Accumulated time: sort_domains 0.0000    pickout 0.0030    bounding 1.0215    init 0.0302    concretize 0.0877    filtering 0.0094    decision 0.0015    split 0.0018    clip 0.0035    add_domain 0.0104    summary 0.0006    alm_attack 2.2871    
+		Length of domains: 38
+		46 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=9.035 s=0.0000 work=16 dD=0 dP=0
+	[Op] pickout t=9.035 s=0.0007 work=16 dD=0 dP=0
+	[Op] alm_attack t=9.035 s=2.2871 work=16 dD=0 dP=0
+	[Op] split t=9.035 s=0.0004 work=16 dD=0 dP=0
+	[Op] bounding t=9.035 s=0.2160 work=16 dD=0 dP=0
+	[Op] filtering t=9.035 s=0.0020 work=16 dD=0 dP=0
+	[Op] clip t=9.035 s=0.0007 work=16 dD=0 dP=0
+	[Op] decision t=9.035 s=0.0003 work=16 dD=0 dP=0
+	[Op] add_domain t=9.035 s=0.0020 work=16 dD=0 dP=0
+	[Op] summary t=9.035 s=0.0001 work=16 dD=0 dP=0
+	[Op] lifted_bab t=9.035 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 32
+	Cumulative time: 6.716731786727905
+
+Iteration 6
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 32
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 32, filter from obj: 2, filter from constr: 2, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 32, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 56, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 56, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 56, filter from input: 2, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0003    concretize 0.0009    bounding 0.1981    filtering 0.0020    decision 0.0003    split 0.0003    clip 0.0009    add_domain 0.0021    summary 0.0001    alm_attack 2.2871    
+		Accumulated time: sort_domains 0.0000    pickout 0.0036    bounding 1.2197    init 0.0360    concretize 0.1053    filtering 0.0114    decision 0.0019    split 0.0021    clip 0.0043    add_domain 0.0125    summary 0.0007    alm_attack 2.2871    
+		Length of domains: 60
+		78 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=9.240 s=0.0000 work=32 dD=0 dP=0
+	[Op] pickout t=9.240 s=0.0006 work=32 dD=0 dP=0
+	[Op] split t=9.240 s=0.0003 work=32 dD=0 dP=0
+	[Op] bounding t=9.240 s=0.1981 work=32 dD=0 dP=0
+	[Op] filtering t=9.240 s=0.0020 work=32 dD=0 dP=0
+	[Op] clip t=9.240 s=0.0009 work=32 dD=0 dP=0
+	[Op] decision t=9.241 s=0.0003 work=32 dD=0 dP=0
+	[Op] add_domain t=9.241 s=0.0021 work=32 dD=0 dP=0
+	[Op] summary t=9.241 s=0.0001 work=32 dD=0 dP=0
+	[Op] lifted_bab t=9.241 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 64
+	Cumulative time: 6.922508716583252
+
+Iteration 7
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 60
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 60, filter from obj: 4, filter from constr: 3, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 60, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 106, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 106, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 106, filter from input: 4, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0005    init 0.0002    concretize 0.0006    bounding 0.1975    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 2.2871    
+		Accumulated time: sort_domains 0.0000    pickout 0.0041    bounding 1.4172    init 0.0422    concretize 0.1233    filtering 0.0134    decision 0.0022    split 0.0025    clip 0.0052    add_domain 0.0147    summary 0.0009    alm_attack 2.2871    
+		Length of domains: 102
+		138 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=9.446 s=0.0000 work=60 dD=0 dP=0
+	[Op] pickout t=9.446 s=0.0005 work=60 dD=0 dP=0
+	[Op] split t=9.446 s=0.0004 work=60 dD=0 dP=0
+	[Op] bounding t=9.446 s=0.1975 work=60 dD=0 dP=0
+	[Op] filtering t=9.446 s=0.0021 work=60 dD=0 dP=0
+	[Op] clip t=9.446 s=0.0009 work=60 dD=0 dP=0
+	[Op] decision t=9.446 s=0.0003 work=60 dD=0 dP=0
+	[Op] add_domain t=9.446 s=0.0022 work=60 dD=0 dP=0
+	[Op] summary t=9.446 s=0.0001 work=60 dD=0 dP=0
+	[Op] lifted_bab t=9.446 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 7.127658843994141
+
+Iteration 8
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 64
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 64, filter from obj: 15, filter from constr: 2, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 64, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 94, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 94, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 94, filter from input: 6, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0005    bounding 0.2052    filtering 0.0020    decision 0.0003    split 0.0003    clip 0.0009    add_domain 0.0021    summary 0.0001    alm_attack 2.2871    
+		Accumulated time: sort_domains 0.0000    pickout 0.0048    bounding 1.6223    init 0.0482    concretize 0.1396    filtering 0.0154    decision 0.0025    split 0.0028    clip 0.0061    add_domain 0.0168    summary 0.0010    alm_attack 2.2871    
+		Length of domains: 126
+		202 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=9.659 s=0.0000 work=64 dD=0 dP=0
+	[Op] pickout t=9.659 s=0.0006 work=64 dD=0 dP=0
+	[Op] split t=9.659 s=0.0003 work=64 dD=0 dP=0
+	[Op] bounding t=9.659 s=0.2052 work=64 dD=0 dP=0
+	[Op] filtering t=9.659 s=0.0020 work=64 dD=0 dP=0
+	[Op] clip t=9.659 s=0.0009 work=64 dD=0 dP=0
+	[Op] decision t=9.659 s=0.0003 work=64 dD=0 dP=0
+	[Op] add_domain t=9.659 s=0.0021 work=64 dD=0 dP=0
+	[Op] summary t=9.659 s=0.0001 work=64 dD=0 dP=0
+	[Op] lifted_bab t=9.659 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 128
+	Cumulative time: 7.340610980987549
+
+Iteration 9
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 126
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 126, filter from obj: 34, filter from constr: 2, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 126, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 180, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 180, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 180, filter from input: 9, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2142    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0021    summary 0.0001    alm_attack 2.2871    
+		Accumulated time: sort_domains 0.0000    pickout 0.0053    bounding 1.8366    init 0.0540    concretize 0.1552    filtering 0.0175    decision 0.0028    split 0.0032    clip 0.0070    add_domain 0.0189    summary 0.0011    alm_attack 2.2871    
+		Length of domains: 171
+		328 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=9.880 s=0.0000 work=126 dD=0 dP=0
+	[Op] pickout t=9.880 s=0.0006 work=126 dD=0 dP=0
+	[Op] split t=9.880 s=0.0004 work=126 dD=0 dP=0
+	[Op] bounding t=9.880 s=0.2142 work=126 dD=0 dP=0
+	[Op] filtering t=9.880 s=0.0020 work=126 dD=0 dP=0
+	[Op] clip t=9.880 s=0.0009 work=126 dD=0 dP=0
+	[Op] decision t=9.880 s=0.0003 work=126 dD=0 dP=0
+	[Op] add_domain t=9.881 s=0.0021 work=126 dD=0 dP=0
+	[Op] summary t=9.881 s=0.0001 work=126 dD=0 dP=0
+	[Op] lifted_bab t=9.881 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 7.562401056289673
+
+Iteration 10
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 128
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=7, useful_mean=4.43, kept_mean=4.43, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/128 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.2608)
+	  [ALM-BaB] Replaced 125 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=128, restarts=7, B*R=896/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=1.59e-03 local_obj_at_min_viol=0.0807 local_domain=104 local_restart=3 rho=10 eps=3.16e-02 eta=1.58e-02 grad=7.85e-01 ||mu||=2.45e-01 feas=0/896 good=642 bad=254 iter_best_feas_obj=NA global_best_feas_obj=0.0539
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=0.0539 unchanged since k=0, patience=1)
+	    [ALM-FEAS] GN iter 1: live=1016/1016 accepted=1007 best_viol_min=6.124e-10 feasible=315 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=769/1016 accepted=720 best_viol_min=1.972e-13 feasible=660 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=309/1016 accepted=88 best_viol_min=1.972e-13 feasible=707 alpha_idx_med=0 lam_rel_med=3.2e-03 radius_med=2.4e-04
+	    [ALM-FEAS] GN iter 20: live=235/1016 accepted=47 best_viol_min=1.972e-13 feasible=710 alpha_idx_med=0 lam_rel_med=1.4e+05 radius_med=9.3e-10
+	    [ALM-FEAS] GN iter 30: live=90/1016 accepted=48 best_viol_min=1.972e-13 feasible=710 alpha_idx_med=0 lam_rel_med=1.6e-03 radius_med=2.0e-03
+	    [ALM-FEAS] Batched GN restoration: domains=127/128 seeds=8 iters=30/30 min_viol=1.318e-04->3.642e-13 feasible=91/127 improved=117 newly_feasible=91
+	    [ALM-FEAS] GN iter 1: live=1024/1024 accepted=984 best_viol_min=3.642e-13 feasible=92 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=1024/1024 accepted=967 best_viol_min=3.642e-13 feasible=92 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=1024/1024 accepted=559 best_viol_min=3.642e-13 feasible=92 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=6.2e-02
+	    [ALM-FEAS] GN iter 20: live=1008/1024 accepted=385 best_viol_min=3.642e-13 feasible=92 alpha_idx_med=0 lam_rel_med=6.8e-03 radius_med=6.1e-05
+	    [ALM-FEAS] GN iter 30: live=520/1024 accepted=355 best_viol_min=3.642e-13 feasible=92 alpha_idx_med=0 lam_rel_med=1.1e-05 radius_med=3.1e-02
+	    [ALM-FEAS] Batched GN restoration: domains=128/128 seeds=8 iters=30/30 min_viol=3.642e-13->3.642e-13 feasible=92/128 improved=19 newly_feasible=0 below_level=0
+	    [ALM-SQP] it=0 running=40/40 accepted=40 feasible=8 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=1 running=40/40 accepted=37 feasible=8 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=2 running=40/40 accepted=35 feasible=9 best=0.0539498 |d|=6.28e-01
+	    [ALM-SQP] it=9 running=27/40 accepted=21 feasible=24 best=0.0539498 |d|=7.45e-01
+	    [ALM-SQP] it=19 running=10/40 accepted=9 feasible=25 best=0.0539498 |d|=5.32e-01
+	    [ALM-SQP] it=29 running=9/40 accepted=8 feasible=25 best=0.0539498 |d|=5.11e-01
+	    [ALM-SQP] it=39 running=8/40 accepted=8 feasible=25 best=0.0539498 |d|=4.92e-01
+	    [ALM-SQP] it=49 running=7/40 accepted=7 feasible=25 best=0.0539498 |d|=4.55e-01
+	    [ALM-SQP] Optimality polish: candidates=8+32 iters=50 feasible=25 improved=17 best_feas_obj=0.0539498->0.0539498 time=0.99s
+	  [ALM-BaB] Solved 128 domains: success=tensor(shape=(128,), dtype=torch.bool, device=cuda:0, preview=[True, True, True, True, True, False, True, False], ... 120 more), obj=tensor(shape=(128,), dtype=torch.float64, device=cuda:0, preview=[0.953604770142801, 2.451973990719781, 1.0000000005031195, 0.756402842300178, 0.5930969518322147, 2.1177156680381253, 2.4519739913114496, 0.2357008791740688], ... 120 more), time=1.98s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=71/128, success=92/128, shifted_obj=0.053950, raw_obj=0.053950, rhs_obj=0.000000
+	  ALM-PGD found obj=0.053950
+	  ALM-PGD raw obj=0.053950
+	  Running IPOPT-in-BaB parallelly on top 2 domains (timeout=10.0s)
+	  [IPOPT-in-BaB] No improvement found. Best local obj: inf
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 128, filter from obj: 37, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 128, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 182, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 182, filter from input constr: 2, non-finite input constr kept: 0
+		Check input filtering: batch size: 182, filter from input: 7, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0007    bounding 0.2145    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0021    summary 0.0001    alm_attack 2.0510    
+		Accumulated time: sort_domains 0.0000    pickout 0.0060    bounding 2.0511    init 0.0599    concretize 0.1709    filtering 0.0196    decision 0.0032    split 0.0036    clip 0.0078    add_domain 0.0211    summary 0.0013    alm_attack 4.3381    
+		Length of domains: 218
+		456 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=12.154 s=0.0000 work=128 dD=0 dP=0
+	[Op] pickout t=12.154 s=0.0006 work=128 dD=0 dP=0
+	[Op] alm_attack t=12.154 s=2.0510 work=128 dD=0 dP=0
+	[Op] split t=12.154 s=0.0004 work=128 dD=0 dP=0
+	[Op] bounding t=12.154 s=0.2145 work=128 dD=0 dP=0
+	[Op] filtering t=12.154 s=0.0021 work=128 dD=0 dP=0
+	[Op] clip t=12.154 s=0.0009 work=128 dD=0 dP=0
+	[Op] decision t=12.154 s=0.0003 work=128 dD=0 dP=0
+	[Op] add_domain t=12.154 s=0.0021 work=128 dD=0 dP=0
+	[Op] summary t=12.154 s=0.0001 work=128 dD=0 dP=0
+	[Op] lifted_bab t=12.154 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.1GB/33.7GB, batch_size increase to 256
+	Cumulative time: 9.835890531539917
+
+Iteration 11
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 218
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 218, filter from obj: 77, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 218, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 282, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 282, filter from input constr: 2, non-finite input constr kept: 0
+		Check input filtering: batch size: 282, filter from input: 27, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0003    concretize 0.0007    bounding 0.2122    filtering 0.0029    decision 0.0007    split 0.0004    clip 0.0010    add_domain 0.0023    summary 0.0001    alm_attack 2.0510    
+		Accumulated time: sort_domains 0.0000    pickout 0.0066    bounding 2.2633    init 0.0657    concretize 0.1866    filtering 0.0225    decision 0.0039    split 0.0040    clip 0.0088    add_domain 0.0234    summary 0.0014    alm_attack 4.3381    
+		Length of domains: 255
+		674 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=12.376 s=0.0000 work=218 dD=0 dP=0
+	[Op] pickout t=12.376 s=0.0006 work=218 dD=0 dP=0
+	[Op] split t=12.376 s=0.0004 work=218 dD=0 dP=0
+	[Op] bounding t=12.376 s=0.2122 work=218 dD=0 dP=0
+	[Op] filtering t=12.376 s=0.0029 work=218 dD=0 dP=0
+	[Op] clip t=12.376 s=0.0010 work=218 dD=0 dP=0
+	[Op] decision t=12.376 s=0.0007 work=218 dD=0 dP=0
+	[Op] add_domain t=12.376 s=0.0023 work=218 dD=0 dP=0
+	[Op] summary t=12.376 s=0.0001 work=218 dD=0 dP=0
+	[Op] lifted_bab t=12.376 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 10.057548999786377
+
+Iteration 12
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 255
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 255, filter from obj: 106, filter from constr: 1, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 255, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 296, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 296, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 296, filter from input: 11, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0007    bounding 0.2091    filtering 0.0019    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0028    summary 0.0002    alm_attack 2.0510    
+		Accumulated time: sort_domains 0.0000    pickout 0.0072    bounding 2.4724    init 0.0715    concretize 0.2024    filtering 0.0244    decision 0.0042    split 0.0043    clip 0.0097    add_domain 0.0262    summary 0.0015    alm_attack 4.3381    
+		Length of domains: 284
+		929 domains visited
+		Dual Solution This Iter: 5.226527332350405e-76
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 5.226527332350405e-76
+	Solution gap: 0.053949772234090525
+	[Op] sort_domains t=12.593 s=0.0000 work=255 dD=0 dP=0
+	[Op] pickout t=12.593 s=0.0006 work=255 dD=0 dP=0
+	[Op] split t=12.593 s=0.0004 work=255 dD=0 dP=0
+	[Op] bounding t=12.593 s=0.2091 work=255 dD=0 dP=0
+	[Op] filtering t=12.593 s=0.0019 work=255 dD=0 dP=0
+	[Op] clip t=12.593 s=0.0009 work=255 dD=0 dP=0
+	[Op] decision t=12.593 s=0.0003 work=255 dD=0 dP=0
+	[Op] add_domain t=12.593 s=0.0028 work=255 dD=0 dP=0
+	[Op] summary t=12.593 s=0.0002 work=255 dD=0 dP=0
+	[Op] lifted_bab t=12.593 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 10.275064468383789
+
+Iteration 13
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 256
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 256, filter from obj: 116, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 256, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 280, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 280, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 280, filter from input: 12, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0006    bounding 0.2129    filtering 0.0028    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0021    summary 0.0001    alm_attack 2.0510    
+		Accumulated time: sort_domains 0.0000    pickout 0.0079    bounding 2.6853    init 0.0776    concretize 0.2188    filtering 0.0272    decision 0.0045    split 0.0047    clip 0.0106    add_domain 0.0283    summary 0.0017    alm_attack 4.3381    
+		Length of domains: 296
+		1185 domains visited
+		Dual Solution This Iter: 6.0804276614858524e-05
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 6.0804276614858524e-05
+	Solution gap: 0.053888967957475664
+	[Op] sort_domains t=12.815 s=0.0000 work=256 dD=0 dP=0
+	[Op] pickout t=12.815 s=0.0007 work=256 dD=0 dP=0
+	[Op] split t=12.815 s=0.0004 work=256 dD=0 dP=0
+	[Op] bounding t=12.815 s=0.2129 work=256 dD=6.08043e-05 dP=0
+	[Op] filtering t=12.815 s=0.0028 work=256 dD=0 dP=0
+	[Op] clip t=12.815 s=0.0009 work=256 dD=0 dP=0
+	[Op] decision t=12.815 s=0.0003 work=256 dD=0 dP=0
+	[Op] add_domain t=12.815 s=0.0021 work=256 dD=0 dP=0
+	[Op] summary t=12.815 s=0.0001 work=256 dD=0 dP=0
+	[Op] lifted_bab t=12.815 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.2GB/33.7GB, batch_size increase to 512
+	Cumulative time: 10.496673107147217
+
+Iteration 14
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 296
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 296, filter from obj: 153, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 296, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 286, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 286, filter from input constr: 2, non-finite input constr kept: 0
+		Check input filtering: batch size: 286, filter from input: 9, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0003    concretize 0.0007    bounding 0.2160    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 2.0510    
+		Accumulated time: sort_domains 0.0000    pickout 0.0085    bounding 2.9013    init 0.0837    concretize 0.2350    filtering 0.0292    decision 0.0048    split 0.0051    clip 0.0115    add_domain 0.0305    summary 0.0018    alm_attack 4.3381    
+		Length of domains: 275
+		1481 domains visited
+		Dual Solution This Iter: 0.0001480952005936547
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.0001480952005936547
+	Solution gap: 0.05380167703349687
+	[Op] sort_domains t=13.039 s=0.0000 work=296 dD=0 dP=0
+	[Op] pickout t=13.039 s=0.0006 work=296 dD=0 dP=0
+	[Op] split t=13.039 s=0.0004 work=296 dD=0 dP=0
+	[Op] bounding t=13.039 s=0.2160 work=296 dD=8.72909e-05 dP=0
+	[Op] filtering t=13.039 s=0.0021 work=296 dD=0 dP=0
+	[Op] clip t=13.039 s=0.0009 work=296 dD=0 dP=0
+	[Op] decision t=13.039 s=0.0003 work=296 dD=0 dP=0
+	[Op] add_domain t=13.039 s=0.0022 work=296 dD=0 dP=0
+	[Op] summary t=13.039 s=0.0001 work=296 dD=0 dP=0
+	[Op] lifted_bab t=13.039 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 10.720475912094116
+
+Iteration 15
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 275
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=8, useful_mean=5.70, kept_mean=5.70, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/275 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.1931)
+	  [ALM-BaB] Replaced 274 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=275, restarts=3, B*R=825/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=1.35e-03 local_obj_at_min_viol=0.0978 local_domain=269 local_restart=1 rho=10 eps=3.16e-02 eta=1.58e-02 grad=0.00e+00 ||mu||=1.89e-01 feas=0/825 good=728 bad=97 iter_best_feas_obj=NA global_best_feas_obj=0.0539
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=0.0539 unchanged since k=0, patience=1)
+	    [ALM-FEAS] GN iter 1: live=1096/1096 accepted=1091 best_viol_min=1.183e-11 feasible=498 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=679/1096 accepted=633 best_viol_min=2.514e-13 feasible=811 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=216/1096 accepted=54 best_viol_min=6.040e-14 feasible=881 alpha_idx_med=0 lam_rel_med=3.2e-03 radius_med=2.4e-04
+	    [ALM-FEAS] GN iter 20: live=165/1096 accepted=37 best_viol_min=6.040e-14 feasible=881 alpha_idx_med=0 lam_rel_med=6.0e+03 radius_med=1.5e-08
+	    [ALM-FEAS] GN iter 30: live=58/1096 accepted=34 best_viol_min=6.040e-14 feasible=881 alpha_idx_med=0 lam_rel_med=3.2e-04 radius_med=3.9e-03
+	    [ALM-FEAS] Batched GN restoration: domains=274/275 seeds=4 iters=30/30 min_viol=2.227e-05->6.040e-14 feasible=223/274 improved=251 newly_feasible=223
+	    [ALM-FEAS] GN iter 1: live=1100/1100 accepted=981 best_viol_min=6.040e-14 feasible=224 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=1100/1100 accepted=926 best_viol_min=6.040e-14 feasible=224 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=1100/1100 accepted=448 best_viol_min=6.040e-14 feasible=224 alpha_idx_med=0 lam_rel_med=8.0e-06 radius_med=1.6e-02
+	    [ALM-FEAS] GN iter 20: live=1067/1100 accepted=343 best_viol_min=6.040e-14 feasible=224 alpha_idx_med=0 lam_rel_med=4.4e-01 radius_med=9.5e-07
+	    [ALM-FEAS] GN iter 30: live=484/1100 accepted=334 best_viol_min=6.040e-14 feasible=224 alpha_idx_med=0 lam_rel_med=8.6e-05 radius_med=1.6e-02
+	    [ALM-FEAS] Batched GN restoration: domains=275/275 seeds=4 iters=30/30 min_viol=6.040e-14->6.040e-14 feasible=224/275 improved=20 newly_feasible=0 below_level=0
+	    [ALM-SQP] it=0 running=40/40 accepted=40 feasible=8 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=1 running=40/40 accepted=38 feasible=11 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=2 running=40/40 accepted=39 feasible=19 best=0.0539498 |d|=4.01e-01
+	    [ALM-SQP] it=9 running=22/40 accepted=15 feasible=27 best=0.0539498 |d|=5.38e-01
+	    [ALM-SQP] it=19 running=6/40 accepted=4 feasible=28 best=0.0539498 |d|=6.54e-01
+	    [ALM-SQP] it=29 running=5/40 accepted=4 feasible=29 best=0.0539498 |d|=6.50e-01
+	    [ALM-SQP] it=39 running=4/40 accepted=3 feasible=29 best=0.0539498 |d|=6.46e-01
+	    [ALM-SQP] it=49 running=4/40 accepted=3 feasible=29 best=0.0539498 |d|=6.42e-01
+	    [ALM-SQP] Optimality polish: candidates=8+32 iters=50 feasible=29 improved=25 best_feas_obj=0.0539498->0.0539498 time=1.00s
+	  [ALM-BaB] Solved 275 domains: success=tensor(shape=(275,), dtype=torch.bool, device=cuda:0, preview=[True, True, False, False, True, True, False, False], ... 267 more), obj=tensor(shape=(275,), dtype=torch.float64, device=cuda:0, preview=[0.353003337165768, 0.4168175882951873, 3.020225638031608, 1.1636461134496274, 1.4513474453028532, 3.0975904905996337, 0.09787470391693188, 0.18517074908156492], ... 267 more), time=2.07s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=235/275, success=224/275, shifted_obj=0.053950, raw_obj=0.053950, rhs_obj=0.000000
+	  ALM-PGD found obj=0.053950
+	  ALM-PGD raw obj=0.053950
+	  [ALM-adaptive] No improvement for 3 calls, interval 5 -> 10
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 275, filter from obj: 133, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 275, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 284, filter from obj: 2, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 284, filter from input constr: 4, non-finite input constr kept: 0
+		Check input filtering: batch size: 284, filter from input: 12, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2156    filtering 0.0022    decision 0.0004    split 0.0004    clip 0.0010    add_domain 0.0025    summary 0.0001    alm_attack 2.0716    
+		Accumulated time: sort_domains 0.0001    pickout 0.0091    bounding 3.1169    init 0.0898    concretize 0.2528    filtering 0.0315    decision 0.0052    split 0.0054    clip 0.0125    add_domain 0.0330    summary 0.0020    alm_attack 6.4096    
+		Length of domains: 269
+		1756 domains visited
+		Dual Solution This Iter: 0.00035135780725880863
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.00035135780725880863
+	Solution gap: 0.05359841442683171
+	[Op] sort_domains t=15.334 s=0.0000 work=275 dD=0 dP=0
+	[Op] pickout t=15.334 s=0.0006 work=275 dD=0 dP=0
+	[Op] alm_attack t=15.334 s=2.0716 work=275 dD=0 dP=0
+	[Op] split t=15.334 s=0.0004 work=275 dD=0 dP=0
+	[Op] bounding t=15.334 s=0.2156 work=275 dD=0.000203263 dP=0
+	[Op] filtering t=15.334 s=0.0022 work=275 dD=0 dP=0
+	[Op] clip t=15.334 s=0.0010 work=275 dD=0 dP=0
+	[Op] decision t=15.334 s=0.0004 work=275 dD=0 dP=0
+	[Op] add_domain t=15.334 s=0.0025 work=275 dD=0 dP=0
+	[Op] summary t=15.334 s=0.0001 work=275 dD=0 dP=0
+	[Op] lifted_bab t=15.334 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 13.01604413986206
+
+Iteration 16
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 269
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 269, filter from obj: 143, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 269, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 252, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 252, filter from input constr: 5, non-finite input constr kept: 0
+		Check input filtering: batch size: 252, filter from input: 16, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2126    filtering 0.0019    decision 0.0003    split 0.0003    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 2.0716    
+		Accumulated time: sort_domains 0.0001    pickout 0.0097    bounding 3.3295    init 0.0961    concretize 0.2710    filtering 0.0334    decision 0.0055    split 0.0058    clip 0.0134    add_domain 0.0352    summary 0.0021    alm_attack 6.4096    
+		Length of domains: 233
+		2025 domains visited
+		Dual Solution This Iter: 0.0008457470652331288
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.0008457470652331288
+	Solution gap: 0.0531040251688574
+	[Op] sort_domains t=15.554 s=0.0000 work=269 dD=0 dP=0
+	[Op] pickout t=15.554 s=0.0006 work=269 dD=0 dP=0
+	[Op] split t=15.554 s=0.0003 work=269 dD=0 dP=0
+	[Op] bounding t=15.554 s=0.2126 work=269 dD=0.000494389 dP=0
+	[Op] filtering t=15.554 s=0.0019 work=269 dD=0 dP=0
+	[Op] clip t=15.554 s=0.0009 work=269 dD=0 dP=0
+	[Op] decision t=15.554 s=0.0003 work=269 dD=0 dP=0
+	[Op] add_domain t=15.554 s=0.0022 work=269 dD=0 dP=0
+	[Op] summary t=15.554 s=0.0001 work=269 dD=0 dP=0
+	[Op] lifted_bab t=15.554 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 13.236199855804443
+
+Iteration 17
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 233
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 233, filter from obj: 122, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 233, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 222, filter from obj: 2, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 222, filter from input constr: 7, non-finite input constr kept: 0
+		Check input filtering: batch size: 222, filter from input: 9, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0008    bounding 0.2193    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 2.0716    
+		Accumulated time: sort_domains 0.0001    pickout 0.0103    bounding 3.5488    init 0.1021    concretize 0.2889    filtering 0.0354    decision 0.0058    split 0.0062    clip 0.0143    add_domain 0.0374    summary 0.0022    alm_attack 6.4096    
+		Length of domains: 205
+		2258 domains visited
+		Dual Solution This Iter: 0.0010830115304662081
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.0010830115304662081
+	Solution gap: 0.05286676070362432
+	[Op] sort_domains t=15.781 s=0.0000 work=233 dD=0 dP=0
+	[Op] pickout t=15.781 s=0.0006 work=233 dD=0 dP=0
+	[Op] split t=15.781 s=0.0004 work=233 dD=0 dP=0
+	[Op] bounding t=15.781 s=0.2193 work=233 dD=0.000237264 dP=0
+	[Op] filtering t=15.781 s=0.0020 work=233 dD=0 dP=0
+	[Op] clip t=15.781 s=0.0009 work=233 dD=0 dP=0
+	[Op] decision t=15.781 s=0.0003 work=233 dD=0 dP=0
+	[Op] add_domain t=15.781 s=0.0022 work=233 dD=0 dP=0
+	[Op] summary t=15.781 s=0.0001 work=233 dD=0 dP=0
+	[Op] lifted_bab t=15.781 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 13.463205337524414
+
+Iteration 18
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 205
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 205, filter from obj: 129, filter from constr: 1, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 205, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 150, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 150, filter from input constr: 3, non-finite input constr kept: 0
+		Check input filtering: batch size: 150, filter from input: 5, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2159    filtering 0.0019    decision 0.0004    split 0.0004    clip 0.0009    add_domain 0.0023    summary 0.0001    alm_attack 2.0716    
+		Accumulated time: sort_domains 0.0001    pickout 0.0109    bounding 3.7647    init 0.1083    concretize 0.3070    filtering 0.0373    decision 0.0062    split 0.0065    clip 0.0152    add_domain 0.0396    summary 0.0024    alm_attack 6.4096    
+		Length of domains: 143
+		2463 domains visited
+		Dual Solution This Iter: 0.00413428788878599
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.00413428788878599
+	Solution gap: 0.049815484345304535
+	[Op] sort_domains t=16.005 s=0.0000 work=205 dD=0 dP=0
+	[Op] pickout t=16.005 s=0.0006 work=205 dD=0 dP=0
+	[Op] split t=16.005 s=0.0004 work=205 dD=0 dP=0
+	[Op] bounding t=16.005 s=0.2159 work=205 dD=0.00305128 dP=0
+	[Op] filtering t=16.005 s=0.0019 work=205 dD=0 dP=0
+	[Op] clip t=16.005 s=0.0009 work=205 dD=0 dP=0
+	[Op] decision t=16.005 s=0.0004 work=205 dD=0 dP=0
+	[Op] add_domain t=16.005 s=0.0023 work=205 dD=0 dP=0
+	[Op] summary t=16.005 s=0.0001 work=205 dD=0 dP=0
+	[Op] lifted_bab t=16.005 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 13.686871767044067
+
+Iteration 19
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 143
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 143, filter from obj: 50, filter from constr: 2, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 143, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 182, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 182, filter from input constr: 2, non-finite input constr kept: 0
+		Check input filtering: batch size: 182, filter from input: 6, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2178    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 2.0716    
+		Accumulated time: sort_domains 0.0001    pickout 0.0114    bounding 3.9825    init 0.1143    concretize 0.3247    filtering 0.0394    decision 0.0065    split 0.0069    clip 0.0161    add_domain 0.0418    summary 0.0025    alm_attack 6.4096    
+		Length of domains: 176
+		2606 domains visited
+		Dual Solution This Iter: 0.004718424932272479
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.004718424932272479
+	Solution gap: 0.049231347301818044
+	[Op] sort_domains t=16.230 s=0.0000 work=143 dD=0 dP=0
+	[Op] pickout t=16.230 s=0.0006 work=143 dD=0 dP=0
+	[Op] split t=16.230 s=0.0004 work=143 dD=0 dP=0
+	[Op] bounding t=16.230 s=0.2178 work=143 dD=0.000584137 dP=0
+	[Op] filtering t=16.230 s=0.0021 work=143 dD=0 dP=0
+	[Op] clip t=16.230 s=0.0009 work=143 dD=0 dP=0
+	[Op] decision t=16.230 s=0.0003 work=143 dD=0 dP=0
+	[Op] add_domain t=16.230 s=0.0022 work=143 dD=0 dP=0
+	[Op] summary t=16.230 s=0.0001 work=143 dD=0 dP=0
+	[Op] lifted_bab t=16.230 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 13.912333011627197
+
+Iteration 20
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 176
+	  Running ALM-PGD attack (interval=10)
+	  [ALM-BaB] Dual cuts: candidates=8, useful_mean=6.43, kept_mean=6.43, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/176 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0777)
+	  [ALM-BaB] Replaced 142 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=176, restarts=5, B*R=880/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=2.83e-04 local_obj_at_min_viol=0.0576 local_domain=79 local_restart=2 rho=10 eps=3.16e-02 eta=1.58e-02 grad=0.00e+00 ||mu||=7.66e-02 feas=0/880 good=870 bad=10 iter_best_feas_obj=NA global_best_feas_obj=0.0539
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=0.0539 unchanged since k=0, patience=1)
+	    [ALM-FEAS] GN iter 1: live=1050/1050 accepted=1033 best_viol_min=2.705e-12 feasible=236 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=842/1050 accepted=780 best_viol_min=2.105e-13 feasible=626 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=326/1050 accepted=103 best_viol_min=1.705e-13 feasible=724 alpha_idx_med=0 lam_rel_med=1.3e-04 radius_med=3.9e-03
+	    [ALM-FEAS] GN iter 20: live=292/1050 accepted=64 best_viol_min=1.705e-13 feasible=724 alpha_idx_med=0 lam_rel_med=2.5e+02 radius_med=6.0e-08
+	    [ALM-FEAS] GN iter 30: live=92/1050 accepted=51 best_viol_min=1.705e-13 feasible=724 alpha_idx_med=0 lam_rel_med=5.3e-04 radius_med=2.0e-03
+	    [ALM-FEAS] Batched GN restoration: domains=175/176 seeds=6 iters=30/30 min_viol=8.964e-06->1.741e-13 feasible=121/175 improved=165 newly_feasible=121
+	    [ALM-FEAS] GN iter 1: live=1056/1056 accepted=970 best_viol_min=1.741e-13 feasible=122 alpha_idx_med=1 lam_rel_med=1.0e-06 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=1056/1056 accepted=853 best_viol_min=1.741e-13 feasible=122 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=1056/1056 accepted=446 best_viol_min=1.741e-13 feasible=122 alpha_idx_med=0 lam_rel_med=5.7e-05 radius_med=1.6e-02
+	    [ALM-FEAS] GN iter 20: live=1029/1056 accepted=310 best_viol_min=1.741e-13 feasible=122 alpha_idx_med=0 lam_rel_med=1.3e+00 radius_med=9.5e-07
+	    [ALM-FEAS] GN iter 30: live=437/1056 accepted=274 best_viol_min=1.741e-13 feasible=122 alpha_idx_med=0 lam_rel_med=8.4e-05 radius_med=1.6e-02
+	    [ALM-FEAS] Batched GN restoration: domains=176/176 seeds=6 iters=30/30 min_viol=1.741e-13->1.741e-13 feasible=122/176 improved=29 newly_feasible=0 below_level=0
+	    [ALM-SQP] it=0 running=40/40 accepted=40 feasible=8 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=1 running=40/40 accepted=40 feasible=17 best=0.0539498 |d|=4.13e-01
+	    [ALM-SQP] it=2 running=40/40 accepted=37 feasible=18 best=0.0539498 |d|=3.95e-01
+	    [ALM-SQP] it=9 running=17/40 accepted=12 feasible=18 best=0.0539498 |d|=4.84e-01
+	    [ALM-SQP] it=19 running=3/40 accepted=3 feasible=18 best=0.0539498 |d|=4.60e-01
+	    [ALM-SQP] it=29 running=1/40 accepted=1 feasible=18 best=0.0539498 |d|=4.42e-01
+	    [ALM-SQP] it=39 running=1/40 accepted=1 feasible=18 best=0.0539498 |d|=2.72e-04
+	    [ALM-SQP] it=49 running=1/40 accepted=0 feasible=18 best=0.0539498 |d|=9.88e-06
+	    [ALM-SQP] Optimality polish: candidates=8+32 iters=50 feasible=18 improved=17 best_feas_obj=0.0539498->0.0539498 time=0.86s
+	  [ALM-BaB] Solved 176 domains: success=tensor(shape=(176,), dtype=torch.bool, device=cuda:0, preview=[True, False, False, True, False, False, False, False], ... 168 more), obj=tensor(shape=(176,), dtype=torch.float64, device=cuda:0, preview=[0.055893458588189955, 0.055793401331333106, 0.05543691646253361, 0.06472468253179345, 0.08191755555967371, 0.05617422589670061, 0.05568734366332351, 0.05565964495681268], ... 168 more), time=1.88s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=124/176, success=122/176, shifted_obj=0.053950, raw_obj=0.053950, rhs_obj=0.000000
+	  ALM-PGD found obj=0.053950
+	  ALM-PGD raw obj=0.053950
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 176, filter from obj: 86, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 176, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 180, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 180, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 180, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0006    bounding 0.2183    filtering 0.0024    decision 0.0004    split 0.0004    clip 0.0010    add_domain 0.0026    summary 0.0002    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0122    bounding 4.2008    init 0.1202    concretize 0.3419    filtering 0.0418    decision 0.0069    split 0.0073    clip 0.0171    add_domain 0.0444    summary 0.0027    alm_attack 8.2982    
+		Length of domains: 178
+		2782 domains visited
+		Dual Solution This Iter: 0.006018867866469503
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.006018867866469503
+	Solution gap: 0.04793090436762102
+	[Op] sort_domains t=18.346 s=0.0000 work=176 dD=0 dP=0
+	[Op] pickout t=18.346 s=0.0007 work=176 dD=0 dP=0
+	[Op] alm_attack t=18.346 s=1.8885 work=176 dD=0 dP=0
+	[Op] split t=18.346 s=0.0004 work=176 dD=0 dP=0
+	[Op] bounding t=18.346 s=0.2183 work=176 dD=0.00130044 dP=0
+	[Op] filtering t=18.346 s=0.0024 work=176 dD=0 dP=0
+	[Op] clip t=18.346 s=0.0010 work=176 dD=0 dP=0
+	[Op] decision t=18.346 s=0.0004 work=176 dD=0 dP=0
+	[Op] add_domain t=18.346 s=0.0026 work=176 dD=0 dP=0
+	[Op] summary t=18.346 s=0.0002 work=176 dD=0 dP=0
+	[Op] lifted_bab t=18.346 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 16.028298139572144
+
+Iteration 21
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 178
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 178, filter from obj: 72, filter from constr: 1, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 178, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 210, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 210, filter from input constr: 8, non-finite input constr kept: 0
+		Check input filtering: batch size: 210, filter from input: 5, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0003    concretize 0.0009    bounding 0.2370    filtering 0.0023    decision 0.0004    split 0.0004    clip 0.0007    add_domain 0.0024    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0129    bounding 4.4378    init 0.1269    concretize 0.3627    filtering 0.0441    decision 0.0073    split 0.0077    clip 0.0179    add_domain 0.0468    summary 0.0028    alm_attack 8.2982    
+		Length of domains: 200
+		2960 domains visited
+		Dual Solution This Iter: 0.04680620692334431
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.04680620692334431
+	Solution gap: 0.007143565310746218
+	[Op] sort_domains t=18.592 s=0.0000 work=178 dD=0 dP=0
+	[Op] pickout t=18.592 s=0.0007 work=178 dD=0 dP=0
+	[Op] split t=18.592 s=0.0004 work=178 dD=0 dP=0
+	[Op] bounding t=18.592 s=0.2370 work=178 dD=0.0407873 dP=0
+	[Op] filtering t=18.592 s=0.0023 work=178 dD=0 dP=0
+	[Op] clip t=18.592 s=0.0007 work=178 dD=0 dP=0
+	[Op] decision t=18.592 s=0.0004 work=178 dD=0 dP=0
+	[Op] add_domain t=18.592 s=0.0024 work=178 dD=0 dP=0
+	[Op] summary t=18.592 s=0.0001 work=178 dD=0 dP=0
+	[Op] lifted_bab t=18.592 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 16.2736074924469
+
+Iteration 22
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 200
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 200, filter from obj: 128, filter from constr: 1, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 200, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 142, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 142, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 142, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0003    concretize 0.0009    bounding 0.2258    filtering 0.0021    decision 0.0004    split 0.0004    clip 0.0007    add_domain 0.0025    summary 0.0002    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0135    bounding 4.6636    init 0.1333    concretize 0.3825    filtering 0.0462    decision 0.0076    split 0.0081    clip 0.0186    add_domain 0.0493    summary 0.0030    alm_attack 8.2982    
+		Length of domains: 140
+		3160 domains visited
+		Dual Solution This Iter: 0.04988131236367028
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.04988131236367028
+	Solution gap: 0.004068459870420246
+	[Op] sort_domains t=18.826 s=0.0000 work=200 dD=0 dP=0
+	[Op] pickout t=18.826 s=0.0007 work=200 dD=0 dP=0
+	[Op] split t=18.826 s=0.0004 work=200 dD=0 dP=0
+	[Op] bounding t=18.826 s=0.2258 work=200 dD=0.00307511 dP=0
+	[Op] filtering t=18.826 s=0.0021 work=200 dD=0 dP=0
+	[Op] clip t=18.826 s=0.0007 work=200 dD=0 dP=0
+	[Op] decision t=18.826 s=0.0004 work=200 dD=0 dP=0
+	[Op] add_domain t=18.826 s=0.0025 work=200 dD=0 dP=0
+	[Op] summary t=18.826 s=0.0002 work=200 dD=0 dP=0
+	[Op] lifted_bab t=18.826 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 16.507635831832886
+
+Iteration 23
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 140
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 140, filter from obj: 70, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 140, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 140, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 140, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 140, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0003    concretize 0.0009    bounding 0.2341    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0021    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0142    bounding 4.8977    init 0.1400    concretize 0.4032    filtering 0.0483    decision 0.0079    split 0.0085    clip 0.0193    add_domain 0.0514    summary 0.0031    alm_attack 8.2982    
+		Length of domains: 140
+		3300 domains visited
+		Dual Solution This Iter: 0.05014854870384029
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05014854870384029
+	Solution gap: 0.003801223530250232
+	[Op] sort_domains t=19.067 s=0.0000 work=140 dD=0 dP=0
+	[Op] pickout t=19.067 s=0.0007 work=140 dD=0 dP=0
+	[Op] split t=19.067 s=0.0004 work=140 dD=0 dP=0
+	[Op] bounding t=19.067 s=0.2341 work=140 dD=0.000267236 dP=0
+	[Op] filtering t=19.067 s=0.0021 work=140 dD=0 dP=0
+	[Op] clip t=19.067 s=0.0007 work=140 dD=0 dP=0
+	[Op] decision t=19.067 s=0.0003 work=140 dD=0 dP=0
+	[Op] add_domain t=19.067 s=0.0021 work=140 dD=0 dP=0
+	[Op] summary t=19.067 s=0.0001 work=140 dD=0 dP=0
+	[Op] lifted_bab t=19.067 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 16.749305486679077
+
+Iteration 24
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 140
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 140, filter from obj: 87, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 140, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 106, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 106, filter from input constr: 6, non-finite input constr kept: 0
+		Check input filtering: batch size: 106, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0007    bounding 0.2165    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0021    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0148    bounding 5.1141    init 0.1461    concretize 0.4209    filtering 0.0503    decision 0.0083    split 0.0088    clip 0.0200    add_domain 0.0535    summary 0.0032    alm_attack 8.2982    
+		Length of domains: 100
+		3440 domains visited
+		Dual Solution This Iter: 0.050907991963376094
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.050907991963376094
+	Solution gap: 0.003041780270714431
+	[Op] sort_domains t=19.291 s=0.0000 work=140 dD=0 dP=0
+	[Op] pickout t=19.291 s=0.0006 work=140 dD=0 dP=0
+	[Op] split t=19.291 s=0.0004 work=140 dD=0 dP=0
+	[Op] bounding t=19.291 s=0.2165 work=140 dD=0.000759443 dP=0
+	[Op] filtering t=19.291 s=0.0020 work=140 dD=0 dP=0
+	[Op] clip t=19.291 s=0.0007 work=140 dD=0 dP=0
+	[Op] decision t=19.291 s=0.0003 work=140 dD=0 dP=0
+	[Op] add_domain t=19.291 s=0.0021 work=140 dD=0 dP=0
+	[Op] summary t=19.291 s=0.0001 work=140 dD=0 dP=0
+	[Op] lifted_bab t=19.291 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 16.97317409515381
+
+Iteration 25
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 100
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 100, filter from obj: 19, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 100, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 162, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 162, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 162, filter from input: 2, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2104    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0022    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0153    bounding 5.3245    init 0.1519    concretize 0.4381    filtering 0.0524    decision 0.0086    split 0.0092    clip 0.0206    add_domain 0.0557    summary 0.0033    alm_attack 8.2982    
+		Length of domains: 159
+		3540 domains visited
+		Dual Solution This Iter: 0.05274855116516373
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05274855116516373
+	Solution gap: 0.0012012210689267971
+	[Op] sort_domains t=19.509 s=0.0000 work=100 dD=0 dP=0
+	[Op] pickout t=19.509 s=0.0006 work=100 dD=0 dP=0
+	[Op] split t=19.509 s=0.0004 work=100 dD=0 dP=0
+	[Op] bounding t=19.509 s=0.2104 work=100 dD=0.00184056 dP=0
+	[Op] filtering t=19.509 s=0.0021 work=100 dD=0 dP=0
+	[Op] clip t=19.509 s=0.0007 work=100 dD=0 dP=0
+	[Op] decision t=19.509 s=0.0003 work=100 dD=0 dP=0
+	[Op] add_domain t=19.509 s=0.0022 work=100 dD=0 dP=0
+	[Op] summary t=19.509 s=0.0001 work=100 dD=0 dP=0
+	[Op] lifted_bab t=19.509 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 17.19099998474121
+
+Iteration 26
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 159
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 159, filter from obj: 9, filter from constr: 4, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 159, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 292, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 292, filter from input constr: 10, non-finite input constr kept: 0
+		Check input filtering: batch size: 292, filter from input: 7, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2150    filtering 0.0019    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0022    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0159    bounding 5.5395    init 0.1577    concretize 0.4551    filtering 0.0543    decision 0.0089    split 0.0096    clip 0.0213    add_domain 0.0579    summary 0.0035    alm_attack 8.2982    
+		Length of domains: 279
+		3699 domains visited
+		Dual Solution This Iter: 0.052848270307426434
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.052848270307426434
+	Solution gap: 0.0011015019266640905
+	[Op] sort_domains t=19.731 s=0.0000 work=159 dD=0 dP=0
+	[Op] pickout t=19.731 s=0.0006 work=159 dD=0 dP=0
+	[Op] split t=19.731 s=0.0004 work=159 dD=0 dP=0
+	[Op] bounding t=19.731 s=0.2150 work=159 dD=9.97191e-05 dP=0
+	[Op] filtering t=19.731 s=0.0019 work=159 dD=0 dP=0
+	[Op] clip t=19.731 s=0.0007 work=159 dD=0 dP=0
+	[Op] decision t=19.731 s=0.0003 work=159 dD=0 dP=0
+	[Op] add_domain t=19.731 s=0.0022 work=159 dD=0 dP=0
+	[Op] summary t=19.731 s=0.0001 work=159 dD=0 dP=0
+	[Op] lifted_bab t=19.731 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 17.413374185562134
+
+Iteration 27
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 279
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 279, filter from obj: 218, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 279, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 122, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 122, filter from input constr: 5, non-finite input constr kept: 0
+		Check input filtering: batch size: 122, filter from input: 2, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0003    concretize 0.0008    bounding 0.2105    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0165    bounding 5.7500    init 0.1637    concretize 0.4728    filtering 0.0563    decision 0.0092    split 0.0099    clip 0.0222    add_domain 0.0601    summary 0.0036    alm_attack 8.2982    
+		Length of domains: 115
+		3978 domains visited
+		Dual Solution This Iter: 0.053642269955338426
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.053642269955338426
+	Solution gap: 0.00030750227875209896
+	[Op] sort_domains t=19.950 s=0.0000 work=279 dD=0 dP=0
+	[Op] pickout t=19.950 s=0.0006 work=279 dD=0 dP=0
+	[Op] split t=19.950 s=0.0004 work=279 dD=0 dP=0
+	[Op] bounding t=19.950 s=0.2105 work=279 dD=0.000794 dP=0
+	[Op] filtering t=19.950 s=0.0020 work=279 dD=0 dP=0
+	[Op] clip t=19.950 s=0.0009 work=279 dD=0 dP=0
+	[Op] decision t=19.950 s=0.0003 work=279 dD=0 dP=0
+	[Op] add_domain t=19.950 s=0.0022 work=279 dD=0 dP=0
+	[Op] summary t=19.950 s=0.0001 work=279 dD=0 dP=0
+	[Op] lifted_bab t=19.950 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 17.63153386116028
+
+Iteration 28
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 115
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 115, filter from obj: 12, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 115, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 206, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 206, filter from input constr: 12, non-finite input constr kept: 0
+		Check input filtering: batch size: 206, filter from input: 4, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0003    concretize 0.0008    bounding 0.2175    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0023    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0171    bounding 5.9675    init 0.1696    concretize 0.4902    filtering 0.0582    decision 0.0096    split 0.0103    clip 0.0229    add_domain 0.0625    summary 0.0037    alm_attack 8.2982    
+		Length of domains: 191
+		4093 domains visited
+		Dual Solution This Iter: 0.05365731466494721
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05365731466494721
+	Solution gap: 0.0002924575691433118
+	[Op] sort_domains t=20.175 s=0.0000 work=115 dD=0 dP=0
+	[Op] pickout t=20.175 s=0.0006 work=115 dD=0 dP=0
+	[Op] split t=20.175 s=0.0004 work=115 dD=0 dP=0
+	[Op] bounding t=20.175 s=0.2175 work=115 dD=1.50447e-05 dP=0
+	[Op] filtering t=20.175 s=0.0020 work=115 dD=0 dP=0
+	[Op] clip t=20.175 s=0.0007 work=115 dD=0 dP=0
+	[Op] decision t=20.175 s=0.0003 work=115 dD=0 dP=0
+	[Op] add_domain t=20.175 s=0.0023 work=115 dD=0 dP=0
+	[Op] summary t=20.175 s=0.0001 work=115 dD=0 dP=0
+	[Op] lifted_bab t=20.175 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 17.856810331344604
+
+Iteration 29
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 191
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 191, filter from obj: 26, filter from constr: 9, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 191, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 312, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 312, filter from input constr: 8, non-finite input constr kept: 0
+		Check input filtering: batch size: 312, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0007    bounding 0.2160    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0007    add_domain 0.0022    summary 0.0001    alm_attack 1.8885    
+		Accumulated time: sort_domains 0.0001    pickout 0.0177    bounding 6.1834    init 0.1755    concretize 0.5076    filtering 0.0602    decision 0.0099    split 0.0107    clip 0.0236    add_domain 0.0646    summary 0.0039    alm_attack 8.2982    
+		Length of domains: 304
+		4284 domains visited
+		Dual Solution This Iter: 0.05366397019954833
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05366397019954833
+	Solution gap: 0.00028580203454219716
+	[Op] sort_domains t=20.398 s=0.0000 work=191 dD=0 dP=0
+	[Op] pickout t=20.398 s=0.0006 work=191 dD=0 dP=0
+	[Op] split t=20.398 s=0.0004 work=191 dD=0 dP=0
+	[Op] bounding t=20.398 s=0.2160 work=191 dD=6.65553e-06 dP=0
+	[Op] filtering t=20.398 s=0.0020 work=191 dD=0 dP=0
+	[Op] clip t=20.398 s=0.0007 work=191 dD=0 dP=0
+	[Op] decision t=20.398 s=0.0003 work=191 dD=0 dP=0
+	[Op] add_domain t=20.398 s=0.0022 work=191 dD=0 dP=0
+	[Op] summary t=20.398 s=0.0001 work=191 dD=0 dP=0
+	[Op] lifted_bab t=20.398 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 18.080158710479736
+
+Iteration 30
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 304
+	  Running ALM-PGD attack (interval=10)
+	  [ALM-BaB] Dual cuts: candidates=8, useful_mean=6.57, kept_mean=6.57, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/304 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0900)
+	  [ALM-BaB] Replaced 191 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=304, restarts=3, B*R=912/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=8.26e-05 local_obj_at_min_viol=0.0540 local_domain=106 local_restart=2 rho=10 eps=3.16e-02 eta=1.58e-02 grad=0.00e+00 ||mu||=8.95e-02 feas=0/912 good=912 bad=0 iter_best_feas_obj=NA global_best_feas_obj=0.0539
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=0.0539 unchanged since k=0, patience=1)
+	    [ALM-FEAS] GN iter 1: live=1212/1212 accepted=1143 best_viol_min=1.959e-07 feasible=2 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=1211/1212 accepted=1032 best_viol_min=2.771e-13 feasible=369 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=602/1212 accepted=160 best_viol_min=3.730e-14 feasible=612 alpha_idx_med=0 lam_rel_med=4.0e-04 radius_med=3.9e-03
+	    [ALM-FEAS] GN iter 20: live=520/1212 accepted=72 best_viol_min=3.730e-14 feasible=615 alpha_idx_med=0 lam_rel_med=1.8e+04 radius_med=1.5e-08
+	    [ALM-FEAS] GN iter 30: live=128/1212 accepted=52 best_viol_min=3.730e-14 feasible=616 alpha_idx_med=0 lam_rel_med=5.4e-03 radius_med=9.8e-04
+	    [ALM-FEAS] Batched GN restoration: domains=303/304 seeds=4 iters=30/30 min_viol=1.515e-05->3.730e-14 feasible=154/303 improved=291 newly_feasible=154
+	    [ALM-FEAS] GN iter 1: live=1216/1216 accepted=987 best_viol_min=3.730e-14 feasible=155 alpha_idx_med=1 lam_rel_med=1.0e-06 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 2: live=1216/1216 accepted=685 best_viol_min=3.730e-14 feasible=155 alpha_idx_med=0 lam_rel_med=1.0e-06 radius_med=1.0e+00
+	    [ALM-FEAS] GN iter 10: live=1216/1216 accepted=541 best_viol_min=3.730e-14 feasible=155 alpha_idx_med=0 lam_rel_med=1.5e-04 radius_med=1.6e-02
+	    [ALM-FEAS] GN iter 20: live=1133/1216 accepted=372 best_viol_min=3.730e-14 feasible=155 alpha_idx_med=0 lam_rel_med=1.5e+00 radius_med=3.1e-05
+	    [ALM-FEAS] GN iter 30: live=585/1216 accepted=351 best_viol_min=3.730e-14 feasible=155 alpha_idx_med=0 lam_rel_med=1.8e-04 radius_med=1.6e-02
+	    [ALM-FEAS] Batched GN restoration: domains=304/304 seeds=4 iters=30/30 min_viol=3.730e-14->3.730e-14 feasible=155/304 improved=88 newly_feasible=0 below_level=0
+	    [ALM-SQP] it=0 running=40/40 accepted=40 feasible=10 best=0.0539498 |d|=1.00e+00
+	    [ALM-SQP] it=1 running=40/40 accepted=38 feasible=25 best=0.0539498 |d|=4.69e-01
+	    [ALM-SQP] it=2 running=40/40 accepted=30 feasible=25 best=0.0539498 |d|=5.72e-01
+	    [ALM-SQP] it=9 running=8/40 accepted=3 feasible=25 best=0.0539498 |d|=1.92e-01
+	    [ALM-SQP] it=19 running=1/40 accepted=1 feasible=25 best=0.0539498 |d|=6.71e-03
+	    [ALM-SQP] Optimality polish: candidates=8+32 iters=26 feasible=25 improved=23 best_feas_obj=0.0539498->0.0539498 time=0.58s
+	  [ALM-BaB] Solved 304 domains: success=tensor(shape=(304,), dtype=torch.bool, device=cuda:0, preview=[False, True, False, True, False, True, False, True], ... 296 more), obj=tensor(shape=(304,), dtype=torch.float64, device=cuda:0, preview=[0.054123534978179004, 0.053991589930818394, 0.0539786715944295, 0.05397941293729888, 0.053987956251272486, 0.05399186913469302, 0.053982311265606854, 0.05398832605743953], ... 296 more), time=1.60s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=205/304, success=156/304, shifted_obj=0.053950, raw_obj=0.053950, rhs_obj=0.000000
+	  ALM-PGD found obj=0.053950
+	  ALM-PGD raw obj=0.053950
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 304, filter from obj: 53, filter from constr: 17, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 304, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 468, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 468, filter from input constr: 17, non-finite input constr kept: 0
+		Check input filtering: batch size: 468, filter from input: 11, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2184    filtering 0.0020    decision 0.0003    split 0.0003    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0183    bounding 6.4018    init 0.1815    concretize 0.5249    filtering 0.0622    decision 0.0102    split 0.0110    clip 0.0245    add_domain 0.0668    summary 0.0040    alm_attack 9.9064    
+		Length of domains: 443
+		4588 domains visited
+		Dual Solution This Iter: 0.05366397019954833
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05366397019954833
+	Solution gap: 0.00028580203454219716
+	[Op] sort_domains t=22.232 s=0.0000 work=304 dD=0 dP=0
+	[Op] pickout t=22.232 s=0.0006 work=304 dD=0 dP=0
+	[Op] alm_attack t=22.232 s=1.6082 work=304 dD=0 dP=0
+	[Op] split t=22.232 s=0.0003 work=304 dD=0 dP=0
+	[Op] bounding t=22.232 s=0.2184 work=304 dD=0 dP=0
+	[Op] filtering t=22.232 s=0.0020 work=304 dD=0 dP=0
+	[Op] clip t=22.232 s=0.0009 work=304 dD=0 dP=0
+	[Op] decision t=22.232 s=0.0003 work=304 dD=0 dP=0
+	[Op] add_domain t=22.232 s=0.0022 work=304 dD=0 dP=0
+	[Op] summary t=22.232 s=0.0001 work=304 dD=0 dP=0
+	[Op] lifted_bab t=22.232 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 19.914329290390015
+
+Iteration 31
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 443
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 443, filter from obj: 56, filter from constr: 40, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 443, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 694, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 694, filter from input constr: 25, non-finite input constr kept: 0
+		Check input filtering: batch size: 694, filter from input: 13, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0006    init 0.0002    concretize 0.0006    bounding 0.2160    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0189    bounding 6.6178    init 0.1874    concretize 0.5422    filtering 0.0641    decision 0.0105    split 0.0114    clip 0.0254    add_domain 0.0690    summary 0.0041    alm_attack 9.9064    
+		Length of domains: 660
+		5031 domains visited
+		Dual Solution This Iter: 0.05366974553993768
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05366974553993768
+	Solution gap: 0.00028002669415284204
+	[Op] sort_domains t=22.456 s=0.0000 work=443 dD=0 dP=0
+	[Op] pickout t=22.456 s=0.0006 work=443 dD=0 dP=0
+	[Op] split t=22.456 s=0.0004 work=443 dD=0 dP=0
+	[Op] bounding t=22.456 s=0.2160 work=443 dD=5.77534e-06 dP=0
+	[Op] filtering t=22.456 s=0.0020 work=443 dD=0 dP=0
+	[Op] clip t=22.456 s=0.0009 work=443 dD=0 dP=0
+	[Op] decision t=22.456 s=0.0003 work=443 dD=0 dP=0
+	[Op] add_domain t=22.456 s=0.0022 work=443 dD=0 dP=0
+	[Op] summary t=22.456 s=0.0001 work=443 dD=0 dP=0
+	[Op] lifted_bab t=22.456 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 20.137895822525024
+
+Iteration 32
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 512
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 512, filter from obj: 77, filter from constr: 41, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 512, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 788, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 788, filter from input constr: 29, non-finite input constr kept: 0
+		Check input filtering: batch size: 788, filter from input: 12, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0006    bounding 0.2131    filtering 0.0019    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0196    bounding 6.8308    init 0.1934    concretize 0.5599    filtering 0.0661    decision 0.0108    split 0.0118    clip 0.0263    add_domain 0.0711    summary 0.0043    alm_attack 9.9064    
+		Length of domains: 900
+		5543 domains visited
+		Dual Solution This Iter: 0.05366974553993768
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05366974553993768
+	Solution gap: 0.00028002669415284204
+	[Op] sort_domains t=22.677 s=0.0000 work=512 dD=0 dP=0
+	[Op] pickout t=22.677 s=0.0007 work=512 dD=0 dP=0
+	[Op] split t=22.677 s=0.0004 work=512 dD=0 dP=0
+	[Op] bounding t=22.677 s=0.2131 work=512 dD=0 dP=0
+	[Op] filtering t=22.677 s=0.0019 work=512 dD=0 dP=0
+	[Op] clip t=22.677 s=0.0009 work=512 dD=0 dP=0
+	[Op] decision t=22.677 s=0.0003 work=512 dD=0 dP=0
+	[Op] add_domain t=22.677 s=0.0022 work=512 dD=0 dP=0
+	[Op] summary t=22.677 s=0.0001 work=512 dD=0 dP=0
+	[Op] lifted_bab t=22.677 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.2GB/33.7GB, batch_size increase to 1024
+	Cumulative time: 20.35876774787903
+
+Iteration 33
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 900
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 900, filter from obj: 140, filter from constr: 100, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 900, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 1320, filter from obj: 3, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1320, filter from input constr: 44, non-finite input constr kept: 0
+		Check input filtering: batch size: 1320, filter from input: 19, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0003    concretize 0.0008    bounding 0.2184    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0024    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0203    bounding 7.0492    init 0.1994    concretize 0.5775    filtering 0.0682    decision 0.0112    split 0.0121    clip 0.0271    add_domain 0.0735    summary 0.0044    alm_attack 9.9064    
+		Length of domains: 1261
+		6443 domains visited
+		Dual Solution This Iter: 0.05366974553993768
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05366974553993768
+	Solution gap: 0.00028002669415284204
+	[Op] sort_domains t=22.903 s=0.0000 work=900 dD=0 dP=0
+	[Op] pickout t=22.903 s=0.0007 work=900 dD=0 dP=0
+	[Op] split t=22.903 s=0.0004 work=900 dD=0 dP=0
+	[Op] bounding t=22.903 s=0.2184 work=900 dD=0 dP=0
+	[Op] filtering t=22.903 s=0.0021 work=900 dD=0 dP=0
+	[Op] clip t=22.903 s=0.0009 work=900 dD=0 dP=0
+	[Op] decision t=22.903 s=0.0003 work=900 dD=0 dP=0
+	[Op] add_domain t=22.903 s=0.0024 work=900 dD=0 dP=0
+	[Op] summary t=22.903 s=0.0001 work=900 dD=0 dP=0
+	[Op] lifted_bab t=22.903 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 20.585201025009155
+
+Iteration 34
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1024
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1024, filter from obj: 180, filter from constr: 109, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1024, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 1470, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1470, filter from input constr: 45, non-finite input constr kept: 0
+		Check input filtering: batch size: 1470, filter from input: 26, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0007    init 0.0002    concretize 0.0006    bounding 0.2202    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0210    bounding 7.2694    init 0.2055    concretize 0.5950    filtering 0.0702    decision 0.0115    split 0.0125    clip 0.0280    add_domain 0.0756    summary 0.0046    alm_attack 9.9064    
+		Length of domains: 1645
+		7467 domains visited
+		Dual Solution This Iter: 0.05374976418794559
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05374976418794559
+	Solution gap: 0.0002000080461449366
+	[Op] sort_domains t=23.131 s=0.0000 work=1024 dD=0 dP=0
+	[Op] pickout t=23.131 s=0.0007 work=1024 dD=0 dP=0
+	[Op] split t=23.131 s=0.0004 work=1024 dD=0 dP=0
+	[Op] bounding t=23.131 s=0.2202 work=1024 dD=8.00186e-05 dP=0
+	[Op] filtering t=23.131 s=0.0020 work=1024 dD=0 dP=0
+	[Op] clip t=23.131 s=0.0009 work=1024 dD=0 dP=0
+	[Op] decision t=23.131 s=0.0003 work=1024 dD=0 dP=0
+	[Op] add_domain t=23.131 s=0.0022 work=1024 dD=0 dP=0
+	[Op] summary t=23.131 s=0.0001 work=1024 dD=0 dP=0
+	[Op] lifted_bab t=23.131 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.3GB/33.7GB, batch_size increase to 2048
+	Cumulative time: 20.81323552131653
+
+Iteration 35
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1645
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1645, filter from obj: 295, filter from constr: 220, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1645, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2260, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2260, filter from input constr: 70, non-finite input constr kept: 0
+		Check input filtering: batch size: 2260, filter from input: 39, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0008    init 0.0002    concretize 0.0010    bounding 0.2276    filtering 0.0023    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0024    summary 0.0001    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0218    bounding 7.4970    init 0.2115    concretize 0.6129    filtering 0.0724    decision 0.0118    split 0.0129    clip 0.0290    add_domain 0.0781    summary 0.0047    alm_attack 9.9064    
+		Length of domains: 2161
+		9112 domains visited
+		Dual Solution This Iter: 0.053759042327902115
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.053759042327902115
+	Solution gap: 0.00019072990618840963
+	[Op] sort_domains t=23.367 s=0.0000 work=1645 dD=0 dP=0
+	[Op] pickout t=23.368 s=0.0008 work=1645 dD=0 dP=0
+	[Op] split t=23.368 s=0.0004 work=1645 dD=0 dP=0
+	[Op] bounding t=23.368 s=0.2276 work=1645 dD=9.27814e-06 dP=0
+	[Op] filtering t=23.368 s=0.0023 work=1645 dD=0 dP=0
+	[Op] clip t=23.368 s=0.0009 work=1645 dD=0 dP=0
+	[Op] decision t=23.368 s=0.0003 work=1645 dD=0 dP=0
+	[Op] add_domain t=23.368 s=0.0024 work=1645 dD=0 dP=0
+	[Op] summary t=23.368 s=0.0001 work=1645 dD=0 dP=0
+	[Op] lifted_bab t=23.368 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 21.049413919448853
+
+Iteration 36
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2048
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2048, filter from obj: 333, filter from constr: 274, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2048, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2882, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2882, filter from input constr: 117, non-finite input constr kept: 0
+		Check input filtering: batch size: 2882, filter from input: 59, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0008    init 0.0002    concretize 0.0007    bounding 0.2360    filtering 0.0020    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0022    summary 0.0002    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0226    bounding 7.7330    init 0.2175    concretize 0.6306    filtering 0.0744    decision 0.0122    split 0.0133    clip 0.0299    add_domain 0.0803    summary 0.0049    alm_attack 9.9064    
+		Length of domains: 2834
+		11160 domains visited
+		Dual Solution This Iter: 0.05379232643375027
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05379232643375027
+	Solution gap: 0.00015744580034025152
+	[Op] sort_domains t=23.612 s=0.0000 work=2048 dD=0 dP=0
+	[Op] pickout t=23.612 s=0.0008 work=2048 dD=0 dP=0
+	[Op] split t=23.612 s=0.0004 work=2048 dD=0 dP=0
+	[Op] bounding t=23.612 s=0.2360 work=2048 dD=3.32841e-05 dP=0
+	[Op] filtering t=23.612 s=0.0020 work=2048 dD=0 dP=0
+	[Op] clip t=23.612 s=0.0009 work=2048 dD=0 dP=0
+	[Op] decision t=23.612 s=0.0003 work=2048 dD=0 dP=0
+	[Op] add_domain t=23.612 s=0.0022 work=2048 dD=0 dP=0
+	[Op] summary t=23.612 s=0.0002 work=2048 dD=0 dP=0
+	[Op] lifted_bab t=23.612 s=0.0000 work=1 dD=0 dP=0
+	current_vram/total_varm: 0.3GB/33.7GB, batch_size increase to 4096
+	Cumulative time: 21.293543338775635
+
+Iteration 37
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2834
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2834, filter from obj: 492, filter from constr: 382, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2834, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 3920, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 3920, filter from input constr: 152, non-finite input constr kept: 0
+		Check input filtering: batch size: 3920, filter from input: 55, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0009    init 0.0003    concretize 0.0010    bounding 0.2581    filtering 0.0023    decision 0.0004    split 0.0004    clip 0.0010    add_domain 0.0025    summary 0.0002    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0235    bounding 7.9911    init 0.2236    concretize 0.6490    filtering 0.0767    decision 0.0126    split 0.0138    clip 0.0309    add_domain 0.0828    summary 0.0050    alm_attack 9.9064    
+		Length of domains: 3723
+		13994 domains visited
+		Dual Solution This Iter: 0.05381499159490334
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05381499159490334
+	Solution gap: 0.00013478063918718336
+	[Op] sort_domains t=23.879 s=0.0000 work=2834 dD=0 dP=0
+	[Op] pickout t=23.879 s=0.0009 work=2834 dD=0 dP=0
+	[Op] split t=23.879 s=0.0004 work=2834 dD=0 dP=0
+	[Op] bounding t=23.879 s=0.2581 work=2834 dD=2.26652e-05 dP=0
+	[Op] filtering t=23.879 s=0.0023 work=2834 dD=0 dP=0
+	[Op] clip t=23.879 s=0.0010 work=2834 dD=0 dP=0
+	[Op] decision t=23.879 s=0.0004 work=2834 dD=0 dP=0
+	[Op] add_domain t=23.879 s=0.0025 work=2834 dD=0 dP=0
+	[Op] summary t=23.879 s=0.0002 work=2834 dD=0 dP=0
+	[Op] lifted_bab t=23.879 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 21.56072974205017
+
+Iteration 38
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 3723
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 3723, filter from obj: 630, filter from constr: 514, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 3723, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 5158, filter from obj: 2, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 5158, filter from input constr: 159, non-finite input constr kept: 0
+		Check input filtering: batch size: 5158, filter from input: 72, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0010    init 0.0003    concretize 0.0011    bounding 0.2847    filtering 0.0025    decision 0.0004    split 0.0004    clip 0.0010    add_domain 0.0026    summary 0.0002    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0244    bounding 8.2757    init 0.2304    concretize 0.6702    filtering 0.0792    decision 0.0129    split 0.0142    clip 0.0320    add_domain 0.0854    summary 0.0052    alm_attack 9.9064    
+		Length of domains: 4944
+		17717 domains visited
+		Dual Solution This Iter: 0.05383425198730031
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05383425198730031
+	Solution gap: 0.00011552024679021416
+	[Op] sort_domains t=24.173 s=0.0000 work=3723 dD=0 dP=0
+	[Op] pickout t=24.173 s=0.0010 work=3723 dD=0 dP=0
+	[Op] split t=24.173 s=0.0004 work=3723 dD=0 dP=0
+	[Op] bounding t=24.173 s=0.2847 work=3723 dD=1.92604e-05 dP=0
+	[Op] filtering t=24.173 s=0.0025 work=3723 dD=0 dP=0
+	[Op] clip t=24.173 s=0.0010 work=3723 dD=0 dP=0
+	[Op] decision t=24.173 s=0.0004 work=3723 dD=0 dP=0
+	[Op] add_domain t=24.173 s=0.0026 work=3723 dD=0 dP=0
+	[Op] summary t=24.173 s=0.0002 work=3723 dD=0 dP=0
+	[Op] lifted_bab t=24.173 s=0.0000 work=1 dD=0 dP=0
+	Cumulative time: 21.854928255081177
+
+Iteration 39
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 4096
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 4096, filter from obj: 720, filter from constr: 575, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 4096, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 5602, filter from obj: 3, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 5602, filter from input constr: 168, non-finite input constr kept: 0
+		Check input filtering: batch size: 5602, filter from input: 66, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0013    init 0.0003    concretize 0.0010    bounding 0.2864    filtering 0.0021    decision 0.0003    split 0.0004    clip 0.0009    add_domain 0.0024    summary 0.0002    alm_attack 1.6082    
+		Accumulated time: sort_domains 0.0001    pickout 0.0258    bounding 8.5621    init 0.2373    concretize 0.6919    filtering 0.0813    decision 0.0133    split 0.0146    clip 0.0329    add_domain 0.0878    summary 0.0054    alm_attack 9.9064    
+		Length of domains: 6226
+		21813 domains visited
+		Dual Solution This Iter: 0.05387146836704183
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.05394977], device='cuda:0'), Dual Solution 0.05387146836704183
+	Solution gap: 7.830386704869158e-05
+	[Op] sort_domains t=24.468 s=0.0000 work=4096 dD=0 dP=0
+	[Op] pickout t=24.468 s=0.0013 work=4096 dD=0 dP=0
+	[Op] split t=24.468 s=0.0004 work=4096 dD=0 dP=0
+	[Op] bounding t=24.468 s=0.2864 work=4096 dD=3.72164e-05 dP=0
+	[Op] filtering t=24.468 s=0.0021 work=4096 dD=0 dP=0
+	[Op] clip t=24.468 s=0.0009 work=4096 dD=0 dP=0
+	[Op] decision t=24.468 s=0.0003 work=4096 dD=0 dP=0
+	[Op] add_domain t=24.468 s=0.0024 work=4096 dD=0 dP=0
+	[Op] summary t=24.468 s=0.0002 work=4096 dD=0 dP=0
+	[Op] lifted_bab t=24.468 s=0.0000 work=1 dD=0 dP=0
+	Found optimal object: tensor([0.05394977], device='cuda:0')
+[best-primal] objective=0.053949772234090525 x=[-1.7171546988424444, 1.5957227035376578, -1.8272250965416195, -0.7636437683791106, 0.7636402103230209]
+problem_name=cute_hs080 status=verified success=True
+
+#RUNNER rc=0 elapsed=25.21 waited=0.0

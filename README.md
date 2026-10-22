@@ -1,6 +1,8 @@
 # GEAR
 Repo for GEAR: A GPU-Accelerated Global Solver for Nonlinear Programs via Linear Bound Propagation
 
+Gap atlas (all 505 instances: gap curves, formulations, commands and logs for GEAR, Gurobi and SCIP; source in `site/`): https://verified-intelligence.github.io/GEAR/
+
 ## Logs
 
 `logs/` holds the solver output behind the reported results: one archive per solver, one log per instance (505 each).

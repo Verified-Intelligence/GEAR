@@ -1,0 +1,1133 @@
+#CMD <env>/bin/python nlp_example.py --problem_name cute_gouldqp2 --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792651522.135329681
+INFO     01:45:23     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/cute_gouldqp2.vnnlib.compiled
+[W1022 01:45:23.243792202 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:539: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if int(v.shape[-1]) == 1 and self.n != 1:
+<env>/lib/python3.11/site-packages/torch/onnx/utils.py:636: UserWarning: ONNX Preprocess - Removing mutation from node aten::index_add_ on block input: '1'. This changes graph semantics. (Triggered internally at /pytorch/torch/csrc/jit/passes/onnx/remove_inplace_ops_for_onnx.cpp:348.)
+  _C._jit_pass_onnx_remove_inplace_ops_for_onnx(graph, module)
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/7): BoundBuffers(name=/7, inputs=[], perturbed=False)
+  (/8): BoundBuffers(name=/8, inputs=[], perturbed=False)
+  (/9): BoundBuffers(name=/9, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/11): BoundGather(name=/11, inputs=[/0, /2], perturbed=True)
+  (/12): BoundTranspose(name=/12, inputs=[/3], perturbed=False)
+  (/13): BoundGather(name=/13, inputs=[/0, /7], perturbed=True)
+  (/14): BoundMul(name=/14, inputs=[/6, /13], perturbed=True)
+  (/15): BoundGather(name=/15, inputs=[/0, /9], perturbed=True)
+  (/16): BoundMul(name=/16, inputs=[/8, /15], perturbed=True)
+  (/17): BoundConstant(name=/17, value=1)
+  (/18): BoundAdd(name=/18, inputs=[/14, /16], perturbed=True)
+  (/20): BoundConstant(name=/20, value=0.5)
+  (/21): BoundMul(name=/21, inputs=[/19/sqr, /20], perturbed=True)
+  (/22): BoundConcat(name=/22, inputs=[/21], perturbed=True)
+  (/23): BoundMatMul(name=/23, inputs=[/11, /12], perturbed=True)
+  (/24): BoundATenIndex_add(name=/24, inputs=[/23, /17, /1, /22, /17], perturbed=True)
+  (/19/sqr): BoundSqr(name=/19/sqr, inputs=[/18], perturbed=True)
+)
+Original output in the first batch: tensor([[ 2.72606675e-04,  0.00000000e+00,  0.00000000e+00,  4.44089210e-16,
+         -4.44089210e-16, -4.44089210e-16,  4.44089210e-16,  4.44089210e-16,
+         -4.44089210e-16,  0.00000000e+00,  0.00000000e+00, -2.25514052e-17,
+          2.25514052e-17, -2.04697370e-16,  2.04697370e-16, -2.43902121e-15,
+          2.43902121e-15,  2.66453526e-15, -2.66453526e-15,  1.77635684e-15,
+         -1.77635684e-15, -1.33226763e-15,  1.33226763e-15, -1.77635684e-15,
+          1.77635684e-15,  4.44089210e-16, -4.44089210e-16,  2.22044605e-15,
+         -2.22044605e-15,  1.33226763e-15, -1.33226763e-15,  2.22044605e-15,
+         -2.22044605e-15, -3.55271368e-15,  3.55271368e-15, -8.63892291e-16,
+          8.63892291e-16,  2.45116427e-15, -2.45116427e-15, -2.24126273e-15,
+          2.24126273e-15, -1.79717352e-15,  1.79717352e-15, -1.76768322e-15,
+          1.76768322e-15, -1.77635684e-15,  1.77635684e-15,  4.44089210e-15,
+         -4.44089210e-15,  2.22044605e-15, -2.22044605e-15, -3.10862447e-15,
+          3.10862447e-15, -1.33226763e-15,  1.33226763e-15,  1.77635684e-15,
+         -1.77635684e-15, -8.88178420e-16,  8.88178420e-16, -4.44089210e-16,
+          4.44089210e-16,  3.10862447e-15, -3.10862447e-15, -2.65759637e-15,
+          2.65759637e-15,  4.44089210e-16, -4.44089210e-16,  1.11195775e-15,
+         -1.11195775e-15,  4.19803081e-16, -4.19803081e-16,  2.18575158e-16,
+         -2.18575158e-16, -1.59421087e-15,  1.59421087e-15,  4.44089210e-16,
+         -4.44089210e-16, -2.22044605e-15,  2.22044605e-15, -2.22044605e-15,
+          2.22044605e-15,  3.10862447e-15, -3.10862447e-15,  4.88498131e-15,
+         -4.88498131e-15, -8.88178420e-16,  8.88178420e-16,  0.00000000e+00,
+          0.00000000e+00,  2.22738494e-15, -2.22738494e-15,  4.44089210e-16,
+         -4.44089210e-16, -2.66453526e-15,  2.66453526e-15, -3.54577478e-15,
+          3.54577478e-15, -1.33226763e-15,  1.33226763e-15, -6.52256027e-16,
+          6.52256027e-16, -1.33226763e-15,  1.33226763e-15,  2.22044605e-15,
+         -2.22044605e-15,  4.44089210e-16, -4.44089210e-16,  2.22044605e-15,
+         -2.22044605e-15, -4.44089210e-16,  4.44089210e-16, -3.99680289e-15,
+          3.99680289e-15,  0.00000000e+00,  0.00000000e+00,  1.31838984e-15,
+         -1.31838984e-15,  8.88178420e-16, -8.88178420e-16,  8.88178420e-16,
+         -8.88178420e-16, -2.32452946e-16,  2.32452946e-16, -2.22044605e-15,
+          2.22044605e-15,  4.44089210e-16, -4.44089210e-16,  4.51028104e-16,
+         -4.51028104e-16, -2.23779328e-15,  2.23779328e-15,  1.33226763e-15,
+         -1.33226763e-15,  3.99680289e-15, -3.99680289e-15,  3.10862447e-15,
+         -3.10862447e-15, -1.33226763e-15,  1.33226763e-15, -3.55271368e-15,
+          3.55271368e-15, -2.22044605e-15,  2.22044605e-15, -1.33226763e-15,
+          1.33226763e-15,  2.66453526e-15, -2.66453526e-15,  2.22044605e-15,
+         -2.22044605e-15,  1.34961486e-15, -1.34961486e-15,  2.19269047e-15,
+         -2.19269047e-15, -4.01068068e-15,  4.01068068e-15, -8.88178420e-16,
+          8.88178420e-16,  8.46545056e-16, -8.46545056e-16, -2.22044605e-15,
+          2.22044605e-15, -8.88178420e-16,  8.88178420e-16,  3.99680289e-15,
+         -3.99680289e-15,  8.88178420e-16, -8.88178420e-16, -8.88178420e-16,
+          8.88178420e-16, -1.33226763e-15,  1.33226763e-15, -4.44089210e-16,
+          4.44089210e-16, -8.88178420e-16,  8.88178420e-16, -8.88178420e-16,
+          8.88178420e-16,  3.99680289e-15, -3.99680289e-15,  2.64371858e-15,
+         -2.64371858e-15,  7.00828284e-16, -7.00828284e-16,  6.93889390e-18,
+         -6.93889390e-18, -1.31838984e-15,  1.31838984e-15, -3.46944695e-17,
+          3.46944695e-17, -8.88178420e-16,  8.88178420e-16, -1.77635684e-15,
+          1.77635684e-15, -4.44089210e-16,  4.44089210e-16,  4.44089210e-16,
+         -4.44089210e-16, -1.77635684e-15,  1.77635684e-15, -1.14144805e-15,
+          1.14144805e-15,  1.12410081e-15, -1.12410081e-15,  1.99146255e-15,
+         -1.99146255e-15, -1.55431223e-15,  1.55431223e-15, -4.54497551e-16,
+          4.54497551e-16,  1.59247615e-15, -1.59247615e-15,  4.37150316e-16,
+         -4.37150316e-16,  2.47024623e-15, -2.47024623e-15,  2.28983499e-16,
+         -2.28983499e-16, -2.44249065e-15,  2.44249065e-15, -1.77635684e-15,
+          1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  0.00000000e+00,
+          0.00000000e+00, -4.09394740e-16,  4.09394740e-16,  1.79023463e-15,
+         -1.79023463e-15,  8.74300632e-16, -8.74300632e-16, -2.64371858e-15,
+          2.64371858e-15, -3.57353036e-15,  3.57353036e-15,  2.65065747e-15,
+         -2.65065747e-15,  3.57353036e-15, -3.57353036e-15, -9.02056208e-16,
+          9.02056208e-16, -4.41313652e-15,  4.41313652e-15,  8.74300632e-16,
+         -8.74300632e-16, -1.38777878e-17,  1.38777878e-17,  0.00000000e+00,
+          0.00000000e+00,  0.00000000e+00,  0.00000000e+00, -8.88178420e-16,
+          8.88178420e-16, -1.77635684e-15,  1.77635684e-15,  4.30211422e-16,
+         -4.30211422e-16,  8.74300632e-16, -8.74300632e-16, -1.79023463e-15,
+          1.79023463e-15,  8.88178420e-16, -8.88178420e-16,  1.74860126e-15,
+         -1.74860126e-15,  3.52495810e-15, -3.52495810e-15,  8.88178420e-16,
+         -8.88178420e-16, -9.22872889e-16,  9.22872889e-16, -1.38777878e-17,
+          1.38777878e-17, -2.67841305e-15,  2.67841305e-15, -2.24820162e-15,
+          2.24820162e-15,  1.77635684e-15, -1.77635684e-15,  2.66453526e-15,
+         -2.66453526e-15,  8.88178420e-16, -8.88178420e-16,  4.44089210e-16,
+         -4.44089210e-16, -3.52495810e-15,  3.52495810e-15, -1.75554016e-15,
+          1.75554016e-15, -9.02056208e-16,  9.02056208e-16,  8.88178420e-16,
+         -8.88178420e-16, -4.57966998e-16,  4.57966998e-16,  1.30451205e-15,
+         -1.30451205e-15,  3.14331894e-15, -3.14331894e-15, -2.23432384e-15,
+          2.23432384e-15, -3.96904731e-15,  3.96904731e-15,  8.88178420e-16,
+         -8.88178420e-16,  1.77635684e-15, -1.77635684e-15,  0.00000000e+00,
+          0.00000000e+00, -8.88178420e-16,  8.88178420e-16,  8.88178420e-16,
+         -8.88178420e-16,  8.74300632e-16, -8.74300632e-16,  2.70616862e-15,
+         -2.70616862e-15, -3.58740815e-15,  3.58740815e-15, -2.22738494e-15,
+          2.22738494e-15,  1.34614542e-15, -1.34614542e-15,  2.67147415e-15,
+         -2.67147415e-15,  1.36002321e-15, -1.36002321e-15, -1.31838984e-15,
+          1.31838984e-15,  1.29063427e-15, -1.29063427e-15,  1.76247905e-15,
+         -1.76247905e-15, -1.77635684e-15,  1.77635684e-15,  0.00000000e+00,
+          0.00000000e+00, -8.88178420e-16,  8.88178420e-16,  8.88178420e-16,
+         -8.88178420e-16, -8.95117314e-16,  8.95117314e-16, -1.76247905e-15,
+          1.76247905e-15,  2.66453526e-15, -2.66453526e-15,  2.77555756e-17,
+         -2.77555756e-17, -2.22044605e-15,  2.22044605e-15, -3.11556336e-15,
+          3.11556336e-15,  2.23432384e-15, -2.23432384e-15,  2.66453526e-15,
+         -2.66453526e-15,  4.44089210e-16, -4.44089210e-16,  1.32532874e-15,
+         -1.32532874e-15, -3.55271368e-15,  3.55271368e-15, -1.77635684e-15,
+          1.77635684e-15, -8.88178420e-16,  8.88178420e-16, -1.77635684e-15,
+          1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  3.53883589e-15,
+         -3.53883589e-15,  9.15933995e-16, -9.15933995e-16, -2.19269047e-15,
+          2.19269047e-15,  1.74860126e-15, -1.74860126e-15,  9.02056208e-16,
+         -9.02056208e-16, -1.79023463e-15,  1.79023463e-15, -3.08086889e-15,
+          3.08086889e-15,  1.80411242e-15, -1.80411242e-15,  1.36002321e-15,
+         -1.36002321e-15, -2.65065747e-15,  2.65065747e-15,  0.00000000e+00,
+          0.00000000e+00, -1.77635684e-15,  1.77635684e-15, -1.77635684e-15,
+          1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  4.45476989e-15,
+         -4.45476989e-15,  1.38777878e-17, -1.38777878e-17, -8.74300632e-16,
+          8.74300632e-16, -1.76247905e-15,  1.76247905e-15,  2.77555756e-17,
+         -2.77555756e-17,  4.41313652e-15, -4.41313652e-15, -8.46545056e-16,
+          8.46545056e-16,  1.79023463e-15, -1.79023463e-15, -1.77635684e-15,
+          1.77635684e-15,  2.77555756e-17, -2.77555756e-17,  1.77635684e-15,
+         -1.77635684e-15, -1.77635684e-15,  1.77635684e-15,  0.00000000e+00,
+          0.00000000e+00, -3.55271368e-15,  3.55271368e-15,  9.71445147e-16,
+         -9.71445147e-16,  3.63598041e-15, -3.63598041e-15, -9.15933995e-16,
+          9.15933995e-16, -8.18789481e-16,  8.18789481e-16, -9.99200722e-16,
+          9.99200722e-16,  9.74220704e-15, -9.74220704e-15, -2.55351296e-15,
+          2.55351296e-15, -3.45834472e-14,  3.45834472e-14, -3.71924713e-15,
+          3.71924713e-15,  3.01147995e-14, -3.01147995e-14, -4.63518113e-15,
+          4.63518113e-15, -5.32907052e-15,  5.32907052e-15,  3.19744231e-14,
+         -3.19744231e-14,  1.77635684e-14, -1.77635684e-14, -5.32907052e-15,
+          5.32907052e-15, -3.72479825e-14,  3.72479825e-14, -7.97972799e-15,
+          7.97972799e-15,  1.22957200e-14, -1.22957200e-14, -2.50910404e-14,
+          2.50910404e-14,  1.61815006e-14, -1.61815006e-14,  6.92501612e-15,
+         -6.92501612e-15, -1.68476344e-14,  1.68476344e-14,  2.35922393e-16,
+         -2.35922393e-16,  7.85482790e-15, -7.85482790e-15,  6.27276009e-15,
+         -6.27276009e-15,  1.43218770e-14, -1.43218770e-14,  1.95399252e-14,
+         -1.95399252e-14,  5.32907052e-15, -5.32907052e-15, -3.19744231e-14,
+          3.19744231e-14, -4.21884749e-15,  4.21884749e-15,  2.11775042e-14,
+         -2.11775042e-14, -1.93456362e-14,  1.93456362e-14,  1.72084569e-15,
+         -1.72084569e-15, -5.13478149e-15,  5.13478149e-15,  1.58623115e-14,
+         -1.58623115e-14, -1.58206781e-14,  1.58206781e-14, -3.91908728e-14,
+          3.91908728e-14,  4.70595785e-14, -4.70595785e-14,  3.36120021e-14,
+         -3.36120021e-14, -3.73034936e-14,  3.73034936e-14, -2.30926389e-14,
+          2.30926389e-14,  1.77635684e-14, -1.77635684e-14,  1.24344979e-14,
+         -1.24344979e-14, -1.42108547e-14,  1.42108547e-14, -1.76247905e-14,
+          1.76247905e-14,  1.66255898e-14, -1.66255898e-14, -6.74460487e-15,
+          6.74460487e-15, -2.49800181e-15,  2.49800181e-15,  4.72677453e-14,
+         -4.72677453e-14, -1.04083409e-14,  1.04083409e-14, -2.80053758e-14,
+          2.80053758e-14, -1.47104551e-15,  1.47104551e-15,  2.30926389e-14,
+         -2.30926389e-14, -1.09634524e-14,  1.09634524e-14, -4.26325641e-14,
+          4.26325641e-14,  0.00000000e+00,  0.00000000e+00,  3.01980663e-14,
+         -3.01980663e-14,  1.06581410e-14, -1.06581410e-14, -2.42861287e-14,
+          2.42861287e-14, -1.42941214e-14,  1.42941214e-14,  2.12885265e-14,
+         -2.12885265e-14,  2.64510636e-14, -2.64510636e-14, -1.23789867e-14,
+          1.23789867e-14,  7.04991621e-15, -7.04991621e-15,  6.91113833e-15,
+         -6.91113833e-15, -1.74860126e-15,  1.74860126e-15,  1.60427227e-14,
+         -1.60427227e-14, -2.30371278e-14,  2.30371278e-14, -1.06581410e-14,
+          1.06581410e-14,  3.55271368e-15, -3.55271368e-15,  3.55271368e-15,
+         -3.55271368e-15,  3.55271368e-15, -3.55271368e-15,  7.10542736e-15,
+         -7.10542736e-15,  7.27196081e-15, -7.27196081e-15, -1.42663659e-14,
+          1.42663659e-14, -3.36952688e-14,  3.36952688e-14,  1.24900090e-14,
+         -1.24900090e-14,  0.00000000e+00,  0.00000000e+00, -2.45636844e-14,
+          2.45636844e-14,  3.18634008e-14, -3.18634008e-14, -1.38777878e-16,
+          1.38777878e-16, -2.83661983e-14,  2.83661983e-14,  3.37507799e-14,
+         -3.37507799e-14,  3.55271368e-15, -3.55271368e-15, -3.55271368e-14,
+          3.55271368e-14,  2.48689958e-14, -2.48689958e-14,  1.27953204e-14,
+         -1.27953204e-14, -1.42663659e-14,  1.42663659e-14,  1.97064587e-14,
+         -1.97064587e-14,  2.12052598e-14, -2.12052598e-14, -2.99760217e-14,
+          2.99760217e-14,  7.49400542e-15, -7.49400542e-15,  1.43773882e-14,
+         -1.43773882e-14, -2.49522625e-14,  2.49522625e-14,  5.27355937e-15,
+         -5.27355937e-15, -1.40443213e-14,  1.40443213e-14,  5.19029264e-15,
+         -5.19029264e-15,  3.90798505e-14, -3.90798505e-14, -2.48689958e-14,
+          2.48689958e-14, -1.06581410e-14,  1.06581410e-14,  2.13162821e-14,
+         -2.13162821e-14,  1.63480340e-14, -1.63480340e-14,  1.99285033e-14,
+         -1.99285033e-14, -1.41830991e-14,  1.41830991e-14, -1.26565425e-14,
+          1.26565425e-14, -3.20576898e-14,  3.20576898e-14,  3.33066907e-16,
+         -3.33066907e-16,  1.78745907e-14, -1.78745907e-14, -3.77475828e-15,
+          3.77475828e-15,  1.55986335e-14, -1.55986335e-14, -5.16253706e-15,
+          5.16253706e-15,  3.55271368e-15, -3.55271368e-15,  1.77635684e-14,
+         -1.77635684e-14, -7.10542736e-15,  7.10542736e-15,  7.10542736e-15,
+         -7.10542736e-15, -2.13162821e-14,  2.13162821e-14, -3.20854454e-14,
+          3.20854454e-14,  5.21804822e-15, -5.21804822e-15,  3.16968674e-14,
+         -3.16968674e-14, -3.66373598e-15,  3.66373598e-15, -1.23234756e-14,
+          1.23234756e-14, -1.72084569e-15,  1.72084569e-15, -5.55111512e-15,
+          5.55111512e-15,  2.32591724e-14, -2.32591724e-14, -3.88578059e-16,
+          3.88578059e-16, -8.88178420e-15,  8.88178420e-15, -2.13162821e-14,
+          2.13162821e-14,  2.84217094e-14, -2.84217094e-14,  2.13162821e-14,
+         -2.13162821e-14, -1.77635684e-14,  1.77635684e-14, -3.71924713e-15,
+          3.71924713e-15, -1.11022302e-16,  1.11022302e-16, -2.16493490e-14,
+          2.16493490e-14,  7.21644966e-15, -7.21644966e-15,  1.80966353e-14,
+         -1.80966353e-14,  1.06581410e-14, -1.06581410e-14]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [0.0, -0.018180600002583973, -0.018180600002583973, -0.01230240600259266, -0.012302406002593549, -0.012425430062606343, -0.012425430062605455, -0.012549684363218837, -0.012549684363219725, -0.012675181206838892]
+Global lower bound: -0.38860354491173166
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 699), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 699), values=[[0.0, -0.018180600002583973, -0.018180600002583973, -0.01230240600259266, -0.012302406002593549, -0.012425430062606343, -0.012425430062605455, -0.012549684363218837, -0.012549684363219725, -0.012675181206838892, ...]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 1., 0.,  ..., 0., 0., 0.],
+         [0., 0., 1.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 1., 0., 0.],
+         [0., 0., 0.,  ..., 0., 1., 0.],
+         [0., 0., 0.,  ..., 0., 0., 1.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0.]], device='cuda:0')
+OR spec sizes: tensor([698], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 178.13105583190918
+Model prediction is: tensor([ 2.72606675e-04,  0.00000000e+00,  0.00000000e+00,  4.44089210e-16,
+        -4.44089210e-16, -4.44089210e-16,  4.44089210e-16,  4.44089210e-16,
+        -4.44089210e-16,  0.00000000e+00,  0.00000000e+00, -2.25514052e-17,
+         2.25514052e-17, -2.04697370e-16,  2.04697370e-16, -2.43902121e-15,
+         2.43902121e-15,  2.66453526e-15, -2.66453526e-15,  1.77635684e-15,
+        -1.77635684e-15, -1.33226763e-15,  1.33226763e-15, -1.77635684e-15,
+         1.77635684e-15,  4.44089210e-16, -4.44089210e-16,  2.22044605e-15,
+        -2.22044605e-15,  1.33226763e-15, -1.33226763e-15,  2.22044605e-15,
+        -2.22044605e-15, -3.55271368e-15,  3.55271368e-15, -8.63892291e-16,
+         8.63892291e-16,  2.45116427e-15, -2.45116427e-15, -2.24126273e-15,
+         2.24126273e-15, -1.79717352e-15,  1.79717352e-15, -1.76768322e-15,
+         1.76768322e-15, -1.77635684e-15,  1.77635684e-15,  4.44089210e-15,
+        -4.44089210e-15,  2.22044605e-15, -2.22044605e-15, -3.10862447e-15,
+         3.10862447e-15, -1.33226763e-15,  1.33226763e-15,  1.77635684e-15,
+        -1.77635684e-15, -8.88178420e-16,  8.88178420e-16, -4.44089210e-16,
+         4.44089210e-16,  3.10862447e-15, -3.10862447e-15, -2.65759637e-15,
+         2.65759637e-15,  4.44089210e-16, -4.44089210e-16,  1.11195775e-15,
+        -1.11195775e-15,  4.19803081e-16, -4.19803081e-16,  2.18575158e-16,
+        -2.18575158e-16, -1.59421087e-15,  1.59421087e-15,  4.44089210e-16,
+        -4.44089210e-16, -2.22044605e-15,  2.22044605e-15, -2.22044605e-15,
+         2.22044605e-15,  3.10862447e-15, -3.10862447e-15,  4.88498131e-15,
+        -4.88498131e-15, -8.88178420e-16,  8.88178420e-16,  0.00000000e+00,
+         0.00000000e+00,  2.22738494e-15, -2.22738494e-15,  4.44089210e-16,
+        -4.44089210e-16, -2.66453526e-15,  2.66453526e-15, -3.54577478e-15,
+         3.54577478e-15, -1.33226763e-15,  1.33226763e-15, -6.52256027e-16,
+         6.52256027e-16, -1.33226763e-15,  1.33226763e-15,  2.22044605e-15,
+        -2.22044605e-15,  4.44089210e-16, -4.44089210e-16,  2.22044605e-15,
+        -2.22044605e-15, -4.44089210e-16,  4.44089210e-16, -3.99680289e-15,
+         3.99680289e-15,  0.00000000e+00,  0.00000000e+00,  1.31838984e-15,
+        -1.31838984e-15,  8.88178420e-16, -8.88178420e-16,  8.88178420e-16,
+        -8.88178420e-16, -2.32452946e-16,  2.32452946e-16, -2.22044605e-15,
+         2.22044605e-15,  4.44089210e-16, -4.44089210e-16,  4.51028104e-16,
+        -4.51028104e-16, -2.23779328e-15,  2.23779328e-15,  1.33226763e-15,
+        -1.33226763e-15,  3.99680289e-15, -3.99680289e-15,  3.10862447e-15,
+        -3.10862447e-15, -1.33226763e-15,  1.33226763e-15, -3.55271368e-15,
+         3.55271368e-15, -2.22044605e-15,  2.22044605e-15, -1.33226763e-15,
+         1.33226763e-15,  2.66453526e-15, -2.66453526e-15,  2.22044605e-15,
+        -2.22044605e-15,  1.34961486e-15, -1.34961486e-15,  2.19269047e-15,
+        -2.19269047e-15, -4.01068068e-15,  4.01068068e-15, -8.88178420e-16,
+         8.88178420e-16,  8.46545056e-16, -8.46545056e-16, -2.22044605e-15,
+         2.22044605e-15, -8.88178420e-16,  8.88178420e-16,  3.99680289e-15,
+        -3.99680289e-15,  8.88178420e-16, -8.88178420e-16, -8.88178420e-16,
+         8.88178420e-16, -1.33226763e-15,  1.33226763e-15, -4.44089210e-16,
+         4.44089210e-16, -8.88178420e-16,  8.88178420e-16, -8.88178420e-16,
+         8.88178420e-16,  3.99680289e-15, -3.99680289e-15,  2.64371858e-15,
+        -2.64371858e-15,  7.00828284e-16, -7.00828284e-16,  6.93889390e-18,
+        -6.93889390e-18, -1.31838984e-15,  1.31838984e-15, -3.46944695e-17,
+         3.46944695e-17, -8.88178420e-16,  8.88178420e-16, -1.77635684e-15,
+         1.77635684e-15, -4.44089210e-16,  4.44089210e-16,  4.44089210e-16,
+        -4.44089210e-16, -1.77635684e-15,  1.77635684e-15, -1.14144805e-15,
+         1.14144805e-15,  1.12410081e-15, -1.12410081e-15,  1.99146255e-15,
+        -1.99146255e-15, -1.55431223e-15,  1.55431223e-15, -4.54497551e-16,
+         4.54497551e-16,  1.59247615e-15, -1.59247615e-15,  4.37150316e-16,
+        -4.37150316e-16,  2.47024623e-15, -2.47024623e-15,  2.28983499e-16,
+        -2.28983499e-16, -2.44249065e-15,  2.44249065e-15, -1.77635684e-15,
+         1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  0.00000000e+00,
+         0.00000000e+00, -4.09394740e-16,  4.09394740e-16,  1.79023463e-15,
+        -1.79023463e-15,  8.74300632e-16, -8.74300632e-16, -2.64371858e-15,
+         2.64371858e-15, -3.57353036e-15,  3.57353036e-15,  2.65065747e-15,
+        -2.65065747e-15,  3.57353036e-15, -3.57353036e-15, -9.02056208e-16,
+         9.02056208e-16, -4.41313652e-15,  4.41313652e-15,  8.74300632e-16,
+        -8.74300632e-16, -1.38777878e-17,  1.38777878e-17,  0.00000000e+00,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00, -8.88178420e-16,
+         8.88178420e-16, -1.77635684e-15,  1.77635684e-15,  4.30211422e-16,
+        -4.30211422e-16,  8.74300632e-16, -8.74300632e-16, -1.79023463e-15,
+         1.79023463e-15,  8.88178420e-16, -8.88178420e-16,  1.74860126e-15,
+        -1.74860126e-15,  3.52495810e-15, -3.52495810e-15,  8.88178420e-16,
+        -8.88178420e-16, -9.22872889e-16,  9.22872889e-16, -1.38777878e-17,
+         1.38777878e-17, -2.67841305e-15,  2.67841305e-15, -2.24820162e-15,
+         2.24820162e-15,  1.77635684e-15, -1.77635684e-15,  2.66453526e-15,
+        -2.66453526e-15,  8.88178420e-16, -8.88178420e-16,  4.44089210e-16,
+        -4.44089210e-16, -3.52495810e-15,  3.52495810e-15, -1.75554016e-15,
+         1.75554016e-15, -9.02056208e-16,  9.02056208e-16,  8.88178420e-16,
+        -8.88178420e-16, -4.57966998e-16,  4.57966998e-16,  1.30451205e-15,
+        -1.30451205e-15,  3.14331894e-15, -3.14331894e-15, -2.23432384e-15,
+         2.23432384e-15, -3.96904731e-15,  3.96904731e-15,  8.88178420e-16,
+        -8.88178420e-16,  1.77635684e-15, -1.77635684e-15,  0.00000000e+00,
+         0.00000000e+00, -8.88178420e-16,  8.88178420e-16,  8.88178420e-16,
+        -8.88178420e-16,  8.74300632e-16, -8.74300632e-16,  2.70616862e-15,
+        -2.70616862e-15, -3.58740815e-15,  3.58740815e-15, -2.22738494e-15,
+         2.22738494e-15,  1.34614542e-15, -1.34614542e-15,  2.67147415e-15,
+        -2.67147415e-15,  1.36002321e-15, -1.36002321e-15, -1.31838984e-15,
+         1.31838984e-15,  1.29063427e-15, -1.29063427e-15,  1.76247905e-15,
+        -1.76247905e-15, -1.77635684e-15,  1.77635684e-15,  0.00000000e+00,
+         0.00000000e+00, -8.88178420e-16,  8.88178420e-16,  8.88178420e-16,
+        -8.88178420e-16, -8.95117314e-16,  8.95117314e-16, -1.76247905e-15,
+         1.76247905e-15,  2.66453526e-15, -2.66453526e-15,  2.77555756e-17,
+        -2.77555756e-17, -2.22044605e-15,  2.22044605e-15, -3.11556336e-15,
+         3.11556336e-15,  2.23432384e-15, -2.23432384e-15,  2.66453526e-15,
+        -2.66453526e-15,  4.44089210e-16, -4.44089210e-16,  1.32532874e-15,
+        -1.32532874e-15, -3.55271368e-15,  3.55271368e-15, -1.77635684e-15,
+         1.77635684e-15, -8.88178420e-16,  8.88178420e-16, -1.77635684e-15,
+         1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  3.53883589e-15,
+        -3.53883589e-15,  9.15933995e-16, -9.15933995e-16, -2.19269047e-15,
+         2.19269047e-15,  1.74860126e-15, -1.74860126e-15,  9.02056208e-16,
+        -9.02056208e-16, -1.79023463e-15,  1.79023463e-15, -3.08086889e-15,
+         3.08086889e-15,  1.80411242e-15, -1.80411242e-15,  1.36002321e-15,
+        -1.36002321e-15, -2.65065747e-15,  2.65065747e-15,  0.00000000e+00,
+         0.00000000e+00, -1.77635684e-15,  1.77635684e-15, -1.77635684e-15,
+         1.77635684e-15,  1.77635684e-15, -1.77635684e-15,  4.45476989e-15,
+        -4.45476989e-15,  1.38777878e-17, -1.38777878e-17, -8.74300632e-16,
+         8.74300632e-16, -1.76247905e-15,  1.76247905e-15,  2.77555756e-17,
+        -2.77555756e-17,  4.41313652e-15, -4.41313652e-15, -8.46545056e-16,
+         8.46545056e-16,  1.79023463e-15, -1.79023463e-15, -1.77635684e-15,
+         1.77635684e-15,  2.77555756e-17, -2.77555756e-17,  1.77635684e-15,
+        -1.77635684e-15, -1.77635684e-15,  1.77635684e-15,  0.00000000e+00,
+         0.00000000e+00, -3.55271368e-15,  3.55271368e-15,  9.71445147e-16,
+        -9.71445147e-16,  3.63598041e-15, -3.63598041e-15, -9.15933995e-16,
+         9.15933995e-16, -8.18789481e-16,  8.18789481e-16, -9.99200722e-16,
+         9.99200722e-16,  9.74220704e-15, -9.74220704e-15, -2.55351296e-15,
+         2.55351296e-15, -3.45834472e-14,  3.45834472e-14, -3.71924713e-15,
+         3.71924713e-15,  3.01147995e-14, -3.01147995e-14, -4.63518113e-15,
+         4.63518113e-15, -5.32907052e-15,  5.32907052e-15,  3.19744231e-14,
+        -3.19744231e-14,  1.77635684e-14, -1.77635684e-14, -5.32907052e-15,
+         5.32907052e-15, -3.72479825e-14,  3.72479825e-14, -7.97972799e-15,
+         7.97972799e-15,  1.22957200e-14, -1.22957200e-14, -2.50910404e-14,
+         2.50910404e-14,  1.61815006e-14, -1.61815006e-14,  6.92501612e-15,
+        -6.92501612e-15, -1.68476344e-14,  1.68476344e-14,  2.35922393e-16,
+        -2.35922393e-16,  7.85482790e-15, -7.85482790e-15,  6.27276009e-15,
+        -6.27276009e-15,  1.43218770e-14, -1.43218770e-14,  1.95399252e-14,
+        -1.95399252e-14,  5.32907052e-15, -5.32907052e-15, -3.19744231e-14,
+         3.19744231e-14, -4.21884749e-15,  4.21884749e-15,  2.11775042e-14,
+        -2.11775042e-14, -1.93456362e-14,  1.93456362e-14,  1.72084569e-15,
+        -1.72084569e-15, -5.13478149e-15,  5.13478149e-15,  1.58623115e-14,
+        -1.58623115e-14, -1.58206781e-14,  1.58206781e-14, -3.91908728e-14,
+         3.91908728e-14,  4.70595785e-14, -4.70595785e-14,  3.36120021e-14,
+        -3.36120021e-14, -3.73034936e-14,  3.73034936e-14, -2.30926389e-14,
+         2.30926389e-14,  1.77635684e-14, -1.77635684e-14,  1.24344979e-14,
+        -1.24344979e-14, -1.42108547e-14,  1.42108547e-14, -1.76247905e-14,
+         1.76247905e-14,  1.66255898e-14, -1.66255898e-14, -6.74460487e-15,
+         6.74460487e-15, -2.49800181e-15,  2.49800181e-15,  4.72677453e-14,
+        -4.72677453e-14, -1.04083409e-14,  1.04083409e-14, -2.80053758e-14,
+         2.80053758e-14, -1.47104551e-15,  1.47104551e-15,  2.30926389e-14,
+        -2.30926389e-14, -1.09634524e-14,  1.09634524e-14, -4.26325641e-14,
+         4.26325641e-14,  0.00000000e+00,  0.00000000e+00,  3.01980663e-14,
+        -3.01980663e-14,  1.06581410e-14, -1.06581410e-14, -2.42861287e-14,
+         2.42861287e-14, -1.42941214e-14,  1.42941214e-14,  2.12885265e-14,
+        -2.12885265e-14,  2.64510636e-14, -2.64510636e-14, -1.23789867e-14,
+         1.23789867e-14,  7.04991621e-15, -7.04991621e-15,  6.91113833e-15,
+        -6.91113833e-15, -1.74860126e-15,  1.74860126e-15,  1.60427227e-14,
+        -1.60427227e-14, -2.30371278e-14,  2.30371278e-14, -1.06581410e-14,
+         1.06581410e-14,  3.55271368e-15, -3.55271368e-15,  3.55271368e-15,
+        -3.55271368e-15,  3.55271368e-15, -3.55271368e-15,  7.10542736e-15,
+        -7.10542736e-15,  7.27196081e-15, -7.27196081e-15, -1.42663659e-14,
+         1.42663659e-14, -3.36952688e-14,  3.36952688e-14,  1.24900090e-14,
+        -1.24900090e-14,  0.00000000e+00,  0.00000000e+00, -2.45636844e-14,
+         2.45636844e-14,  3.18634008e-14, -3.18634008e-14, -1.38777878e-16,
+         1.38777878e-16, -2.83661983e-14,  2.83661983e-14,  3.37507799e-14,
+        -3.37507799e-14,  3.55271368e-15, -3.55271368e-15, -3.55271368e-14,
+         3.55271368e-14,  2.48689958e-14, -2.48689958e-14,  1.27953204e-14,
+        -1.27953204e-14, -1.42663659e-14,  1.42663659e-14,  1.97064587e-14,
+        -1.97064587e-14,  2.12052598e-14, -2.12052598e-14, -2.99760217e-14,
+         2.99760217e-14,  7.49400542e-15, -7.49400542e-15,  1.43773882e-14,
+        -1.43773882e-14, -2.49522625e-14,  2.49522625e-14,  5.27355937e-15,
+        -5.27355937e-15, -1.40443213e-14,  1.40443213e-14,  5.19029264e-15,
+        -5.19029264e-15,  3.90798505e-14, -3.90798505e-14, -2.48689958e-14,
+         2.48689958e-14, -1.06581410e-14,  1.06581410e-14,  2.13162821e-14,
+        -2.13162821e-14,  1.63480340e-14, -1.63480340e-14,  1.99285033e-14,
+        -1.99285033e-14, -1.41830991e-14,  1.41830991e-14, -1.26565425e-14,
+         1.26565425e-14, -3.20576898e-14,  3.20576898e-14,  3.33066907e-16,
+        -3.33066907e-16,  1.78745907e-14, -1.78745907e-14, -3.77475828e-15,
+         3.77475828e-15,  1.55986335e-14, -1.55986335e-14, -5.16253706e-15,
+         5.16253706e-15,  3.55271368e-15, -3.55271368e-15,  1.77635684e-14,
+        -1.77635684e-14, -7.10542736e-15,  7.10542736e-15,  7.10542736e-15,
+        -7.10542736e-15, -2.13162821e-14,  2.13162821e-14, -3.20854454e-14,
+         3.20854454e-14,  5.21804822e-15, -5.21804822e-15,  3.16968674e-14,
+        -3.16968674e-14, -3.66373598e-15,  3.66373598e-15, -1.23234756e-14,
+         1.23234756e-14, -1.72084569e-15,  1.72084569e-15, -5.55111512e-15,
+         5.55111512e-15,  2.32591724e-14, -2.32591724e-14, -3.88578059e-16,
+         3.88578059e-16, -8.88178420e-15,  8.88178420e-15, -2.13162821e-14,
+         2.13162821e-14,  2.84217094e-14, -2.84217094e-14,  2.13162821e-14,
+        -2.13162821e-14, -1.77635684e-14,  1.77635684e-14, -3.71924713e-15,
+         3.71924713e-15, -1.11022302e-16,  1.11022302e-16, -2.16493490e-14,
+         2.16493490e-14,  7.21644966e-15, -7.21644966e-15,  1.80966353e-14,
+        -1.80966353e-14,  1.06581410e-14, -1.06581410e-14], device='cuda:0')
+[Op] setup t=3.841 s=3.8401 work=1 dD=0 dP=0
+[Op] reference_bounds t=3.841 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=5.128 s=1.2873 work=1 dD=0 dP=0
+[Structure] objective=quad rows={'affine': 698} duplicates=0 opposites=349 redundant=0 aliases=0 pool={'rows': 349, 'ranged': 349, 'merged': 349, 'masked': 0, 'opaque': 0} spent=7669 time=0.029s
+[Op] struct_forms t=5.159 s=0.0304 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.023s
+[Op] struct_cert t=5.182 s=0.0234 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=0 (root lb was 0)
+[Op] hybrid t=5.197 s=0.0145 work=1 dD=0 dP=0
+[Op] initial_verify t=5.197 s=0.0001 work=1 dD=0 dP=0
+[Op] lp_alternation t=5.206 s=0.0095 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 699 vars, 698 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=698 merged=349 atoms=0 nnzJ=1047 nnzH=697 hessian=exact reproduces=True build=0.01s
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=0.000190, viol=1.49e-10
+    [ALM-PGD] Output affine equality projection: pairs=349 restarts=5120/20480 sweeps=50 max_residual=2.136e-01->1.467e-09
+    [ALM-PGD] Positive-residual RMS scale: min=1.000e+00 median=1.000e+00 max=1.000e+00
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+    [ALM-SQP] it=0 running=22/22 accepted=22 feasible=22 best=0.000244098 |d|=9.70e-02
+    [ALM-SQP] it=1 running=22/22 accepted=22 feasible=22 best=0.000243615 |d|=5.55e-01
+    [ALM-SQP] it=2 running=22/22 accepted=22 feasible=22 best=0.000242629 |d|=9.75e-02
+    [ALM-SQP] it=9 running=22/22 accepted=22 feasible=22 best=0.000232343 |d|=5.93e-02
+    [ALM-SQP] Optimality polish: candidates=11+11 iters=16 feasible=22 improved=1 best_feas_obj=0.000245061->0.000225478 time=4.99s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=47
+  [ALM] Verification: valid=True, obj=0.000225, viol=8.00e-07
+  [Root] Parallel done: IPOPT 0.11s, ALM 7.44s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 0.000190
+  Violation: 1.49e-10
+  Time: 0.11s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 0.000225
+  Violation: 8.00e-07
+  Time: 7.44s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: ipopt
+Best objective: 0.000190
+======================================================================
+NLP Comparison: Best objective = 0.000190 (not counterexample)
+  Local (IPOPT): verified=True, obj=0.0001903079566682161, time=0.11s
+  ALM:   verified=True, obj=0.00022547790017853653, time=7.44s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=12.655 s=7.4488 work=1 dD=0 dP=0
+[Op] search_state t=12.655 s=0.0001 work=1 dD=0 dP=0
+[Op] incumbent t=12.656 s=0.0001 work=1 dD=0 dP=inf
+<gear>/complete_verifier/nlp_solver/quadratic_tangent.py:123: UserWarning: index_reduce() is in beta and the API may change at any time. (Triggered internally at /pytorch/aten/src/ATen/native/TensorAdvancedIndexing.cpp:1517.)
+  out = data.clone().index_reduce_(axis, _const(ins[2]).long(), src, "amax",
+[QTB] objective is quadratic; tangent bound enabled (lambda_min >= -4.667e-08, tangent at local KKT point f=0.0001918759433)
+[Op] tangent t=12.824 s=0.1687 work=1 dD=0 dP=0
+[Op] consistency t=12.825 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=12.825 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=12.835 s=0.0104 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'objective is not a posynomial with a constant offset'}
+[Op] gp_certificate t=20.992 s=8.1565 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=20.993 s=0.0012 work=1 dD=0 dP=0
+[Op] convex_cuts t=21.102 s=0.1090 work=1 dD=0 dP=0
+[LiftedLP] skipped: every constraint row is linear (QTB covers the convex objective)
+[LiftedLP] not applicable (0.00s)
+[Op] lifted_lp t=21.106 s=0.0038 work=1 dD=0 dP=0
+[Op] lifted_obbt t=21.106 s=0.0000 work=1 dD=0 dP=0
+[Op] lifted_bab t=21.108 s=0.0018 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=21.122 s=0.0136 work=1 dD=0 dP=0
+[M3] compiler complete=False squares=0 census={'non-affine objective': 1, 'affine': 698} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	[QTB] native CROWN eigenbasis rewrite: free=699 lambda=[0, 4] negative=0 residual=4.67e-08 f(anchor)=0.0001918759433
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check lb filtering: batch size: 4, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input filtering: batch size: 4, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0027    init 0.0003    concretize 0.0058    bounding 0.6346    filtering 0.0004    decision 0.0002    split 0.0004    clip 0.0009    add_domain 0.0023    summary 0.0003    
+		Accumulated time: sort_domains 0.0000    pickout 0.0027    bounding 0.6346    init 0.0008    concretize 0.0189    filtering 0.0004    decision 0.0002    split 0.0004    clip 0.0009    add_domain 0.0023    summary 0.0003    
+		Length of domains: 4
+		3 domains visited
+		Dual Solution This Iter: 0.0001764593253922654
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([0.00019031], device='cuda:0'), Dual Solution 0.0001764593253922654
+	Solution gap: 1.384863127595071e-05
+	[Op] sort_domains t=21.770 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=21.770 s=0.0027 work=2 dD=0 dP=0
+	[Op] split t=21.770 s=0.0004 work=2 dD=0 dP=0
+	[Op] bounding t=21.770 s=0.6346 work=2 dD=0.000176459 dP=0
+	[Op] filtering t=21.770 s=0.0004 work=2 dD=0 dP=0
+	[Op] clip t=21.770 s=0.0009 work=2 dD=0 dP=0
+	[Op] decision t=21.770 s=0.0002 work=2 dD=0 dP=0
+	[Op] add_domain t=21.770 s=0.0023 work=2 dD=0 dP=0
+	[Op] summary t=21.770 s=0.0003 work=2 dD=0 dP=0
+	[Op] lifted_bab t=21.770 s=0.0000 work=1 dD=0 dP=0
+	Found optimal object: tensor([0.00019031], device='cuda:0')
+[best-primal] objective=0.0001903079566682161 x=[2.009860449360914, 2.111052704285778, 3.718312581573535, 3.745495193665433, 3.772949616320458, 3.8006785671753707, 3.828684791030173, 3.856971060116699, 3.8855401743756426, 3.914394961733478, 3.943538278379596, 3.9729730090518554, 2.122057176427639, 4.002702067319126, 4.032728395869245, 4.063054966800902, 4.093684781919264, 4.1246208730287, 4.155866302233906, 4.187424162243837, 4.219297576675649, 4.251489700361954, 4.284003719662293, 2.133157247238665, 4.316842852781365, 4.350010350083509, 4.383509494411554, 4.417343601409867, 4.451516019856064, 4.486030131985439, 4.520889353825297, 4.556097135531203, 4.591656961724296, 4.627572351834219, 2.144366486979226, 4.663846860445065, 4.7004840776435115, 4.737487629368183, 4.774861177768288, 4.812608421559758, 4.850733096388969, 4.889238975195677, 4.928129868582768, 4.96740962519081, 5.007082132071532, 2.1556941344251634, 5.047151315069525, 5.087621139208741, 5.128495609078811, 5.169778769227611, 5.211474704560637, 5.25358754073987, 5.296121444594448, 5.339080624530759, 5.382469330951139, 5.426291856674307, 2.1671461850118012, 5.470552537366017, 5.515255751974484, 5.56040592316677, 5.606007517777447, 5.652065047265503, 5.698583068171776, 5.74556618258515, 5.793019038617862, 5.840946330888185, 5.88935280100776, 2.1787262786635595, 5.938243238080739, 5.9876224792016846, 6.037495409971619, 6.087866965016295, 6.138742128510945, 6.190125934712587, 6.2420234684982026, 6.294439865913758, 6.347380314724654, 6.400850054970346, 2.1904364076545133, 6.454854379529906, 6.509398634685591, 6.56448822069442, 6.620128592357548, 6.676325259593449, 6.733083788015236, 6.790409799498696, 6.848308972754262, 6.906787043893091, 6.96584980699284, 2.202277467528274, 7.025503114650223, 7.0857528785279085, 7.1466050698959345, 7.208065720154165, 7.2701409213504435, 7.332836826679088, 7.3961596509631855, 7.4601156711233605, 7.5247112266238565, 7.589952719898042, 2.214249674824514, 7.6558466167525445, 7.722399446754084, 7.789617803584846, 7.857508345376926, 7.926077795021848, 7.995332940459389, 8.065280634935013, 8.135927797234364, 8.207281411901583, 8.279348529426901, 2.022230097986303, 2.226352874746291, 8.35213626641937, 8.425651805762365, 8.499902396753194, 8.574895355226879, 8.650638063679494, 8.7271379713836, 8.804402594507607, 8.882439516244855, 8.961256386946788, 9.040860924290964, 2.238586760177333, 9.121260913464003, 9.202464207390623, 9.284478727003602, 9.367312461564373, 9.450973469056068, 9.535469876640418, 9.620809881210622, 9.707001750033976, 9.794053821499379, 9.881974505992323, 2.250951021100879, 9.97077228689402, 10.060455721738641, 10.151033443507874, 10.242514162084362, 10.334906665937185, 10.428219823969915, 10.522462587530452, 10.617643992698772, 10.713773162800525, 10.810859311106036, 2.2634454407930282, 10.908911743811428, 11.0079398632519, 11.107953171421505, 11.208961273723569, 11.310973882954704, 11.414000823667442, 11.518052036709719, 11.623137584074097, 11.7292676540499, 11.836452566609399, 2.2760699523998094, 11.9447027790654, 12.054028891996312, 12.164441655409076, 12.275951975133271, 12.38857091941024, 12.502309725741085, 12.61717980787536, 12.73319276291215, 12.850360378624952, 12.96869464080415, 2.28882466694716, 13.088207740734527, 13.208912082644925, 13.330820291181135, 13.453945218920568, 13.578299953676567, 13.70389782571298, 13.830752414857155, 13.95887755735068, 14.088287352403347, 14.218996168444262, 2.3017098815173975, 14.351018649004168, 14.484369718185272, 14.619064585572016, 14.755118750649281, 14.892548006634515, 15.031368443530111, 15.171596450545568, 15.313248717703186, 15.456342236577191, 15.600894300083164, 2.3147260743037377, 15.746922501309475, 15.894444731343116, 16.043479175941222, 16.19404431103022, 16.3461588969896, 16.499841971675203, 16.65511284209244, 16.811991074657254, 16.97049648399565, 17.130649120320072, 2.3278738916095865, 17.292469255209895, 17.45597736583615, 17.621194117617893, 17.788140345183347, 17.956837031774064, 18.127305286967037, 18.29956632276314, 18.47364142807897, 18.64955194166894, 18.827319223524672, 2.3411541304808625, 19.00696462481067, 19.188509456426978, 19.371974956342225, 19.55738225566002, 19.744752343629745, 19.934106031737247, 20.12546391675953, 20.318846343013362, 20.514273363801067, 20.711764701813486, 2.033982545639231, 2.3545677195675947, 20.91133970853861, 21.11301732246035, 21.316816025529082, 21.522753797595765, 21.7308480682048, 21.941115664887658, 22.153572757082266, 22.36823479472993, 22.585116440153175, 22.804231491938054, 2.3681156999737887, 23.025592799433444, 23.249212166095045, 23.475100240173713, 23.7032663909182, 23.933718568396873, 24.166463145275586, 24.401504738447922, 24.638846008579396, 24.878487435605173, 25.120427068065787, 2.381799207227769, 25.36466024442831, 25.611179284550676, 25.8599731502019, 26.11102707430686, 26.364322160401795, 26.61983495651285, 26.877537011422554, 27.137394426996483, 27.39936742690457, 27.663409969846473, 2.395619455018094, 27.929469442685757, 28.19748647309147, 28.467394900245658, 28.739121932523222, 29.012588502555786, 29.287709805160986, 29.564395978083905, 29.842552866212966, 30.12208280282566, 30.402885347631745, 2.40957772099756, 30.684857937595297, 30.96789642783409, 31.25189551975229, 31.53674908887478, 31.822350433255362, 32.10859246637409, 32.395367877456216, 32.682569280272816, 32.970089372325276, 33.25782113467077, 2.423675334758893, 33.54565813353729, 0.012369648619344559, 0.011752447714273995, 0.011385581535445862, 0.011139888061772102, 0.010981694886580587, 0.010893769165740745, 0.01086312047799655, 0.01087802785078563, 0.010928077097560733, 2.4379136678867015, 0.011004472173087053, 0.011100070834613483, 0.011209239758333217, 0.011327647459470448, 0.011452050596801338, 0.011580093658886285, 0.01171012899613455, 0.011841059876098235, 0.011972207298061492, 0.012103199923649074, 2.452294125931178, 0.012233885431399048, 0.01236426092378082, 0.012494419692312684, 0.01262451160696926, 0.012754714549049693, 0.01288521457150263, 0.013016192786616304, 0.013147817306677885, 0.013280238872967278, 0.013413589087890055, 2.4668181420869777, 0.013547980407567658, 0.013683507256276088, 0.013820247791381628, 0.013958265981264421, 0.014097613763399885, 0.014238333129770448, 0.01438045804643742, 0.014524016157380915, 0.01466903025309389, 0.014815519504856321, 2.481487172337987, 0.014963500478573963, 0.015112987949532083, 0.015263995542966985, 0.015416536226219748, 0.01557062267733842, 0.01572626755302775, 0.015883483676307417, 0.016042284161478487, 0.01620268249124911, 0.01636469255828249, 2.0453681271014204, 2.496302691841345, 0.016528328681088136, 0.01669360560212196, 0.01686053847420221, 0.01702914283987709, 0.017199434607174022, 0.01737143002419041, 0.0175451456542214, 0.017720598352529402, 0.017897805245413928, 0.01807678371191169, 2.5112661923183954, 0.0182575513682221, 0.018440126054792682, 0.018624525825895098, 0.018810768941461317, 0.018998873860919592, 0.01918885923876233, 0.019380743921585303, 0.019574546946355124, 0.01977028753968476, 0.019967985117922606, 2.526379180265151, 0.0201676592878868, 0.020369329848102136, 0.0205730167904207, 0.020778740301928805, 0.020986520767061596, 0.02119637876986321, 0.021408335096344166, 0.02162241073689947, 0.02183862688876058, 0.02205700495846194, 2.541643175804911, 0.022277566564309296, 0.022500333538841382, 0.0227253279312805, 0.022952572009970217, 0.023182088264800293, 0.023413899409620433, 0.023648028384645397, 0.023884498358854506, 0.02412333273238897, 0.024364555138950375, 2.5570597120292358, 0.0246081894482037, 0.02485425976818803, 0.025102790447737836, 0.025353806078917532, 0.025607331499471715, 0.02586339179529321, 0.026122012302910714, 0.026383218611997633, 0.026647036567903352, 0.026913492274207987, 2.5726303347044546, 0.027182612095301453, 0.027454422658987416, 0.027728950859112558, 0.028006223858221376, 0.028286269090236557, 0.028569114263164833, 0.028854787361828046, 0.029143316650619106, 0.029434730676282217, 0.029729058270716844, 2.5883566022548314, 0.03002632855380463, 0.03032657093625847, 0.030629815122492885, 0.03093609111351475, 0.031245429209833416, 0.031557860014389295, 0.03187341443549999, 0.03219212368982315, 0.03251401930533538, 0.032839133124326576, 2.604240085928878, 0.03316749730640947, 0.033499144331544266, 0.03383410700307856, 0.034172418450803356, 0.034514112134026075, 0.03485922184466235, 0.03520778171034864, 0.03555982619757847, 0.03591539011486578, 0.036274508615939616, 2.6202823700887943, 0.03663721720297508, 0.0370035517298663, 0.037373548405548136, 0.03774724379737386, 0.03812467483455731, 0.038505878811688446, 0.038890893392332176, 0.03927975661272107, 0.03967250688555308, 0.04006918300390594, 2.6364850525786663, 0.0404698241452803, 0.04087446987578389, 0.04128316015446885, 0.04169593533783438, 0.042112836184506355, 0.04253390386010455, 0.042959179942307635, 0.043388706426124204, 0.04382252572937676, 0.04426068069840329, 2.056508015087595, 2.6528497451350397, 0.04470321461397892, 0.04515017119745689, 0.0456015946171253, 0.04605752949477222, 0.04651802091244774, 0.04698311441940727, 0.04745285603921567, 0.047927292276986486, 0.04840647012672569, 0.04889043707874309, 2.669378073813993, 0.049379241127089364, 0.04987293077697039, 0.05037155505208463, 0.050875163501823445, 0.051383806208268205, 0.051897533792912405, 0.05241639742303176, 0.052940448817620035, 0.05346974025280421, 0.0540043245666484, 2.686071679414165, 0.05454425516325334, 0.05508958601605567, 0.055640371670230435, 0.05619666724409995, 0.05675852842945364, 0.057326011490685995, 0.05789917326266384, 0.05847807114724003, 0.059062763108337975, 0.059653307665540535, 2.7029322178855764, 0.060249763886128044, 0.060852191375523064, 0.06146065026611435, 0.06207520120444949, 0.06269590533680434, 0.06332282429315834, 0.06395602016962723, 0.06459555550942941, 0.06524149328248825, 0.06589389686380048, 2.71996136072305, 0.06655283001073009, 0.06721835683941779, 0.06789054180052756, 0.06856944965458422, 0.06925514544718933, 0.0699476944844355, 0.07064716230887297, 0.07135361467641492, 0.07206711753460049, 0.07278773700266512, 2.7371607953273895, 0.07351553935389829, 0.07425059100079566, 0.07499295848353862, 0.07574270846235694, 0.07649990771434959, 0.07726462313535516, 0.07803692174747492, 0.07881687071285957, 0.07960453735437319, 0.08039998918374551, 2.7545322253493376, 0.08120329393781577, 0.08201451962345703, 0.08283373457175014, 0.08366100750194931, 0.08449640759574804, 0.08534000458231378, 0.08619186883451155, 0.08705207147668295, 0.08792068450428397, 0.08879778091561644, 2.772077371002113, 0.08968343485581111, 0.09057772177313732, 0.09148071858762342, 0.09239250387187577, 0.0933131580438806, 0.09424276357146476, 0.09518140518797626, 0.09612917011862755, 0.0970861483168203, 0.0980524327096443, 2.7897979693522514, 0.09902811945161315, 0.10001330818556829, 0.10100810230954956, 0.10201260924829812, 0.10302694072792466, 0.10405121305214557, 0.1050855473783612, 0.10613006999172658, 0.10718491257524461, 0.10825021247379853, 2.807695774594943, 0.10932611294993332, 0.1104127634290965, 0.11151031973195923, 0.11261894429135835, 0.11373880635133164, 0.114870082145661, 0.11601295505329522, 0.11716761572799297, 0.11833426219951147, 0.11951309994366519, 2.0674897099019725, 2.8257725583042115, 0.12070434191859401, 0.12190820856461099, 0.12312492776504642, 0.12435473476556859, 0.12559787204953943, 0.12685458916705875, 0.1281251425154603, 0.12940979506914665, 0.13070881605678747, 0.13202248058405647, 2.8440301096697658, 0.13335106920024295, 0.13469486740724648, 0.1360541651096428, 0.13742925600469727, 0.13882043691139803, 0.14022800703777885, 0.14165226718600918, 0.14309351889493815, 0.14455206351999578, 0.14602820125057722, 2.862470235722174, 0.14752223006527257, 0.14903444462555324, 0.15056513510879876, 0.1521145859818525, 0.15368307471664225, 0.15527087044980706, 0.15687823258875264, 0.15850540936712934, 0.16015263635341365, 0.16182013491708797, 2.8810947615460694, 0.16350811065787177, 0.16521675180456294, 0.16694622759129615, 0.16869668662038828, 0.1704682552223728, 0.17226103582524546, 0.1740751053462383, 0.17591051362045412, 0.17776728188123359, 0.1796454013069553, 2.8999055304848906, 0.18154483164781718, 0.18346549994372316, 0.1854072993404095, 0.1873700880051153, 0.18935368813521314, 0.19135788504313264, 0.1933824262886212, 0.19542702081503993, 0.19749133803032046, 0.19957500675593975, 2.918904404343145, 0.20167761394954734, 0.20379870308960743, 0.20593777209464617, 0.20809427063652358, 0.21026759669764306, 0.21245709221705608, 0.21466203767062683, 0.21688164543595892, 0.21911505180327343, 0.22136130750790622, 2.9380932635798316, 0.22361936667698773, 0.22588807410012307, 0.22816615074927926, 0.2304521774845831, 0.23274457688928013, 0.23504159317949397, 0.23734127013651835, 0.23964142701967744, 0.24193963245122044, 0.24423317634459382, 2.957474007498495, 0.24651904010739384, 0.24879386563529665, 0.25105392407849825, 0.2532950860668287, 0.2555127960714612, 0.25770205486481906, 0.25985741552409297, 0.26197299984446226, 0.2640425428723942, 0.2660594727542021, 2.977048554441288, 0.2680170303094047, 0.2699084270576121, 0.27172703217869826, 0.27346656991786306, 0.2751213024817341, 0.27668617279616775, 0.27815688799674604, 0.2795299364833469, 0.28080254466849086, 0.2819725898219426, 2.9968188419775887, 0.28303849009284526, 0.2839990917823764, 0.28485356898436653, 0.28560134423376626, 0.2862420329744952, 0.28677541093856684, 0.2872014026679199, 0.28752009191014355, 0.2877317622050495, 0.2878369987236468, 2.0783834790023636, 3.0167868270931253, 3.0369544863791114, 3.057323816224978, 3.077896833012931, 3.098675573311442, 3.11966209407516, 3.1408584728418565, 3.1622668079348006, 3.183889218669705, 3.2057278455557245, 2.0892465994237086, 3.2277848505110063, 3.250062417072823, 3.272562750608834, 3.2952880785361267, 3.318240650542796, 3.3414227388046736, 3.364836638211443, 3.388484666593001, 3.4123691649488386, 3.436492497678178, 2.100124627227528, 3.46085705281292, 3.4854652422571895, 3.5103195020218196, 3.535422292466171, 3.560776098541976, 3.5863834300379938, 3.612246821830003, 3.6383688341297997, 3.664752052738341, 3.6913990893025477]
+problem_name=cute_gouldqp2 status=verified success=True
+
+#RUNNER rc=0 elapsed=22.62 waited=183.6

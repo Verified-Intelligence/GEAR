@@ -1,0 +1,765 @@
+#CMD <env>/bin/python nlp_example.py --problem_name pooling_foulds4stp --benchmark minlplib_linear --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792662126.824799235
+INFO     04:42:08     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+[nlp_example] Loaded 83 input linear constraints from pooling_foulds4stp_model_state.pt
+Precompiled vnnlib file found at benchmarks/minlplib_linear/vnnlib_minlplib_linear/pooling_foulds4stp.vnnlib.compiled
+[W1022 04:42:08.890660099 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib_linear/py_minlplib_linear/modules.py:77: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  v = _broadcast_scalar_last_dim(v, int(self.indices.numel()))
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/7): BoundBuffers(name=/7, inputs=[], perturbed=False)
+  (/11): BoundBuffers(name=/11, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/14): BoundBuffers(name=/14, inputs=[], perturbed=False)
+  (/15): BoundBuffers(name=/15, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/18): BoundShape(name=/18, inputs=[/0], perturbed=False)
+  (/19): BoundConstant(name=/19, value=0)
+  (/20): BoundGather(name=/20, inputs=[/18, /19], perturbed=False)
+  (/21): BoundConstant(name=/21, value=2049)
+  (/23): BoundUnsqueeze(name=/23, inputs=[/20, /77], perturbed=False)
+  (/25): BoundUnsqueeze(name=/25, inputs=[/21, /77], perturbed=False)
+  (/26): BoundConcat(name=/26, inputs=[/23, /25], perturbed=False)
+  (/27): BoundConstantOfShape(name=/27, inputs=[/26], perturbed=False)
+  (/28): BoundConstant(name=/28, value=-1)
+  (/29): BoundGather(name=/29, inputs=[/0, /6], perturbed=True)
+  (/30): BoundTranspose(name=/30, inputs=[/7], perturbed=False)
+  (/v): BoundMatMul(name=/v, inputs=[/29, /30], perturbed=True)
+  (/32): BoundConstant(name=/32, value=1)
+  (/33): BoundATenIndex_add(name=/33, inputs=[/27, /32, /5, /v, /32], perturbed=True)
+  (/34): BoundCast(name=/34, inputs=[/33], perturbed=True)
+  (/35): BoundAdd(name=/35, inputs=[/27, /34], perturbed=True)
+  (/36): BoundGather(name=/36, inputs=[/0, /11], perturbed=True)
+  (/37): BoundMul(name=/37, inputs=[/36, /14], perturbed=True)
+  (/38): BoundGather(name=/38, inputs=[/0, /13], perturbed=True)
+  (/39): BoundMul(name=/39, inputs=[/38, /12], perturbed=True)
+  (/v-3): BoundMul(name=/v-3, inputs=[/37, /39], perturbed=True)
+  (/43): BoundMul(name=/43, inputs=[/v-3, /49], perturbed=True)
+  (/v-7): BoundCast(name=/v-7, inputs=[/43], perturbed=True)
+  (/45): BoundATenIndex_add(name=/45, inputs=[/35, /32, /4, /v-7, /32], perturbed=True)
+  (/46): BoundGather(name=/46, inputs=[/0, /16], perturbed=True)
+  (/v-11): BoundMul(name=/v-11, inputs=[/15, /46], perturbed=True)
+  (/48): BoundConstant(name=/48, inputs=[], perturbed=False)
+  (/49): BoundReshape(name=/49, inputs=[/14, /48], perturbed=False)
+  (/50): BoundMul(name=/50, inputs=[/v-11, /49], perturbed=True)
+  (/v-15): BoundCast(name=/v-15, inputs=[/50], perturbed=True)
+  (/52): BoundATenIndex_add(name=/52, inputs=[/45, /32, /4, /v-15, /32], perturbed=True)
+  (/56): BoundUnsqueeze(name=/56, inputs=[/28, /77], perturbed=False)
+  (/57): BoundConcat(name=/57, inputs=[/23, /56], perturbed=False)
+  (/58): BoundReshape(name=/58, inputs=[/0, /57], perturbed=True)
+  (/59): BoundNeg(name=/59, inputs=[/2], perturbed=False)
+  (/60): BoundLinear(name=/60, inputs=[/58, /1, /59], perturbed=True)
+  (/61): BoundConstant(name=/61, value=9223372036854775807)
+  (/65): BoundUnsqueeze(name=/65, inputs=[/19, /77], perturbed=False)
+  (/70): BoundSlice(name=/70, inputs=[/52, /65, /78, /78, /78], perturbed=True)
+  (/76): BoundUnsqueeze(name=/76, inputs=[/61, /77], perturbed=False)
+  (/77): BoundConstant(name=/77, value=tensor([0], device='cuda:0'))
+  (/78): BoundUnsqueeze(name=/78, inputs=[/32, /77], perturbed=False)
+  (/79): BoundSlice(name=/79, inputs=[/52, /78, /76, /78, /78], perturbed=True)
+  (/80): BoundConcat(name=/80, inputs=[/70, /60, /79], perturbed=True)
+)
+Original output in the first batch: tensor([[-320.00000000,   -8.00000000,    0.00000000,  ...,
+           -3.50000000,    3.50000000,   -3.50000000]], device='cuda:0')
+build batch [1/1]
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 2048x2048 for node BoundMul(name=/37, inputs=[/36, /14], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 2048x2048 for node BoundMul(name=/39, inputs=[/38, /12], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+initial crown bounds (first 10 items): [-1080.0000000011785, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683]
+Global lower bound: -1080.0000000011785
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 2132), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 2132), values=[[-1080.0000000011785, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, -1.0000000000015214, -1.0000000000007683, ...]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0.,  ..., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([2131], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 179.01874423027039
+Model prediction is: tensor([-320.00000000,   -8.00000000,    0.00000000,  ...,
+          -3.50000000,    3.50000000,   -3.50000000], device='cuda:0')
+[Op] setup t=2.869 s=2.8681 work=1 dD=0 dP=0
+[Op] reference_bounds t=2.869 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=3.359 s=0.4905 work=1 dD=0 dP=0
+[Structure] objective=affine rows={'quad': 2048, 'affine': 83} duplicates=0 opposites=16 redundant=2 aliases=0 pool={'rows': 1091, 'ranged': 1040, 'merged': 1123, 'masked': 0, 'opaque': 0} spent=18560 time=0.114s
+[Op] struct_forms t=3.474 s=0.1150 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.209s
+[Op] struct_cert t=3.685 s=0.2110 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=-1080 (root lb was -1080)
+[Op] hybrid t=3.710 s=0.0243 work=1 dD=4.84306e-10 dP=0
+[Op] initial_verify t=3.710 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=3.739 s=0.0291 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 832 vars, 2131 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=2214 merged=1091 atoms=0 nnzJ=5252 nnzH=1024 hessian=exact reproduces=True build=0.02s
+    [ALM-PGD] Output affine equality projection: pairs=16 restarts=5120/20480 sweeps=50 max_residual=2.945e+00->1.260e-04
+    [ALM-PGD] Positive-residual RMS scale: min=1.000e+00 median=1.000e+00 max=1.619e+01
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+    [ALM-PGD] k=0: local_min_viol=9.55e+00 local_obj_at_min_viol=-367.7215 local_domain=0 local_restart=16706 rho=1 eps=1.00e+00 eta=1.00e+00 grad=7.62e+01 ||mu||=5.02e+00 feas=0/20480 good=0 bad=20480 iter_best_feas_obj=NA global_best_feas_obj=NA
+  [IPOPT] Verification: valid=True, obj=-8.000165, viol=9.91e-07
+    [ALM-FEAS] GN iter 1: live=32/32 accepted=32 best_viol_min=5.132e-01 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=32/32 accepted=32 best_viol_min=2.462e-01 feasible=0 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=32 iters=4/50 min_viol=8.736e-01->1.451e-04 feasible=0/1 improved=1 newly_feasible=0
+    [ALM-PGD] Raw polish iter: t=0 current_min=1.451e-04 grad_med=5.657e+00 grad_max=5.657e+00 unit_box_move=1.000e-03 accepted=63/64 radius_med=1.000e-03
+    [ALM-PGD] Raw polish iter: t=249 current_min=5.900e-05 grad_med=5.657e+00 grad_max=5.657e+00 unit_box_move=6.500e-02 accepted=63/64 radius_med=1.000e-03
+    [ALM-PGD] Raw minimax polish: steps=250/250 clones=64 min_viol=1.451e-04->5.900e-05 new_feasible=0/1
+    [ALM-SQP] Optimality polish: candidates=4+3 iters=1 feasible=0 improved=0 best_feas_obj=inf->inf time=0.72s
+  [ALM] Verification: valid=False, obj=3.552525, viol=5.90e-05
+  [Root] Parallel done: IPOPT 52.75s, ALM 60.09s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: -8.000165
+  Violation: 9.91e-07
+  Time: 52.75s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: False
+  Objective: 3.552525
+  Violation: 5.90e-05
+  Time: 60.09s
+  Verified: False
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: ipopt
+Best objective: -8.000165
+======================================================================
+NLP Comparison: Best method = ipopt
+NLP Comparison: Found optimal! objective = -8.000165
+  Local (IPOPT): verified=True, obj=-8.000165086775706, time=52.75s
+  ALM:   verified=False, obj=3.552524728483336, time=60.09s
+======================================================================
+[Mech] lp_alternation P=-8.000082771 found=True offered=25 rejected=0 tape_best=-8.000082770919942 sources={'mccormick/alt': 2, 'mccormick/tr': 22, 'centre/ipopt': 1} perturbed=0 lps=300 colours=2 bipartite=True |S|=64 |B|=56 t=60.17s reason=ok
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=63.917 s=60.1783 work=1 dD=0 dP=inf
+[Op] search_state t=63.918 s=0.0002 work=1 dD=0 dP=0
+[Op] incumbent t=63.918 s=0.0002 work=1 dD=0 dP=8.23159e-05
+<gear>/complete_verifier/nlp_solver/quadratic_tangent.py:123: UserWarning: index_reduce() is in beta and the API may change at any time. (Triggered internally at /pytorch/aten/src/ATen/native/TensorAdvancedIndexing.cpp:1517.)
+  out = data.clone().index_reduce_(axis, _const(ins[2]).long(), src, "amax",
+[QTB] objective is quadratic; tangent bound enabled (lambda_min >= -1e-09, tangent at local KKT point f=-8.000166767)
+[Op] tangent t=74.069 s=10.1509 work=1 dD=0 dP=0
+[Op] consistency t=74.069 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=74.069 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=74.104 s=0.0342 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=74.105 s=0.0012 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=74.106 s=0.0007 work=1 dD=0 dP=0
+[ConvexRowCuts] skipped: 2048 quadratic rows exceed the cap 50
+[Op] convex_cuts t=74.527 s=0.4215 work=1 dD=0 dP=0
+[LiftedLP] 2131/2131 constraint rows and a quadratic objective lifted: n=832, 0 atoms, 1024 products (0 squares), 4096 McCormick rows
+[LiftedLP] built in 0.22s
+[Op] lifted_lp t=74.746 s=0.2186 work=1 dD=0 dP=0
+[LiftedLP] root bound before OBBT: -8.00016800119 (incumbent -8.00016508678, version 1)
+[UnifiedRoot] closed after lifted_bound at 71.95s: P=-8.00016508678 D=-8.00016800119
+Primal Solution tensor([-8.00016509], device='cuda:0'), Dual Solution -8.000168001192414
+Solution gap: 2.9144167079664385e-06
+Found optimal object: tensor([-8.00016509], device='cuda:0')
+[best-primal] objective=-8.000165086775706 x=[0.2821778049850231, 0.04382783910624524, 0.06057914954531454, 0.07662399935251961, 0.09153073444632383, 0.10459211764893239, 0.11473017006688288, 0.12045268789788359, 0.11967080219242622, 0.11093038082391683, 0.09593608849920861, 0.2654841430816224, 0.07553393039467551, 0.05619349161663661, 0.03589590834959703, 0.017134965663136423, 0.0073288871754486114, 0.020854182817915366, 0.034443032922320635, 0.04808082471592567, 0.06171823138366571, 0.07528362260243579, 0.06621415942177368, 0.08851964308955504, 0.10089899393367091, 0.11151738225968379, 0.11812854641594986, 0.11622148653827917, 0.10513502404490072, 0.08843546308136394, 0.06870600765048596, 0.046737841029246434, 0.023156548202302975, 0.2428111637132219, 0.006620125928800532, 0.018849540933102427, 0.03118082297343986, 0.04364237085307954, 0.056255652311135815, 0.06910295905773522, 0.08223368319190032, 0.09542750866881254, 0.10780026361602173, 0.1168967294584739, 0.27531120298029255, 0.11800008362973961, 0.10734088015328382, 0.09423540907901826, 0.07550884057474538, 0.054027918969744564, 0.02777147635806332, 0.004707163724126938, 0.013800442873187416, 0.023592702193144872, 0.03427958091732917, 0.2735248642385406, 0.04607974295233703, 0.059289743125462556, 0.07441996701630034, 0.09248992045761531, 0.11618022376259347, 0.15111555723680953, 0.1962417059089175, 0.2470908590174266, 0.31352899505985626, 0.4160182286701672, 0.25929792382263045, 0.5568819359688013, 0.7800398151738068, 0.6209319580204353, 0.008420377351064373, 0.6987598329268769, 0.25102857898638553, 0.25590683913766793, 0.17980304554803125, 0.1928462035859836, 0.224036265255795, 0.2572211161863612, 0.255388966858269, 0.08493436255563522, 0.012629735710832538, 0.2175152992180275, 0.24687918453407903, 0.24755750186143688, 0.19630532497472142, 0.23042403502022757, 0.24259602865709232, 0.24957889969107272, 0.2813580521176474, 0.10886785192045476, 0.21338880403442806, 0.24821531169655556, 0.03650275896463954, 0.025708282157428517, 0.26487317779862185, 0.2525133367824302, 0.24114669213663373, 0.2779987290370248, 0.28718748795713256, 0.2783218327639586, 0.2851523943845223, 0.07735398646652458, 0.31230714194786313, 0.9532416047784413, 0.17936290418254003, 0.1586449428647738, 0.13836102010385848, 0.11862591336666965, 0.09953059336710768, 0.08122308785024857, 1.1266881654438938, 0.19754196695334314, 0.06400571639201698, 0.04838846242353011, 0.03508406023444094, 0.02491529064539623, 0.017862394848982433, 0.012962600031960597, 0.009369515382850245, 0.006268541282571446, 0.003700056837763463, 0.001694900190820529, 0.28186333643059036, 0.002716335468707, 0.007899366341968344, 0.013376308979204863, 0.019191492795259127, 0.025391152989553474, 0.03211963554208817, 0.039718759921740156, 0.04877820217476252, 0.059762244855883835, 0.07265611882673864, 0.2878751849214122, 0.09088357796196195, 0.11654566163530215, 0.138600483255548, 0.14256477670510873, 0.1261921895910379, 0.06360369296078627, 0.01203438632943681, 0.03329997337036536, 0.05292539815816229, 0.07025173610855898, 0.11409873924205248, 0.08490288398561883, 0.09656592853801478, 0.10430638582151217, 0.106593252508469, 0.10230295014913565, 0.09157036418898498, 0.0764961908483615, 0.06047100538423595, 0.04601521847076736, 0.0327124368973164, 0.1347813075628357, 0.020122798259655888, 0.009429090986847778, 0.00961840567348099, 0.026634662341430655, 0.04245141081016925, 0.05722365409405051, 0.07103163937983076, 0.08342725640142953, 0.09390342946231003, 0.10164021594774227, 0.29567651001754447, 0.10440259753523407, 0.09923498353646053, 0.08869272793570031, 0.07631466138450052, 0.0599053552557131, 0.04372954819058376, 0.028219837140934647, 0.01356961491627724, 0.008133756527699612, 0.023034098136191603, 0.28159421647699223, 0.03778978290460575, 0.052233305515265775, 0.0660676948768839, 0.0789207648559783, 0.090182712643516, 0.09892406991207338, 0.10385821019907641, 0.10318404301816719, 0.0956477685293442, 0.0827192038732602, 0.2664415977134549, 0.06512780209044763, 0.04845184915255667, 0.03095061520910197, 0.014774322561227066, 0.006572016194825161, 0.018700523576655123, 0.030886022000978387, 0.0431154077956655, 0.055344448236060384, 0.06750891042425779, 0.3672060005580433, 0.07937801675511365, 0.09047892368370267, 0.10000072671226388, 0.10592914077133021, 0.1042190273737356, 0.09427748937254547, 0.07930253042966513, 0.06161058107680508, 0.04191111720282169, 0.020765118399203395, 0.32058585507465215, 0.005991637488762079, 0.017060040469964417, 0.02822063962884572, 0.03949913770626042, 0.05091496436900262, 0.06254259886370875, 0.07442674420617262, 0.08636800030368535, 0.09756613506488157, 0.10579901863382361, 0.04414567502210446, 0.330714079216783, 0.10679762495434751, 0.09715036449854485, 0.08528907487775816, 0.06834033248578952, 0.048898723662537315, 0.025134962791711575, 0.001505927795308072, 0.004415072799842067, 0.007547837320660334, 0.010966810759228552, 0.1403596963123398, 0.01474194862743511, 0.01896812549686661, 0.02380862521795791, 0.029589610690577386, 0.0371686727960468, 0.04834527358323538, 0.06278214588261133, 0.07904993631377821, 0.10030499385796791, 0.13309361028078917, 0.4125236721179212, 0.17815908594077454, 0.24955232264175586, 0.0030604627313478724, 0.008900122474278812, 0.015070928968917279, 0.02162282776705518, 0.02860791153657527, 0.036188813196335, 0.04475065670583036, 0.054957823089639875, 4.997578178542275, 0.06733341398802643, 0.08186078917393091, 0.1023974517108659, 0.1313106177982055, 0.15615952437860137, 0.16062604687163315, 0.14217924666849155, 0.0716615278844269, 0.007918096172487976, 0.007003488012728463, 0.9403493631433295, 0.006108040603159481, 0.005236821022083955, 0.004393845251933638, 0.003585648083721249, 0.002825575623385403, 0.002136141438604389, 0.0015488096723185857, 0.0010999025445447399, 0.0007885477910031402, 0.0005722431622107526, 0.8317309070657806, 0.00041362418102776106, 0.0002767298876068107, 0.00016334304013075656, 7.482586290179725e-05, 0.003289176673934924, 0.009643195069332519, 0.016485632599448418, 0.02395319421817826, 0.03219867349035901, 0.04142929101263333, 0.7253879933114217, 0.05200168372132694, 0.06462824134173861, 0.08118207370200266, 0.10559348150768419, 0.1371258215945768, 0.17265716727928243, 0.2190814681422139, 0.29069682794909124, 0.38912672850206403, 0.5450604912994151, 0.6219223679273717, 0.0018397599662317446, 0.005234995821836559, 0.008646185579253594, 0.012069661085647733, 0.01549303991038572, 0.018898340798516728, 0.022220960217379935, 0.025328531071014047, 0.027994050010815865, 0.02965364116767379, 0.5218109648335033, 0.02917491462541402, 0.02639189566136674, 0.022199828567195507, 0.017247171400224526, 0.011732533803159109, 0.005812955423948367, 0.0016941353453689212, 0.004823726389257703, 0.007979385828605768, 0.011168381175169217, 0.4258298519490378, 0.014396206183622345, 0.01768391987619756, 0.021044162026597674, 0.02442055224033619, 0.027586824877508083, 0.029914672695221012, 0.030197028467018227, 0.027469265060667693, 0.02411548530030664, 0.019323228251520733, 2.184153148599589, 0.33556400595570635, 0.013826113756392939, 0.00710691077421178, 0.0008463623702106224, 0.002481361652678527, 0.004242039688440142, 0.006163573008411307, 0.008285278057223582, 0.010660476315084825, 0.013380936679860747, 0.016629969407042255, 0.25368712684101974, 0.020889558138334922, 0.027171037448524313, 0.03528485646074763, 0.044427689154894326, 0.0563734683121469, 0.07480134454269578, 0.10012906817984878, 0.1402535336365628, 0.0009505045929143956, 0.002764159306018464, 0.1839358804357879, 0.004680660109804455, 0.0067155188342689675, 0.008884914176220494, 0.011239355908456528, 0.013898454052256454, 0.017068549021214602, 0.020912103363281656, 0.02542394905818162, 0.03180213157208005, 0.040781850066401906, 0.1306238756449709, 0.048499309534643785, 0.04988650167509453, 0.044157379081941055, 0.02225630959952184, 0.002113416653941185, 0.005985014340562645, 0.009819025357661264, 0.01357192639511711, 0.01716655462868994, 0.020506203891422346, 0.09364752258714823, 0.023432427407963582, 0.025703718812597972, 0.026985770336593745, 0.02681059958086397, 0.02485242821796349, 0.021493162963146534, 0.016922339675738505, 0.012589379998605451, 0.008041985256775346, 0.0038388537431372433, 0.06795927363305368, 0.0016907070056815688, 0.004813964744403541, 0.007963238140406895, 0.011145779985409198, 0.014367072908684242, 0.017648133306129916, 0.021001575375834292, 0.0243711328319992, 0.02753099793458129, 0.029854134949711352, 0.049121739322578316, 0.030135919440986498, 0.027413676504807385, 0.0240666837941276, 0.01928412481959952, 0.013798134425482788, 0.007092528653165163, 0.0003998003153442939, 0.0011721319450266304, 0.002003831200898746, 0.0029115144173050187, 0.032864202494536, 0.003913753652166907, 0.005035736589390851, 0.006320812495602614, 0.007855572447188194, 0.009867693238137394, 0.012834903527753565, 0.016667664181469668, 0.020986504552206315, 0.026629385296825278, 0.0353342430521093, 0.019398359471236717, 0.04729841221347794, 0.06625218468594075, 0.011876363731946964, 0.010504541486887117, 0.009161458625978154, 0.007854715140234515, 0.00659033459123463, 0.005378118515790235, 0.004238084753237477, 0.0032040014309423805, 0.008885885977532879, 0.0023230616550685176, 0.0016497451696171818, 0.001182743662965859, 0.0008583079466025163, 0.0006203949754052591, 0.0004150667776691873, 0.00024499714935166894, 0.00011222856724754898, 0.002335456161656336, 0.006467193304533111, 0.27993846531142275, 0.004928821895020857, 0.010307676382113447, 0.013894541966162192, 0.01724727496789561, 0.020257069187159707, 0.022800800986636185, 0.024679379153537788, 0.025350116268568885, 0.02409536187218076, 0.02153558450015705, 0.018530051821781735, 0.014333490908043731, 0.014545689025760531, 0.010618022442910956, 0.0068520915125303535, 0.0032948540262803467, 0.0018093496035090219, 0.0051484636184575844, 0.00850326786269337, 0.011870154784556695, 0.015236946624479032, 0.01858595934782594, 0.02427146619126128, 0.02185365729322941, 0.02490986133568491, 0.027531320386622957, 0.029163479201071135, 0.02869266581621667, 0.02595564900340017, 0.021832875016884332, 0.016962083149858687, 0.011538600079504595, 0.005716869725367747, 0.034823183984545564, 0.0016388617649398434, 0.0046663452386798, 0.007719046623974539, 0.01080399628937592, 0.013926508737583474, 0.017106955898525802, 0.020357565157771526, 0.023623795627731266, 0.026686763930201873, 0.028938662291015015, 0.046072538587617604, 0.029211805910305155, 0.02657304017863201, 0.023328682511461467, 0.018692780008650812, 0.013375016677195324, 0.006875037286967117, 0.0031204912973190743, 0.008634613927925661, 0.013723445841157348, 0.01821612932182958, 0.05828144742822912, 0.022015141567668005, 0.02503934481170374, 0.027046429312321922, 0.027639409091811708, 0.02652694258274787, 0.02374400529573066, 0.01983530343710478, 0.015680006155944438, 0.011931650619937638, 0.008482266926678592, 0.07207014584586886, 0.0052177998072770945, 0.002444943740434266, 0.0024740569637096694, 0.006850997523605876, 0.010919399165699657, 0.014719132067671975, 0.01827083749259309, 0.02145925197636536, 0.02415394494590167, 0.026144009858504264, 0.08850860779385065, 0.02685455277536702, 0.02552533328887659, 0.022813642500319323, 0.019629742507983623, 0.015408922341516577, 0.011248163117466733, 0.007258738015157035, 0.0034903915145382543, 0.002288497822758891, 0.0064808289627002426, 0.10843927932533026, 0.010632459696463047, 0.014696261088322119, 0.01858867793461992, 0.022204992670437247, 0.025373632365523358, 0.027833083621461214, 0.029221343721750514, 0.029031661354760836, 0.026911269841730867, 0.02327371407076268, 0.13183536168876964, 0.018324231539652514, 0.013632317897899014, 0.008708204803886295, 0.004156874607329482, 0.001829135549147065, 0.005204763984784122, 0.00859625424837705, 0.01199995932118468, 0.015403568273375504, 0.01878920368834473, 0.28274999846784515, 0.16490929546108396, 0.022092635118293864, 0.025182259881220036, 0.02783238555583635, 0.02948239263057381, 0.029006430725283316, 0.026239483617194442, 0.022071625568307482, 0.01714756978860604, 0.011664778925767474, 0.005779385789446282, 0.21147344070052035, 0.000536590574982465, 0.001560456476636167, 0.002642382452465793, 0.003791125282434621, 0.005015818341846996, 0.006344976013763392, 0.007846121985465852, 0.009635742021895198, 0.011805551414299256, 0.014352632639575315, 0.25149216759716897, 0.017953320759860746, 0.023022659225422116, 0.027379412054681678, 0.02816252637556973, 0.02492825330663636, 0.012564398579140743, 0.003392052216148454, 0.009386041576807563, 0.014917729296184287, 0.019801388725369223, 0.2586854236015246, 0.023931010152927524, 0.027218394805493217, 0.02940014592162078, 0.03004472979620259, 0.028835450857791448, 0.025810328367489647, 0.021561471575136652, 0.017044559337901468, 0.012970003007575247, 0.00922043660356465, 0.22897717644746066, 0.005671879057060806, 0.002657715048093221, 0.002341506629087426, 0.006630945250808287, 0.010878740744098442, 0.015036672490569862, 0.019019249882658504, 0.022719329772387196, 0.025961365064681267, 0.028477784896699783, 0.11540963137802501, 0.02989820144701375, 0.02970412546401704, 0.02753461907213705, 0.023812806148907812, 0.018748678040038845, 0.013948085038212963, 0.008909914072918211, 0.0042531608139952945, 0.0001718257750717225, 0.0005037546885145361, 0.01589611180254925, 0.0008611989870319377, 0.0012512994680583304, 0.0016820378970688165, 0.002164239320152029, 0.002716534207979771, 0.003376137332014416, 0.0042408987385130145, 0.005516134791301023, 0.007163363697277299, 0.00901949804511953, 0.04398563290749878, 0.011444673310121653, 0.015185813110867323, 0.020327727031736936, 0.02847360543747558, 0.02417476666174049, 0.021382372814281715, 0.01864847919730864, 0.01598855571402607, 0.013414863522296849, 0.010947353996983343, 0.06990867856476018, 0.008626774166976242, 0.006521860267422442, 0.00472867555985785, 0.0033581155198326774, 0.002407517028912613, 0.001747116310400923, 0.0012628357070731044, 0.0008448824519138715, 0.0004986989478135866, 0.0002284418459907698, 0.09279488126690306, 0.0028439366078568348, 0.007875243986312992, 0.012551884934079131, 0.016919690268714954, 0.021002387191305774, 0.02466747999518034, 0.027765038310132144, 0.03005262437289442, 0.03086939574579802, 0.029341453642727795, 0.5620205530586209, 0.11214744965710605, 0.026224356274147282, 0.022564452819044463, 0.017712606365536697, 0.01292980013206876, 0.008343942942842877, 0.004012216345075397, 0.0018506417848906183, 0.005265959298528063, 0.008697325175493938, 0.01214104948445905, 0.12755305945729623, 0.015584676544459507, 0.019010118742506823, 0.022352390439315663, 0.025478341627165092, 0.0281596262895639, 0.02982903340049935, 0.02934747535530518, 0.026547995746147142, 0.022331133909702996, 0.017349183286587647, 0.1377773592992115, 0.011801928180997043, 0.0058473371791595945, 0.001596421519812842, 0.004545504458179671, 0.0075191523184222975, 0.01052421335878957, 0.013565864446675565, 0.016663949948453535, 0.019830380607545377, 0.02301202794776587, 0.14079806076995502, 0.02599567685503332, 0.02818925950519773, 0.028455329795114837, 0.025884898394532986, 0.022724557456875346, 0.01820870747588973, 0.013028654079919093, 0.006696999564078429, 0.00441909886807123, 0.01222795004038611, 0.13513103928162734, 0.01943452378696706, 0.025796859051099612, 0.031176848467382928, 0.035459588411892604, 0.03830193077307465, 0.039141681942359785, 0.03756625717046379, 0.0336251872019895, 0.02808986029587619, 0.022205316032736507, 0.1209544637953001, 0.016897064332010228, 0.012012203106423546, 0.007389212243799627, 0.003462418732253396, 0.00308352482652976, 0.008538695998241705, 0.013609321799993024, 0.018345094039880595, 0.022771738824560933, 0.026745598322175337, 0.10104312490661231, 0.03010411123819985, 0.03258441557338452, 0.03346999605362156, 0.03181333207880093, 0.028433634034020504, 0.024465401026352317, 0.019204809528436017, 0.014019074547680107, 0.00904688059198914, 0.0043502265373129, 0.07987560273352597, 0.0026899478336364106, 0.007617700569490369, 0.012497613259981786, 0.017274289537098312, 0.0218495168800706, 0.02610020809049114, 0.02982469279249094, 0.03271558272006302, 0.03434737237762217, 0.03412441577785922, 0.06078108487078256, 0.03163206367599761, 0.02735640529777763, 0.021538681117414925, 0.016023708651634223, 0.010235804168468445, 0.004886076398126751, 0.0003812646527652842, 0.0011087528773347523, 0.0018774947932211836, 0.0026937121929642774, 0.043209561299852595, 0.003563894601886485, 0.004508302363028292, 0.005574913143645998, 0.0068464936918767325, 0.008388210580724672, 0.01019799082865192, 0.01275639141774612, 0.01635831359495014, 0.01945392159773844, 0.02001034862775473, 0.3499216499608147, 0.026580021778987377, 0.017712297300943463, 0.008927395127207, 0.004964469260018674, 0.013737027306422189, 0.02183297960643238, 0.02898050414417937, 0.0350244494500242, 0.03983573141227464, 0.04302885327816318, 0.043972239926562996, 0.01245480080553799, 0.04220238865767531, 0.03777494291607199, 0.03155648958247666, 0.024945721187916183, 0.018982366886364444, 0.013494654627485307, 0.008301130613751337, 0.003889723161445655, 0.8963801359898853, 0.7928405045989982, 0.010736974766156194, 0.6914700148337147, 0.5928422760530775, 0.4974119215105, 0.405918731434536, 0.31987357154082785, 0.2418251238958941, 0.1753353338323576, 0.12451611282665923, 0.08926871469594308, 0.06478160703732903, 0.029732130882813106, 0.04682488560356901, 0.03132752509393357, 0.018491323248560655, 0.008470396066285966, 0.04738828232291682, 0.06387845837177027, 0.07929223849975062, 0.09312939950062535, 0.10482389549844091, 0.11346042897502931, 0.25983280741555015, 0.11654406085987938, 0.11077548089849101, 0.09900721732548726, 0.08518964819711868, 0.06687202728602716, 0.04881506027059934, 0.031501653115003254, 0.015147688538287294, 0.009433369170599424, 0.026714489203599867]
+[Op] lifted_bound t=74.820 s=0.0738 work=1 dD=1072 dP=0
+problem_name=pooling_foulds4stp status=verified success=True
+
+#RUNNER rc=0 elapsed=75.64 waited=0.0

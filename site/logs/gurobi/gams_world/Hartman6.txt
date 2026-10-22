@@ -1,0 +1,104 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=gurobi version='gurobi (AMPL module); cfg=g0_std:2294f863052a' family=gams_world instance=Hartman6 model=neurips_code/benchmarks/gams_world/gams_mods/converted_mod/Hartman6.mod model_sha256=1800098bd2e584d6cee416a0d3c804dd4428d4d8e2fb043bd26d98b4649cc956 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6' config_hash=10fab96e73a366a3438524c85f261a6933905665593fcbf2fd940ffe01e234e1
+Gurobi 13.0.3:   lim:time = 180
+  tech:threads = 16
+Set parameter LogToConsole to value 1
+  tech:outlev = 1
+Set parameter MIPGap to value 0.0001
+  mip:gap = 0.0001
+Set parameter MIPGapAbs to value 1e-05
+  mip:gapabs = 1.0000000000000001e-05
+Set parameter FeasibilityTol to value 1e-06
+  alg:feastol = 9.9999999999999995e-07
+
+AMPL MP initial flat model has 6 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  4 quadratic;
+Algebraic expressions:  4 exp;
+
+AMPL MP final model has 15 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  1 linear; 4 quadratic;
+Algebraic expressions:  4 exp;
+
+
+Set parameter InfUnbdInfo to value 1
+Gurobi Optimizer version 13.0.3 build v13.0.3rc0 (linux64 - "Ubuntu 24.04.3 LTS")
+
+CPU model: AMD Ryzen 7 9700X 8-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Non-default parameters:
+TimeLimit  180
+MIPGapAbs  1e-05
+InfUnbdInfo  1
+Threads  16
+
+Optimize a model with 0 rows, 15 columns and 0 nonzeros (Min)
+Model fingerprint: 0x238bfe02
+Model has 1 linear objective coefficients
+Model has 1 general nonlinear constraint (28 nonlinear terms)
+Variable types: 15 continuous, 0 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [0e+00, 0e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [0e+00, 0e+00]
+  NLCon coe range  [2e-02, 3e+01]
+
+Added 34 variables to disaggregate expressions
+Presolve removed 0 rows and 8 columns
+Presolve time: 0.00s
+Presolved: 47 rows, 42 columns, 131 nonzeros
+Presolved model has 6 bilinear constraint(s)
+Presolved model has 4 nonlinear constraint(s)
+
+Solving non-convex NLP to global optimality
+
+Variable types: 42 continuous, 0 integer (0 binary)
+Found heuristic solution: objective -3.3223680
+
+Root relaxation: objective -7.546154e+16, 0 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 -8.463e+09    0   10   -3.32237 -8.463e+09      -     -    0s
+     0     2 -8.463e+09    0   10   -3.32237 -8.463e+09      -     -    0s
+ 759284 69914   -4.81394   39    6   -3.32237   -4.84862  45.9%   1.5    5s
+H844877 71917                      -3.3223680   -4.67873  40.8%   1.5    5s
+ 1467264 72900 infeasible   42        -3.32237   -3.90664  17.6%   1.6   10s
+H1843791 69039                      -3.3223680   -3.70260  11.4%   1.6   12s
+H2220795 61605                      -3.3223680   -3.56948  7.44%   1.6   14s
+ 2232149 61479 infeasible   39        -3.32237   -3.56669  7.35%   1.6   15s
+ 2893648 36658   -3.35782   57    7   -3.32237   -3.40330  2.44%   1.6   20s
+ 3577232 15734   -3.32468   73    4   -3.32237   -3.33056  0.25%   1.6   25s
+*3710298  7998              97      -3.3224139   -3.32473  0.07%   1.6   26s
+*3710299  7978              97      -3.3224189   -3.32473  0.07%   1.6   26s
+
+Cutting planes:
+  RLT: 6
+
+Explored 3766589 nodes (6157754 simplex iterations) in 26.44 seconds (18.45 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 3: -3.32242 -3.32241 -3.32237 
+
+Optimal solution found (tolerance 1.00e-04)
+Warning: max constraint violation (9.5698e-05) exceeds tolerance
+Warning: max general constraint violation (9.5698e-05) exceeds tolerance
+Best objective -3.322418857352e+00, best bound -3.322574530475e+00, gap 0.0047%
+Gurobi 13.0.3: optimal solution; objective -3.322418857
+6.15775e+06 simplex iterations
+3.76659e+06 branching nodes
+absmipgap=0.000155673, relmipgap=4.68554e-05
+------------ WARNINGS ------------
+WARNING:  "Tolerance violations"
+  Type                         MaxAbs [Name]   MaxRel [Name]
+  objective(s)                 1E-04           3E-05         
+Documentation: mp.ampl.com/modeling-tools.html#automatic-solution-check.
+HARNESS_RESULT solver=gurobi family=gams_world instance=Hartman6 solve_result=solved solve_result_num=0 objective=-3.3223231598443865 constraint_violation=0 variable_violation=0 nvars=6 ncons=0 elapsed=26.455666
+RESOURCE_USAGE wall=26.61 user=363.57 sys=16.63 maxrss_kb=133564 cpu_pct=1428% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=26.6375034 initialization=model_default config_hash=10fab96e73a366a3438524c85f261a6933905665593fcbf2fd940ffe01e234e1
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=26.6376064 config_hash=10fab96e73a366a3438524c85f261a6933905665593fcbf2fd940ffe01e234e1

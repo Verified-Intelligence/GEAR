@@ -1,0 +1,1129 @@
+#CMD <env>/bin/python nlp_example.py --problem_name hs103 --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792655042.644058025
+INFO     02:44:04     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/hs103.vnnlib.compiled
+[W1022 02:44:04.590904964 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+torch allclose failed: norm nan
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/14): BoundBuffers(name=/14, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/17): BoundBuffers(name=/17, inputs=[], perturbed=False)
+  (/19): BoundBuffers(name=/19, inputs=[], perturbed=False)
+  (/21): BoundBuffers(name=/21, inputs=[], perturbed=False)
+  (/22): BoundBuffers(name=/22, inputs=[], perturbed=False)
+  (/24): BoundBuffers(name=/24, inputs=[], perturbed=False)
+  (/26): BoundBuffers(name=/26, inputs=[], perturbed=False)
+  (/27): BoundBuffers(name=/27, inputs=[], perturbed=False)
+  (/31): BoundBuffers(name=/31, inputs=[], perturbed=False)
+  (/32): BoundBuffers(name=/32, inputs=[], perturbed=False)
+  (/33): BoundBuffers(name=/33, inputs=[], perturbed=False)
+  (/34): BoundBuffers(name=/34, inputs=[], perturbed=False)
+  (/35): BoundBuffers(name=/35, inputs=[], perturbed=False)
+  (/37): BoundBuffers(name=/37, inputs=[], perturbed=False)
+  (/38): BoundBuffers(name=/38, inputs=[], perturbed=False)
+  (/39): BoundBuffers(name=/39, inputs=[], perturbed=False)
+  (/41): BoundBuffers(name=/41, inputs=[], perturbed=False)
+  (/42): BoundBuffers(name=/42, inputs=[], perturbed=False)
+  (/43): BoundBuffers(name=/43, inputs=[], perturbed=False)
+  (/44): BoundBuffers(name=/44, inputs=[], perturbed=False)
+  (/45): BoundBuffers(name=/45, inputs=[], perturbed=False)
+  (/46): BoundBuffers(name=/46, inputs=[], perturbed=False)
+  (/47): BoundBuffers(name=/47, inputs=[], perturbed=False)
+  (/48): BoundBuffers(name=/48, inputs=[], perturbed=False)
+  (/50): BoundBuffers(name=/50, inputs=[], perturbed=False)
+  (/54): BoundBuffers(name=/54, inputs=[], perturbed=False)
+  (/55): BoundBuffers(name=/55, inputs=[], perturbed=False)
+  (/57): BoundBuffers(name=/57, inputs=[], perturbed=False)
+  (/58): BoundBuffers(name=/58, inputs=[], perturbed=False)
+  (/60): BoundBuffers(name=/60, inputs=[], perturbed=False)
+  (/61): BoundBuffers(name=/61, inputs=[], perturbed=False)
+  (/62): BoundBuffers(name=/62, inputs=[], perturbed=False)
+  (/63): BoundBuffers(name=/63, inputs=[], perturbed=False)
+  (/65): BoundBuffers(name=/65, inputs=[], perturbed=False)
+  (/66): BoundBuffers(name=/66, inputs=[], perturbed=False)
+  (/71): BoundBuffers(name=/71, inputs=[], perturbed=False)
+  (/72): BoundBuffers(name=/72, inputs=[], perturbed=False)
+  (/73): BoundBuffers(name=/73, inputs=[], perturbed=False)
+  (/75): BoundBuffers(name=/75, inputs=[], perturbed=False)
+  (/76): BoundBuffers(name=/76, inputs=[], perturbed=False)
+  (/77): BoundBuffers(name=/77, inputs=[], perturbed=False)
+  (/78): BoundBuffers(name=/78, inputs=[], perturbed=False)
+  (/79): BoundBuffers(name=/79, inputs=[], perturbed=False)
+  (/80): BoundBuffers(name=/80, inputs=[], perturbed=False)
+  (/82): BoundBuffers(name=/82, inputs=[], perturbed=False)
+  (/83): BoundBuffers(name=/83, inputs=[], perturbed=False)
+  (/84): BoundBuffers(name=/84, inputs=[], perturbed=False)
+  (/85): BoundBuffers(name=/85, inputs=[], perturbed=False)
+  (/86): BoundBuffers(name=/86, inputs=[], perturbed=False)
+  (/87): BoundBuffers(name=/87, inputs=[], perturbed=False)
+  (/92): BoundBuffers(name=/92, inputs=[], perturbed=False)
+  (/93): BoundBuffers(name=/93, inputs=[], perturbed=False)
+  (/94): BoundBuffers(name=/94, inputs=[], perturbed=False)
+  (/95): BoundBuffers(name=/95, inputs=[], perturbed=False)
+  (/96): BoundBuffers(name=/96, inputs=[], perturbed=False)
+  (/97): BoundBuffers(name=/97, inputs=[], perturbed=False)
+  (/98): BoundBuffers(name=/98, inputs=[], perturbed=False)
+  (/100): BoundBuffers(name=/100, inputs=[], perturbed=False)
+  (/102): BoundBuffers(name=/102, inputs=[], perturbed=False)
+  (/103): BoundBuffers(name=/103, inputs=[], perturbed=False)
+  (/105): BoundBuffers(name=/105, inputs=[], perturbed=False)
+  (/106): BoundBuffers(name=/106, inputs=[], perturbed=False)
+  (/107): BoundBuffers(name=/107, inputs=[], perturbed=False)
+  (/108): BoundBuffers(name=/108, inputs=[], perturbed=False)
+  (/109): BoundBuffers(name=/109, inputs=[], perturbed=False)
+  (/110): BoundBuffers(name=/110, inputs=[], perturbed=False)
+  (/112): BoundBuffers(name=/112, inputs=[], perturbed=False)
+  (/114): BoundBuffers(name=/114, inputs=[], perturbed=False)
+  (/115): BoundBuffers(name=/115, inputs=[], perturbed=False)
+  (/116): BoundBuffers(name=/116, inputs=[], perturbed=False)
+  (/117): BoundBuffers(name=/117, inputs=[], perturbed=False)
+  (/119): BoundBuffers(name=/119, inputs=[], perturbed=False)
+  (/120): BoundBuffers(name=/120, inputs=[], perturbed=False)
+  (/122): BoundBuffers(name=/122, inputs=[], perturbed=False)
+  (/123): BoundBuffers(name=/123, inputs=[], perturbed=False)
+  (/124): BoundBuffers(name=/124, inputs=[], perturbed=False)
+  (/125): BoundBuffers(name=/125, inputs=[], perturbed=False)
+  (/126): BoundBuffers(name=/126, inputs=[], perturbed=False)
+  (/132): BoundBuffers(name=/132, inputs=[], perturbed=False)
+  (/137): BoundBuffers(name=/137, inputs=[], perturbed=False)
+  (/140): BoundBuffers(name=/140, inputs=[], perturbed=False)
+  (/141): BoundBuffers(name=/141, inputs=[], perturbed=False)
+  (/143): BoundBuffers(name=/143, inputs=[], perturbed=False)
+  (/144): BoundBuffers(name=/144, inputs=[], perturbed=False)
+  (/147): BoundBuffers(name=/147, inputs=[], perturbed=False)
+  (/149): BoundBuffers(name=/149, inputs=[], perturbed=False)
+  (/150): BoundBuffers(name=/150, inputs=[], perturbed=False)
+  (/152): BoundBuffers(name=/152, inputs=[], perturbed=False)
+  (/154): BoundBuffers(name=/154, inputs=[], perturbed=False)
+  (/155): BoundBuffers(name=/155, inputs=[], perturbed=False)
+  (/157): BoundBuffers(name=/157, inputs=[], perturbed=False)
+  (/158): BoundBuffers(name=/158, inputs=[], perturbed=False)
+  (/159): BoundBuffers(name=/159, inputs=[], perturbed=False)
+  (/162): BoundBuffers(name=/162, inputs=[], perturbed=False)
+  (/163): BoundBuffers(name=/163, inputs=[], perturbed=False)
+  (/164): BoundBuffers(name=/164, inputs=[], perturbed=False)
+  (/167): BoundBuffers(name=/167, inputs=[], perturbed=False)
+  (/168): BoundBuffers(name=/168, inputs=[], perturbed=False)
+  (/169): BoundBuffers(name=/169, inputs=[], perturbed=False)
+  (/170): BoundBuffers(name=/170, inputs=[], perturbed=False)
+  (/171): BoundBuffers(name=/171, inputs=[], perturbed=False)
+  (/173): BoundBuffers(name=/173, inputs=[], perturbed=False)
+  (/174): BoundBuffers(name=/174, inputs=[], perturbed=False)
+  (/175): BoundBuffers(name=/175, inputs=[], perturbed=False)
+  (/176): BoundBuffers(name=/176, inputs=[], perturbed=False)
+  (/177): BoundBuffers(name=/177, inputs=[], perturbed=False)
+  (/178): BoundBuffers(name=/178, inputs=[], perturbed=False)
+  (/179): BoundBuffers(name=/179, inputs=[], perturbed=False)
+  (/181): BoundBuffers(name=/181, inputs=[], perturbed=False)
+  (/183): BoundBuffers(name=/183, inputs=[], perturbed=False)
+  (/184): BoundBuffers(name=/184, inputs=[], perturbed=False)
+  (/186): BoundGather(name=/186, inputs=[/0, /1], perturbed=True)
+  (/189): BoundConstant(name=/189, value=1)
+  (/190): BoundConstant(name=/190, value=4)
+  (/191): BoundConstant(name=/191, value=5)
+  (/201): BoundConstant(name=/201, value=3)
+  (/212): BoundConstant(name=/212, value=2)
+  (/222): BoundConstant(name=/222, value=0)
+  (/246): BoundShape(name=/246, inputs=[/995/mul], perturbed=False)
+  (/247): BoundConstantOfShape(name=/247, inputs=[/246], perturbed=False)
+  (/248): BoundGather(name=/248, inputs=[/0, /6], perturbed=True)
+  (/251): BoundConstant(name=/251, value=6)
+  (/313): BoundSub(name=/313, inputs=[/1063/mul, /247], perturbed=True)
+  (/314): BoundAdd(name=/314, inputs=[/995/mul, /313], perturbed=True)
+  (/315): BoundSub(name=/315, inputs=[/314, /995/mul], perturbed=True)
+  (/316): BoundSub(name=/316, inputs=[/315, /313], perturbed=True)
+  (/317): BoundGather(name=/317, inputs=[/0, /10], perturbed=True)
+  (/318): BoundGather(name=/318, inputs=[/0, /13], perturbed=True)
+  (/324): BoundGather(name=/324, inputs=[/0, /14], perturbed=True)
+  (/327): BoundGather(name=/327, inputs=[/0, /16], perturbed=True)
+  (/328): BoundGather(name=/328, inputs=[/0, /17], perturbed=True)
+  (/332): BoundSub(name=/332, inputs=[/1082/mul, /316], perturbed=True)
+  (/333): BoundAdd(name=/333, inputs=[/314, /332], perturbed=True)
+  (/334): BoundSub(name=/334, inputs=[/333, /314], perturbed=True)
+  (/335): BoundSub(name=/335, inputs=[/334, /332], perturbed=True)
+  (/337): BoundGather(name=/337, inputs=[/0, /21], perturbed=True)
+  (/347): BoundGather(name=/347, inputs=[/0, /26], perturbed=True)
+  (/352): BoundSub(name=/352, inputs=[/1102/mul, /335], perturbed=True)
+  (/353): BoundAdd(name=/353, inputs=[/333, /352], perturbed=True)
+  (/359): BoundMul(name=/359, inputs=[/32, /741], perturbed=True)
+  (/360): BoundMul(name=/360, inputs=[/318, /359], perturbed=True)
+  (/368): BoundMul(name=/368, inputs=[/365/mul, /820], perturbed=True)
+  (/369): BoundSub(name=/369, inputs=[/368, /685], perturbed=True)
+  (/370): BoundAdd(name=/370, inputs=[/125, /369], perturbed=True)
+  (/371): BoundSub(name=/371, inputs=[/370, /125], perturbed=True)
+  (/372): BoundSub(name=/372, inputs=[/371, /369], perturbed=True)
+  (/379): BoundMul(name=/379, inputs=[/122, /473], perturbed=True)
+  (/380): BoundExp(name=/380, inputs=[/379], perturbed=True)
+  (/381): BoundMul(name=/381, inputs=[/39, /380], perturbed=True)
+  (/382): BoundMul(name=/382, inputs=[/744, /381], perturbed=True)
+  (/383): BoundMul(name=/383, inputs=[/347, /382], perturbed=True)
+  (/385): BoundSqrt(name=/385, inputs=[/324], perturbed=True)
+  (/387): BoundMul(name=/387, inputs=[/385, /327], perturbed=True)
+  (/389): BoundSub(name=/389, inputs=[/388/mul, /372], perturbed=True)
+  (/390): BoundAdd(name=/390, inputs=[/370, /389], perturbed=True)
+  (/391): BoundSub(name=/391, inputs=[/390, /370], perturbed=True)
+  (/392): BoundSub(name=/392, inputs=[/391, /389], perturbed=True)
+  (/397): BoundMul(name=/397, inputs=[/46, /710], perturbed=True)
+  (/398): BoundMul(name=/398, inputs=[/327, /397], perturbed=True)
+  (/399): BoundMul(name=/399, inputs=[/328, /398], perturbed=True)
+  (/402): BoundMul(name=/402, inputs=[/399, /732], perturbed=True)
+  (/406): BoundSub(name=/406, inputs=[/405/mul, /392], perturbed=True)
+  (/407): BoundAdd(name=/407, inputs=[/390, /406], perturbed=True)
+  (/410): BoundGather(name=/410, inputs=[/0, /54], perturbed=True)
+  (/411): BoundTranspose(name=/411, inputs=[/55], perturbed=False)
+  (/412): BoundMatMul(name=/412, inputs=[/410, /411], perturbed=True)
+  (/421): BoundSlice(name=/421, inputs=[/412, /959, /950, /991, /991], perturbed=True)
+  (/430): BoundSlice(name=/430, inputs=[/412, /989, /959, /991, /991], perturbed=True)
+  (/431): BoundMul(name=/431, inputs=[/421, /430], perturbed=True)
+  (/440): BoundSlice(name=/440, inputs=[/412, /976, /991, /991, /991], perturbed=True)
+  (/441): BoundSqrt(name=/441, inputs=[/440], perturbed=True)
+  (/450): BoundSlice(name=/450, inputs=[/412, /991, /987, /991, /991], perturbed=True)
+  (/451): BoundMul(name=/451, inputs=[/441, /450], perturbed=True)
+  (/460): BoundSlice(name=/460, inputs=[/412, /987, /989, /991, /991], perturbed=True)
+  (/461): BoundMul(name=/461, inputs=[/451, /460], perturbed=True)
+  (/465): BoundMul(name=/465, inputs=[/462/mul, /820], perturbed=True)
+  (/466): BoundSub(name=/466, inputs=[/465, /685], perturbed=True)
+  (/467): BoundAdd(name=/467, inputs=[/125, /466], perturbed=True)
+  (/468): BoundSub(name=/468, inputs=[/467, /125], perturbed=True)
+  (/469): BoundSub(name=/469, inputs=[/468, /466], perturbed=True)
+  (/471): BoundSqrt(name=/471, inputs=[/327], perturbed=True)
+  (/473): BoundLog(name=/473, inputs=[/328], perturbed=True)
+  (/474): BoundMul(name=/474, inputs=[/95, /473], perturbed=True)
+  (/475): BoundExp(name=/475, inputs=[/474], perturbed=True)
+  (/476): BoundMul(name=/476, inputs=[/58, /475], perturbed=True)
+  (/477): BoundMul(name=/477, inputs=[/471, /476], perturbed=True)
+  (/480): BoundMul(name=/480, inputs=[/317, /337], perturbed=True)
+  (/483): BoundMul(name=/483, inputs=[/480, /1076/sqr], perturbed=True)
+  (/485): BoundSub(name=/485, inputs=[/484/mul, /469], perturbed=True)
+  (/486): BoundAdd(name=/486, inputs=[/467, /485], perturbed=True)
+  (/487): BoundSub(name=/487, inputs=[/486, /467], perturbed=True)
+  (/488): BoundSub(name=/488, inputs=[/487, /485], perturbed=True)
+  (/489): BoundGather(name=/489, inputs=[/0, /65], perturbed=True)
+  (/490): BoundTranspose(name=/490, inputs=[/66], perturbed=False)
+  (/491): BoundMatMul(name=/491, inputs=[/489, /490], perturbed=True)
+  (/500): BoundSlice(name=/500, inputs=[/491, /989, /959, /991, /991], perturbed=True)
+  (/509): BoundSlice(name=/509, inputs=[/491, /987, /989, /991, /991], perturbed=True)
+  (/511): BoundMul(name=/511, inputs=[/500, /510/sqr], perturbed=True)
+  (/520): BoundSlice(name=/520, inputs=[/491, /976, /991, /991, /991], perturbed=True)
+  (/529): BoundSlice(name=/529, inputs=[/491, /991, /987, /991, /991], perturbed=True)
+  (/530): BoundMul(name=/530, inputs=[/520, /529], perturbed=True)
+  (/532): BoundSub(name=/532, inputs=[/531/mul, /488], perturbed=True)
+  (/533): BoundAdd(name=/533, inputs=[/486, /532], perturbed=True)
+  (/542): BoundMul(name=/542, inputs=[/73, /692], perturbed=True)
+  (/543): BoundMul(name=/543, inputs=[/317, /542], perturbed=True)
+  (/544): BoundMul(name=/544, inputs=[/337, /543], perturbed=True)
+  (/546): BoundLog(name=/546, inputs=[/347], perturbed=True)
+  (/547): BoundMul(name=/547, inputs=[/76, /546], perturbed=True)
+  (/548): BoundExp(name=/548, inputs=[/547], perturbed=True)
+  (/550): BoundMul(name=/550, inputs=[/548, /328], perturbed=True)
+  (/554): BoundMul(name=/554, inputs=[/551/mul, /820], perturbed=True)
+  (/555): BoundSub(name=/555, inputs=[/554, /685], perturbed=True)
+  (/556): BoundAdd(name=/556, inputs=[/125, /555], perturbed=True)
+  (/557): BoundSub(name=/557, inputs=[/556, /125], perturbed=True)
+  (/558): BoundSub(name=/558, inputs=[/557, /555], perturbed=True)
+  (/559): BoundGather(name=/559, inputs=[/0, /79], perturbed=True)
+  (/560): BoundTranspose(name=/560, inputs=[/80], perturbed=False)
+  (/561): BoundMatMul(name=/561, inputs=[/559, /560], perturbed=True)
+  (/570): BoundSlice(name=/570, inputs=[/561, /959, /950, /991, /991], perturbed=True)
+  (/579): BoundSlice(name=/579, inputs=[/561, /991, /987, /991, /991], perturbed=True)
+  (/580): BoundMul(name=/580, inputs=[/570, /579], perturbed=True)
+  (/589): BoundSlice(name=/589, inputs=[/561, /976, /991, /991, /991], perturbed=True)
+  (/590): BoundSqrt(name=/590, inputs=[/589], perturbed=True)
+  (/599): BoundSlice(name=/599, inputs=[/561, /989, /959, /991, /991], perturbed=True)
+  (/600): BoundSqrt(name=/600, inputs=[/599], perturbed=True)
+  (/601): BoundMul(name=/601, inputs=[/590, /600], perturbed=True)
+  (/610): BoundSlice(name=/610, inputs=[/561, /987, /989, /991, /991], perturbed=True)
+  (/611): BoundMul(name=/611, inputs=[/601, /610], perturbed=True)
+  (/613): BoundSub(name=/613, inputs=[/612/mul, /558], perturbed=True)
+  (/614): BoundAdd(name=/614, inputs=[/556, /613], perturbed=True)
+  (/615): BoundSub(name=/615, inputs=[/614, /556], perturbed=True)
+  (/616): BoundSub(name=/616, inputs=[/615, /613], perturbed=True)
+  (/619): BoundSqrt(name=/619, inputs=[/347], perturbed=True)
+  (/621): BoundMul(name=/621, inputs=[/619, /327], perturbed=True)
+  (/622): BoundMul(name=/622, inputs=[/337, /621], perturbed=True)
+  (/625): BoundSub(name=/625, inputs=[/624/mul, /616], perturbed=True)
+  (/626): BoundAdd(name=/626, inputs=[/614, /625], perturbed=True)
+  (/627): BoundSub(name=/627, inputs=[/626, /614], perturbed=True)
+  (/628): BoundSub(name=/628, inputs=[/627, /625], perturbed=True)
+  (/630): BoundTranspose(name=/630, inputs=[/87], perturbed=False)
+  (/631): BoundMatMul(name=/631, inputs=[/559, /630], perturbed=True)
+  (/640): BoundSlice(name=/640, inputs=[/631, /959, /950, /991, /991], perturbed=True)
+  (/649): BoundSlice(name=/649, inputs=[/631, /991, /987, /991, /991], perturbed=True)
+  (/650): BoundMul(name=/650, inputs=[/640, /649], perturbed=True)
+  (/659): BoundSlice(name=/659, inputs=[/631, /989, /959, /991, /991], perturbed=True)
+  (/660): BoundMul(name=/660, inputs=[/650, /659], perturbed=True)
+  (/669): BoundSlice(name=/669, inputs=[/631, /987, /989, /991, /991], perturbed=True)
+  (/678): BoundSlice(name=/678, inputs=[/631, /976, /991, /991, /991], perturbed=True)
+  (/680): BoundMul(name=/680, inputs=[/669, /679/sqr], perturbed=True)
+  (/682): BoundSub(name=/682, inputs=[/681/mul, /628], perturbed=True)
+  (/683): BoundAdd(name=/683, inputs=[/626, /682], perturbed=True)
+  (/684): BoundShape(name=/684, inputs=[/125], perturbed=False)
+  (/685): BoundConstantOfShape(name=/685, inputs=[/684], perturbed=False)
+  (/691): BoundMul(name=/691, inputs=[/95, /1070], perturbed=True)
+  (/692): BoundExp(name=/692, inputs=[/691], perturbed=True)
+  (/693): BoundMul(name=/693, inputs=[/94, /692], perturbed=True)
+  (/694): BoundMul(name=/694, inputs=[/1089, /693], perturbed=True)
+  (/695): BoundMul(name=/695, inputs=[/327, /694], perturbed=True)
+  (/699): BoundMul(name=/699, inputs=[/324, /1093/sqr], perturbed=True)
+  (/703): BoundMul(name=/703, inputs=[/700/mul, /820], perturbed=True)
+  (/704): BoundSub(name=/704, inputs=[/703, /685], perturbed=True)
+  (/705): BoundAdd(name=/705, inputs=[/125, /704], perturbed=True)
+  (/706): BoundSub(name=/706, inputs=[/705, /125], perturbed=True)
+  (/707): BoundSub(name=/707, inputs=[/706, /704], perturbed=True)
+  (/710): BoundSqrt(name=/710, inputs=[/318], perturbed=True)
+  (/711): BoundMul(name=/711, inputs=[/169, /710], perturbed=True)
+  (/712): BoundMul(name=/712, inputs=[/324, /711], perturbed=True)
+  (/716): BoundSub(name=/716, inputs=[/715/mul, /707], perturbed=True)
+  (/717): BoundAdd(name=/717, inputs=[/705, /716], perturbed=True)
+  (/718): BoundSub(name=/718, inputs=[/717, /705], perturbed=True)
+  (/719): BoundSub(name=/719, inputs=[/718, /716], perturbed=True)
+  (/724): BoundMul(name=/724, inputs=[/108, /1070], perturbed=True)
+  (/725): BoundExp(name=/725, inputs=[/724], perturbed=True)
+  (/726): BoundMul(name=/726, inputs=[/107, /725], perturbed=True)
+  (/727): BoundMul(name=/727, inputs=[/347, /726], perturbed=True)
+  (/728): BoundMul(name=/728, inputs=[/337, /727], perturbed=True)
+  (/732): BoundPow(name=/732, inputs=[/317, /175], perturbed=True)
+  (/733): BoundMul(name=/733, inputs=[/1096/sqr, /732], perturbed=True)
+  (/735): BoundSub(name=/735, inputs=[/734/mul, /719], perturbed=True)
+  (/736): BoundAdd(name=/736, inputs=[/717, /735], perturbed=True)
+  (/737): BoundSub(name=/737, inputs=[/736, /717], perturbed=True)
+  (/738): BoundSub(name=/738, inputs=[/737, /735], perturbed=True)
+  (/741): BoundSqrt(name=/741, inputs=[/317], perturbed=True)
+  (/744): BoundSqrt(name=/744, inputs=[/710], perturbed=True)
+  (/746): BoundLog(name=/746, inputs=[/324], perturbed=True)
+  (/747): BoundMul(name=/747, inputs=[/95, /746], perturbed=True)
+  (/748): BoundExp(name=/748, inputs=[/747], perturbed=True)
+  (/749): BoundMul(name=/749, inputs=[/117, /748], perturbed=True)
+  (/750): BoundMul(name=/750, inputs=[/744, /749], perturbed=True)
+  (/751): BoundMul(name=/751, inputs=[/741, /750], perturbed=True)
+  (/752): BoundMul(name=/752, inputs=[/347, /751], perturbed=True)
+  (/755): BoundMul(name=/755, inputs=[/752, /1096/sqr], perturbed=True)
+  (/757): BoundLog(name=/757, inputs=[/337], perturbed=True)
+  (/758): BoundMul(name=/758, inputs=[/122, /757], perturbed=True)
+  (/759): BoundExp(name=/759, inputs=[/758], perturbed=True)
+  (/761): BoundSub(name=/761, inputs=[/760/mul, /738], perturbed=True)
+  (/762): BoundAdd(name=/762, inputs=[/736, /761], perturbed=True)
+  (/763): BoundShape(name=/763, inputs=[/124], perturbed=False)
+  (/764): BoundConstantOfShape(name=/764, inputs=[/763], perturbed=False)
+  (/820): BoundUnsqueeze(name=/820, inputs=[/125, /990], perturbed=False)
+  (/821): BoundMul(name=/821, inputs=[/995/mul, /820], perturbed=True)
+  (/822): BoundSub(name=/822, inputs=[/821, /764], perturbed=True)
+  (/823): BoundAdd(name=/823, inputs=[/124, /822], perturbed=True)
+  (/824): BoundSub(name=/824, inputs=[/823, /124], perturbed=True)
+  (/825): BoundSub(name=/825, inputs=[/824, /822], perturbed=True)
+  (/892): BoundMul(name=/892, inputs=[/1063/mul, /820], perturbed=True)
+  (/893): BoundSub(name=/893, inputs=[/892, /825], perturbed=True)
+  (/894): BoundAdd(name=/894, inputs=[/823, /893], perturbed=True)
+  (/895): BoundSub(name=/895, inputs=[/894, /823], perturbed=True)
+  (/896): BoundSub(name=/896, inputs=[/895, /893], perturbed=True)
+  (/914): BoundMul(name=/914, inputs=[/1082/mul, /820], perturbed=True)
+  (/915): BoundSub(name=/915, inputs=[/914, /896], perturbed=True)
+  (/916): BoundAdd(name=/916, inputs=[/894, /915], perturbed=True)
+  (/917): BoundSub(name=/917, inputs=[/916, /894], perturbed=True)
+  (/918): BoundSub(name=/918, inputs=[/917, /915], perturbed=True)
+  (/937): BoundMul(name=/937, inputs=[/1102/mul, /820], perturbed=True)
+  (/938): BoundSub(name=/938, inputs=[/937, /918], perturbed=True)
+  (/939): BoundAdd(name=/939, inputs=[/916, /938], perturbed=True)
+  (/940): BoundShape(name=/940, inputs=[/157], perturbed=False)
+  (/941): BoundConstantOfShape(name=/941, inputs=[/940], perturbed=False)
+  (/943): BoundTranspose(name=/943, inputs=[/159], perturbed=False)
+  (/944): BoundMatMul(name=/944, inputs=[/186, /943], perturbed=True)
+  (/950): BoundUnsqueeze(name=/950, inputs=[/191, /990], perturbed=False)
+  (/953): BoundSlice(name=/953, inputs=[/944, /959, /950, /991, /991], perturbed=True)
+  (/959): BoundUnsqueeze(name=/959, inputs=[/190, /990], perturbed=False)
+  (/962): BoundSlice(name=/962, inputs=[/944, /989, /959, /991, /991], perturbed=True)
+  (/963): BoundMul(name=/963, inputs=[/953, /962], perturbed=True)
+  (/972): BoundSlice(name=/972, inputs=[/944, /991, /987, /991, /991], perturbed=True)
+  (/976): BoundUnsqueeze(name=/976, inputs=[/222, /990], perturbed=False)
+  (/981): BoundSlice(name=/981, inputs=[/944, /976, /991, /991, /991], perturbed=True)
+  (/983): BoundMul(name=/983, inputs=[/972, /982/sqr], perturbed=True)
+  (/987): BoundUnsqueeze(name=/987, inputs=[/212, /990], perturbed=False)
+  (/989): BoundUnsqueeze(name=/989, inputs=[/201, /990], perturbed=False)
+  (/990): BoundConstant(name=/990, value=tensor([0], device='cuda:0'))
+  (/991): BoundUnsqueeze(name=/991, inputs=[/189, /990], perturbed=False)
+  (/992): BoundSlice(name=/992, inputs=[/944, /987, /989, /991, /991], perturbed=True)
+  (/994): BoundMul(name=/994, inputs=[/983, /993/sqr], perturbed=True)
+  (/996): BoundSub(name=/996, inputs=[/995/mul, /941], perturbed=True)
+  (/997): BoundAdd(name=/997, inputs=[/157, /996], perturbed=True)
+  (/998): BoundSub(name=/998, inputs=[/997, /157], perturbed=True)
+  (/999): BoundSub(name=/999, inputs=[/998, /996], perturbed=True)
+  (/1001): BoundTranspose(name=/1001, inputs=[/164], perturbed=False)
+  (/1002): BoundMatMul(name=/1002, inputs=[/248, /1001], perturbed=True)
+  (/1008): BoundUnsqueeze(name=/1008, inputs=[/251, /990], perturbed=False)
+  (/1011): BoundSlice(name=/1011, inputs=[/1002, /950, /1008, /991, /991], perturbed=True)
+  (/1020): BoundSlice(name=/1020, inputs=[/1002, /987, /989, /991, /991], perturbed=True)
+  (/1021): BoundMul(name=/1021, inputs=[/1011, /1020], perturbed=True)
+  (/1030): BoundSlice(name=/1030, inputs=[/1002, /959, /950, /991, /991], perturbed=True)
+  (/1031): BoundSqrt(name=/1031, inputs=[/1030], perturbed=True)
+  (/1040): BoundSlice(name=/1040, inputs=[/1002, /976, /991, /991, /991], perturbed=True)
+  (/1041): BoundMul(name=/1041, inputs=[/1031, /1040], perturbed=True)
+  (/1050): BoundSlice(name=/1050, inputs=[/1002, /989, /959, /991, /991], perturbed=True)
+  (/1051): BoundMul(name=/1051, inputs=[/1041, /1050], perturbed=True)
+  (/1060): BoundSlice(name=/1060, inputs=[/1002, /991, /987, /991, /991], perturbed=True)
+  (/1062): BoundMul(name=/1062, inputs=[/1051, /1061/sqr], perturbed=True)
+  (/1064): BoundSub(name=/1064, inputs=[/1063/mul, /999], perturbed=True)
+  (/1065): BoundAdd(name=/1065, inputs=[/997, /1064], perturbed=True)
+  (/1066): BoundSub(name=/1066, inputs=[/1065, /997], perturbed=True)
+  (/1067): BoundSub(name=/1067, inputs=[/1066, /1064], perturbed=True)
+  (/1070): BoundLog(name=/1070, inputs=[/318], perturbed=True)
+  (/1071): BoundMul(name=/1071, inputs=[/169, /1070], perturbed=True)
+  (/1072): BoundExp(name=/1072, inputs=[/1071], perturbed=True)
+  (/1073): BoundMul(name=/1073, inputs=[/168, /1072], perturbed=True)
+  (/1074): BoundMul(name=/1074, inputs=[/317, /1073], perturbed=True)
+  (/1077): BoundMul(name=/1077, inputs=[/1074, /1076/sqr], perturbed=True)
+  (/1080): BoundPow(name=/1080, inputs=[/328, /175], perturbed=True)
+  (/1081): BoundMul(name=/1081, inputs=[/327, /1080], perturbed=True)
+  (/1083): BoundSub(name=/1083, inputs=[/1082/mul, /1067], perturbed=True)
+  (/1084): BoundAdd(name=/1084, inputs=[/1065, /1083], perturbed=True)
+  (/1085): BoundSub(name=/1085, inputs=[/1084, /1065], perturbed=True)
+  (/1086): BoundSub(name=/1086, inputs=[/1085, /1083], perturbed=True)
+  (/1089): BoundSqrt(name=/1089, inputs=[/337], perturbed=True)
+  (/1090): BoundMul(name=/1090, inputs=[/177, /1089], perturbed=True)
+  (/1091): BoundMul(name=/1091, inputs=[/318, /1090], perturbed=True)
+  (/1094): BoundMul(name=/1094, inputs=[/1091, /1093/sqr], perturbed=True)
+  (/1097): BoundMul(name=/1097, inputs=[/1094, /1096/sqr], perturbed=True)
+  (/1101): BoundMul(name=/1101, inputs=[/347, /1100/sqr], perturbed=True)
+  (/1103): BoundSub(name=/1103, inputs=[/1102/mul, /1086], perturbed=True)
+  (/1104): BoundAdd(name=/1104, inputs=[/1084, /1103], perturbed=True)
+  (/1105): BoundConcat(name=/1105, inputs=[/353, /407, /533, /683, /762, /939, /1104], perturbed=True)
+  (/510/sqr): BoundSqr(name=/510/sqr, inputs=[/509], perturbed=True)
+  (/679/sqr): BoundSqr(name=/679/sqr, inputs=[/678], perturbed=True)
+  (/714/sqr): BoundSqr(name=/714/sqr, inputs=[/347], perturbed=True)
+  (/982/sqr): BoundSqr(name=/982/sqr, inputs=[/981], perturbed=True)
+  (/993/sqr): BoundSqr(name=/993/sqr, inputs=[/992], perturbed=True)
+  (/1061/sqr): BoundSqr(name=/1061/sqr, inputs=[/1060], perturbed=True)
+  (/1076/sqr): BoundSqr(name=/1076/sqr, inputs=[/324], perturbed=True)
+  (/1093/sqr): BoundSqr(name=/1093/sqr, inputs=[/317], perturbed=True)
+  (/1096/sqr): BoundSqr(name=/1096/sqr, inputs=[/327], perturbed=True)
+  (/1100/sqr): BoundSqr(name=/1100/sqr, inputs=[/328], perturbed=True)
+  (/365/reciprocal): BoundReciprocal(name=/365/reciprocal, inputs=[/1101], perturbed=True)
+  (/365/mul): BoundMul(name=/365/mul, inputs=[/360, /365/reciprocal], perturbed=True)
+  (/388/reciprocal): BoundReciprocal(name=/388/reciprocal, inputs=[/387], perturbed=True)
+  (/388/mul): BoundMul(name=/388/mul, inputs=[/383, /388/reciprocal], perturbed=True)
+  (/405/reciprocal): BoundReciprocal(name=/405/reciprocal, inputs=[/714/sqr], perturbed=True)
+  (/405/mul): BoundMul(name=/405/mul, inputs=[/402, /405/reciprocal], perturbed=True)
+  (/462/reciprocal): BoundReciprocal(name=/462/reciprocal, inputs=[/461], perturbed=True)
+  (/462/mul): BoundMul(name=/462/mul, inputs=[/431, /462/reciprocal], perturbed=True)
+  (/484/reciprocal): BoundReciprocal(name=/484/reciprocal, inputs=[/483], perturbed=True)
+  (/484/mul): BoundMul(name=/484/mul, inputs=[/477, /484/reciprocal], perturbed=True)
+  (/531/reciprocal): BoundReciprocal(name=/531/reciprocal, inputs=[/530], perturbed=True)
+  (/531/mul): BoundMul(name=/531/mul, inputs=[/511, /531/reciprocal], perturbed=True)
+  (/551/reciprocal): BoundReciprocal(name=/551/reciprocal, inputs=[/550], perturbed=True)
+  (/551/mul): BoundMul(name=/551/mul, inputs=[/544, /551/reciprocal], perturbed=True)
+  (/612/reciprocal): BoundReciprocal(name=/612/reciprocal, inputs=[/611], perturbed=True)
+  (/612/mul): BoundMul(name=/612/mul, inputs=[/580, /612/reciprocal], perturbed=True)
+  (/624/reciprocal): BoundReciprocal(name=/624/reciprocal, inputs=[/317], perturbed=True)
+  (/624/mul): BoundMul(name=/624/mul, inputs=[/622, /624/reciprocal], perturbed=True)
+  (/681/reciprocal): BoundReciprocal(name=/681/reciprocal, inputs=[/680], perturbed=True)
+  (/681/mul): BoundMul(name=/681/mul, inputs=[/660, /681/reciprocal], perturbed=True)
+  (/700/reciprocal): BoundReciprocal(name=/700/reciprocal, inputs=[/699], perturbed=True)
+  (/700/mul): BoundMul(name=/700/mul, inputs=[/695, /700/reciprocal], perturbed=True)
+  (/715/reciprocal): BoundReciprocal(name=/715/reciprocal, inputs=[/714/sqr], perturbed=True)
+  (/715/mul): BoundMul(name=/715/mul, inputs=[/712, /715/reciprocal], perturbed=True)
+  (/734/reciprocal): BoundReciprocal(name=/734/reciprocal, inputs=[/733], perturbed=True)
+  (/734/mul): BoundMul(name=/734/mul, inputs=[/728, /734/reciprocal], perturbed=True)
+  (/760/reciprocal): BoundReciprocal(name=/760/reciprocal, inputs=[/759], perturbed=True)
+  (/760/mul): BoundMul(name=/760/mul, inputs=[/755, /760/reciprocal], perturbed=True)
+  (/995/reciprocal): BoundReciprocal(name=/995/reciprocal, inputs=[/994], perturbed=True)
+  (/995/mul): BoundMul(name=/995/mul, inputs=[/963, /995/reciprocal], perturbed=True)
+  (/1063/reciprocal): BoundReciprocal(name=/1063/reciprocal, inputs=[/1062], perturbed=True)
+  (/1063/mul): BoundMul(name=/1063/mul, inputs=[/1021, /1063/reciprocal], perturbed=True)
+  (/1082/reciprocal): BoundReciprocal(name=/1082/reciprocal, inputs=[/1081], perturbed=True)
+  (/1082/mul): BoundMul(name=/1082/mul, inputs=[/1077, /1082/reciprocal], perturbed=True)
+  (/1102/reciprocal): BoundReciprocal(name=/1102/reciprocal, inputs=[/1101], perturbed=True)
+  (/1102/mul): BoundMul(name=/1102/mul, inputs=[/1097, /1102/reciprocal], perturbed=True)
+)
+Original output in the first batch: tensor([[ 1424.82477678,   201.12078091,     3.63686931,    12.61548575,
+            74.95607430, -1324.82477678, -1575.17522322]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [-0.0003767582574846195, -1.0020774833720323, -0.9998683513672169, -0.99873206772435, -0.9997963908737089, -8575142007.332401, -3000.0004886685897]
+Global lower bound: -8575142007.332401
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 7), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 7), values=[[-0.0003767582574846195, -1.0020774833720323, -0.9998683513672169, -0.99873206772435, -0.9997963908737089, -8575142007.332401, -3000.0004886685897]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 1., 0., 0., 0., 0., 0.],
+         [0., 0., 1., 0., 0., 0., 0.],
+         [0., 0., 0., 1., 0., 0., 0.],
+         [0., 0., 0., 0., 1., 0., 0.],
+         [0., 0., 0., 0., 0., 1., 0.],
+         [0., 0., 0., 0., 0., 0., 1.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([6], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 178.54832863807678
+Model prediction is: tensor([ 1424.82477678,   201.12078091,     3.63686931,    12.61548575,
+           74.95607430, -1324.82477678, -1575.17522322], device='cuda:0')
+[Op] setup t=3.397 s=3.3969 work=1 dD=0 dP=0
+[Op] reference_bounds t=3.398 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 1}
+[Op] rows t=3.408 s=0.0106 work=1 dD=100 dP=0
+[Structure] objective=frac rows={'frac': 6} duplicates=0 opposites=0 redundant=0 aliases=2 pool={'rows': 5, 'ranged': 1, 'merged': 1, 'masked': 0, 'opaque': 0} spent=207 time=0.034s
+[Op] struct_forms t=3.443 s=0.0353 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'objective is not a quadratic polynomial', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.001s
+[Op] struct_cert t=3.446 s=0.0023 work=1 dD=0 dP=0
+[RootHybrid] terms=4 lb=6.85132218438e-06 (root lb was 99.999999)
+[Op] hybrid t=3.748 s=0.3025 work=1 dD=0 dP=0
+[Op] initial_verify t=3.748 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=3.751 s=0.0028 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 7 vars, 6 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+    [ALM-PGD] Positive-residual RMS scale: min=2.022e+01 median=3.783e+03 max=6.724e+06
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+[SparseDerivatives] rows=6 merged=5 atoms=0 nnzJ=31 nnzH=28 hessian=exact reproduces=True build=0.01s
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=543.665730, viol=9.96e-07
+    [ALM-FEAS] GN iter 1: live=256/256 accepted=256 best_viol_min=8.865e-04 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=256/256 accepted=256 best_viol_min=0.000e+00 feasible=2 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 10: live=138/256 accepted=138 best_viol_min=0.000e+00 feasible=143 alpha_idx_med=0 lam_rel_med=1.5e-10 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 20: live=10/256 accepted=10 best_viol_min=0.000e+00 feasible=248 alpha_idx_med=1 lam_rel_med=5.1e-11 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 30: live=7/256 accepted=7 best_viol_min=0.000e+00 feasible=249 alpha_idx_med=1 lam_rel_med=1.4e-09 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 40: live=4/256 accepted=4 best_viol_min=0.000e+00 feasible=252 alpha_idx_med=0 lam_rel_med=2.1e-13 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 50: live=1/256 accepted=1 best_viol_min=0.000e+00 feasible=255 alpha_idx_med=2 lam_rel_med=8.0e-14 radius_med=2.5e-01
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=256 iters=50/50 min_viol=7.225e-02->7.922e-07 feasible=1/1 improved=1 newly_feasible=1
+    [ALM-SQP] it=0 running=64/64 accepted=64 feasible=1 best=742.79 |d|=7.92e-01
+    [ALM-SQP] it=1 running=64/64 accepted=64 feasible=1 best=742.79 |d|=7.71e-01
+    [ALM-SQP] it=2 running=64/64 accepted=64 feasible=1 best=742.79 |d|=5.52e-01
+    [ALM-SQP] it=9 running=64/64 accepted=64 feasible=15 best=623.835 |d|=5.06e-01
+    [ALM-SQP] it=19 running=64/64 accepted=52 feasible=56 best=543.666 |d|=7.19e-01
+    [ALM-SQP] it=29 running=34/64 accepted=29 feasible=60 best=543.666 |d|=4.92e-01
+    [ALM-SQP] it=39 running=22/64 accepted=19 feasible=61 best=543.666 |d|=5.97e-01
+    [ALM-SQP] it=49 running=18/64 accepted=17 feasible=61 best=543.666 |d|=3.24e-01
+    [ALM-SQP] Optimality polish: candidates=32+32 iters=50 feasible=61 improved=5 best_feas_obj=742.79->543.666 time=2.23s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=300
+  [ALM] Verification: valid=True, obj=543.665938, viol=9.73e-07
+  [Root] Parallel done: IPOPT 0.34s, ALM 5.00s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 543.665730
+  Violation: 9.96e-07
+  Time: 0.34s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 543.665938
+  Violation: 9.73e-07
+  Time: 5.00s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: ipopt
+Best objective: 543.665730
+======================================================================
+NLP Comparison: Best objective = 543.665730 (not counterexample)
+  Local (IPOPT): verified=True, obj=543.6657300097747, time=0.34s
+  ALM:   verified=True, obj=543.6659382220777, time=5.00s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=8.768 s=5.0159 work=1 dD=0 dP=0
+[Op] search_state t=8.768 s=0.0005 work=1 dD=0 dP=0
+[Op] incumbent t=8.768 s=0.0001 work=1 dD=0 dP=inf
+[Op] tangent t=8.959 s=0.1908 work=1 dD=0 dP=0
+[Op] consistency t=8.959 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=8.960 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=8.961 s=0.0014 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'proved GP', 'rows': 5, 'dropped_rows': [5], 'terms': 4}
+[GP certificate] planes: native CROWN on the log-coordinate rewrite
+[GP certificate] D=543.665686388 P=543.66573001 rounds=1 time=0.041s
+Primal Solution tensor([543.66573001], device='cuda:0'), Dual Solution 543.6656863877421
+Solution gap: 4.3622032649182074e-05
+Found optimal object: tensor([543.66573001], device='cuda:0')
+[best-primal] objective=543.6657300097747 x=[4.394103267272996, 0.8544695047890429, 2.8432301582784887, 3.399974074233908, 0.7229266477680595, 0.8704065381946742, 0.024638858472963418]
+[Op] gp_certificate t=9.061 s=0.0997 work=1 dD=443.666 dP=0
+problem_name=hs103 status=verified success=True
+
+#RUNNER rc=0 elapsed=9.80 waited=0.0

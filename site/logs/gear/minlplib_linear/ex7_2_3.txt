@@ -1,0 +1,857 @@
+#CMD <env>/bin/python nlp_example.py --problem_name ex7_2_3 --benchmark minlplib_linear --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792658379.696749971
+INFO     03:39:41     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+[nlp_example] Loaded 3 input linear constraints from ex7_2_3_model_state.pt
+Precompiled vnnlib file found at benchmarks/minlplib_linear/vnnlib_minlplib_linear/ex7_2_3.vnnlib.compiled
+[W1022 03:39:41.607984906 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib_linear/py_minlplib_linear/modules.py:77: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  v = _broadcast_scalar_last_dim(v, int(self.indices.numel()))
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/7): BoundBuffers(name=/7, inputs=[], perturbed=False)
+  (/8): BoundBuffers(name=/8, inputs=[], perturbed=False)
+  (/9): BoundBuffers(name=/9, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/15): BoundBuffers(name=/15, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/17): BoundBuffers(name=/17, inputs=[], perturbed=False)
+  (/19): BoundBuffers(name=/19, inputs=[], perturbed=False)
+  (/21): BoundBuffers(name=/21, inputs=[], perturbed=False)
+  (/22): BoundBuffers(name=/22, inputs=[], perturbed=False)
+  (/24): BoundBuffers(name=/24, inputs=[], perturbed=False)
+  (/26): BoundBuffers(name=/26, inputs=[], perturbed=False)
+  (/27): BoundBuffers(name=/27, inputs=[], perturbed=False)
+  (/v-15): BoundBuffers(name=/v-15, inputs=[], perturbed=False)
+  (/29): BoundBuffers(name=/29, inputs=[], perturbed=False)
+  (/30): BoundBuffers(name=/30, inputs=[], perturbed=False)
+  (/31): BoundBuffers(name=/31, inputs=[], perturbed=False)
+  (/33): BoundBuffers(name=/33, inputs=[], perturbed=False)
+  (/34): BoundBuffers(name=/34, inputs=[], perturbed=False)
+  (/35): BoundBuffers(name=/35, inputs=[], perturbed=False)
+  (/37): BoundShape(name=/37, inputs=[/0], perturbed=False)
+  (/39): BoundGather(name=/39, inputs=[/37, /102], perturbed=False)
+  (/40): BoundConstant(name=/40, value=4)
+  (/44): BoundUnsqueeze(name=/44, inputs=[/40, /161], perturbed=False)
+  (/45): BoundConcat(name=/45, inputs=[/88, /44], perturbed=False)
+  (/46): BoundConstantOfShape(name=/46, inputs=[/45], perturbed=False)
+  (/48): BoundGather(name=/48, inputs=[/0, /9], perturbed=True)
+  (/49): BoundTranspose(name=/49, inputs=[/10], perturbed=False)
+  (/v): BoundMatMul(name=/v, inputs=[/48, /49], perturbed=True)
+  (/51): BoundConstant(name=/51, value=1)
+  (/52): BoundATenIndex_add(name=/52, inputs=[/46, /51, /8, /v, /51], perturbed=True)
+  (/53): BoundCast(name=/53, inputs=[/52], perturbed=True)
+  (/54): BoundAdd(name=/54, inputs=[/46, /53], perturbed=True)
+  (/55): BoundGather(name=/55, inputs=[/0, /15], perturbed=True)
+  (/56): BoundMul(name=/56, inputs=[/34, /55], perturbed=True)
+  (/58): BoundConstant(name=/58, inputs=[], perturbed=False)
+  (/59): BoundReshape(name=/59, inputs=[/12, /58], perturbed=False)
+  (/60): BoundMul(name=/60, inputs=[/v-3/mul, /59], perturbed=True)
+  (/v-7): BoundCast(name=/v-7, inputs=[/60], perturbed=True)
+  (/62): BoundATenIndex_add(name=/62, inputs=[/54, /51, /3, /v-7, /51], perturbed=True)
+  (/63): BoundGather(name=/63, inputs=[/0, /19], perturbed=True)
+  (/64): BoundMul(name=/64, inputs=[/34, /63], perturbed=True)
+  (/65): BoundGather(name=/65, inputs=[/0, /21], perturbed=True)
+  (/66): BoundMul(name=/66, inputs=[/34, /65], perturbed=True)
+  (/67): BoundMul(name=/67, inputs=[/64, /66], perturbed=True)
+  (/70): BoundReshape(name=/70, inputs=[/16, /79], perturbed=False)
+  (/71): BoundMul(name=/71, inputs=[/v-11/mul, /70], perturbed=True)
+  (/v-16): BoundCast(name=/v-16, inputs=[/71], perturbed=True)
+  (/73): BoundATenIndex_add(name=/73, inputs=[/62, /51, /4, /v-16, /51], perturbed=True)
+  (/74): BoundGather(name=/74, inputs=[/0, /24], perturbed=True)
+  (/75): BoundMul(name=/75, inputs=[/34, /74], perturbed=True)
+  (/76): BoundGather(name=/76, inputs=[/0, /26], perturbed=True)
+  (/77): BoundMul(name=/77, inputs=[/34, /76], perturbed=True)
+  (/79): BoundConstant(name=/79, inputs=[], perturbed=False)
+  (/80): BoundReshape(name=/80, inputs=[/22, /79], perturbed=False)
+  (/81): BoundMul(name=/81, inputs=[/v-20/mul, /80], perturbed=True)
+  (/v-24): BoundCast(name=/v-24, inputs=[/81], perturbed=True)
+  (/83): BoundATenIndex_add(name=/83, inputs=[/73, /51, /5, /v-24, /51], perturbed=True)
+  (/84): BoundConstant(name=/84, value=tensor([1], device='cuda:0'))
+  (/85): BoundReshape(name=/85, inputs=[/v-15, /84], perturbed=False)
+  (/88): BoundUnsqueeze(name=/88, inputs=[/39, /161], perturbed=False)
+  (/91): BoundConcat(name=/91, inputs=[/88, /162], perturbed=False)
+  (/93): BoundReshape(name=/93, inputs=[/91, /110], perturbed=False)
+  (/94): BoundShape(name=/94, inputs=[/93], perturbed=False)
+  (/95): BoundConstantOfShape(name=/95, inputs=[/94], perturbed=False)
+  (/96): BoundConstant(name=/96, value=-1)
+  (/97): BoundMul(name=/97, inputs=[/95, /96], perturbed=False)
+  (/98): BoundEqual(name=/98, inputs=[/93, /97], perturbed=False)
+  (/99): BoundWhere(name=/99, inputs=[/98, /95, /93], perturbed=False)
+  (/v-28): BoundExpand(name=/v-28, inputs=[/85, /99], perturbed=False)
+  (/101): BoundShape(name=/101, inputs=[/v-28], perturbed=False)
+  (/102): BoundConstant(name=/102, value=0)
+  (/103): BoundGather(name=/103, inputs=[/101, /102], perturbed=False)
+  (/104): BoundConstant(name=/104, value=3)
+  (/106): BoundUnsqueeze(name=/106, inputs=[/103, /161], perturbed=False)
+  (/108): BoundUnsqueeze(name=/108, inputs=[/104, /161], perturbed=False)
+  (/109): BoundConcat(name=/109, inputs=[/106, /108], perturbed=False)
+  (/110): BoundConstant(name=/110, value=tensor([-1], device='cuda:0'))
+  (/111): BoundReshape(name=/111, inputs=[/109, /110], perturbed=False)
+  (/112): BoundShape(name=/112, inputs=[/111], perturbed=False)
+  (/113): BoundConstantOfShape(name=/113, inputs=[/112], perturbed=False)
+  (/115): BoundMul(name=/115, inputs=[/113, /96], perturbed=False)
+  (/116): BoundEqual(name=/116, inputs=[/111, /115], perturbed=False)
+  (/117): BoundWhere(name=/117, inputs=[/116, /113, /111], perturbed=False)
+  (/118): BoundExpand(name=/118, inputs=[/v-28, /117], perturbed=False)
+  (/119): BoundConstant(name=/119, inputs=[], perturbed=False)
+  (/120): BoundReshape(name=/120, inputs=[/27, /119], perturbed=False)
+  (/121): BoundMul(name=/121, inputs=[/118, /120], perturbed=False)
+  (/v-32): BoundCast(name=/v-32, inputs=[/121], perturbed=False)
+  (/123): BoundATenIndex_add(name=/123, inputs=[/83, /51, /6, /v-32, /51], perturbed=True)
+  (/124): BoundGather(name=/124, inputs=[/0, /31], perturbed=True)
+  (/125): BoundMul(name=/125, inputs=[/124, /30], perturbed=True)
+  (/126): BoundGather(name=/126, inputs=[/0, /33], perturbed=True)
+  (/127): BoundMul(name=/127, inputs=[/34, /126], perturbed=True)
+  (/129): BoundGather(name=/129, inputs=[/0, /35], perturbed=True)
+  (/130): BoundMul(name=/130, inputs=[/34, /129], perturbed=True)
+  (/132): BoundConstant(name=/132, inputs=[], perturbed=False)
+  (/133): BoundReshape(name=/133, inputs=[/29, /132], perturbed=False)
+  (/134): BoundMul(name=/134, inputs=[/v-36/mul, /133], perturbed=True)
+  (/v-40): BoundCast(name=/v-40, inputs=[/134], perturbed=True)
+  (/136): BoundATenIndex_add(name=/136, inputs=[/123, /51, /7, /v-40, /51], perturbed=True)
+  (/140): BoundUnsqueeze(name=/140, inputs=[/96, /161], perturbed=False)
+  (/141): BoundConcat(name=/141, inputs=[/88, /140], perturbed=False)
+  (/142): BoundReshape(name=/142, inputs=[/0, /141], perturbed=True)
+  (/143): BoundNeg(name=/143, inputs=[/27], perturbed=False)
+  (/144): BoundLinear(name=/144, inputs=[/142, /1, /143], perturbed=True)
+  (/145): BoundConstant(name=/145, value=9223372036854775807)
+  (/149): BoundUnsqueeze(name=/149, inputs=[/102, /161], perturbed=False)
+  (/154): BoundSlice(name=/154, inputs=[/136, /149, /162, /162, /162], perturbed=True)
+  (/160): BoundUnsqueeze(name=/160, inputs=[/145, /161], perturbed=False)
+  (/161): BoundConstant(name=/161, value=tensor([0], device='cuda:0'))
+  (/162): BoundUnsqueeze(name=/162, inputs=[/51, /161], perturbed=False)
+  (/163): BoundSlice(name=/163, inputs=[/136, /162, /160, /162, /162], perturbed=True)
+  (/164): BoundConcat(name=/164, inputs=[/154, /144, /163], perturbed=True)
+  (/v-3/reciprocal): BoundReciprocal(name=/v-3/reciprocal, inputs=[/56], perturbed=True)
+  (/v-3/mul): BoundMul(name=/v-3/mul, inputs=[/13, /v-3/reciprocal], perturbed=True)
+  (/v-11/reciprocal): BoundReciprocal(name=/v-11/reciprocal, inputs=[/67], perturbed=True)
+  (/v-11/mul): BoundMul(name=/v-11/mul, inputs=[/17, /v-11/reciprocal], perturbed=True)
+  (/v-20/reciprocal): BoundReciprocal(name=/v-20/reciprocal, inputs=[/77], perturbed=True)
+  (/v-20/mul): BoundMul(name=/v-20/mul, inputs=[/75, /v-20/reciprocal], perturbed=True)
+  (/128/reciprocal): BoundReciprocal(name=/128/reciprocal, inputs=[/127], perturbed=True)
+  (/128/mul): BoundMul(name=/128/mul, inputs=[/125, /128/reciprocal], perturbed=True)
+  (/v-36/reciprocal): BoundReciprocal(name=/v-36/reciprocal, inputs=[/130], perturbed=True)
+  (/v-36/mul): BoundMul(name=/v-36/mul, inputs=[/128/mul, /v-36/reciprocal], perturbed=True)
+)
+Original output in the first batch: tensor([[ 1.60500000e+04,  1.52500000e+00,  2.62500000e-01, -1.00000000e+00,
+         -6.69640392e-01,  0.00000000e+00, -4.50045005e-03]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [2099.999999998849, -83.93551261216346, -124.96300444637696, -249.47178666003103, -0.9500000000008973, -3.450000000000988, -10.900000000001368]
+Global lower bound: -249.47178666003103
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 7), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 7), values=[[2099.999999998849, -83.93551261216346, -124.96300444637696, -249.47178666003103, -0.9500000000008973, -3.450000000000988, -10.900000000001368]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 0., 0., 0., 1., 0., 0.],
+         [0., 0., 0., 0., 0., 1., 0.],
+         [0., 0., 0., 0., 0., 0., 1.],
+         [0., 1., 0., 0., 0., 0., 0.],
+         [0., 0., 1., 0., 0., 0., 0.],
+         [0., 0., 0., 1., 0., 0., 0.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([6], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 179.46462726593018
+Model prediction is: tensor([ 1.60500000e+04,  1.52500000e+00,  2.62500000e-01, -1.00000000e+00,
+        -6.69640392e-01,  0.00000000e+00, -4.50045005e-03], device='cuda:0')
+[Op] setup t=2.280 s=2.2795 work=1 dD=0 dP=0
+[Op] reference_bounds t=2.280 s=0.0000 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=2.282 s=0.0017 work=1 dD=0 dP=0
+[Structure] objective=affine rows={'laurent': 3, 'affine': 3} duplicates=0 opposites=0 redundant=0 aliases=0 pool={'rows': 6, 'ranged': 0, 'merged': 3, 'masked': 0, 'opaque': 0} spent=80 time=0.010s
+[Op] struct_forms t=2.293 s=0.0110 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.001s
+[Op] struct_cert t=2.295 s=0.0016 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=2100 (root lb was 2100)
+[Op] hybrid t=2.361 s=0.0664 work=1 dD=6.12999e-10 dP=0
+[Op] initial_verify t=2.361 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=2.364 s=0.0030 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 8 vars, 6 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=9 merged=6 atoms=0 nnzJ=17 nnzH=17 hessian=exact reproduces=True build=0.00s
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+    [ALM-PGD] Positive-residual RMS scale: min=1.000e+00 median=2.023e+00 max=4.594e+01
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+  [IPOPT] Verification: valid=True, obj=7049.210720, viol=1.00e-06
+    [ALM-FEAS] GN iter 1: live=256/256 accepted=256 best_viol_min=5.942e-03 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=256/256 accepted=256 best_viol_min=1.051e-04 feasible=0 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=256 iters=7/50 min_viol=6.965e-02->0.000e+00 feasible=1/1 improved=1 newly_feasible=1
+    [ALM-SQP] it=0 running=64/64 accepted=64 feasible=3 best=7246.89 |d|=8.96e-01
+    [ALM-SQP] it=1 running=64/64 accepted=64 feasible=3 best=7115.6 |d|=8.78e-01
+    [ALM-SQP] it=2 running=64/64 accepted=64 feasible=7 best=7115.6 |d|=5.20e-01
+    [ALM-SQP] it=9 running=64/64 accepted=52 feasible=62 best=7049.22 |d|=4.09e-01
+    [ALM-SQP] it=19 running=24/64 accepted=17 feasible=64 best=7049.22 |d|=3.14e-01
+    [ALM-SQP] it=29 running=10/64 accepted=7 feasible=64 best=7049.22 |d|=1.34e-01
+    [ALM-SQP] it=39 running=7/64 accepted=4 feasible=64 best=7049.22 |d|=1.12e-01
+    [ALM-SQP] it=49 running=3/64 accepted=1 feasible=64 best=7049.22 |d|=1.08e-01
+    [ALM-SQP] Optimality polish: candidates=32+32 iters=50 feasible=64 improved=5 best_feas_obj=7425.15->7049.22 time=0.81s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=257
+  [ALM] Verification: valid=True, obj=7049.219484, viol=9.27e-07
+  [Root] Parallel done: IPOPT 0.07s, ALM 1.21s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 7049.210720
+  Violation: 1.00e-06
+  Time: 0.07s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 7049.219484
+  Violation: 9.27e-07
+  Time: 1.21s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: ipopt
+Best objective: 7049.210720
+======================================================================
+NLP Comparison: Best objective = 7049.210720 (not counterexample)
+  Local (IPOPT): verified=True, obj=7049.210720052934, time=0.07s
+  ALM:   verified=True, obj=7049.219484034867, time=1.21s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=3.580 s=1.2156 work=1 dD=0 dP=0
+[Op] search_state t=3.581 s=0.0002 work=1 dD=0 dP=0
+[Op] incumbent t=3.581 s=0.0002 work=1 dD=0 dP=inf
+<gear>/complete_verifier/nlp_solver/quadratic_tangent.py:123: UserWarning: index_reduce() is in beta and the API may change at any time. (Triggered internally at /pytorch/aten/src/ATen/native/TensorAdvancedIndexing.cpp:1517.)
+  out = data.clone().index_reduce_(axis, _const(ins[2]).long(), src, "amax",
+[QTB] objective is quadratic; tangent bound enabled (lambda_min >= -1e-09, tangent at local KKT point f=7049.210347)
+[Op] tangent t=3.621 s=0.0402 work=1 dD=0 dP=0
+[Op] consistency t=3.621 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=3.621 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=3.622 s=0.0008 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'proved GP', 'rows': 1, 'dropped_rows': [1, 2, 3, 5, 6], 'terms': 3}
+[GP certificate] planes: native CROWN on the log-coordinate rewrite
+[GP certificate] D=2100 P=7049.21072005 rounds=6 time=0.050s
+[Op] gp_certificate t=3.693 s=0.0703 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=3.694 s=0.0013 work=1 dD=0 dP=0
+[Op] convex_cuts t=3.760 s=0.0654 work=1 dD=0 dP=0
+[LiftedLP] cleared denominators for 3 constraint rows (strictly positive root variables; relaxed RHS)
+[LiftedLP] 6/6 constraint rows and a quadratic objective lifted: n=8, 5 products (0 squares), 20 McCormick rows
+[LiftedLP] built in 0.03s
+[Op] lifted_lp t=3.792 s=0.0323 work=1 dD=0 dP=0
+[LiftedLP] root bound before OBBT: 2717.12898773 (incumbent 7049.21072005, version 1)
+[Op] lifted_bound t=3.815 s=0.0230 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.513 (26 LPs, 0.0s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 1: mean relative shrink 0.071 (52 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 2: mean relative shrink 0.057 (78 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 3: mean relative shrink 0.048 (104 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 4: mean relative shrink 0.038 (130 LPs, 0.2s) [0 dual replays, 0 deferred]
+[LiftedLP] McCormick OBBT warm-up in 0.17s
+[Op] lifted_warm_up t=3.989 s=0.1742 work=1 dD=0 dP=0
+[Op] lifted_rlt t=3.990 s=0.0002 work=1 dD=0 dP=0
+[LiftedLP] root bound before OBBT: 3178.23485977 (incumbent 7049.21072005, version 2)
+[Op] lifted_bound t=4.006 s=0.0159 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.031 (26 LPs, 0.0s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 1: mean relative shrink 0.019 (52 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 2: mean relative shrink 0.009 (78 LPs, 0.1s) [0 dual replays, 0 deferred]
+[LiftedLP] root OBBT in 0.28s: mean width ratio 0.3725, min 0.234, cutoff 7049.21072
+[LiftedLP] audit: incumbent inside the OBBT box: True (min slack 30.7)
+[Op] lifted_obbt t=4.111 s=0.1048 work=1 dD=0 dP=0
+[LiftedLP] root bound: 3220.37476644
+[LiftedLP] lifted-LP B&B: 82 nodes in 1.59s, D=7048.53628096, incumbent 7049.21072005, CLOSED
+Primal Solution tensor([7049.21072005], device='cuda:0'), Dual Solution 7048.536280958249
+Solution gap: 0.6744390946851127
+Found optimal object: tensor([7049.21072005], device='cuda:0')
+[best-primal] objective=7049.210720052934 x=[579.3075486452964, 1359.9683483308609, 5109.934823076777, 182.01802517225124, 295.6015940872502, 217.98237480925363, 286.4168310780206, 395.601694085472]
+[Op] lifted_bab t=5.706 s=1.5949 work=1 dD=4948.54 dP=0
+problem_name=ex7_2_3 status=verified success=True
+
+#RUNNER rc=0 elapsed=6.46 waited=0.0

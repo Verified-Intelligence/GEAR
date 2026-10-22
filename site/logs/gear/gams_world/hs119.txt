@@ -1,0 +1,1929 @@
+#CMD <env>/bin/python nlp_example.py --problem_name hs119 --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792651600.110805493
+INFO     01:46:41     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/hs119.vnnlib.compiled
+[W1022 01:46:41.005156708 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:539: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if int(v.shape[-1]) == 1 and self.n != 1:
+<env>/lib/python3.11/site-packages/torch/onnx/utils.py:636: UserWarning: ONNX Preprocess - Removing mutation from node aten::index_add_ on block input: '1'. This changes graph semantics. (Triggered internally at /pytorch/torch/csrc/jit/passes/onnx/remove_inplace_ops_for_onnx.cpp:348.)
+  _C._jit_pass_onnx_remove_inplace_ops_for_onnx(graph, module)
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=92 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/8): BoundBuffers(name=/8, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/14): BoundBuffers(name=/14, inputs=[], perturbed=False)
+  (/15): BoundBuffers(name=/15, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/17): BoundBuffers(name=/17, inputs=[], perturbed=False)
+  (/18): BoundGather(name=/18, inputs=[/0, /2], perturbed=True)
+  (/19): BoundTranspose(name=/19, inputs=[/3], perturbed=False)
+  (/20): BoundMatMul(name=/20, inputs=[/18, /19], perturbed=True)
+  (/21): BoundConstant(name=/21, value=1)
+  (/22): BoundGather(name=/22, inputs=[/0, /8], perturbed=True)
+  (/26): BoundMul(name=/26, inputs=[/15, /22], perturbed=True)
+  (/29): BoundGather(name=/29, inputs=[/0, /14], perturbed=True)
+  (/31): BoundAdd(name=/31, inputs=[/15, /33], perturbed=True)
+  (/33): BoundMul(name=/33, inputs=[/15, /29], perturbed=True)
+  (/36): BoundMul(name=/36, inputs=[/28/completed_square, /35/completed_square], perturbed=True)
+  (/37): BoundConcat(name=/37, inputs=[/36], perturbed=True)
+  (/38): BoundAdd(name=/38, inputs=[/20, /4], perturbed=True)
+  (/27/sqr): BoundSqr(name=/27/sqr, inputs=[/26], perturbed=True)
+  (/34/sqr): BoundSqr(name=/34/sqr, inputs=[/33], perturbed=True)
+  (/39/presolve_1): BoundGather(name=/39/presolve_1, inputs=[/33, /35/presolve_1], perturbed=True)
+  (/39/presolve_3): BoundAdd(name=/39/presolve_3, inputs=[/39/presolve_1, /39/presolve_73], perturbed=True)
+  (/39/presolve_4): BoundSqr(name=/39/presolve_4, inputs=[/39/presolve_3], perturbed=True)
+  (/39/presolve_6): BoundGather(name=/39/presolve_6, inputs=[/33, /35/presolve_3], perturbed=True)
+  (/39/presolve_8): BoundAdd(name=/39/presolve_8, inputs=[/39/presolve_6, /39/presolve_73], perturbed=True)
+  (/39/presolve_9): BoundSqr(name=/39/presolve_9, inputs=[/39/presolve_8], perturbed=True)
+  (/39/presolve_10): BoundAdd(name=/39/presolve_10, inputs=[/39/presolve_4, /39/presolve_9], perturbed=True)
+  (/39/presolve_12): BoundGather(name=/39/presolve_12, inputs=[/33, /35/presolve_5], perturbed=True)
+  (/39/presolve_13): BoundConstant(name=/39/presolve_13, value=4.0)
+  (/39/presolve_14): BoundAdd(name=/39/presolve_14, inputs=[/39/presolve_12, /39/presolve_13], perturbed=True)
+  (/39/presolve_15): BoundSqr(name=/39/presolve_15, inputs=[/39/presolve_14], perturbed=True)
+  (/39/presolve_16): BoundAdd(name=/39/presolve_16, inputs=[/39/presolve_10, /39/presolve_15], perturbed=True)
+  (/39/presolve_18): BoundGather(name=/39/presolve_18, inputs=[/33, /35/presolve_7], perturbed=True)
+  (/39/presolve_20): BoundAdd(name=/39/presolve_20, inputs=[/39/presolve_18, /39/presolve_73], perturbed=True)
+  (/39/presolve_21): BoundSqr(name=/39/presolve_21, inputs=[/39/presolve_20], perturbed=True)
+  (/39/presolve_22): BoundAdd(name=/39/presolve_22, inputs=[/39/presolve_16, /39/presolve_21], perturbed=True)
+  (/39/presolve_24): BoundGather(name=/39/presolve_24, inputs=[/33, /35/presolve_9], perturbed=True)
+  (/39/presolve_26): BoundAdd(name=/39/presolve_26, inputs=[/39/presolve_24, /39/presolve_91], perturbed=True)
+  (/39/presolve_27): BoundSqr(name=/39/presolve_27, inputs=[/39/presolve_26], perturbed=True)
+  (/39/presolve_28): BoundAdd(name=/39/presolve_28, inputs=[/39/presolve_22, /39/presolve_27], perturbed=True)
+  (/39/presolve_30): BoundGather(name=/39/presolve_30, inputs=[/33, /35/presolve_11], perturbed=True)
+  (/39/presolve_32): BoundAdd(name=/39/presolve_32, inputs=[/39/presolve_30, /39/presolve_91], perturbed=True)
+  (/39/presolve_33): BoundSqr(name=/39/presolve_33, inputs=[/39/presolve_32], perturbed=True)
+  (/39/presolve_34): BoundAdd(name=/39/presolve_34, inputs=[/39/presolve_28, /39/presolve_33], perturbed=True)
+  (/39/presolve_36): BoundGather(name=/39/presolve_36, inputs=[/33, /35/presolve_13], perturbed=True)
+  (/39/presolve_38): BoundAdd(name=/39/presolve_38, inputs=[/39/presolve_36, /39/presolve_43], perturbed=True)
+  (/39/presolve_39): BoundSqr(name=/39/presolve_39, inputs=[/39/presolve_38], perturbed=True)
+  (/39/presolve_40): BoundAdd(name=/39/presolve_40, inputs=[/39/presolve_34, /39/presolve_39], perturbed=True)
+  (/39/presolve_42): BoundGather(name=/39/presolve_42, inputs=[/33, /35/presolve_25], perturbed=True)
+  (/39/presolve_43): BoundConstant(name=/39/presolve_43, value=3.5)
+  (/39/presolve_44): BoundAdd(name=/39/presolve_44, inputs=[/39/presolve_42, /39/presolve_43], perturbed=True)
+  (/39/presolve_45): BoundSqr(name=/39/presolve_45, inputs=[/39/presolve_44], perturbed=True)
+  (/39/presolve_46): BoundAdd(name=/39/presolve_46, inputs=[/39/presolve_40, /39/presolve_45], perturbed=True)
+  (/39/presolve_48): BoundGather(name=/39/presolve_48, inputs=[/33, /35/presolve_47], perturbed=True)
+  (/39/presolve_50): BoundAdd(name=/39/presolve_50, inputs=[/39/presolve_48, /39/presolve_91], perturbed=True)
+  (/39/presolve_51): BoundSqr(name=/39/presolve_51, inputs=[/39/presolve_50], perturbed=True)
+  (/39/presolve_52): BoundAdd(name=/39/presolve_52, inputs=[/39/presolve_46, /39/presolve_51], perturbed=True)
+  (/39/presolve_54): BoundGather(name=/39/presolve_54, inputs=[/33, /35/presolve_59], perturbed=True)
+  (/39/presolve_56): BoundAdd(name=/39/presolve_56, inputs=[/39/presolve_54, /39/presolve_73], perturbed=True)
+  (/39/presolve_57): BoundSqr(name=/39/presolve_57, inputs=[/39/presolve_56], perturbed=True)
+  (/39/presolve_58): BoundAdd(name=/39/presolve_58, inputs=[/39/presolve_52, /39/presolve_57], perturbed=True)
+  (/39/presolve_60): BoundGather(name=/39/presolve_60, inputs=[/33, /39/presolve_788], perturbed=True)
+  (/39/presolve_62): BoundAdd(name=/39/presolve_62, inputs=[/39/presolve_60, /39/presolve_73], perturbed=True)
+  (/39/presolve_63): BoundSqr(name=/39/presolve_63, inputs=[/39/presolve_62], perturbed=True)
+  (/39/presolve_64): BoundAdd(name=/39/presolve_64, inputs=[/39/presolve_58, /39/presolve_63], perturbed=True)
+  (/39/presolve_66): BoundGather(name=/39/presolve_66, inputs=[/33, /35/presolve_83], perturbed=True)
+  (/39/presolve_68): BoundAdd(name=/39/presolve_68, inputs=[/39/presolve_66, /39/presolve_91], perturbed=True)
+  (/39/presolve_69): BoundSqr(name=/39/presolve_69, inputs=[/39/presolve_68], perturbed=True)
+  (/39/presolve_70): BoundAdd(name=/39/presolve_70, inputs=[/39/presolve_64, /39/presolve_69], perturbed=True)
+  (/39/presolve_72): BoundGather(name=/39/presolve_72, inputs=[/33, /35/presolve_85], perturbed=True)
+  (/39/presolve_73): BoundConstant(name=/39/presolve_73, value=3.0)
+  (/39/presolve_74): BoundAdd(name=/39/presolve_74, inputs=[/39/presolve_72, /39/presolve_73], perturbed=True)
+  (/39/presolve_75): BoundSqr(name=/39/presolve_75, inputs=[/39/presolve_74], perturbed=True)
+  (/39/presolve_76): BoundAdd(name=/39/presolve_76, inputs=[/39/presolve_70, /39/presolve_75], perturbed=True)
+  (/39/presolve_78): BoundGather(name=/39/presolve_78, inputs=[/33, /35/presolve_87], perturbed=True)
+  (/39/presolve_80): BoundAdd(name=/39/presolve_80, inputs=[/39/presolve_78, /39/presolve_91], perturbed=True)
+  (/39/presolve_81): BoundSqr(name=/39/presolve_81, inputs=[/39/presolve_80], perturbed=True)
+  (/39/presolve_82): BoundAdd(name=/39/presolve_82, inputs=[/39/presolve_76, /39/presolve_81], perturbed=True)
+  (/39/presolve_84): BoundGather(name=/39/presolve_84, inputs=[/33, /35/presolve_99], perturbed=True)
+  (/39/presolve_85): BoundConstant(name=/39/presolve_85, value=2.0)
+  (/39/presolve_86): BoundAdd(name=/39/presolve_86, inputs=[/39/presolve_84, /39/presolve_85], perturbed=True)
+  (/39/presolve_87): BoundSqr(name=/39/presolve_87, inputs=[/39/presolve_86], perturbed=True)
+  (/39/presolve_88): BoundAdd(name=/39/presolve_88, inputs=[/39/presolve_82, /39/presolve_87], perturbed=True)
+  (/39/presolve_90): BoundGather(name=/39/presolve_90, inputs=[/33, /35/presolve_161], perturbed=True)
+  (/39/presolve_91): BoundConstant(name=/39/presolve_91, value=2.5)
+  (/39/presolve_92): BoundAdd(name=/39/presolve_92, inputs=[/39/presolve_90, /39/presolve_91], perturbed=True)
+  (/39/presolve_93): BoundSqr(name=/39/presolve_93, inputs=[/39/presolve_92], perturbed=True)
+  (/39/presolve_94): BoundAdd(name=/39/presolve_94, inputs=[/39/presolve_88, /39/presolve_93], perturbed=True)
+  (/39/presolve_96): BoundGather(name=/39/presolve_96, inputs=[/0, /35/presolve_1], perturbed=True)
+  (/39/presolve_97): BoundSqr(name=/39/presolve_97, inputs=[/39/presolve_96], perturbed=True)
+  (/39/presolve_99): BoundGather(name=/39/presolve_99, inputs=[/34/sqr, /35/presolve_1], perturbed=True)
+  (/39/presolve_100): BoundMul(name=/39/presolve_100, inputs=[/39/presolve_96, /39/presolve_99], perturbed=True)
+  (/39/presolve_101): BoundAdd(name=/39/presolve_101, inputs=[/39/presolve_97, /39/presolve_100], perturbed=True)
+  (/39/presolve_103): BoundGather(name=/39/presolve_103, inputs=[/27/sqr, /35/presolve_1], perturbed=True)
+  (/39/presolve_104): BoundAdd(name=/39/presolve_104, inputs=[/39/presolve_101, /39/presolve_103], perturbed=True)
+  (/39/presolve_105): BoundMul(name=/39/presolve_105, inputs=[/39/presolve_96, /39/presolve_103], perturbed=True)
+  (/39/presolve_106): BoundAdd(name=/39/presolve_106, inputs=[/39/presolve_104, /39/presolve_105], perturbed=True)
+  (/39/presolve_107): BoundMul(name=/39/presolve_107, inputs=[/39/presolve_103, /39/presolve_99], perturbed=True)
+  (/39/presolve_108): BoundAdd(name=/39/presolve_108, inputs=[/39/presolve_106, /39/presolve_107], perturbed=True)
+  (/39/presolve_110): BoundGather(name=/39/presolve_110, inputs=[/0, /35/presolve_37], perturbed=True)
+  (/39/presolve_111): BoundMul(name=/39/presolve_111, inputs=[/39/presolve_96, /39/presolve_110], perturbed=True)
+  (/39/presolve_112): BoundAdd(name=/39/presolve_112, inputs=[/39/presolve_108, /39/presolve_111], perturbed=True)
+  (/39/presolve_114): BoundGather(name=/39/presolve_114, inputs=[/34/sqr, /35/presolve_3], perturbed=True)
+  (/39/presolve_115): BoundMul(name=/39/presolve_115, inputs=[/39/presolve_96, /39/presolve_114], perturbed=True)
+  (/39/presolve_116): BoundAdd(name=/39/presolve_116, inputs=[/39/presolve_112, /39/presolve_115], perturbed=True)
+  (/39/presolve_118): BoundGather(name=/39/presolve_118, inputs=[/27/sqr, /35/presolve_3], perturbed=True)
+  (/39/presolve_119): BoundAdd(name=/39/presolve_119, inputs=[/39/presolve_116, /39/presolve_118], perturbed=True)
+  (/39/presolve_120): BoundMul(name=/39/presolve_120, inputs=[/39/presolve_110, /39/presolve_118], perturbed=True)
+  (/39/presolve_121): BoundAdd(name=/39/presolve_121, inputs=[/39/presolve_119, /39/presolve_120], perturbed=True)
+  (/39/presolve_122): BoundMul(name=/39/presolve_122, inputs=[/39/presolve_118, /39/presolve_114], perturbed=True)
+  (/39/presolve_123): BoundAdd(name=/39/presolve_123, inputs=[/39/presolve_121, /39/presolve_122], perturbed=True)
+  (/39/presolve_125): BoundGather(name=/39/presolve_125, inputs=[/0, /35/presolve_59], perturbed=True)
+  (/39/presolve_126): BoundMul(name=/39/presolve_126, inputs=[/39/presolve_96, /39/presolve_125], perturbed=True)
+  (/39/presolve_127): BoundAdd(name=/39/presolve_127, inputs=[/39/presolve_123, /39/presolve_126], perturbed=True)
+  (/39/presolve_129): BoundGather(name=/39/presolve_129, inputs=[/34/sqr, /35/presolve_5], perturbed=True)
+  (/39/presolve_130): BoundMul(name=/39/presolve_130, inputs=[/39/presolve_96, /39/presolve_129], perturbed=True)
+  (/39/presolve_131): BoundAdd(name=/39/presolve_131, inputs=[/39/presolve_127, /39/presolve_130], perturbed=True)
+  (/39/presolve_133): BoundGather(name=/39/presolve_133, inputs=[/27/sqr, /35/presolve_5], perturbed=True)
+  (/39/presolve_134): BoundAdd(name=/39/presolve_134, inputs=[/39/presolve_131, /39/presolve_133], perturbed=True)
+  (/39/presolve_135): BoundMul(name=/39/presolve_135, inputs=[/39/presolve_125, /39/presolve_133], perturbed=True)
+  (/39/presolve_136): BoundAdd(name=/39/presolve_136, inputs=[/39/presolve_134, /39/presolve_135], perturbed=True)
+  (/39/presolve_137): BoundMul(name=/39/presolve_137, inputs=[/39/presolve_133, /39/presolve_129], perturbed=True)
+  (/39/presolve_138): BoundAdd(name=/39/presolve_138, inputs=[/39/presolve_136, /39/presolve_137], perturbed=True)
+  (/39/presolve_140): BoundGather(name=/39/presolve_140, inputs=[/0, /35/presolve_61], perturbed=True)
+  (/39/presolve_141): BoundMul(name=/39/presolve_141, inputs=[/39/presolve_96, /39/presolve_140], perturbed=True)
+  (/39/presolve_142): BoundAdd(name=/39/presolve_142, inputs=[/39/presolve_138, /39/presolve_141], perturbed=True)
+  (/39/presolve_144): BoundGather(name=/39/presolve_144, inputs=[/34/sqr, /35/presolve_7], perturbed=True)
+  (/39/presolve_145): BoundMul(name=/39/presolve_145, inputs=[/39/presolve_96, /39/presolve_144], perturbed=True)
+  (/39/presolve_146): BoundAdd(name=/39/presolve_146, inputs=[/39/presolve_142, /39/presolve_145], perturbed=True)
+  (/39/presolve_148): BoundGather(name=/39/presolve_148, inputs=[/27/sqr, /35/presolve_7], perturbed=True)
+  (/39/presolve_149): BoundAdd(name=/39/presolve_149, inputs=[/39/presolve_146, /39/presolve_148], perturbed=True)
+  (/39/presolve_150): BoundMul(name=/39/presolve_150, inputs=[/39/presolve_140, /39/presolve_148], perturbed=True)
+  (/39/presolve_151): BoundAdd(name=/39/presolve_151, inputs=[/39/presolve_149, /39/presolve_150], perturbed=True)
+  (/39/presolve_152): BoundMul(name=/39/presolve_152, inputs=[/39/presolve_148, /39/presolve_144], perturbed=True)
+  (/39/presolve_153): BoundAdd(name=/39/presolve_153, inputs=[/39/presolve_151, /39/presolve_152], perturbed=True)
+  (/39/presolve_155): BoundGather(name=/39/presolve_155, inputs=[/0, /35/presolve_15], perturbed=True)
+  (/39/presolve_156): BoundMul(name=/39/presolve_156, inputs=[/39/presolve_96, /39/presolve_155], perturbed=True)
+  (/39/presolve_157): BoundAdd(name=/39/presolve_157, inputs=[/39/presolve_153, /39/presolve_156], perturbed=True)
+  (/39/presolve_159): BoundGather(name=/39/presolve_159, inputs=[/34/sqr, /35/presolve_9], perturbed=True)
+  (/39/presolve_160): BoundMul(name=/39/presolve_160, inputs=[/39/presolve_96, /39/presolve_159], perturbed=True)
+  (/39/presolve_161): BoundAdd(name=/39/presolve_161, inputs=[/39/presolve_157, /39/presolve_160], perturbed=True)
+  (/39/presolve_163): BoundGather(name=/39/presolve_163, inputs=[/27/sqr, /35/presolve_9], perturbed=True)
+  (/39/presolve_164): BoundAdd(name=/39/presolve_164, inputs=[/39/presolve_161, /39/presolve_163], perturbed=True)
+  (/39/presolve_165): BoundMul(name=/39/presolve_165, inputs=[/39/presolve_155, /39/presolve_163], perturbed=True)
+  (/39/presolve_166): BoundAdd(name=/39/presolve_166, inputs=[/39/presolve_164, /39/presolve_165], perturbed=True)
+  (/39/presolve_167): BoundMul(name=/39/presolve_167, inputs=[/39/presolve_163, /39/presolve_159], perturbed=True)
+  (/39/presolve_168): BoundAdd(name=/39/presolve_168, inputs=[/39/presolve_166, /39/presolve_167], perturbed=True)
+  (/39/presolve_170): BoundGather(name=/39/presolve_170, inputs=[/0, /35/presolve_25], perturbed=True)
+  (/39/presolve_171): BoundSqr(name=/39/presolve_171, inputs=[/39/presolve_170], perturbed=True)
+  (/39/presolve_172): BoundAdd(name=/39/presolve_172, inputs=[/39/presolve_168, /39/presolve_171], perturbed=True)
+  (/39/presolve_174): BoundGather(name=/39/presolve_174, inputs=[/34/sqr, /35/presolve_11], perturbed=True)
+  (/39/presolve_175): BoundMul(name=/39/presolve_175, inputs=[/39/presolve_170, /39/presolve_174], perturbed=True)
+  (/39/presolve_176): BoundAdd(name=/39/presolve_176, inputs=[/39/presolve_172, /39/presolve_175], perturbed=True)
+  (/39/presolve_178): BoundGather(name=/39/presolve_178, inputs=[/27/sqr, /35/presolve_11], perturbed=True)
+  (/39/presolve_179): BoundAdd(name=/39/presolve_179, inputs=[/39/presolve_176, /39/presolve_178], perturbed=True)
+  (/39/presolve_180): BoundMul(name=/39/presolve_180, inputs=[/39/presolve_170, /39/presolve_178], perturbed=True)
+  (/39/presolve_181): BoundAdd(name=/39/presolve_181, inputs=[/39/presolve_179, /39/presolve_180], perturbed=True)
+  (/39/presolve_182): BoundMul(name=/39/presolve_182, inputs=[/39/presolve_178, /39/presolve_174], perturbed=True)
+  (/39/presolve_183): BoundAdd(name=/39/presolve_183, inputs=[/39/presolve_181, /39/presolve_182], perturbed=True)
+  (/39/presolve_185): BoundGather(name=/39/presolve_185, inputs=[/0, /35/presolve_27], perturbed=True)
+  (/39/presolve_186): BoundMul(name=/39/presolve_186, inputs=[/39/presolve_170, /39/presolve_185], perturbed=True)
+  (/39/presolve_187): BoundAdd(name=/39/presolve_187, inputs=[/39/presolve_183, /39/presolve_186], perturbed=True)
+  (/39/presolve_189): BoundGather(name=/39/presolve_189, inputs=[/34/sqr, /35/presolve_13], perturbed=True)
+  (/39/presolve_190): BoundMul(name=/39/presolve_190, inputs=[/39/presolve_170, /39/presolve_189], perturbed=True)
+  (/39/presolve_191): BoundAdd(name=/39/presolve_191, inputs=[/39/presolve_187, /39/presolve_190], perturbed=True)
+  (/39/presolve_193): BoundGather(name=/39/presolve_193, inputs=[/27/sqr, /35/presolve_13], perturbed=True)
+  (/39/presolve_194): BoundAdd(name=/39/presolve_194, inputs=[/39/presolve_191, /39/presolve_193], perturbed=True)
+  (/39/presolve_195): BoundMul(name=/39/presolve_195, inputs=[/39/presolve_185, /39/presolve_193], perturbed=True)
+  (/39/presolve_196): BoundAdd(name=/39/presolve_196, inputs=[/39/presolve_194, /39/presolve_195], perturbed=True)
+  (/39/presolve_197): BoundMul(name=/39/presolve_197, inputs=[/39/presolve_193, /39/presolve_189], perturbed=True)
+  (/39/presolve_198): BoundAdd(name=/39/presolve_198, inputs=[/39/presolve_196, /39/presolve_197], perturbed=True)
+  (/39/presolve_200): BoundGather(name=/39/presolve_200, inputs=[/34/sqr, /35/presolve_15], perturbed=True)
+  (/39/presolve_201): BoundAdd(name=/39/presolve_201, inputs=[/39/presolve_198, /39/presolve_200], perturbed=True)
+  (/39/presolve_202): BoundMul(name=/39/presolve_202, inputs=[/39/presolve_170, /39/presolve_125], perturbed=True)
+  (/39/presolve_203): BoundAdd(name=/39/presolve_203, inputs=[/39/presolve_201, /39/presolve_202], perturbed=True)
+  (/39/presolve_204): BoundMul(name=/39/presolve_204, inputs=[/39/presolve_170, /39/presolve_200], perturbed=True)
+  (/39/presolve_205): BoundAdd(name=/39/presolve_205, inputs=[/39/presolve_203, /39/presolve_204], perturbed=True)
+  (/39/presolve_207): BoundGather(name=/39/presolve_207, inputs=[/27/sqr, /35/presolve_15], perturbed=True)
+  (/39/presolve_208): BoundAdd(name=/39/presolve_208, inputs=[/39/presolve_205, /39/presolve_207], perturbed=True)
+  (/39/presolve_209): BoundMul(name=/39/presolve_209, inputs=[/39/presolve_125, /39/presolve_207], perturbed=True)
+  (/39/presolve_210): BoundAdd(name=/39/presolve_210, inputs=[/39/presolve_208, /39/presolve_209], perturbed=True)
+  (/39/presolve_211): BoundMul(name=/39/presolve_211, inputs=[/39/presolve_207, /39/presolve_200], perturbed=True)
+  (/39/presolve_212): BoundAdd(name=/39/presolve_212, inputs=[/39/presolve_210, /39/presolve_211], perturbed=True)
+  (/39/presolve_214): BoundGather(name=/39/presolve_214, inputs=[/0, /35/presolve_3], perturbed=True)
+  (/39/presolve_215): BoundMul(name=/39/presolve_215, inputs=[/39/presolve_214, /39/presolve_170], perturbed=True)
+  (/39/presolve_216): BoundAdd(name=/39/presolve_216, inputs=[/39/presolve_212, /39/presolve_215], perturbed=True)
+  (/39/presolve_218): BoundGather(name=/39/presolve_218, inputs=[/34/sqr, /35/presolve_25], perturbed=True)
+  (/39/presolve_219): BoundMul(name=/39/presolve_219, inputs=[/39/presolve_170, /39/presolve_218], perturbed=True)
+  (/39/presolve_220): BoundAdd(name=/39/presolve_220, inputs=[/39/presolve_216, /39/presolve_219], perturbed=True)
+  (/39/presolve_222): BoundGather(name=/39/presolve_222, inputs=[/27/sqr, /35/presolve_25], perturbed=True)
+  (/39/presolve_223): BoundAdd(name=/39/presolve_223, inputs=[/39/presolve_220, /39/presolve_222], perturbed=True)
+  (/39/presolve_224): BoundMul(name=/39/presolve_224, inputs=[/39/presolve_214, /39/presolve_222], perturbed=True)
+  (/39/presolve_225): BoundAdd(name=/39/presolve_225, inputs=[/39/presolve_223, /39/presolve_224], perturbed=True)
+  (/39/presolve_226): BoundMul(name=/39/presolve_226, inputs=[/39/presolve_222, /39/presolve_218], perturbed=True)
+  (/39/presolve_227): BoundAdd(name=/39/presolve_227, inputs=[/39/presolve_225, /39/presolve_226], perturbed=True)
+  (/39/presolve_229): BoundGather(name=/39/presolve_229, inputs=[/34/sqr, /35/presolve_27], perturbed=True)
+  (/39/presolve_230): BoundAdd(name=/39/presolve_230, inputs=[/39/presolve_227, /39/presolve_229], perturbed=True)
+  (/39/presolve_231): BoundSqr(name=/39/presolve_231, inputs=[/39/presolve_185], perturbed=True)
+  (/39/presolve_232): BoundAdd(name=/39/presolve_232, inputs=[/39/presolve_230, /39/presolve_231], perturbed=True)
+  (/39/presolve_233): BoundMul(name=/39/presolve_233, inputs=[/39/presolve_185, /39/presolve_229], perturbed=True)
+  (/39/presolve_234): BoundAdd(name=/39/presolve_234, inputs=[/39/presolve_232, /39/presolve_233], perturbed=True)
+  (/39/presolve_236): BoundGather(name=/39/presolve_236, inputs=[/27/sqr, /35/presolve_27], perturbed=True)
+  (/39/presolve_237): BoundAdd(name=/39/presolve_237, inputs=[/39/presolve_234, /39/presolve_236], perturbed=True)
+  (/39/presolve_238): BoundMul(name=/39/presolve_238, inputs=[/39/presolve_185, /39/presolve_236], perturbed=True)
+  (/39/presolve_239): BoundAdd(name=/39/presolve_239, inputs=[/39/presolve_237, /39/presolve_238], perturbed=True)
+  (/39/presolve_240): BoundMul(name=/39/presolve_240, inputs=[/39/presolve_236, /39/presolve_229], perturbed=True)
+  (/39/presolve_241): BoundAdd(name=/39/presolve_241, inputs=[/39/presolve_239, /39/presolve_240], perturbed=True)
+  (/39/presolve_243): BoundGather(name=/39/presolve_243, inputs=[/34/sqr, /35/presolve_37], perturbed=True)
+  (/39/presolve_244): BoundAdd(name=/39/presolve_244, inputs=[/39/presolve_241, /39/presolve_243], perturbed=True)
+  (/39/presolve_245): BoundMul(name=/39/presolve_245, inputs=[/39/presolve_185, /39/presolve_125], perturbed=True)
+  (/39/presolve_246): BoundAdd(name=/39/presolve_246, inputs=[/39/presolve_244, /39/presolve_245], perturbed=True)
+  (/39/presolve_247): BoundMul(name=/39/presolve_247, inputs=[/39/presolve_185, /39/presolve_243], perturbed=True)
+  (/39/presolve_248): BoundAdd(name=/39/presolve_248, inputs=[/39/presolve_246, /39/presolve_247], perturbed=True)
+  (/39/presolve_250): BoundGather(name=/39/presolve_250, inputs=[/27/sqr, /35/presolve_37], perturbed=True)
+  (/39/presolve_251): BoundAdd(name=/39/presolve_251, inputs=[/39/presolve_248, /39/presolve_250], perturbed=True)
+  (/39/presolve_252): BoundMul(name=/39/presolve_252, inputs=[/39/presolve_125, /39/presolve_250], perturbed=True)
+  (/39/presolve_253): BoundAdd(name=/39/presolve_253, inputs=[/39/presolve_251, /39/presolve_252], perturbed=True)
+  (/39/presolve_254): BoundMul(name=/39/presolve_254, inputs=[/39/presolve_250, /39/presolve_243], perturbed=True)
+  (/39/presolve_255): BoundAdd(name=/39/presolve_255, inputs=[/39/presolve_253, /39/presolve_254], perturbed=True)
+  (/39/presolve_257): BoundGather(name=/39/presolve_257, inputs=[/0, /35/presolve_71], perturbed=True)
+  (/39/presolve_258): BoundMul(name=/39/presolve_258, inputs=[/39/presolve_185, /39/presolve_257], perturbed=True)
+  (/39/presolve_259): BoundAdd(name=/39/presolve_259, inputs=[/39/presolve_255, /39/presolve_258], perturbed=True)
+  (/39/presolve_261): BoundGather(name=/39/presolve_261, inputs=[/34/sqr, /35/presolve_47], perturbed=True)
+  (/39/presolve_262): BoundMul(name=/39/presolve_262, inputs=[/39/presolve_185, /39/presolve_261], perturbed=True)
+  (/39/presolve_263): BoundAdd(name=/39/presolve_263, inputs=[/39/presolve_259, /39/presolve_262], perturbed=True)
+  (/39/presolve_265): BoundGather(name=/39/presolve_265, inputs=[/27/sqr, /35/presolve_47], perturbed=True)
+  (/39/presolve_266): BoundAdd(name=/39/presolve_266, inputs=[/39/presolve_263, /39/presolve_265], perturbed=True)
+  (/39/presolve_267): BoundMul(name=/39/presolve_267, inputs=[/39/presolve_257, /39/presolve_265], perturbed=True)
+  (/39/presolve_268): BoundAdd(name=/39/presolve_268, inputs=[/39/presolve_266, /39/presolve_267], perturbed=True)
+  (/39/presolve_269): BoundMul(name=/39/presolve_269, inputs=[/39/presolve_265, /39/presolve_261], perturbed=True)
+  (/39/presolve_270): BoundAdd(name=/39/presolve_270, inputs=[/39/presolve_268, /39/presolve_269], perturbed=True)
+  (/39/presolve_272): BoundGather(name=/39/presolve_272, inputs=[/34/sqr, /35/presolve_49], perturbed=True)
+  (/39/presolve_273): BoundAdd(name=/39/presolve_273, inputs=[/39/presolve_270, /39/presolve_272], perturbed=True)
+  (/39/presolve_274): BoundMul(name=/39/presolve_274, inputs=[/39/presolve_214, /39/presolve_185], perturbed=True)
+  (/39/presolve_275): BoundAdd(name=/39/presolve_275, inputs=[/39/presolve_273, /39/presolve_274], perturbed=True)
+  (/39/presolve_276): BoundMul(name=/39/presolve_276, inputs=[/39/presolve_185, /39/presolve_272], perturbed=True)
+  (/39/presolve_277): BoundAdd(name=/39/presolve_277, inputs=[/39/presolve_275, /39/presolve_276], perturbed=True)
+  (/39/presolve_279): BoundGather(name=/39/presolve_279, inputs=[/27/sqr, /35/presolve_49], perturbed=True)
+  (/39/presolve_280): BoundAdd(name=/39/presolve_280, inputs=[/39/presolve_277, /39/presolve_279], perturbed=True)
+  (/39/presolve_281): BoundMul(name=/39/presolve_281, inputs=[/39/presolve_214, /39/presolve_279], perturbed=True)
+  (/39/presolve_282): BoundAdd(name=/39/presolve_282, inputs=[/39/presolve_280, /39/presolve_281], perturbed=True)
+  (/39/presolve_283): BoundMul(name=/39/presolve_283, inputs=[/39/presolve_279, /39/presolve_272], perturbed=True)
+  (/39/presolve_284): BoundAdd(name=/39/presolve_284, inputs=[/39/presolve_282, /39/presolve_283], perturbed=True)
+  (/39/presolve_286): BoundGather(name=/39/presolve_286, inputs=[/0, /35/presolve_11], perturbed=True)
+  (/39/presolve_287): BoundMul(name=/39/presolve_287, inputs=[/39/presolve_286, /39/presolve_185], perturbed=True)
+  (/39/presolve_288): BoundAdd(name=/39/presolve_288, inputs=[/39/presolve_284, /39/presolve_287], perturbed=True)
+  (/39/presolve_290): BoundGather(name=/39/presolve_290, inputs=[/34/sqr, /35/presolve_59], perturbed=True)
+  (/39/presolve_291): BoundMul(name=/39/presolve_291, inputs=[/39/presolve_185, /39/presolve_290], perturbed=True)
+  (/39/presolve_292): BoundAdd(name=/39/presolve_292, inputs=[/39/presolve_288, /39/presolve_291], perturbed=True)
+  (/39/presolve_294): BoundGather(name=/39/presolve_294, inputs=[/27/sqr, /35/presolve_59], perturbed=True)
+  (/39/presolve_295): BoundAdd(name=/39/presolve_295, inputs=[/39/presolve_292, /39/presolve_294], perturbed=True)
+  (/39/presolve_296): BoundMul(name=/39/presolve_296, inputs=[/39/presolve_286, /39/presolve_294], perturbed=True)
+  (/39/presolve_297): BoundAdd(name=/39/presolve_297, inputs=[/39/presolve_295, /39/presolve_296], perturbed=True)
+  (/39/presolve_298): BoundMul(name=/39/presolve_298, inputs=[/39/presolve_294, /39/presolve_290], perturbed=True)
+  (/39/presolve_299): BoundAdd(name=/39/presolve_299, inputs=[/39/presolve_297, /39/presolve_298], perturbed=True)
+  (/39/presolve_301): BoundGather(name=/39/presolve_301, inputs=[/34/sqr, /35/presolve_61], perturbed=True)
+  (/39/presolve_302): BoundAdd(name=/39/presolve_302, inputs=[/39/presolve_299, /39/presolve_301], perturbed=True)
+  (/39/presolve_303): BoundSqr(name=/39/presolve_303, inputs=[/39/presolve_110], perturbed=True)
+  (/39/presolve_304): BoundAdd(name=/39/presolve_304, inputs=[/39/presolve_302, /39/presolve_303], perturbed=True)
+  (/39/presolve_305): BoundMul(name=/39/presolve_305, inputs=[/39/presolve_110, /39/presolve_301], perturbed=True)
+  (/39/presolve_306): BoundAdd(name=/39/presolve_306, inputs=[/39/presolve_304, /39/presolve_305], perturbed=True)
+  (/39/presolve_308): BoundGather(name=/39/presolve_308, inputs=[/27/sqr, /35/presolve_61], perturbed=True)
+  (/39/presolve_309): BoundAdd(name=/39/presolve_309, inputs=[/39/presolve_306, /39/presolve_308], perturbed=True)
+  (/39/presolve_310): BoundMul(name=/39/presolve_310, inputs=[/39/presolve_110, /39/presolve_308], perturbed=True)
+  (/39/presolve_311): BoundAdd(name=/39/presolve_311, inputs=[/39/presolve_309, /39/presolve_310], perturbed=True)
+  (/39/presolve_312): BoundMul(name=/39/presolve_312, inputs=[/39/presolve_308, /39/presolve_301], perturbed=True)
+  (/39/presolve_313): BoundAdd(name=/39/presolve_313, inputs=[/39/presolve_311, /39/presolve_312], perturbed=True)
+  (/39/presolve_315): BoundGather(name=/39/presolve_315, inputs=[/34/sqr, /35/presolve_71], perturbed=True)
+  (/39/presolve_316): BoundAdd(name=/39/presolve_316, inputs=[/39/presolve_313, /39/presolve_315], perturbed=True)
+  (/39/presolve_317): BoundMul(name=/39/presolve_317, inputs=[/39/presolve_110, /39/presolve_125], perturbed=True)
+  (/39/presolve_318): BoundAdd(name=/39/presolve_318, inputs=[/39/presolve_316, /39/presolve_317], perturbed=True)
+  (/39/presolve_319): BoundMul(name=/39/presolve_319, inputs=[/39/presolve_110, /39/presolve_315], perturbed=True)
+  (/39/presolve_320): BoundAdd(name=/39/presolve_320, inputs=[/39/presolve_318, /39/presolve_319], perturbed=True)
+  (/39/presolve_322): BoundGather(name=/39/presolve_322, inputs=[/27/sqr, /35/presolve_71], perturbed=True)
+  (/39/presolve_323): BoundAdd(name=/39/presolve_323, inputs=[/39/presolve_320, /39/presolve_322], perturbed=True)
+  (/39/presolve_324): BoundMul(name=/39/presolve_324, inputs=[/39/presolve_125, /39/presolve_322], perturbed=True)
+  (/39/presolve_325): BoundAdd(name=/39/presolve_325, inputs=[/39/presolve_323, /39/presolve_324], perturbed=True)
+  (/39/presolve_326): BoundMul(name=/39/presolve_326, inputs=[/39/presolve_322, /39/presolve_315], perturbed=True)
+  (/39/presolve_327): BoundAdd(name=/39/presolve_327, inputs=[/39/presolve_325, /39/presolve_326], perturbed=True)
+  (/39/presolve_329): BoundGather(name=/39/presolve_329, inputs=[/0, /35/presolve_5], perturbed=True)
+  (/39/presolve_330): BoundMul(name=/39/presolve_330, inputs=[/39/presolve_329, /39/presolve_110], perturbed=True)
+  (/39/presolve_331): BoundAdd(name=/39/presolve_331, inputs=[/39/presolve_327, /39/presolve_330], perturbed=True)
+  (/39/presolve_333): BoundGather(name=/39/presolve_333, inputs=[/34/sqr, /39/presolve_788], perturbed=True)
+  (/39/presolve_334): BoundMul(name=/39/presolve_334, inputs=[/39/presolve_110, /39/presolve_333], perturbed=True)
+  (/39/presolve_335): BoundAdd(name=/39/presolve_335, inputs=[/39/presolve_331, /39/presolve_334], perturbed=True)
+  (/39/presolve_337): BoundGather(name=/39/presolve_337, inputs=[/27/sqr, /39/presolve_788], perturbed=True)
+  (/39/presolve_338): BoundAdd(name=/39/presolve_338, inputs=[/39/presolve_335, /39/presolve_337], perturbed=True)
+  (/39/presolve_339): BoundMul(name=/39/presolve_339, inputs=[/39/presolve_329, /39/presolve_337], perturbed=True)
+  (/39/presolve_340): BoundAdd(name=/39/presolve_340, inputs=[/39/presolve_338, /39/presolve_339], perturbed=True)
+  (/39/presolve_341): BoundMul(name=/39/presolve_341, inputs=[/39/presolve_337, /39/presolve_333], perturbed=True)
+  (/39/presolve_342): BoundAdd(name=/39/presolve_342, inputs=[/39/presolve_340, /39/presolve_341], perturbed=True)
+  (/39/presolve_344): BoundGather(name=/39/presolve_344, inputs=[/0, /35/presolve_13], perturbed=True)
+  (/39/presolve_345): BoundMul(name=/39/presolve_345, inputs=[/39/presolve_344, /39/presolve_110], perturbed=True)
+  (/39/presolve_346): BoundAdd(name=/39/presolve_346, inputs=[/39/presolve_342, /39/presolve_345], perturbed=True)
+  (/39/presolve_348): BoundGather(name=/39/presolve_348, inputs=[/34/sqr, /35/presolve_83], perturbed=True)
+  (/39/presolve_349): BoundMul(name=/39/presolve_349, inputs=[/39/presolve_110, /39/presolve_348], perturbed=True)
+  (/39/presolve_350): BoundAdd(name=/39/presolve_350, inputs=[/39/presolve_346, /39/presolve_349], perturbed=True)
+  (/39/presolve_352): BoundGather(name=/39/presolve_352, inputs=[/27/sqr, /35/presolve_83], perturbed=True)
+  (/39/presolve_353): BoundAdd(name=/39/presolve_353, inputs=[/39/presolve_350, /39/presolve_352], perturbed=True)
+  (/39/presolve_354): BoundMul(name=/39/presolve_354, inputs=[/39/presolve_344, /39/presolve_352], perturbed=True)
+  (/39/presolve_355): BoundAdd(name=/39/presolve_355, inputs=[/39/presolve_353, /39/presolve_354], perturbed=True)
+  (/39/presolve_356): BoundMul(name=/39/presolve_356, inputs=[/39/presolve_352, /39/presolve_348], perturbed=True)
+  (/39/presolve_357): BoundAdd(name=/39/presolve_357, inputs=[/39/presolve_355, /39/presolve_356], perturbed=True)
+  (/39/presolve_359): BoundGather(name=/39/presolve_359, inputs=[/0, /35/presolve_47], perturbed=True)
+  (/39/presolve_360): BoundSqr(name=/39/presolve_360, inputs=[/39/presolve_359], perturbed=True)
+  (/39/presolve_361): BoundAdd(name=/39/presolve_361, inputs=[/39/presolve_357, /39/presolve_360], perturbed=True)
+  (/39/presolve_363): BoundGather(name=/39/presolve_363, inputs=[/34/sqr, /35/presolve_85], perturbed=True)
+  (/39/presolve_364): BoundMul(name=/39/presolve_364, inputs=[/39/presolve_359, /39/presolve_363], perturbed=True)
+  (/39/presolve_365): BoundAdd(name=/39/presolve_365, inputs=[/39/presolve_361, /39/presolve_364], perturbed=True)
+  (/39/presolve_367): BoundGather(name=/39/presolve_367, inputs=[/27/sqr, /35/presolve_85], perturbed=True)
+  (/39/presolve_368): BoundAdd(name=/39/presolve_368, inputs=[/39/presolve_365, /39/presolve_367], perturbed=True)
+  (/39/presolve_369): BoundMul(name=/39/presolve_369, inputs=[/39/presolve_359, /39/presolve_367], perturbed=True)
+  (/39/presolve_370): BoundAdd(name=/39/presolve_370, inputs=[/39/presolve_368, /39/presolve_369], perturbed=True)
+  (/39/presolve_371): BoundMul(name=/39/presolve_371, inputs=[/39/presolve_367, /39/presolve_363], perturbed=True)
+  (/39/presolve_372): BoundAdd(name=/39/presolve_372, inputs=[/39/presolve_370, /39/presolve_371], perturbed=True)
+  (/39/presolve_374): BoundGather(name=/39/presolve_374, inputs=[/0, /35/presolve_49], perturbed=True)
+  (/39/presolve_375): BoundMul(name=/39/presolve_375, inputs=[/39/presolve_359, /39/presolve_374], perturbed=True)
+  (/39/presolve_376): BoundAdd(name=/39/presolve_376, inputs=[/39/presolve_372, /39/presolve_375], perturbed=True)
+  (/39/presolve_378): BoundGather(name=/39/presolve_378, inputs=[/34/sqr, /35/presolve_87], perturbed=True)
+  (/39/presolve_379): BoundMul(name=/39/presolve_379, inputs=[/39/presolve_359, /39/presolve_378], perturbed=True)
+  (/39/presolve_380): BoundAdd(name=/39/presolve_380, inputs=[/39/presolve_376, /39/presolve_379], perturbed=True)
+  (/39/presolve_382): BoundGather(name=/39/presolve_382, inputs=[/27/sqr, /35/presolve_87], perturbed=True)
+  (/39/presolve_383): BoundAdd(name=/39/presolve_383, inputs=[/39/presolve_380, /39/presolve_382], perturbed=True)
+  (/39/presolve_384): BoundMul(name=/39/presolve_384, inputs=[/39/presolve_374, /39/presolve_382], perturbed=True)
+  (/39/presolve_385): BoundAdd(name=/39/presolve_385, inputs=[/39/presolve_383, /39/presolve_384], perturbed=True)
+  (/39/presolve_386): BoundMul(name=/39/presolve_386, inputs=[/39/presolve_382, /39/presolve_378], perturbed=True)
+  (/39/presolve_387): BoundAdd(name=/39/presolve_387, inputs=[/39/presolve_385, /39/presolve_386], perturbed=True)
+  (/39/presolve_389): BoundGather(name=/39/presolve_389, inputs=[/34/sqr, /35/presolve_89], perturbed=True)
+  (/39/presolve_390): BoundAdd(name=/39/presolve_390, inputs=[/39/presolve_387, /39/presolve_389], perturbed=True)
+  (/39/presolve_391): BoundMul(name=/39/presolve_391, inputs=[/39/presolve_214, /39/presolve_359], perturbed=True)
+  (/39/presolve_392): BoundAdd(name=/39/presolve_392, inputs=[/39/presolve_390, /39/presolve_391], perturbed=True)
+  (/39/presolve_393): BoundMul(name=/39/presolve_393, inputs=[/39/presolve_359, /39/presolve_389], perturbed=True)
+  (/39/presolve_394): BoundAdd(name=/39/presolve_394, inputs=[/39/presolve_392, /39/presolve_393], perturbed=True)
+  (/39/presolve_396): BoundGather(name=/39/presolve_396, inputs=[/27/sqr, /35/presolve_89], perturbed=True)
+  (/39/presolve_397): BoundAdd(name=/39/presolve_397, inputs=[/39/presolve_394, /39/presolve_396], perturbed=True)
+  (/39/presolve_398): BoundMul(name=/39/presolve_398, inputs=[/39/presolve_214, /39/presolve_396], perturbed=True)
+  (/39/presolve_399): BoundAdd(name=/39/presolve_399, inputs=[/39/presolve_397, /39/presolve_398], perturbed=True)
+  (/39/presolve_400): BoundMul(name=/39/presolve_400, inputs=[/39/presolve_396, /39/presolve_389], perturbed=True)
+  (/39/presolve_401): BoundAdd(name=/39/presolve_401, inputs=[/39/presolve_399, /39/presolve_400], perturbed=True)
+  (/39/presolve_403): BoundGather(name=/39/presolve_403, inputs=[/0, /35/presolve_7], perturbed=True)
+  (/39/presolve_404): BoundMul(name=/39/presolve_404, inputs=[/39/presolve_403, /39/presolve_359], perturbed=True)
+  (/39/presolve_405): BoundAdd(name=/39/presolve_405, inputs=[/39/presolve_401, /39/presolve_404], perturbed=True)
+  (/39/presolve_407): BoundGather(name=/39/presolve_407, inputs=[/34/sqr, /35/presolve_99], perturbed=True)
+  (/39/presolve_408): BoundMul(name=/39/presolve_408, inputs=[/39/presolve_359, /39/presolve_407], perturbed=True)
+  (/39/presolve_409): BoundAdd(name=/39/presolve_409, inputs=[/39/presolve_405, /39/presolve_408], perturbed=True)
+  (/39/presolve_411): BoundGather(name=/39/presolve_411, inputs=[/27/sqr, /35/presolve_99], perturbed=True)
+  (/39/presolve_412): BoundAdd(name=/39/presolve_412, inputs=[/39/presolve_409, /39/presolve_411], perturbed=True)
+  (/39/presolve_413): BoundMul(name=/39/presolve_413, inputs=[/39/presolve_403, /39/presolve_411], perturbed=True)
+  (/39/presolve_414): BoundAdd(name=/39/presolve_414, inputs=[/39/presolve_412, /39/presolve_413], perturbed=True)
+  (/39/presolve_415): BoundMul(name=/39/presolve_415, inputs=[/39/presolve_411, /39/presolve_407], perturbed=True)
+  (/39/presolve_416): BoundAdd(name=/39/presolve_416, inputs=[/39/presolve_414, /39/presolve_415], perturbed=True)
+  (/39/presolve_418): BoundGather(name=/39/presolve_418, inputs=[/34/sqr, /35/presolve_101], perturbed=True)
+  (/39/presolve_419): BoundAdd(name=/39/presolve_419, inputs=[/39/presolve_416, /39/presolve_418], perturbed=True)
+  (/39/presolve_420): BoundMul(name=/39/presolve_420, inputs=[/39/presolve_155, /39/presolve_359], perturbed=True)
+  (/39/presolve_421): BoundAdd(name=/39/presolve_421, inputs=[/39/presolve_419, /39/presolve_420], perturbed=True)
+  (/39/presolve_422): BoundMul(name=/39/presolve_422, inputs=[/39/presolve_359, /39/presolve_418], perturbed=True)
+  (/39/presolve_423): BoundAdd(name=/39/presolve_423, inputs=[/39/presolve_421, /39/presolve_422], perturbed=True)
+  (/39/presolve_425): BoundGather(name=/39/presolve_425, inputs=[/27/sqr, /35/presolve_101], perturbed=True)
+  (/39/presolve_426): BoundAdd(name=/39/presolve_426, inputs=[/39/presolve_423, /39/presolve_425], perturbed=True)
+  (/39/presolve_427): BoundMul(name=/39/presolve_427, inputs=[/39/presolve_155, /39/presolve_425], perturbed=True)
+  (/39/presolve_428): BoundAdd(name=/39/presolve_428, inputs=[/39/presolve_426, /39/presolve_427], perturbed=True)
+  (/39/presolve_429): BoundMul(name=/39/presolve_429, inputs=[/39/presolve_425, /39/presolve_418], perturbed=True)
+  (/39/presolve_430): BoundAdd(name=/39/presolve_430, inputs=[/39/presolve_428, /39/presolve_429], perturbed=True)
+  (/39/presolve_432): BoundGather(name=/39/presolve_432, inputs=[/34/sqr, /35/presolve_111], perturbed=True)
+  (/39/presolve_433): BoundAdd(name=/39/presolve_433, inputs=[/39/presolve_430, /39/presolve_432], perturbed=True)
+  (/39/presolve_434): BoundSqr(name=/39/presolve_434, inputs=[/39/presolve_374], perturbed=True)
+  (/39/presolve_435): BoundAdd(name=/39/presolve_435, inputs=[/39/presolve_433, /39/presolve_434], perturbed=True)
+  (/39/presolve_436): BoundMul(name=/39/presolve_436, inputs=[/39/presolve_374, /39/presolve_432], perturbed=True)
+  (/39/presolve_437): BoundAdd(name=/39/presolve_437, inputs=[/39/presolve_435, /39/presolve_436], perturbed=True)
+  (/39/presolve_439): BoundGather(name=/39/presolve_439, inputs=[/27/sqr, /35/presolve_111], perturbed=True)
+  (/39/presolve_440): BoundAdd(name=/39/presolve_440, inputs=[/39/presolve_437, /39/presolve_439], perturbed=True)
+  (/39/presolve_441): BoundMul(name=/39/presolve_441, inputs=[/39/presolve_374, /39/presolve_439], perturbed=True)
+  (/39/presolve_442): BoundAdd(name=/39/presolve_442, inputs=[/39/presolve_440, /39/presolve_441], perturbed=True)
+  (/39/presolve_443): BoundMul(name=/39/presolve_443, inputs=[/39/presolve_439, /39/presolve_432], perturbed=True)
+  (/39/presolve_444): BoundAdd(name=/39/presolve_444, inputs=[/39/presolve_442, /39/presolve_443], perturbed=True)
+  (/39/presolve_446): BoundGather(name=/39/presolve_446, inputs=[/34/sqr, /35/presolve_121], perturbed=True)
+  (/39/presolve_447): BoundAdd(name=/39/presolve_447, inputs=[/39/presolve_444, /39/presolve_446], perturbed=True)
+  (/39/presolve_448): BoundMul(name=/39/presolve_448, inputs=[/39/presolve_374, /39/presolve_140], perturbed=True)
+  (/39/presolve_449): BoundAdd(name=/39/presolve_449, inputs=[/39/presolve_447, /39/presolve_448], perturbed=True)
+  (/39/presolve_450): BoundMul(name=/39/presolve_450, inputs=[/39/presolve_374, /39/presolve_446], perturbed=True)
+  (/39/presolve_451): BoundAdd(name=/39/presolve_451, inputs=[/39/presolve_449, /39/presolve_450], perturbed=True)
+  (/39/presolve_453): BoundGather(name=/39/presolve_453, inputs=[/27/sqr, /35/presolve_121], perturbed=True)
+  (/39/presolve_454): BoundAdd(name=/39/presolve_454, inputs=[/39/presolve_451, /39/presolve_453], perturbed=True)
+  (/39/presolve_455): BoundMul(name=/39/presolve_455, inputs=[/39/presolve_140, /39/presolve_453], perturbed=True)
+  (/39/presolve_456): BoundAdd(name=/39/presolve_456, inputs=[/39/presolve_454, /39/presolve_455], perturbed=True)
+  (/39/presolve_457): BoundMul(name=/39/presolve_457, inputs=[/39/presolve_453, /39/presolve_446], perturbed=True)
+  (/39/presolve_458): BoundAdd(name=/39/presolve_458, inputs=[/39/presolve_456, /39/presolve_457], perturbed=True)
+  (/39/presolve_460): BoundGather(name=/39/presolve_460, inputs=[/34/sqr, /35/presolve_131], perturbed=True)
+  (/39/presolve_461): BoundAdd(name=/39/presolve_461, inputs=[/39/presolve_458, /39/presolve_460], perturbed=True)
+  (/39/presolve_462): BoundMul(name=/39/presolve_462, inputs=[/39/presolve_344, /39/presolve_374], perturbed=True)
+  (/39/presolve_463): BoundAdd(name=/39/presolve_463, inputs=[/39/presolve_461, /39/presolve_462], perturbed=True)
+  (/39/presolve_464): BoundMul(name=/39/presolve_464, inputs=[/39/presolve_374, /39/presolve_460], perturbed=True)
+  (/39/presolve_465): BoundAdd(name=/39/presolve_465, inputs=[/39/presolve_463, /39/presolve_464], perturbed=True)
+  (/39/presolve_467): BoundGather(name=/39/presolve_467, inputs=[/27/sqr, /35/presolve_131], perturbed=True)
+  (/39/presolve_468): BoundAdd(name=/39/presolve_468, inputs=[/39/presolve_465, /39/presolve_467], perturbed=True)
+  (/39/presolve_469): BoundMul(name=/39/presolve_469, inputs=[/39/presolve_344, /39/presolve_467], perturbed=True)
+  (/39/presolve_470): BoundAdd(name=/39/presolve_470, inputs=[/39/presolve_468, /39/presolve_469], perturbed=True)
+  (/39/presolve_471): BoundMul(name=/39/presolve_471, inputs=[/39/presolve_467, /39/presolve_460], perturbed=True)
+  (/39/presolve_472): BoundAdd(name=/39/presolve_472, inputs=[/39/presolve_470, /39/presolve_471], perturbed=True)
+  (/39/presolve_474): BoundGather(name=/39/presolve_474, inputs=[/34/sqr, /35/presolve_141], perturbed=True)
+  (/39/presolve_475): BoundAdd(name=/39/presolve_475, inputs=[/39/presolve_472, /39/presolve_474], perturbed=True)
+  (/39/presolve_476): BoundSqr(name=/39/presolve_476, inputs=[/39/presolve_125], perturbed=True)
+  (/39/presolve_477): BoundAdd(name=/39/presolve_477, inputs=[/39/presolve_475, /39/presolve_476], perturbed=True)
+  (/39/presolve_478): BoundMul(name=/39/presolve_478, inputs=[/39/presolve_125, /39/presolve_474], perturbed=True)
+  (/39/presolve_479): BoundAdd(name=/39/presolve_479, inputs=[/39/presolve_477, /39/presolve_478], perturbed=True)
+  (/39/presolve_481): BoundGather(name=/39/presolve_481, inputs=[/27/sqr, /35/presolve_141], perturbed=True)
+  (/39/presolve_482): BoundAdd(name=/39/presolve_482, inputs=[/39/presolve_479, /39/presolve_481], perturbed=True)
+  (/39/presolve_483): BoundMul(name=/39/presolve_483, inputs=[/39/presolve_125, /39/presolve_481], perturbed=True)
+  (/39/presolve_484): BoundAdd(name=/39/presolve_484, inputs=[/39/presolve_482, /39/presolve_483], perturbed=True)
+  (/39/presolve_485): BoundMul(name=/39/presolve_485, inputs=[/39/presolve_481, /39/presolve_474], perturbed=True)
+  (/39/presolve_486): BoundAdd(name=/39/presolve_486, inputs=[/39/presolve_484, /39/presolve_485], perturbed=True)
+  (/39/presolve_488): BoundGather(name=/39/presolve_488, inputs=[/34/sqr, /35/presolve_151], perturbed=True)
+  (/39/presolve_489): BoundAdd(name=/39/presolve_489, inputs=[/39/presolve_486, /39/presolve_488], perturbed=True)
+  (/39/presolve_490): BoundMul(name=/39/presolve_490, inputs=[/39/presolve_329, /39/presolve_125], perturbed=True)
+  (/39/presolve_491): BoundAdd(name=/39/presolve_491, inputs=[/39/presolve_489, /39/presolve_490], perturbed=True)
+  (/39/presolve_492): BoundMul(name=/39/presolve_492, inputs=[/39/presolve_125, /39/presolve_488], perturbed=True)
+  (/39/presolve_493): BoundAdd(name=/39/presolve_493, inputs=[/39/presolve_491, /39/presolve_492], perturbed=True)
+  (/39/presolve_495): BoundGather(name=/39/presolve_495, inputs=[/27/sqr, /35/presolve_151], perturbed=True)
+  (/39/presolve_496): BoundAdd(name=/39/presolve_496, inputs=[/39/presolve_493, /39/presolve_495], perturbed=True)
+  (/39/presolve_497): BoundMul(name=/39/presolve_497, inputs=[/39/presolve_329, /39/presolve_495], perturbed=True)
+  (/39/presolve_498): BoundAdd(name=/39/presolve_498, inputs=[/39/presolve_496, /39/presolve_497], perturbed=True)
+  (/39/presolve_499): BoundMul(name=/39/presolve_499, inputs=[/39/presolve_495, /39/presolve_488], perturbed=True)
+  (/39/presolve_500): BoundAdd(name=/39/presolve_500, inputs=[/39/presolve_498, /39/presolve_499], perturbed=True)
+  (/39/presolve_502): BoundGather(name=/39/presolve_502, inputs=[/0, /35/presolve_9], perturbed=True)
+  (/39/presolve_503): BoundMul(name=/39/presolve_503, inputs=[/39/presolve_502, /39/presolve_125], perturbed=True)
+  (/39/presolve_504): BoundAdd(name=/39/presolve_504, inputs=[/39/presolve_500, /39/presolve_503], perturbed=True)
+  (/39/presolve_506): BoundGather(name=/39/presolve_506, inputs=[/34/sqr, /35/presolve_161], perturbed=True)
+  (/39/presolve_507): BoundMul(name=/39/presolve_507, inputs=[/39/presolve_125, /39/presolve_506], perturbed=True)
+  (/39/presolve_508): BoundAdd(name=/39/presolve_508, inputs=[/39/presolve_504, /39/presolve_507], perturbed=True)
+  (/39/presolve_510): BoundGather(name=/39/presolve_510, inputs=[/27/sqr, /35/presolve_161], perturbed=True)
+  (/39/presolve_511): BoundAdd(name=/39/presolve_511, inputs=[/39/presolve_508, /39/presolve_510], perturbed=True)
+  (/39/presolve_512): BoundMul(name=/39/presolve_512, inputs=[/39/presolve_502, /39/presolve_510], perturbed=True)
+  (/39/presolve_513): BoundAdd(name=/39/presolve_513, inputs=[/39/presolve_511, /39/presolve_512], perturbed=True)
+  (/39/presolve_514): BoundMul(name=/39/presolve_514, inputs=[/39/presolve_510, /39/presolve_506], perturbed=True)
+  (/39/presolve_515): BoundAdd(name=/39/presolve_515, inputs=[/39/presolve_513, /39/presolve_514], perturbed=True)
+  (/39/presolve_517): BoundGather(name=/39/presolve_517, inputs=[/34/sqr, /35/presolve_163], perturbed=True)
+  (/39/presolve_518): BoundAdd(name=/39/presolve_518, inputs=[/39/presolve_515, /39/presolve_517], perturbed=True)
+  (/39/presolve_519): BoundSqr(name=/39/presolve_519, inputs=[/39/presolve_140], perturbed=True)
+  (/39/presolve_520): BoundAdd(name=/39/presolve_520, inputs=[/39/presolve_518, /39/presolve_519], perturbed=True)
+  (/39/presolve_521): BoundMul(name=/39/presolve_521, inputs=[/39/presolve_140, /39/presolve_517], perturbed=True)
+  (/39/presolve_522): BoundAdd(name=/39/presolve_522, inputs=[/39/presolve_520, /39/presolve_521], perturbed=True)
+  (/39/presolve_524): BoundGather(name=/39/presolve_524, inputs=[/27/sqr, /35/presolve_163], perturbed=True)
+  (/39/presolve_525): BoundAdd(name=/39/presolve_525, inputs=[/39/presolve_522, /39/presolve_524], perturbed=True)
+  (/39/presolve_526): BoundMul(name=/39/presolve_526, inputs=[/39/presolve_140, /39/presolve_524], perturbed=True)
+  (/39/presolve_527): BoundAdd(name=/39/presolve_527, inputs=[/39/presolve_525, /39/presolve_526], perturbed=True)
+  (/39/presolve_528): BoundMul(name=/39/presolve_528, inputs=[/39/presolve_524, /39/presolve_517], perturbed=True)
+  (/39/presolve_529): BoundAdd(name=/39/presolve_529, inputs=[/39/presolve_527, /39/presolve_528], perturbed=True)
+  (/39/presolve_531): BoundGather(name=/39/presolve_531, inputs=[/34/sqr, /35/presolve_173], perturbed=True)
+  (/39/presolve_532): BoundAdd(name=/39/presolve_532, inputs=[/39/presolve_529, /39/presolve_531], perturbed=True)
+  (/39/presolve_533): BoundMul(name=/39/presolve_533, inputs=[/39/presolve_214, /39/presolve_140], perturbed=True)
+  (/39/presolve_534): BoundAdd(name=/39/presolve_534, inputs=[/39/presolve_532, /39/presolve_533], perturbed=True)
+  (/39/presolve_535): BoundMul(name=/39/presolve_535, inputs=[/39/presolve_140, /39/presolve_531], perturbed=True)
+  (/39/presolve_536): BoundAdd(name=/39/presolve_536, inputs=[/39/presolve_534, /39/presolve_535], perturbed=True)
+  (/39/presolve_538): BoundGather(name=/39/presolve_538, inputs=[/27/sqr, /35/presolve_173], perturbed=True)
+  (/39/presolve_539): BoundAdd(name=/39/presolve_539, inputs=[/39/presolve_536, /39/presolve_538], perturbed=True)
+  (/39/presolve_540): BoundMul(name=/39/presolve_540, inputs=[/39/presolve_214, /39/presolve_538], perturbed=True)
+  (/39/presolve_541): BoundAdd(name=/39/presolve_541, inputs=[/39/presolve_539, /39/presolve_540], perturbed=True)
+  (/39/presolve_542): BoundMul(name=/39/presolve_542, inputs=[/39/presolve_538, /39/presolve_531], perturbed=True)
+  (/39/presolve_543): BoundAdd(name=/39/presolve_543, inputs=[/39/presolve_541, /39/presolve_542], perturbed=True)
+  (/39/presolve_545): BoundGather(name=/39/presolve_545, inputs=[/34/sqr, /35/presolve_183], perturbed=True)
+  (/39/presolve_546): BoundAdd(name=/39/presolve_546, inputs=[/39/presolve_543, /39/presolve_545], perturbed=True)
+  (/39/presolve_547): BoundMul(name=/39/presolve_547, inputs=[/39/presolve_344, /39/presolve_140], perturbed=True)
+  (/39/presolve_548): BoundAdd(name=/39/presolve_548, inputs=[/39/presolve_546, /39/presolve_547], perturbed=True)
+  (/39/presolve_549): BoundMul(name=/39/presolve_549, inputs=[/39/presolve_140, /39/presolve_545], perturbed=True)
+  (/39/presolve_550): BoundAdd(name=/39/presolve_550, inputs=[/39/presolve_548, /39/presolve_549], perturbed=True)
+  (/39/presolve_552): BoundGather(name=/39/presolve_552, inputs=[/27/sqr, /35/presolve_183], perturbed=True)
+  (/39/presolve_553): BoundAdd(name=/39/presolve_553, inputs=[/39/presolve_550, /39/presolve_552], perturbed=True)
+  (/39/presolve_554): BoundMul(name=/39/presolve_554, inputs=[/39/presolve_344, /39/presolve_552], perturbed=True)
+  (/39/presolve_555): BoundAdd(name=/39/presolve_555, inputs=[/39/presolve_553, /39/presolve_554], perturbed=True)
+  (/39/presolve_556): BoundMul(name=/39/presolve_556, inputs=[/39/presolve_552, /39/presolve_545], perturbed=True)
+  (/39/presolve_557): BoundAdd(name=/39/presolve_557, inputs=[/39/presolve_555, /39/presolve_556], perturbed=True)
+  (/39/presolve_559): BoundGather(name=/39/presolve_559, inputs=[/34/sqr, /35/presolve_193], perturbed=True)
+  (/39/presolve_560): BoundAdd(name=/39/presolve_560, inputs=[/39/presolve_557, /39/presolve_559], perturbed=True)
+  (/39/presolve_561): BoundSqr(name=/39/presolve_561, inputs=[/39/presolve_257], perturbed=True)
+  (/39/presolve_562): BoundAdd(name=/39/presolve_562, inputs=[/39/presolve_560, /39/presolve_561], perturbed=True)
+  (/39/presolve_563): BoundMul(name=/39/presolve_563, inputs=[/39/presolve_257, /39/presolve_559], perturbed=True)
+  (/39/presolve_564): BoundAdd(name=/39/presolve_564, inputs=[/39/presolve_562, /39/presolve_563], perturbed=True)
+  (/39/presolve_566): BoundGather(name=/39/presolve_566, inputs=[/27/sqr, /35/presolve_193], perturbed=True)
+  (/39/presolve_567): BoundAdd(name=/39/presolve_567, inputs=[/39/presolve_564, /39/presolve_566], perturbed=True)
+  (/39/presolve_568): BoundMul(name=/39/presolve_568, inputs=[/39/presolve_257, /39/presolve_566], perturbed=True)
+  (/39/presolve_569): BoundAdd(name=/39/presolve_569, inputs=[/39/presolve_567, /39/presolve_568], perturbed=True)
+  (/39/presolve_570): BoundMul(name=/39/presolve_570, inputs=[/39/presolve_566, /39/presolve_559], perturbed=True)
+  (/39/presolve_571): BoundAdd(name=/39/presolve_571, inputs=[/39/presolve_569, /39/presolve_570], perturbed=True)
+  (/39/presolve_573): BoundGather(name=/39/presolve_573, inputs=[/34/sqr, /35/presolve_203], perturbed=True)
+  (/39/presolve_574): BoundAdd(name=/39/presolve_574, inputs=[/39/presolve_571, /39/presolve_573], perturbed=True)
+  (/39/presolve_575): BoundMul(name=/39/presolve_575, inputs=[/39/presolve_403, /39/presolve_257], perturbed=True)
+  (/39/presolve_576): BoundAdd(name=/39/presolve_576, inputs=[/39/presolve_574, /39/presolve_575], perturbed=True)
+  (/39/presolve_577): BoundMul(name=/39/presolve_577, inputs=[/39/presolve_257, /39/presolve_573], perturbed=True)
+  (/39/presolve_578): BoundAdd(name=/39/presolve_578, inputs=[/39/presolve_576, /39/presolve_577], perturbed=True)
+  (/39/presolve_580): BoundGather(name=/39/presolve_580, inputs=[/27/sqr, /35/presolve_203], perturbed=True)
+  (/39/presolve_581): BoundAdd(name=/39/presolve_581, inputs=[/39/presolve_578, /39/presolve_580], perturbed=True)
+  (/39/presolve_582): BoundMul(name=/39/presolve_582, inputs=[/39/presolve_403, /39/presolve_580], perturbed=True)
+  (/39/presolve_583): BoundAdd(name=/39/presolve_583, inputs=[/39/presolve_581, /39/presolve_582], perturbed=True)
+  (/39/presolve_584): BoundMul(name=/39/presolve_584, inputs=[/39/presolve_580, /39/presolve_573], perturbed=True)
+  (/39/presolve_585): BoundAdd(name=/39/presolve_585, inputs=[/39/presolve_583, /39/presolve_584], perturbed=True)
+  (/39/presolve_587): BoundGather(name=/39/presolve_587, inputs=[/34/sqr, /35/presolve_213], perturbed=True)
+  (/39/presolve_588): BoundAdd(name=/39/presolve_588, inputs=[/39/presolve_585, /39/presolve_587], perturbed=True)
+  (/39/presolve_589): BoundMul(name=/39/presolve_589, inputs=[/39/presolve_155, /39/presolve_257], perturbed=True)
+  (/39/presolve_590): BoundAdd(name=/39/presolve_590, inputs=[/39/presolve_588, /39/presolve_589], perturbed=True)
+  (/39/presolve_591): BoundMul(name=/39/presolve_591, inputs=[/39/presolve_257, /39/presolve_587], perturbed=True)
+  (/39/presolve_592): BoundAdd(name=/39/presolve_592, inputs=[/39/presolve_590, /39/presolve_591], perturbed=True)
+  (/39/presolve_594): BoundGather(name=/39/presolve_594, inputs=[/27/sqr, /35/presolve_213], perturbed=True)
+  (/39/presolve_595): BoundAdd(name=/39/presolve_595, inputs=[/39/presolve_592, /39/presolve_594], perturbed=True)
+  (/39/presolve_596): BoundMul(name=/39/presolve_596, inputs=[/39/presolve_155, /39/presolve_594], perturbed=True)
+  (/39/presolve_597): BoundAdd(name=/39/presolve_597, inputs=[/39/presolve_595, /39/presolve_596], perturbed=True)
+  (/39/presolve_598): BoundMul(name=/39/presolve_598, inputs=[/39/presolve_594, /39/presolve_587], perturbed=True)
+  (/39/presolve_599): BoundAdd(name=/39/presolve_599, inputs=[/39/presolve_597, /39/presolve_598], perturbed=True)
+  (/39/presolve_601): BoundGather(name=/39/presolve_601, inputs=[/34/sqr, /35/presolve_223], perturbed=True)
+  (/39/presolve_602): BoundAdd(name=/39/presolve_602, inputs=[/39/presolve_599, /39/presolve_601], perturbed=True)
+  (/39/presolve_603): BoundSqr(name=/39/presolve_603, inputs=[/39/presolve_214], perturbed=True)
+  (/39/presolve_604): BoundAdd(name=/39/presolve_604, inputs=[/39/presolve_602, /39/presolve_603], perturbed=True)
+  (/39/presolve_605): BoundMul(name=/39/presolve_605, inputs=[/39/presolve_214, /39/presolve_601], perturbed=True)
+  (/39/presolve_606): BoundAdd(name=/39/presolve_606, inputs=[/39/presolve_604, /39/presolve_605], perturbed=True)
+  (/39/presolve_608): BoundGather(name=/39/presolve_608, inputs=[/27/sqr, /35/presolve_223], perturbed=True)
+  (/39/presolve_609): BoundAdd(name=/39/presolve_609, inputs=[/39/presolve_606, /39/presolve_608], perturbed=True)
+  (/39/presolve_610): BoundMul(name=/39/presolve_610, inputs=[/39/presolve_214, /39/presolve_608], perturbed=True)
+  (/39/presolve_611): BoundAdd(name=/39/presolve_611, inputs=[/39/presolve_609, /39/presolve_610], perturbed=True)
+  (/39/presolve_612): BoundMul(name=/39/presolve_612, inputs=[/39/presolve_608, /39/presolve_601], perturbed=True)
+  (/39/presolve_613): BoundAdd(name=/39/presolve_613, inputs=[/39/presolve_611, /39/presolve_612], perturbed=True)
+  (/39/presolve_615): BoundGather(name=/39/presolve_615, inputs=[/34/sqr, /35/presolve_233], perturbed=True)
+  (/39/presolve_616): BoundAdd(name=/39/presolve_616, inputs=[/39/presolve_613, /39/presolve_615], perturbed=True)
+  (/39/presolve_617): BoundMul(name=/39/presolve_617, inputs=[/39/presolve_214, /39/presolve_286], perturbed=True)
+  (/39/presolve_618): BoundAdd(name=/39/presolve_618, inputs=[/39/presolve_616, /39/presolve_617], perturbed=True)
+  (/39/presolve_619): BoundMul(name=/39/presolve_619, inputs=[/39/presolve_214, /39/presolve_615], perturbed=True)
+  (/39/presolve_620): BoundAdd(name=/39/presolve_620, inputs=[/39/presolve_618, /39/presolve_619], perturbed=True)
+  (/39/presolve_622): BoundGather(name=/39/presolve_622, inputs=[/27/sqr, /35/presolve_233], perturbed=True)
+  (/39/presolve_623): BoundAdd(name=/39/presolve_623, inputs=[/39/presolve_620, /39/presolve_622], perturbed=True)
+  (/39/presolve_624): BoundMul(name=/39/presolve_624, inputs=[/39/presolve_286, /39/presolve_622], perturbed=True)
+  (/39/presolve_625): BoundAdd(name=/39/presolve_625, inputs=[/39/presolve_623, /39/presolve_624], perturbed=True)
+  (/39/presolve_626): BoundMul(name=/39/presolve_626, inputs=[/39/presolve_622, /39/presolve_615], perturbed=True)
+  (/39/presolve_627): BoundAdd(name=/39/presolve_627, inputs=[/39/presolve_625, /39/presolve_626], perturbed=True)
+  (/39/presolve_629): BoundGather(name=/39/presolve_629, inputs=[/34/sqr, /35/presolve_243], perturbed=True)
+  (/39/presolve_630): BoundAdd(name=/39/presolve_630, inputs=[/39/presolve_627, /39/presolve_629], perturbed=True)
+  (/39/presolve_631): BoundSqr(name=/39/presolve_631, inputs=[/39/presolve_329], perturbed=True)
+  (/39/presolve_632): BoundAdd(name=/39/presolve_632, inputs=[/39/presolve_630, /39/presolve_631], perturbed=True)
+  (/39/presolve_633): BoundMul(name=/39/presolve_633, inputs=[/39/presolve_329, /39/presolve_629], perturbed=True)
+  (/39/presolve_634): BoundAdd(name=/39/presolve_634, inputs=[/39/presolve_632, /39/presolve_633], perturbed=True)
+  (/39/presolve_636): BoundGather(name=/39/presolve_636, inputs=[/27/sqr, /35/presolve_243], perturbed=True)
+  (/39/presolve_637): BoundAdd(name=/39/presolve_637, inputs=[/39/presolve_634, /39/presolve_636], perturbed=True)
+  (/39/presolve_638): BoundMul(name=/39/presolve_638, inputs=[/39/presolve_329, /39/presolve_636], perturbed=True)
+  (/39/presolve_639): BoundAdd(name=/39/presolve_639, inputs=[/39/presolve_637, /39/presolve_638], perturbed=True)
+  (/39/presolve_640): BoundMul(name=/39/presolve_640, inputs=[/39/presolve_636, /39/presolve_629], perturbed=True)
+  (/39/presolve_641): BoundAdd(name=/39/presolve_641, inputs=[/39/presolve_639, /39/presolve_640], perturbed=True)
+  (/39/presolve_643): BoundGather(name=/39/presolve_643, inputs=[/34/sqr, /35/presolve_253], perturbed=True)
+  (/39/presolve_644): BoundAdd(name=/39/presolve_644, inputs=[/39/presolve_641, /39/presolve_643], perturbed=True)
+  (/39/presolve_645): BoundMul(name=/39/presolve_645, inputs=[/39/presolve_329, /39/presolve_403], perturbed=True)
+  (/39/presolve_646): BoundAdd(name=/39/presolve_646, inputs=[/39/presolve_644, /39/presolve_645], perturbed=True)
+  (/39/presolve_647): BoundMul(name=/39/presolve_647, inputs=[/39/presolve_329, /39/presolve_643], perturbed=True)
+  (/39/presolve_648): BoundAdd(name=/39/presolve_648, inputs=[/39/presolve_646, /39/presolve_647], perturbed=True)
+  (/39/presolve_650): BoundGather(name=/39/presolve_650, inputs=[/27/sqr, /35/presolve_253], perturbed=True)
+  (/39/presolve_651): BoundAdd(name=/39/presolve_651, inputs=[/39/presolve_648, /39/presolve_650], perturbed=True)
+  (/39/presolve_652): BoundMul(name=/39/presolve_652, inputs=[/39/presolve_403, /39/presolve_650], perturbed=True)
+  (/39/presolve_653): BoundAdd(name=/39/presolve_653, inputs=[/39/presolve_651, /39/presolve_652], perturbed=True)
+  (/39/presolve_654): BoundMul(name=/39/presolve_654, inputs=[/39/presolve_650, /39/presolve_643], perturbed=True)
+  (/39/presolve_655): BoundAdd(name=/39/presolve_655, inputs=[/39/presolve_653, /39/presolve_654], perturbed=True)
+  (/39/presolve_657): BoundGather(name=/39/presolve_657, inputs=[/34/sqr, /35/presolve_263], perturbed=True)
+  (/39/presolve_658): BoundAdd(name=/39/presolve_658, inputs=[/39/presolve_655, /39/presolve_657], perturbed=True)
+  (/39/presolve_659): BoundMul(name=/39/presolve_659, inputs=[/39/presolve_329, /39/presolve_502], perturbed=True)
+  (/39/presolve_660): BoundAdd(name=/39/presolve_660, inputs=[/39/presolve_658, /39/presolve_659], perturbed=True)
+  (/39/presolve_661): BoundMul(name=/39/presolve_661, inputs=[/39/presolve_329, /39/presolve_657], perturbed=True)
+  (/39/presolve_662): BoundAdd(name=/39/presolve_662, inputs=[/39/presolve_660, /39/presolve_661], perturbed=True)
+  (/39/presolve_664): BoundGather(name=/39/presolve_664, inputs=[/27/sqr, /35/presolve_263], perturbed=True)
+  (/39/presolve_665): BoundAdd(name=/39/presolve_665, inputs=[/39/presolve_662, /39/presolve_664], perturbed=True)
+  (/39/presolve_666): BoundMul(name=/39/presolve_666, inputs=[/39/presolve_502, /39/presolve_664], perturbed=True)
+  (/39/presolve_667): BoundAdd(name=/39/presolve_667, inputs=[/39/presolve_665, /39/presolve_666], perturbed=True)
+  (/39/presolve_668): BoundMul(name=/39/presolve_668, inputs=[/39/presolve_664, /39/presolve_657], perturbed=True)
+  (/39/presolve_669): BoundAdd(name=/39/presolve_669, inputs=[/39/presolve_667, /39/presolve_668], perturbed=True)
+  (/39/presolve_671): BoundGather(name=/39/presolve_671, inputs=[/34/sqr, /35/presolve_273], perturbed=True)
+  (/39/presolve_672): BoundAdd(name=/39/presolve_672, inputs=[/39/presolve_669, /39/presolve_671], perturbed=True)
+  (/39/presolve_673): BoundMul(name=/39/presolve_673, inputs=[/39/presolve_403, /39/presolve_286], perturbed=True)
+  (/39/presolve_674): BoundAdd(name=/39/presolve_674, inputs=[/39/presolve_672, /39/presolve_673], perturbed=True)
+  (/39/presolve_675): BoundMul(name=/39/presolve_675, inputs=[/39/presolve_403, /39/presolve_671], perturbed=True)
+  (/39/presolve_676): BoundAdd(name=/39/presolve_676, inputs=[/39/presolve_674, /39/presolve_675], perturbed=True)
+  (/39/presolve_678): BoundGather(name=/39/presolve_678, inputs=[/27/sqr, /35/presolve_273], perturbed=True)
+  (/39/presolve_679): BoundAdd(name=/39/presolve_679, inputs=[/39/presolve_676, /39/presolve_678], perturbed=True)
+  (/39/presolve_680): BoundMul(name=/39/presolve_680, inputs=[/39/presolve_286, /39/presolve_678], perturbed=True)
+  (/39/presolve_681): BoundAdd(name=/39/presolve_681, inputs=[/39/presolve_679, /39/presolve_680], perturbed=True)
+  (/39/presolve_682): BoundMul(name=/39/presolve_682, inputs=[/39/presolve_678, /39/presolve_671], perturbed=True)
+  (/39/presolve_683): BoundAdd(name=/39/presolve_683, inputs=[/39/presolve_681, /39/presolve_682], perturbed=True)
+  (/39/presolve_685): BoundGather(name=/39/presolve_685, inputs=[/34/sqr, /35/presolve_283], perturbed=True)
+  (/39/presolve_686): BoundAdd(name=/39/presolve_686, inputs=[/39/presolve_683, /39/presolve_685], perturbed=True)
+  (/39/presolve_687): BoundSqr(name=/39/presolve_687, inputs=[/39/presolve_502], perturbed=True)
+  (/39/presolve_688): BoundAdd(name=/39/presolve_688, inputs=[/39/presolve_686, /39/presolve_687], perturbed=True)
+  (/39/presolve_689): BoundMul(name=/39/presolve_689, inputs=[/39/presolve_502, /39/presolve_685], perturbed=True)
+  (/39/presolve_690): BoundAdd(name=/39/presolve_690, inputs=[/39/presolve_688, /39/presolve_689], perturbed=True)
+  (/39/presolve_692): BoundGather(name=/39/presolve_692, inputs=[/27/sqr, /35/presolve_283], perturbed=True)
+  (/39/presolve_693): BoundAdd(name=/39/presolve_693, inputs=[/39/presolve_690, /39/presolve_692], perturbed=True)
+  (/39/presolve_694): BoundMul(name=/39/presolve_694, inputs=[/39/presolve_502, /39/presolve_692], perturbed=True)
+  (/39/presolve_695): BoundAdd(name=/39/presolve_695, inputs=[/39/presolve_693, /39/presolve_694], perturbed=True)
+  (/39/presolve_696): BoundMul(name=/39/presolve_696, inputs=[/39/presolve_692, /39/presolve_685], perturbed=True)
+  (/39/presolve_697): BoundAdd(name=/39/presolve_697, inputs=[/39/presolve_695, /39/presolve_696], perturbed=True)
+  (/39/presolve_699): BoundGather(name=/39/presolve_699, inputs=[/34/sqr, /35/presolve_293], perturbed=True)
+  (/39/presolve_700): BoundAdd(name=/39/presolve_700, inputs=[/39/presolve_697, /39/presolve_699], perturbed=True)
+  (/39/presolve_701): BoundMul(name=/39/presolve_701, inputs=[/39/presolve_502, /39/presolve_286], perturbed=True)
+  (/39/presolve_702): BoundAdd(name=/39/presolve_702, inputs=[/39/presolve_700, /39/presolve_701], perturbed=True)
+  (/39/presolve_703): BoundMul(name=/39/presolve_703, inputs=[/39/presolve_502, /39/presolve_699], perturbed=True)
+  (/39/presolve_704): BoundAdd(name=/39/presolve_704, inputs=[/39/presolve_702, /39/presolve_703], perturbed=True)
+  (/39/presolve_706): BoundGather(name=/39/presolve_706, inputs=[/27/sqr, /35/presolve_293], perturbed=True)
+  (/39/presolve_707): BoundAdd(name=/39/presolve_707, inputs=[/39/presolve_704, /39/presolve_706], perturbed=True)
+  (/39/presolve_708): BoundMul(name=/39/presolve_708, inputs=[/39/presolve_286, /39/presolve_706], perturbed=True)
+  (/39/presolve_709): BoundAdd(name=/39/presolve_709, inputs=[/39/presolve_707, /39/presolve_708], perturbed=True)
+  (/39/presolve_710): BoundMul(name=/39/presolve_710, inputs=[/39/presolve_706, /39/presolve_699], perturbed=True)
+  (/39/presolve_711): BoundAdd(name=/39/presolve_711, inputs=[/39/presolve_709, /39/presolve_710], perturbed=True)
+  (/39/presolve_713): BoundGather(name=/39/presolve_713, inputs=[/34/sqr, /35/presolve_303], perturbed=True)
+  (/39/presolve_714): BoundAdd(name=/39/presolve_714, inputs=[/39/presolve_711, /39/presolve_713], perturbed=True)
+  (/39/presolve_715): BoundSqr(name=/39/presolve_715, inputs=[/39/presolve_286], perturbed=True)
+  (/39/presolve_716): BoundAdd(name=/39/presolve_716, inputs=[/39/presolve_714, /39/presolve_715], perturbed=True)
+  (/39/presolve_717): BoundMul(name=/39/presolve_717, inputs=[/39/presolve_286, /39/presolve_713], perturbed=True)
+  (/39/presolve_718): BoundAdd(name=/39/presolve_718, inputs=[/39/presolve_716, /39/presolve_717], perturbed=True)
+  (/39/presolve_720): BoundGather(name=/39/presolve_720, inputs=[/27/sqr, /35/presolve_303], perturbed=True)
+  (/39/presolve_721): BoundAdd(name=/39/presolve_721, inputs=[/39/presolve_718, /39/presolve_720], perturbed=True)
+  (/39/presolve_722): BoundMul(name=/39/presolve_722, inputs=[/39/presolve_286, /39/presolve_720], perturbed=True)
+  (/39/presolve_723): BoundAdd(name=/39/presolve_723, inputs=[/39/presolve_721, /39/presolve_722], perturbed=True)
+  (/39/presolve_724): BoundMul(name=/39/presolve_724, inputs=[/39/presolve_720, /39/presolve_713], perturbed=True)
+  (/39/presolve_725): BoundAdd(name=/39/presolve_725, inputs=[/39/presolve_723, /39/presolve_724], perturbed=True)
+  (/39/presolve_727): BoundGather(name=/39/presolve_727, inputs=[/34/sqr, /35/presolve_313], perturbed=True)
+  (/39/presolve_728): BoundAdd(name=/39/presolve_728, inputs=[/39/presolve_725, /39/presolve_727], perturbed=True)
+  (/39/presolve_729): BoundSqr(name=/39/presolve_729, inputs=[/39/presolve_344], perturbed=True)
+  (/39/presolve_730): BoundAdd(name=/39/presolve_730, inputs=[/39/presolve_728, /39/presolve_729], perturbed=True)
+  (/39/presolve_731): BoundMul(name=/39/presolve_731, inputs=[/39/presolve_344, /39/presolve_727], perturbed=True)
+  (/39/presolve_732): BoundAdd(name=/39/presolve_732, inputs=[/39/presolve_730, /39/presolve_731], perturbed=True)
+  (/39/presolve_734): BoundGather(name=/39/presolve_734, inputs=[/27/sqr, /35/presolve_313], perturbed=True)
+  (/39/presolve_735): BoundAdd(name=/39/presolve_735, inputs=[/39/presolve_732, /39/presolve_734], perturbed=True)
+  (/39/presolve_736): BoundMul(name=/39/presolve_736, inputs=[/39/presolve_344, /39/presolve_734], perturbed=True)
+  (/39/presolve_737): BoundAdd(name=/39/presolve_737, inputs=[/39/presolve_735, /39/presolve_736], perturbed=True)
+  (/39/presolve_738): BoundMul(name=/39/presolve_738, inputs=[/39/presolve_734, /39/presolve_727], perturbed=True)
+  (/39/presolve_739): BoundAdd(name=/39/presolve_739, inputs=[/39/presolve_737, /39/presolve_738], perturbed=True)
+  (/39/presolve_741): BoundGather(name=/39/presolve_741, inputs=[/34/sqr, /35/presolve_323], perturbed=True)
+  (/39/presolve_742): BoundAdd(name=/39/presolve_742, inputs=[/39/presolve_739, /39/presolve_741], perturbed=True)
+  (/39/presolve_743): BoundSqr(name=/39/presolve_743, inputs=[/39/presolve_155], perturbed=True)
+  (/39/presolve_744): BoundAdd(name=/39/presolve_744, inputs=[/39/presolve_742, /39/presolve_743], perturbed=True)
+  (/39/presolve_745): BoundMul(name=/39/presolve_745, inputs=[/39/presolve_155, /39/presolve_741], perturbed=True)
+  (/39/presolve_746): BoundAdd(name=/39/presolve_746, inputs=[/39/presolve_744, /39/presolve_745], perturbed=True)
+  (/39/presolve_748): BoundGather(name=/39/presolve_748, inputs=[/27/sqr, /35/presolve_323], perturbed=True)
+  (/39/presolve_749): BoundAdd(name=/39/presolve_749, inputs=[/39/presolve_746, /39/presolve_748], perturbed=True)
+  (/39/presolve_750): BoundMul(name=/39/presolve_750, inputs=[/39/presolve_155, /39/presolve_748], perturbed=True)
+  (/39/presolve_751): BoundAdd(name=/39/presolve_751, inputs=[/39/presolve_749, /39/presolve_750], perturbed=True)
+  (/39/presolve_752): BoundMul(name=/39/presolve_752, inputs=[/39/presolve_748, /39/presolve_741], perturbed=True)
+  (/39/presolve_753): BoundAdd(name=/39/presolve_753, inputs=[/39/presolve_751, /39/presolve_752], perturbed=True)
+  (/39/presolve_754): BoundConstant(name=/39/presolve_754, value=-90.0)
+  (/39/presolve_755): BoundAdd(name=/39/presolve_755, inputs=[/39/presolve_753, /39/presolve_754], perturbed=True)
+  (/39/presolve_756): BoundAdd(name=/39/presolve_756, inputs=[/39/presolve_94, /39/presolve_755], perturbed=True)
+  (/39/presolve_757): BoundATenIndex_add(name=/39/presolve_757, inputs=[/38, /21, /1, /37, /21], perturbed=True)
+  (/39/presolve_759): BoundGather(name=/39/presolve_759, inputs=[/39/presolve_757, /35/presolve_3], perturbed=True)
+  (/39/presolve_761): BoundGather(name=/39/presolve_761, inputs=[/39/presolve_757, /35/presolve_5], perturbed=True)
+  (/39/presolve_763): BoundGather(name=/39/presolve_763, inputs=[/39/presolve_757, /35/presolve_7], perturbed=True)
+  (/39/presolve_765): BoundGather(name=/39/presolve_765, inputs=[/39/presolve_757, /35/presolve_9], perturbed=True)
+  (/39/presolve_767): BoundGather(name=/39/presolve_767, inputs=[/39/presolve_757, /35/presolve_11], perturbed=True)
+  (/39/presolve_769): BoundGather(name=/39/presolve_769, inputs=[/39/presolve_757, /35/presolve_13], perturbed=True)
+  (/39/presolve_771): BoundGather(name=/39/presolve_771, inputs=[/39/presolve_757, /35/presolve_15], perturbed=True)
+  (/39/presolve_773): BoundGather(name=/39/presolve_773, inputs=[/39/presolve_757, /35/presolve_25], perturbed=True)
+  (/39/presolve_775): BoundGather(name=/39/presolve_775, inputs=[/39/presolve_757, /35/presolve_27], perturbed=True)
+  (/39/presolve_777): BoundGather(name=/39/presolve_777, inputs=[/39/presolve_757, /35/presolve_37], perturbed=True)
+  (/39/presolve_779): BoundGather(name=/39/presolve_779, inputs=[/39/presolve_757, /35/presolve_47], perturbed=True)
+  (/39/presolve_781): BoundGather(name=/39/presolve_781, inputs=[/39/presolve_757, /35/presolve_49], perturbed=True)
+  (/39/presolve_783): BoundGather(name=/39/presolve_783, inputs=[/39/presolve_757, /35/presolve_59], perturbed=True)
+  (/39/presolve_785): BoundGather(name=/39/presolve_785, inputs=[/39/presolve_757, /35/presolve_61], perturbed=True)
+  (/39/presolve_787): BoundGather(name=/39/presolve_787, inputs=[/39/presolve_757, /35/presolve_71], perturbed=True)
+  (/39/presolve_788): BoundConstant(name=/39/presolve_788, value=tensor([16], device='cuda:0'))
+  (/39/presolve_789): BoundGather(name=/39/presolve_789, inputs=[/39/presolve_757, /39/presolve_788], perturbed=True)
+  (/39/completed_square): BoundConcat(name=/39/completed_square, inputs=[/39/presolve_756, /39/presolve_759, /39/presolve_761, /39/presolve_763, /39/presolve_765, /39/presolve_767, /39/presolve_769, /39/presolve_771, /39/presolve_773, /39/presolve_775, /39/presolve_777, /39/presolve_779, /39/presolve_781, /39/presolve_783, /39/presolve_785, /39/presolve_787, /39/presolve_789], perturbed=True)
+  (/35/presolve_0): BoundAdd(name=/35/presolve_0, inputs=[/31, /34/sqr], perturbed=True)
+  (/35/presolve_1): BoundConstant(name=/35/presolve_1, value=tensor([0], device='cuda:0'))
+  (/35/presolve_2): BoundGather(name=/35/presolve_2, inputs=[/35/presolve_0, /35/presolve_1], perturbed=True)
+  (/35/presolve_3): BoundConstant(name=/35/presolve_3, value=tensor([1], device='cuda:0'))
+  (/35/presolve_4): BoundGather(name=/35/presolve_4, inputs=[/35/presolve_0, /35/presolve_3], perturbed=True)
+  (/35/presolve_5): BoundConstant(name=/35/presolve_5, value=tensor([2], device='cuda:0'))
+  (/35/presolve_6): BoundGather(name=/35/presolve_6, inputs=[/35/presolve_0, /35/presolve_5], perturbed=True)
+  (/35/presolve_7): BoundConstant(name=/35/presolve_7, value=tensor([3], device='cuda:0'))
+  (/35/presolve_8): BoundGather(name=/35/presolve_8, inputs=[/35/presolve_0, /35/presolve_7], perturbed=True)
+  (/35/presolve_9): BoundConstant(name=/35/presolve_9, value=tensor([4], device='cuda:0'))
+  (/35/presolve_10): BoundGather(name=/35/presolve_10, inputs=[/35/presolve_0, /35/presolve_9], perturbed=True)
+  (/35/presolve_11): BoundConstant(name=/35/presolve_11, value=tensor([5], device='cuda:0'))
+  (/35/presolve_12): BoundGather(name=/35/presolve_12, inputs=[/35/presolve_0, /35/presolve_11], perturbed=True)
+  (/35/presolve_13): BoundConstant(name=/35/presolve_13, value=tensor([6], device='cuda:0'))
+  (/35/presolve_14): BoundGather(name=/35/presolve_14, inputs=[/35/presolve_0, /35/presolve_13], perturbed=True)
+  (/35/presolve_15): BoundConstant(name=/35/presolve_15, value=tensor([7], device='cuda:0'))
+  (/35/presolve_16): BoundGather(name=/35/presolve_16, inputs=[/33, /35/presolve_15], perturbed=True)
+  (/35/presolve_18): BoundAdd(name=/35/presolve_18, inputs=[/35/presolve_16, /35/presolve_325], perturbed=True)
+  (/35/presolve_19): BoundSqr(name=/35/presolve_19, inputs=[/35/presolve_18], perturbed=True)
+  (/35/presolve_21): BoundMul(name=/35/presolve_21, inputs=[/35/presolve_16, /35/presolve_328], perturbed=True)
+  (/35/presolve_23): BoundAdd(name=/35/presolve_23, inputs=[/35/presolve_21, /35/presolve_330], perturbed=True)
+  (/35/presolve_24): BoundAdd(name=/35/presolve_24, inputs=[/35/presolve_19, /35/presolve_23], perturbed=True)
+  (/35/presolve_25): BoundConstant(name=/35/presolve_25, value=tensor([8], device='cuda:0'))
+  (/35/presolve_26): BoundGather(name=/35/presolve_26, inputs=[/35/presolve_0, /35/presolve_25], perturbed=True)
+  (/35/presolve_27): BoundConstant(name=/35/presolve_27, value=tensor([9], device='cuda:0'))
+  (/35/presolve_28): BoundGather(name=/35/presolve_28, inputs=[/33, /35/presolve_27], perturbed=True)
+  (/35/presolve_30): BoundAdd(name=/35/presolve_30, inputs=[/35/presolve_28, /35/presolve_325], perturbed=True)
+  (/35/presolve_31): BoundSqr(name=/35/presolve_31, inputs=[/35/presolve_30], perturbed=True)
+  (/35/presolve_33): BoundMul(name=/35/presolve_33, inputs=[/35/presolve_28, /35/presolve_328], perturbed=True)
+  (/35/presolve_35): BoundAdd(name=/35/presolve_35, inputs=[/35/presolve_33, /35/presolve_330], perturbed=True)
+  (/35/presolve_36): BoundAdd(name=/35/presolve_36, inputs=[/35/presolve_31, /35/presolve_35], perturbed=True)
+  (/35/presolve_37): BoundConstant(name=/35/presolve_37, value=tensor([10], device='cuda:0'))
+  (/35/presolve_38): BoundGather(name=/35/presolve_38, inputs=[/33, /35/presolve_37], perturbed=True)
+  (/35/presolve_40): BoundAdd(name=/35/presolve_40, inputs=[/35/presolve_38, /35/presolve_325], perturbed=True)
+  (/35/presolve_41): BoundSqr(name=/35/presolve_41, inputs=[/35/presolve_40], perturbed=True)
+  (/35/presolve_43): BoundMul(name=/35/presolve_43, inputs=[/35/presolve_38, /35/presolve_328], perturbed=True)
+  (/35/presolve_45): BoundAdd(name=/35/presolve_45, inputs=[/35/presolve_43, /35/presolve_330], perturbed=True)
+  (/35/presolve_46): BoundAdd(name=/35/presolve_46, inputs=[/35/presolve_41, /35/presolve_45], perturbed=True)
+  (/35/presolve_47): BoundConstant(name=/35/presolve_47, value=tensor([11], device='cuda:0'))
+  (/35/presolve_48): BoundGather(name=/35/presolve_48, inputs=[/35/presolve_0, /35/presolve_47], perturbed=True)
+  (/35/presolve_49): BoundConstant(name=/35/presolve_49, value=tensor([12], device='cuda:0'))
+  (/35/presolve_50): BoundGather(name=/35/presolve_50, inputs=[/33, /35/presolve_49], perturbed=True)
+  (/35/presolve_52): BoundAdd(name=/35/presolve_52, inputs=[/35/presolve_50, /35/presolve_325], perturbed=True)
+  (/35/presolve_53): BoundSqr(name=/35/presolve_53, inputs=[/35/presolve_52], perturbed=True)
+  (/35/presolve_55): BoundMul(name=/35/presolve_55, inputs=[/35/presolve_50, /35/presolve_328], perturbed=True)
+  (/35/presolve_57): BoundAdd(name=/35/presolve_57, inputs=[/35/presolve_55, /35/presolve_330], perturbed=True)
+  (/35/presolve_58): BoundAdd(name=/35/presolve_58, inputs=[/35/presolve_53, /35/presolve_57], perturbed=True)
+  (/35/presolve_59): BoundConstant(name=/35/presolve_59, value=tensor([13], device='cuda:0'))
+  (/35/presolve_60): BoundGather(name=/35/presolve_60, inputs=[/35/presolve_0, /35/presolve_59], perturbed=True)
+  (/35/presolve_61): BoundConstant(name=/35/presolve_61, value=tensor([14], device='cuda:0'))
+  (/35/presolve_62): BoundGather(name=/35/presolve_62, inputs=[/33, /35/presolve_61], perturbed=True)
+  (/35/presolve_64): BoundAdd(name=/35/presolve_64, inputs=[/35/presolve_62, /35/presolve_325], perturbed=True)
+  (/35/presolve_65): BoundSqr(name=/35/presolve_65, inputs=[/35/presolve_64], perturbed=True)
+  (/35/presolve_67): BoundMul(name=/35/presolve_67, inputs=[/35/presolve_62, /35/presolve_328], perturbed=True)
+  (/35/presolve_69): BoundAdd(name=/35/presolve_69, inputs=[/35/presolve_67, /35/presolve_330], perturbed=True)
+  (/35/presolve_70): BoundAdd(name=/35/presolve_70, inputs=[/35/presolve_65, /35/presolve_69], perturbed=True)
+  (/35/presolve_71): BoundConstant(name=/35/presolve_71, value=tensor([15], device='cuda:0'))
+  (/35/presolve_72): BoundGather(name=/35/presolve_72, inputs=[/33, /35/presolve_71], perturbed=True)
+  (/35/presolve_74): BoundAdd(name=/35/presolve_74, inputs=[/35/presolve_72, /35/presolve_325], perturbed=True)
+  (/35/presolve_75): BoundSqr(name=/35/presolve_75, inputs=[/35/presolve_74], perturbed=True)
+  (/35/presolve_77): BoundMul(name=/35/presolve_77, inputs=[/35/presolve_72, /35/presolve_328], perturbed=True)
+  (/35/presolve_79): BoundAdd(name=/35/presolve_79, inputs=[/35/presolve_77, /35/presolve_330], perturbed=True)
+  (/35/presolve_80): BoundAdd(name=/35/presolve_80, inputs=[/35/presolve_75, /35/presolve_79], perturbed=True)
+  (/35/presolve_82): BoundGather(name=/35/presolve_82, inputs=[/35/presolve_0, /39/presolve_788], perturbed=True)
+  (/35/presolve_83): BoundConstant(name=/35/presolve_83, value=tensor([17], device='cuda:0'))
+  (/35/presolve_84): BoundGather(name=/35/presolve_84, inputs=[/35/presolve_0, /35/presolve_83], perturbed=True)
+  (/35/presolve_85): BoundConstant(name=/35/presolve_85, value=tensor([18], device='cuda:0'))
+  (/35/presolve_86): BoundGather(name=/35/presolve_86, inputs=[/35/presolve_0, /35/presolve_85], perturbed=True)
+  (/35/presolve_87): BoundConstant(name=/35/presolve_87, value=tensor([19], device='cuda:0'))
+  (/35/presolve_88): BoundGather(name=/35/presolve_88, inputs=[/35/presolve_0, /35/presolve_87], perturbed=True)
+  (/35/presolve_89): BoundConstant(name=/35/presolve_89, value=tensor([20], device='cuda:0'))
+  (/35/presolve_90): BoundGather(name=/35/presolve_90, inputs=[/33, /35/presolve_89], perturbed=True)
+  (/35/presolve_92): BoundAdd(name=/35/presolve_92, inputs=[/35/presolve_90, /35/presolve_325], perturbed=True)
+  (/35/presolve_93): BoundSqr(name=/35/presolve_93, inputs=[/35/presolve_92], perturbed=True)
+  (/35/presolve_95): BoundMul(name=/35/presolve_95, inputs=[/35/presolve_90, /35/presolve_328], perturbed=True)
+  (/35/presolve_97): BoundAdd(name=/35/presolve_97, inputs=[/35/presolve_95, /35/presolve_330], perturbed=True)
+  (/35/presolve_98): BoundAdd(name=/35/presolve_98, inputs=[/35/presolve_93, /35/presolve_97], perturbed=True)
+  (/35/presolve_99): BoundConstant(name=/35/presolve_99, value=tensor([21], device='cuda:0'))
+  (/35/presolve_100): BoundGather(name=/35/presolve_100, inputs=[/35/presolve_0, /35/presolve_99], perturbed=True)
+  (/35/presolve_101): BoundConstant(name=/35/presolve_101, value=tensor([22], device='cuda:0'))
+  (/35/presolve_102): BoundGather(name=/35/presolve_102, inputs=[/33, /35/presolve_101], perturbed=True)
+  (/35/presolve_104): BoundAdd(name=/35/presolve_104, inputs=[/35/presolve_102, /35/presolve_325], perturbed=True)
+  (/35/presolve_105): BoundSqr(name=/35/presolve_105, inputs=[/35/presolve_104], perturbed=True)
+  (/35/presolve_107): BoundMul(name=/35/presolve_107, inputs=[/35/presolve_102, /35/presolve_328], perturbed=True)
+  (/35/presolve_109): BoundAdd(name=/35/presolve_109, inputs=[/35/presolve_107, /35/presolve_330], perturbed=True)
+  (/35/presolve_110): BoundAdd(name=/35/presolve_110, inputs=[/35/presolve_105, /35/presolve_109], perturbed=True)
+  (/35/presolve_111): BoundConstant(name=/35/presolve_111, value=tensor([23], device='cuda:0'))
+  (/35/presolve_112): BoundGather(name=/35/presolve_112, inputs=[/33, /35/presolve_111], perturbed=True)
+  (/35/presolve_114): BoundAdd(name=/35/presolve_114, inputs=[/35/presolve_112, /35/presolve_325], perturbed=True)
+  (/35/presolve_115): BoundSqr(name=/35/presolve_115, inputs=[/35/presolve_114], perturbed=True)
+  (/35/presolve_117): BoundMul(name=/35/presolve_117, inputs=[/35/presolve_112, /35/presolve_328], perturbed=True)
+  (/35/presolve_119): BoundAdd(name=/35/presolve_119, inputs=[/35/presolve_117, /35/presolve_330], perturbed=True)
+  (/35/presolve_120): BoundAdd(name=/35/presolve_120, inputs=[/35/presolve_115, /35/presolve_119], perturbed=True)
+  (/35/presolve_121): BoundConstant(name=/35/presolve_121, value=tensor([24], device='cuda:0'))
+  (/35/presolve_122): BoundGather(name=/35/presolve_122, inputs=[/33, /35/presolve_121], perturbed=True)
+  (/35/presolve_124): BoundAdd(name=/35/presolve_124, inputs=[/35/presolve_122, /35/presolve_325], perturbed=True)
+  (/35/presolve_125): BoundSqr(name=/35/presolve_125, inputs=[/35/presolve_124], perturbed=True)
+  (/35/presolve_127): BoundMul(name=/35/presolve_127, inputs=[/35/presolve_122, /35/presolve_328], perturbed=True)
+  (/35/presolve_129): BoundAdd(name=/35/presolve_129, inputs=[/35/presolve_127, /35/presolve_330], perturbed=True)
+  (/35/presolve_130): BoundAdd(name=/35/presolve_130, inputs=[/35/presolve_125, /35/presolve_129], perturbed=True)
+  (/35/presolve_131): BoundConstant(name=/35/presolve_131, value=tensor([25], device='cuda:0'))
+  (/35/presolve_132): BoundGather(name=/35/presolve_132, inputs=[/33, /35/presolve_131], perturbed=True)
+  (/35/presolve_134): BoundAdd(name=/35/presolve_134, inputs=[/35/presolve_132, /35/presolve_325], perturbed=True)
+  (/35/presolve_135): BoundSqr(name=/35/presolve_135, inputs=[/35/presolve_134], perturbed=True)
+  (/35/presolve_137): BoundMul(name=/35/presolve_137, inputs=[/35/presolve_132, /35/presolve_328], perturbed=True)
+  (/35/presolve_139): BoundAdd(name=/35/presolve_139, inputs=[/35/presolve_137, /35/presolve_330], perturbed=True)
+  (/35/presolve_140): BoundAdd(name=/35/presolve_140, inputs=[/35/presolve_135, /35/presolve_139], perturbed=True)
+  (/35/presolve_141): BoundConstant(name=/35/presolve_141, value=tensor([26], device='cuda:0'))
+  (/35/presolve_142): BoundGather(name=/35/presolve_142, inputs=[/33, /35/presolve_141], perturbed=True)
+  (/35/presolve_144): BoundAdd(name=/35/presolve_144, inputs=[/35/presolve_142, /35/presolve_325], perturbed=True)
+  (/35/presolve_145): BoundSqr(name=/35/presolve_145, inputs=[/35/presolve_144], perturbed=True)
+  (/35/presolve_147): BoundMul(name=/35/presolve_147, inputs=[/35/presolve_142, /35/presolve_328], perturbed=True)
+  (/35/presolve_149): BoundAdd(name=/35/presolve_149, inputs=[/35/presolve_147, /35/presolve_330], perturbed=True)
+  (/35/presolve_150): BoundAdd(name=/35/presolve_150, inputs=[/35/presolve_145, /35/presolve_149], perturbed=True)
+  (/35/presolve_151): BoundConstant(name=/35/presolve_151, value=tensor([27], device='cuda:0'))
+  (/35/presolve_152): BoundGather(name=/35/presolve_152, inputs=[/33, /35/presolve_151], perturbed=True)
+  (/35/presolve_154): BoundAdd(name=/35/presolve_154, inputs=[/35/presolve_152, /35/presolve_325], perturbed=True)
+  (/35/presolve_155): BoundSqr(name=/35/presolve_155, inputs=[/35/presolve_154], perturbed=True)
+  (/35/presolve_157): BoundMul(name=/35/presolve_157, inputs=[/35/presolve_152, /35/presolve_328], perturbed=True)
+  (/35/presolve_159): BoundAdd(name=/35/presolve_159, inputs=[/35/presolve_157, /35/presolve_330], perturbed=True)
+  (/35/presolve_160): BoundAdd(name=/35/presolve_160, inputs=[/35/presolve_155, /35/presolve_159], perturbed=True)
+  (/35/presolve_161): BoundConstant(name=/35/presolve_161, value=tensor([28], device='cuda:0'))
+  (/35/presolve_162): BoundGather(name=/35/presolve_162, inputs=[/35/presolve_0, /35/presolve_161], perturbed=True)
+  (/35/presolve_163): BoundConstant(name=/35/presolve_163, value=tensor([29], device='cuda:0'))
+  (/35/presolve_164): BoundGather(name=/35/presolve_164, inputs=[/33, /35/presolve_163], perturbed=True)
+  (/35/presolve_166): BoundAdd(name=/35/presolve_166, inputs=[/35/presolve_164, /35/presolve_325], perturbed=True)
+  (/35/presolve_167): BoundSqr(name=/35/presolve_167, inputs=[/35/presolve_166], perturbed=True)
+  (/35/presolve_169): BoundMul(name=/35/presolve_169, inputs=[/35/presolve_164, /35/presolve_328], perturbed=True)
+  (/35/presolve_171): BoundAdd(name=/35/presolve_171, inputs=[/35/presolve_169, /35/presolve_330], perturbed=True)
+  (/35/presolve_172): BoundAdd(name=/35/presolve_172, inputs=[/35/presolve_167, /35/presolve_171], perturbed=True)
+  (/35/presolve_173): BoundConstant(name=/35/presolve_173, value=tensor([30], device='cuda:0'))
+  (/35/presolve_174): BoundGather(name=/35/presolve_174, inputs=[/33, /35/presolve_173], perturbed=True)
+  (/35/presolve_176): BoundAdd(name=/35/presolve_176, inputs=[/35/presolve_174, /35/presolve_325], perturbed=True)
+  (/35/presolve_177): BoundSqr(name=/35/presolve_177, inputs=[/35/presolve_176], perturbed=True)
+  (/35/presolve_179): BoundMul(name=/35/presolve_179, inputs=[/35/presolve_174, /35/presolve_328], perturbed=True)
+  (/35/presolve_181): BoundAdd(name=/35/presolve_181, inputs=[/35/presolve_179, /35/presolve_330], perturbed=True)
+  (/35/presolve_182): BoundAdd(name=/35/presolve_182, inputs=[/35/presolve_177, /35/presolve_181], perturbed=True)
+  (/35/presolve_183): BoundConstant(name=/35/presolve_183, value=tensor([31], device='cuda:0'))
+  (/35/presolve_184): BoundGather(name=/35/presolve_184, inputs=[/33, /35/presolve_183], perturbed=True)
+  (/35/presolve_186): BoundAdd(name=/35/presolve_186, inputs=[/35/presolve_184, /35/presolve_325], perturbed=True)
+  (/35/presolve_187): BoundSqr(name=/35/presolve_187, inputs=[/35/presolve_186], perturbed=True)
+  (/35/presolve_189): BoundMul(name=/35/presolve_189, inputs=[/35/presolve_184, /35/presolve_328], perturbed=True)
+  (/35/presolve_191): BoundAdd(name=/35/presolve_191, inputs=[/35/presolve_189, /35/presolve_330], perturbed=True)
+  (/35/presolve_192): BoundAdd(name=/35/presolve_192, inputs=[/35/presolve_187, /35/presolve_191], perturbed=True)
+  (/35/presolve_193): BoundConstant(name=/35/presolve_193, value=tensor([32], device='cuda:0'))
+  (/35/presolve_194): BoundGather(name=/35/presolve_194, inputs=[/33, /35/presolve_193], perturbed=True)
+  (/35/presolve_196): BoundAdd(name=/35/presolve_196, inputs=[/35/presolve_194, /35/presolve_325], perturbed=True)
+  (/35/presolve_197): BoundSqr(name=/35/presolve_197, inputs=[/35/presolve_196], perturbed=True)
+  (/35/presolve_199): BoundMul(name=/35/presolve_199, inputs=[/35/presolve_194, /35/presolve_328], perturbed=True)
+  (/35/presolve_201): BoundAdd(name=/35/presolve_201, inputs=[/35/presolve_199, /35/presolve_330], perturbed=True)
+  (/35/presolve_202): BoundAdd(name=/35/presolve_202, inputs=[/35/presolve_197, /35/presolve_201], perturbed=True)
+  (/35/presolve_203): BoundConstant(name=/35/presolve_203, value=tensor([33], device='cuda:0'))
+  (/35/presolve_204): BoundGather(name=/35/presolve_204, inputs=[/33, /35/presolve_203], perturbed=True)
+  (/35/presolve_206): BoundAdd(name=/35/presolve_206, inputs=[/35/presolve_204, /35/presolve_325], perturbed=True)
+  (/35/presolve_207): BoundSqr(name=/35/presolve_207, inputs=[/35/presolve_206], perturbed=True)
+  (/35/presolve_209): BoundMul(name=/35/presolve_209, inputs=[/35/presolve_204, /35/presolve_328], perturbed=True)
+  (/35/presolve_211): BoundAdd(name=/35/presolve_211, inputs=[/35/presolve_209, /35/presolve_330], perturbed=True)
+  (/35/presolve_212): BoundAdd(name=/35/presolve_212, inputs=[/35/presolve_207, /35/presolve_211], perturbed=True)
+  (/35/presolve_213): BoundConstant(name=/35/presolve_213, value=tensor([34], device='cuda:0'))
+  (/35/presolve_214): BoundGather(name=/35/presolve_214, inputs=[/33, /35/presolve_213], perturbed=True)
+  (/35/presolve_216): BoundAdd(name=/35/presolve_216, inputs=[/35/presolve_214, /35/presolve_325], perturbed=True)
+  (/35/presolve_217): BoundSqr(name=/35/presolve_217, inputs=[/35/presolve_216], perturbed=True)
+  (/35/presolve_219): BoundMul(name=/35/presolve_219, inputs=[/35/presolve_214, /35/presolve_328], perturbed=True)
+  (/35/presolve_221): BoundAdd(name=/35/presolve_221, inputs=[/35/presolve_219, /35/presolve_330], perturbed=True)
+  (/35/presolve_222): BoundAdd(name=/35/presolve_222, inputs=[/35/presolve_217, /35/presolve_221], perturbed=True)
+  (/35/presolve_223): BoundConstant(name=/35/presolve_223, value=tensor([35], device='cuda:0'))
+  (/35/presolve_224): BoundGather(name=/35/presolve_224, inputs=[/33, /35/presolve_223], perturbed=True)
+  (/35/presolve_226): BoundAdd(name=/35/presolve_226, inputs=[/35/presolve_224, /35/presolve_325], perturbed=True)
+  (/35/presolve_227): BoundSqr(name=/35/presolve_227, inputs=[/35/presolve_226], perturbed=True)
+  (/35/presolve_229): BoundMul(name=/35/presolve_229, inputs=[/35/presolve_224, /35/presolve_328], perturbed=True)
+  (/35/presolve_231): BoundAdd(name=/35/presolve_231, inputs=[/35/presolve_229, /35/presolve_330], perturbed=True)
+  (/35/presolve_232): BoundAdd(name=/35/presolve_232, inputs=[/35/presolve_227, /35/presolve_231], perturbed=True)
+  (/35/presolve_233): BoundConstant(name=/35/presolve_233, value=tensor([36], device='cuda:0'))
+  (/35/presolve_234): BoundGather(name=/35/presolve_234, inputs=[/33, /35/presolve_233], perturbed=True)
+  (/35/presolve_236): BoundAdd(name=/35/presolve_236, inputs=[/35/presolve_234, /35/presolve_325], perturbed=True)
+  (/35/presolve_237): BoundSqr(name=/35/presolve_237, inputs=[/35/presolve_236], perturbed=True)
+  (/35/presolve_239): BoundMul(name=/35/presolve_239, inputs=[/35/presolve_234, /35/presolve_328], perturbed=True)
+  (/35/presolve_241): BoundAdd(name=/35/presolve_241, inputs=[/35/presolve_239, /35/presolve_330], perturbed=True)
+  (/35/presolve_242): BoundAdd(name=/35/presolve_242, inputs=[/35/presolve_237, /35/presolve_241], perturbed=True)
+  (/35/presolve_243): BoundConstant(name=/35/presolve_243, value=tensor([37], device='cuda:0'))
+  (/35/presolve_244): BoundGather(name=/35/presolve_244, inputs=[/33, /35/presolve_243], perturbed=True)
+  (/35/presolve_246): BoundAdd(name=/35/presolve_246, inputs=[/35/presolve_244, /35/presolve_325], perturbed=True)
+  (/35/presolve_247): BoundSqr(name=/35/presolve_247, inputs=[/35/presolve_246], perturbed=True)
+  (/35/presolve_249): BoundMul(name=/35/presolve_249, inputs=[/35/presolve_244, /35/presolve_328], perturbed=True)
+  (/35/presolve_251): BoundAdd(name=/35/presolve_251, inputs=[/35/presolve_249, /35/presolve_330], perturbed=True)
+  (/35/presolve_252): BoundAdd(name=/35/presolve_252, inputs=[/35/presolve_247, /35/presolve_251], perturbed=True)
+  (/35/presolve_253): BoundConstant(name=/35/presolve_253, value=tensor([38], device='cuda:0'))
+  (/35/presolve_254): BoundGather(name=/35/presolve_254, inputs=[/33, /35/presolve_253], perturbed=True)
+  (/35/presolve_256): BoundAdd(name=/35/presolve_256, inputs=[/35/presolve_254, /35/presolve_325], perturbed=True)
+  (/35/presolve_257): BoundSqr(name=/35/presolve_257, inputs=[/35/presolve_256], perturbed=True)
+  (/35/presolve_259): BoundMul(name=/35/presolve_259, inputs=[/35/presolve_254, /35/presolve_328], perturbed=True)
+  (/35/presolve_261): BoundAdd(name=/35/presolve_261, inputs=[/35/presolve_259, /35/presolve_330], perturbed=True)
+  (/35/presolve_262): BoundAdd(name=/35/presolve_262, inputs=[/35/presolve_257, /35/presolve_261], perturbed=True)
+  (/35/presolve_263): BoundConstant(name=/35/presolve_263, value=tensor([39], device='cuda:0'))
+  (/35/presolve_264): BoundGather(name=/35/presolve_264, inputs=[/33, /35/presolve_263], perturbed=True)
+  (/35/presolve_266): BoundAdd(name=/35/presolve_266, inputs=[/35/presolve_264, /35/presolve_325], perturbed=True)
+  (/35/presolve_267): BoundSqr(name=/35/presolve_267, inputs=[/35/presolve_266], perturbed=True)
+  (/35/presolve_269): BoundMul(name=/35/presolve_269, inputs=[/35/presolve_264, /35/presolve_328], perturbed=True)
+  (/35/presolve_271): BoundAdd(name=/35/presolve_271, inputs=[/35/presolve_269, /35/presolve_330], perturbed=True)
+  (/35/presolve_272): BoundAdd(name=/35/presolve_272, inputs=[/35/presolve_267, /35/presolve_271], perturbed=True)
+  (/35/presolve_273): BoundConstant(name=/35/presolve_273, value=tensor([40], device='cuda:0'))
+  (/35/presolve_274): BoundGather(name=/35/presolve_274, inputs=[/33, /35/presolve_273], perturbed=True)
+  (/35/presolve_276): BoundAdd(name=/35/presolve_276, inputs=[/35/presolve_274, /35/presolve_325], perturbed=True)
+  (/35/presolve_277): BoundSqr(name=/35/presolve_277, inputs=[/35/presolve_276], perturbed=True)
+  (/35/presolve_279): BoundMul(name=/35/presolve_279, inputs=[/35/presolve_274, /35/presolve_328], perturbed=True)
+  (/35/presolve_281): BoundAdd(name=/35/presolve_281, inputs=[/35/presolve_279, /35/presolve_330], perturbed=True)
+  (/35/presolve_282): BoundAdd(name=/35/presolve_282, inputs=[/35/presolve_277, /35/presolve_281], perturbed=True)
+  (/35/presolve_283): BoundConstant(name=/35/presolve_283, value=tensor([41], device='cuda:0'))
+  (/35/presolve_284): BoundGather(name=/35/presolve_284, inputs=[/33, /35/presolve_283], perturbed=True)
+  (/35/presolve_286): BoundAdd(name=/35/presolve_286, inputs=[/35/presolve_284, /35/presolve_325], perturbed=True)
+  (/35/presolve_287): BoundSqr(name=/35/presolve_287, inputs=[/35/presolve_286], perturbed=True)
+  (/35/presolve_289): BoundMul(name=/35/presolve_289, inputs=[/35/presolve_284, /35/presolve_328], perturbed=True)
+  (/35/presolve_291): BoundAdd(name=/35/presolve_291, inputs=[/35/presolve_289, /35/presolve_330], perturbed=True)
+  (/35/presolve_292): BoundAdd(name=/35/presolve_292, inputs=[/35/presolve_287, /35/presolve_291], perturbed=True)
+  (/35/presolve_293): BoundConstant(name=/35/presolve_293, value=tensor([42], device='cuda:0'))
+  (/35/presolve_294): BoundGather(name=/35/presolve_294, inputs=[/33, /35/presolve_293], perturbed=True)
+  (/35/presolve_296): BoundAdd(name=/35/presolve_296, inputs=[/35/presolve_294, /35/presolve_325], perturbed=True)
+  (/35/presolve_297): BoundSqr(name=/35/presolve_297, inputs=[/35/presolve_296], perturbed=True)
+  (/35/presolve_299): BoundMul(name=/35/presolve_299, inputs=[/35/presolve_294, /35/presolve_328], perturbed=True)
+  (/35/presolve_301): BoundAdd(name=/35/presolve_301, inputs=[/35/presolve_299, /35/presolve_330], perturbed=True)
+  (/35/presolve_302): BoundAdd(name=/35/presolve_302, inputs=[/35/presolve_297, /35/presolve_301], perturbed=True)
+  (/35/presolve_303): BoundConstant(name=/35/presolve_303, value=tensor([43], device='cuda:0'))
+  (/35/presolve_304): BoundGather(name=/35/presolve_304, inputs=[/33, /35/presolve_303], perturbed=True)
+  (/35/presolve_306): BoundAdd(name=/35/presolve_306, inputs=[/35/presolve_304, /35/presolve_325], perturbed=True)
+  (/35/presolve_307): BoundSqr(name=/35/presolve_307, inputs=[/35/presolve_306], perturbed=True)
+  (/35/presolve_309): BoundMul(name=/35/presolve_309, inputs=[/35/presolve_304, /35/presolve_328], perturbed=True)
+  (/35/presolve_311): BoundAdd(name=/35/presolve_311, inputs=[/35/presolve_309, /35/presolve_330], perturbed=True)
+  (/35/presolve_312): BoundAdd(name=/35/presolve_312, inputs=[/35/presolve_307, /35/presolve_311], perturbed=True)
+  (/35/presolve_313): BoundConstant(name=/35/presolve_313, value=tensor([44], device='cuda:0'))
+  (/35/presolve_314): BoundGather(name=/35/presolve_314, inputs=[/33, /35/presolve_313], perturbed=True)
+  (/35/presolve_316): BoundAdd(name=/35/presolve_316, inputs=[/35/presolve_314, /35/presolve_325], perturbed=True)
+  (/35/presolve_317): BoundSqr(name=/35/presolve_317, inputs=[/35/presolve_316], perturbed=True)
+  (/35/presolve_319): BoundMul(name=/35/presolve_319, inputs=[/35/presolve_314, /35/presolve_328], perturbed=True)
+  (/35/presolve_321): BoundAdd(name=/35/presolve_321, inputs=[/35/presolve_319, /35/presolve_330], perturbed=True)
+  (/35/presolve_322): BoundAdd(name=/35/presolve_322, inputs=[/35/presolve_317, /35/presolve_321], perturbed=True)
+  (/35/presolve_323): BoundConstant(name=/35/presolve_323, value=tensor([45], device='cuda:0'))
+  (/35/presolve_324): BoundGather(name=/35/presolve_324, inputs=[/33, /35/presolve_323], perturbed=True)
+  (/35/presolve_325): BoundConstant(name=/35/presolve_325, value=0.5)
+  (/35/presolve_326): BoundAdd(name=/35/presolve_326, inputs=[/35/presolve_324, /35/presolve_325], perturbed=True)
+  (/35/presolve_327): BoundSqr(name=/35/presolve_327, inputs=[/35/presolve_326], perturbed=True)
+  (/35/presolve_328): BoundConstant(name=/35/presolve_328, value=0.0)
+  (/35/presolve_329): BoundMul(name=/35/presolve_329, inputs=[/35/presolve_324, /35/presolve_328], perturbed=True)
+  (/35/presolve_330): BoundConstant(name=/35/presolve_330, value=0.75)
+  (/35/presolve_331): BoundAdd(name=/35/presolve_331, inputs=[/35/presolve_329, /35/presolve_330], perturbed=True)
+  (/35/presolve_332): BoundAdd(name=/35/presolve_332, inputs=[/35/presolve_327, /35/presolve_331], perturbed=True)
+  (/35/completed_square): BoundConcat(name=/35/completed_square, inputs=[/35/presolve_2, /35/presolve_4, /35/presolve_6, /35/presolve_8, /35/presolve_10, /35/presolve_12, /35/presolve_14, /35/presolve_24, /35/presolve_26, /35/presolve_36, /35/presolve_46, /35/presolve_48, /35/presolve_58, /35/presolve_60, /35/presolve_70, /35/presolve_80, /35/presolve_82, /35/presolve_84, /35/presolve_86, /35/presolve_88, /35/presolve_98, /35/presolve_100, /35/presolve_110, /35/presolve_120, /35/presolve_130, /35/presolve_140, /35/presolve_150, /35/presolve_160, /35/presolve_162, /35/presolve_172, /35/presolve_182, /35/presolve_192, /35/presolve_202, /35/presolve_212, /35/presolve_222, /35/presolve_232, /35/presolve_242, /35/presolve_252, /35/presolve_262, /35/presolve_272, /35/presolve_282, /35/presolve_292, /35/presolve_302, /35/presolve_312, /35/presolve_322, /35/presolve_332], perturbed=True)
+  (/28/presolve_1): BoundGather(name=/28/presolve_1, inputs=[/26, /35/presolve_1], perturbed=True)
+  (/28/presolve_3): BoundAdd(name=/28/presolve_3, inputs=[/28/presolve_1, /35/presolve_325], perturbed=True)
+  (/28/presolve_4): BoundSqr(name=/28/presolve_4, inputs=[/28/presolve_3], perturbed=True)
+  (/28/presolve_6): BoundMul(name=/28/presolve_6, inputs=[/28/presolve_1, /35/presolve_328], perturbed=True)
+  (/28/presolve_8): BoundAdd(name=/28/presolve_8, inputs=[/28/presolve_6, /35/presolve_330], perturbed=True)
+  (/28/presolve_9): BoundAdd(name=/28/presolve_9, inputs=[/28/presolve_4, /28/presolve_8], perturbed=True)
+  (/28/presolve_11): BoundGather(name=/28/presolve_11, inputs=[/26, /35/presolve_3], perturbed=True)
+  (/28/presolve_13): BoundAdd(name=/28/presolve_13, inputs=[/28/presolve_11, /35/presolve_325], perturbed=True)
+  (/28/presolve_14): BoundSqr(name=/28/presolve_14, inputs=[/28/presolve_13], perturbed=True)
+  (/28/presolve_16): BoundMul(name=/28/presolve_16, inputs=[/28/presolve_11, /35/presolve_328], perturbed=True)
+  (/28/presolve_18): BoundAdd(name=/28/presolve_18, inputs=[/28/presolve_16, /35/presolve_330], perturbed=True)
+  (/28/presolve_19): BoundAdd(name=/28/presolve_19, inputs=[/28/presolve_14, /28/presolve_18], perturbed=True)
+  (/28/presolve_21): BoundGather(name=/28/presolve_21, inputs=[/26, /35/presolve_5], perturbed=True)
+  (/28/presolve_23): BoundAdd(name=/28/presolve_23, inputs=[/28/presolve_21, /35/presolve_325], perturbed=True)
+  (/28/presolve_24): BoundSqr(name=/28/presolve_24, inputs=[/28/presolve_23], perturbed=True)
+  (/28/presolve_26): BoundMul(name=/28/presolve_26, inputs=[/28/presolve_21, /35/presolve_328], perturbed=True)
+  (/28/presolve_28): BoundAdd(name=/28/presolve_28, inputs=[/28/presolve_26, /35/presolve_330], perturbed=True)
+  (/28/presolve_29): BoundAdd(name=/28/presolve_29, inputs=[/28/presolve_24, /28/presolve_28], perturbed=True)
+  (/28/presolve_31): BoundGather(name=/28/presolve_31, inputs=[/26, /35/presolve_7], perturbed=True)
+  (/28/presolve_33): BoundAdd(name=/28/presolve_33, inputs=[/28/presolve_31, /35/presolve_325], perturbed=True)
+  (/28/presolve_34): BoundSqr(name=/28/presolve_34, inputs=[/28/presolve_33], perturbed=True)
+  (/28/presolve_36): BoundMul(name=/28/presolve_36, inputs=[/28/presolve_31, /35/presolve_328], perturbed=True)
+  (/28/presolve_38): BoundAdd(name=/28/presolve_38, inputs=[/28/presolve_36, /35/presolve_330], perturbed=True)
+  (/28/presolve_39): BoundAdd(name=/28/presolve_39, inputs=[/28/presolve_34, /28/presolve_38], perturbed=True)
+  (/28/presolve_41): BoundGather(name=/28/presolve_41, inputs=[/26, /35/presolve_9], perturbed=True)
+  (/28/presolve_43): BoundAdd(name=/28/presolve_43, inputs=[/28/presolve_41, /35/presolve_325], perturbed=True)
+  (/28/presolve_44): BoundSqr(name=/28/presolve_44, inputs=[/28/presolve_43], perturbed=True)
+  (/28/presolve_46): BoundMul(name=/28/presolve_46, inputs=[/28/presolve_41, /35/presolve_328], perturbed=True)
+  (/28/presolve_48): BoundAdd(name=/28/presolve_48, inputs=[/28/presolve_46, /35/presolve_330], perturbed=True)
+  (/28/presolve_49): BoundAdd(name=/28/presolve_49, inputs=[/28/presolve_44, /28/presolve_48], perturbed=True)
+  (/28/presolve_51): BoundGather(name=/28/presolve_51, inputs=[/26, /35/presolve_11], perturbed=True)
+  (/28/presolve_53): BoundAdd(name=/28/presolve_53, inputs=[/28/presolve_51, /35/presolve_325], perturbed=True)
+  (/28/presolve_54): BoundSqr(name=/28/presolve_54, inputs=[/28/presolve_53], perturbed=True)
+  (/28/presolve_56): BoundMul(name=/28/presolve_56, inputs=[/28/presolve_51, /35/presolve_328], perturbed=True)
+  (/28/presolve_58): BoundAdd(name=/28/presolve_58, inputs=[/28/presolve_56, /35/presolve_330], perturbed=True)
+  (/28/presolve_59): BoundAdd(name=/28/presolve_59, inputs=[/28/presolve_54, /28/presolve_58], perturbed=True)
+  (/28/presolve_61): BoundGather(name=/28/presolve_61, inputs=[/26, /35/presolve_13], perturbed=True)
+  (/28/presolve_63): BoundAdd(name=/28/presolve_63, inputs=[/28/presolve_61, /35/presolve_325], perturbed=True)
+  (/28/presolve_64): BoundSqr(name=/28/presolve_64, inputs=[/28/presolve_63], perturbed=True)
+  (/28/presolve_66): BoundMul(name=/28/presolve_66, inputs=[/28/presolve_61, /35/presolve_328], perturbed=True)
+  (/28/presolve_68): BoundAdd(name=/28/presolve_68, inputs=[/28/presolve_66, /35/presolve_330], perturbed=True)
+  (/28/presolve_69): BoundAdd(name=/28/presolve_69, inputs=[/28/presolve_64, /28/presolve_68], perturbed=True)
+  (/28/presolve_71): BoundGather(name=/28/presolve_71, inputs=[/26, /35/presolve_15], perturbed=True)
+  (/28/presolve_73): BoundAdd(name=/28/presolve_73, inputs=[/28/presolve_71, /35/presolve_325], perturbed=True)
+  (/28/presolve_74): BoundSqr(name=/28/presolve_74, inputs=[/28/presolve_73], perturbed=True)
+  (/28/presolve_76): BoundMul(name=/28/presolve_76, inputs=[/28/presolve_71, /35/presolve_328], perturbed=True)
+  (/28/presolve_78): BoundAdd(name=/28/presolve_78, inputs=[/28/presolve_76, /35/presolve_330], perturbed=True)
+  (/28/presolve_79): BoundAdd(name=/28/presolve_79, inputs=[/28/presolve_74, /28/presolve_78], perturbed=True)
+  (/28/presolve_81): BoundGather(name=/28/presolve_81, inputs=[/26, /35/presolve_25], perturbed=True)
+  (/28/presolve_83): BoundAdd(name=/28/presolve_83, inputs=[/28/presolve_81, /35/presolve_325], perturbed=True)
+  (/28/presolve_84): BoundSqr(name=/28/presolve_84, inputs=[/28/presolve_83], perturbed=True)
+  (/28/presolve_86): BoundMul(name=/28/presolve_86, inputs=[/28/presolve_81, /35/presolve_328], perturbed=True)
+  (/28/presolve_88): BoundAdd(name=/28/presolve_88, inputs=[/28/presolve_86, /35/presolve_330], perturbed=True)
+  (/28/presolve_89): BoundAdd(name=/28/presolve_89, inputs=[/28/presolve_84, /28/presolve_88], perturbed=True)
+  (/28/presolve_91): BoundGather(name=/28/presolve_91, inputs=[/26, /35/presolve_27], perturbed=True)
+  (/28/presolve_93): BoundAdd(name=/28/presolve_93, inputs=[/28/presolve_91, /35/presolve_325], perturbed=True)
+  (/28/presolve_94): BoundSqr(name=/28/presolve_94, inputs=[/28/presolve_93], perturbed=True)
+  (/28/presolve_96): BoundMul(name=/28/presolve_96, inputs=[/28/presolve_91, /35/presolve_328], perturbed=True)
+  (/28/presolve_98): BoundAdd(name=/28/presolve_98, inputs=[/28/presolve_96, /35/presolve_330], perturbed=True)
+  (/28/presolve_99): BoundAdd(name=/28/presolve_99, inputs=[/28/presolve_94, /28/presolve_98], perturbed=True)
+  (/28/presolve_101): BoundGather(name=/28/presolve_101, inputs=[/26, /35/presolve_37], perturbed=True)
+  (/28/presolve_103): BoundAdd(name=/28/presolve_103, inputs=[/28/presolve_101, /35/presolve_325], perturbed=True)
+  (/28/presolve_104): BoundSqr(name=/28/presolve_104, inputs=[/28/presolve_103], perturbed=True)
+  (/28/presolve_106): BoundMul(name=/28/presolve_106, inputs=[/28/presolve_101, /35/presolve_328], perturbed=True)
+  (/28/presolve_108): BoundAdd(name=/28/presolve_108, inputs=[/28/presolve_106, /35/presolve_330], perturbed=True)
+  (/28/presolve_109): BoundAdd(name=/28/presolve_109, inputs=[/28/presolve_104, /28/presolve_108], perturbed=True)
+  (/28/presolve_111): BoundGather(name=/28/presolve_111, inputs=[/26, /35/presolve_47], perturbed=True)
+  (/28/presolve_113): BoundAdd(name=/28/presolve_113, inputs=[/28/presolve_111, /35/presolve_325], perturbed=True)
+  (/28/presolve_114): BoundSqr(name=/28/presolve_114, inputs=[/28/presolve_113], perturbed=True)
+  (/28/presolve_116): BoundMul(name=/28/presolve_116, inputs=[/28/presolve_111, /35/presolve_328], perturbed=True)
+  (/28/presolve_118): BoundAdd(name=/28/presolve_118, inputs=[/28/presolve_116, /35/presolve_330], perturbed=True)
+  (/28/presolve_119): BoundAdd(name=/28/presolve_119, inputs=[/28/presolve_114, /28/presolve_118], perturbed=True)
+  (/28/presolve_121): BoundGather(name=/28/presolve_121, inputs=[/26, /35/presolve_49], perturbed=True)
+  (/28/presolve_123): BoundAdd(name=/28/presolve_123, inputs=[/28/presolve_121, /35/presolve_325], perturbed=True)
+  (/28/presolve_124): BoundSqr(name=/28/presolve_124, inputs=[/28/presolve_123], perturbed=True)
+  (/28/presolve_126): BoundMul(name=/28/presolve_126, inputs=[/28/presolve_121, /35/presolve_328], perturbed=True)
+  (/28/presolve_128): BoundAdd(name=/28/presolve_128, inputs=[/28/presolve_126, /35/presolve_330], perturbed=True)
+  (/28/presolve_129): BoundAdd(name=/28/presolve_129, inputs=[/28/presolve_124, /28/presolve_128], perturbed=True)
+  (/28/presolve_131): BoundGather(name=/28/presolve_131, inputs=[/26, /35/presolve_59], perturbed=True)
+  (/28/presolve_133): BoundAdd(name=/28/presolve_133, inputs=[/28/presolve_131, /35/presolve_325], perturbed=True)
+  (/28/presolve_134): BoundSqr(name=/28/presolve_134, inputs=[/28/presolve_133], perturbed=True)
+  (/28/presolve_136): BoundMul(name=/28/presolve_136, inputs=[/28/presolve_131, /35/presolve_328], perturbed=True)
+  (/28/presolve_138): BoundAdd(name=/28/presolve_138, inputs=[/28/presolve_136, /35/presolve_330], perturbed=True)
+  (/28/presolve_139): BoundAdd(name=/28/presolve_139, inputs=[/28/presolve_134, /28/presolve_138], perturbed=True)
+  (/28/presolve_141): BoundGather(name=/28/presolve_141, inputs=[/26, /35/presolve_61], perturbed=True)
+  (/28/presolve_143): BoundAdd(name=/28/presolve_143, inputs=[/28/presolve_141, /35/presolve_325], perturbed=True)
+  (/28/presolve_144): BoundSqr(name=/28/presolve_144, inputs=[/28/presolve_143], perturbed=True)
+  (/28/presolve_146): BoundMul(name=/28/presolve_146, inputs=[/28/presolve_141, /35/presolve_328], perturbed=True)
+  (/28/presolve_148): BoundAdd(name=/28/presolve_148, inputs=[/28/presolve_146, /35/presolve_330], perturbed=True)
+  (/28/presolve_149): BoundAdd(name=/28/presolve_149, inputs=[/28/presolve_144, /28/presolve_148], perturbed=True)
+  (/28/presolve_151): BoundGather(name=/28/presolve_151, inputs=[/26, /35/presolve_71], perturbed=True)
+  (/28/presolve_153): BoundAdd(name=/28/presolve_153, inputs=[/28/presolve_151, /35/presolve_325], perturbed=True)
+  (/28/presolve_154): BoundSqr(name=/28/presolve_154, inputs=[/28/presolve_153], perturbed=True)
+  (/28/presolve_156): BoundMul(name=/28/presolve_156, inputs=[/28/presolve_151, /35/presolve_328], perturbed=True)
+  (/28/presolve_158): BoundAdd(name=/28/presolve_158, inputs=[/28/presolve_156, /35/presolve_330], perturbed=True)
+  (/28/presolve_159): BoundAdd(name=/28/presolve_159, inputs=[/28/presolve_154, /28/presolve_158], perturbed=True)
+  (/28/presolve_161): BoundGather(name=/28/presolve_161, inputs=[/26, /39/presolve_788], perturbed=True)
+  (/28/presolve_163): BoundAdd(name=/28/presolve_163, inputs=[/28/presolve_161, /35/presolve_325], perturbed=True)
+  (/28/presolve_164): BoundSqr(name=/28/presolve_164, inputs=[/28/presolve_163], perturbed=True)
+  (/28/presolve_166): BoundMul(name=/28/presolve_166, inputs=[/28/presolve_161, /35/presolve_328], perturbed=True)
+  (/28/presolve_168): BoundAdd(name=/28/presolve_168, inputs=[/28/presolve_166, /35/presolve_330], perturbed=True)
+  (/28/presolve_169): BoundAdd(name=/28/presolve_169, inputs=[/28/presolve_164, /28/presolve_168], perturbed=True)
+  (/28/presolve_171): BoundGather(name=/28/presolve_171, inputs=[/26, /35/presolve_83], perturbed=True)
+  (/28/presolve_173): BoundAdd(name=/28/presolve_173, inputs=[/28/presolve_171, /35/presolve_325], perturbed=True)
+  (/28/presolve_174): BoundSqr(name=/28/presolve_174, inputs=[/28/presolve_173], perturbed=True)
+  (/28/presolve_176): BoundMul(name=/28/presolve_176, inputs=[/28/presolve_171, /35/presolve_328], perturbed=True)
+  (/28/presolve_178): BoundAdd(name=/28/presolve_178, inputs=[/28/presolve_176, /35/presolve_330], perturbed=True)
+  (/28/presolve_179): BoundAdd(name=/28/presolve_179, inputs=[/28/presolve_174, /28/presolve_178], perturbed=True)
+  (/28/presolve_181): BoundGather(name=/28/presolve_181, inputs=[/26, /35/presolve_85], perturbed=True)
+  (/28/presolve_183): BoundAdd(name=/28/presolve_183, inputs=[/28/presolve_181, /35/presolve_325], perturbed=True)
+  (/28/presolve_184): BoundSqr(name=/28/presolve_184, inputs=[/28/presolve_183], perturbed=True)
+  (/28/presolve_186): BoundMul(name=/28/presolve_186, inputs=[/28/presolve_181, /35/presolve_328], perturbed=True)
+  (/28/presolve_188): BoundAdd(name=/28/presolve_188, inputs=[/28/presolve_186, /35/presolve_330], perturbed=True)
+  (/28/presolve_189): BoundAdd(name=/28/presolve_189, inputs=[/28/presolve_184, /28/presolve_188], perturbed=True)
+  (/28/presolve_191): BoundGather(name=/28/presolve_191, inputs=[/26, /35/presolve_87], perturbed=True)
+  (/28/presolve_193): BoundAdd(name=/28/presolve_193, inputs=[/28/presolve_191, /35/presolve_325], perturbed=True)
+  (/28/presolve_194): BoundSqr(name=/28/presolve_194, inputs=[/28/presolve_193], perturbed=True)
+  (/28/presolve_196): BoundMul(name=/28/presolve_196, inputs=[/28/presolve_191, /35/presolve_328], perturbed=True)
+  (/28/presolve_198): BoundAdd(name=/28/presolve_198, inputs=[/28/presolve_196, /35/presolve_330], perturbed=True)
+  (/28/presolve_199): BoundAdd(name=/28/presolve_199, inputs=[/28/presolve_194, /28/presolve_198], perturbed=True)
+  (/28/presolve_201): BoundGather(name=/28/presolve_201, inputs=[/26, /35/presolve_89], perturbed=True)
+  (/28/presolve_203): BoundAdd(name=/28/presolve_203, inputs=[/28/presolve_201, /35/presolve_325], perturbed=True)
+  (/28/presolve_204): BoundSqr(name=/28/presolve_204, inputs=[/28/presolve_203], perturbed=True)
+  (/28/presolve_206): BoundMul(name=/28/presolve_206, inputs=[/28/presolve_201, /35/presolve_328], perturbed=True)
+  (/28/presolve_208): BoundAdd(name=/28/presolve_208, inputs=[/28/presolve_206, /35/presolve_330], perturbed=True)
+  (/28/presolve_209): BoundAdd(name=/28/presolve_209, inputs=[/28/presolve_204, /28/presolve_208], perturbed=True)
+  (/28/presolve_211): BoundGather(name=/28/presolve_211, inputs=[/26, /35/presolve_99], perturbed=True)
+  (/28/presolve_213): BoundAdd(name=/28/presolve_213, inputs=[/28/presolve_211, /35/presolve_325], perturbed=True)
+  (/28/presolve_214): BoundSqr(name=/28/presolve_214, inputs=[/28/presolve_213], perturbed=True)
+  (/28/presolve_216): BoundMul(name=/28/presolve_216, inputs=[/28/presolve_211, /35/presolve_328], perturbed=True)
+  (/28/presolve_218): BoundAdd(name=/28/presolve_218, inputs=[/28/presolve_216, /35/presolve_330], perturbed=True)
+  (/28/presolve_219): BoundAdd(name=/28/presolve_219, inputs=[/28/presolve_214, /28/presolve_218], perturbed=True)
+  (/28/presolve_221): BoundGather(name=/28/presolve_221, inputs=[/26, /35/presolve_101], perturbed=True)
+  (/28/presolve_223): BoundAdd(name=/28/presolve_223, inputs=[/28/presolve_221, /35/presolve_325], perturbed=True)
+  (/28/presolve_224): BoundSqr(name=/28/presolve_224, inputs=[/28/presolve_223], perturbed=True)
+  (/28/presolve_226): BoundMul(name=/28/presolve_226, inputs=[/28/presolve_221, /35/presolve_328], perturbed=True)
+  (/28/presolve_228): BoundAdd(name=/28/presolve_228, inputs=[/28/presolve_226, /35/presolve_330], perturbed=True)
+  (/28/presolve_229): BoundAdd(name=/28/presolve_229, inputs=[/28/presolve_224, /28/presolve_228], perturbed=True)
+  (/28/presolve_231): BoundGather(name=/28/presolve_231, inputs=[/26, /35/presolve_111], perturbed=True)
+  (/28/presolve_233): BoundAdd(name=/28/presolve_233, inputs=[/28/presolve_231, /35/presolve_325], perturbed=True)
+  (/28/presolve_234): BoundSqr(name=/28/presolve_234, inputs=[/28/presolve_233], perturbed=True)
+  (/28/presolve_236): BoundMul(name=/28/presolve_236, inputs=[/28/presolve_231, /35/presolve_328], perturbed=True)
+  (/28/presolve_238): BoundAdd(name=/28/presolve_238, inputs=[/28/presolve_236, /35/presolve_330], perturbed=True)
+  (/28/presolve_239): BoundAdd(name=/28/presolve_239, inputs=[/28/presolve_234, /28/presolve_238], perturbed=True)
+  (/28/presolve_241): BoundGather(name=/28/presolve_241, inputs=[/26, /35/presolve_121], perturbed=True)
+  (/28/presolve_243): BoundAdd(name=/28/presolve_243, inputs=[/28/presolve_241, /35/presolve_325], perturbed=True)
+  (/28/presolve_244): BoundSqr(name=/28/presolve_244, inputs=[/28/presolve_243], perturbed=True)
+  (/28/presolve_246): BoundMul(name=/28/presolve_246, inputs=[/28/presolve_241, /35/presolve_328], perturbed=True)
+  (/28/presolve_248): BoundAdd(name=/28/presolve_248, inputs=[/28/presolve_246, /35/presolve_330], perturbed=True)
+  (/28/presolve_249): BoundAdd(name=/28/presolve_249, inputs=[/28/presolve_244, /28/presolve_248], perturbed=True)
+  (/28/presolve_251): BoundGather(name=/28/presolve_251, inputs=[/26, /35/presolve_131], perturbed=True)
+  (/28/presolve_253): BoundAdd(name=/28/presolve_253, inputs=[/28/presolve_251, /35/presolve_325], perturbed=True)
+  (/28/presolve_254): BoundSqr(name=/28/presolve_254, inputs=[/28/presolve_253], perturbed=True)
+  (/28/presolve_256): BoundMul(name=/28/presolve_256, inputs=[/28/presolve_251, /35/presolve_328], perturbed=True)
+  (/28/presolve_258): BoundAdd(name=/28/presolve_258, inputs=[/28/presolve_256, /35/presolve_330], perturbed=True)
+  (/28/presolve_259): BoundAdd(name=/28/presolve_259, inputs=[/28/presolve_254, /28/presolve_258], perturbed=True)
+  (/28/presolve_261): BoundGather(name=/28/presolve_261, inputs=[/26, /35/presolve_141], perturbed=True)
+  (/28/presolve_263): BoundAdd(name=/28/presolve_263, inputs=[/28/presolve_261, /35/presolve_325], perturbed=True)
+  (/28/presolve_264): BoundSqr(name=/28/presolve_264, inputs=[/28/presolve_263], perturbed=True)
+  (/28/presolve_266): BoundMul(name=/28/presolve_266, inputs=[/28/presolve_261, /35/presolve_328], perturbed=True)
+  (/28/presolve_268): BoundAdd(name=/28/presolve_268, inputs=[/28/presolve_266, /35/presolve_330], perturbed=True)
+  (/28/presolve_269): BoundAdd(name=/28/presolve_269, inputs=[/28/presolve_264, /28/presolve_268], perturbed=True)
+  (/28/presolve_271): BoundGather(name=/28/presolve_271, inputs=[/26, /35/presolve_151], perturbed=True)
+  (/28/presolve_273): BoundAdd(name=/28/presolve_273, inputs=[/28/presolve_271, /35/presolve_325], perturbed=True)
+  (/28/presolve_274): BoundSqr(name=/28/presolve_274, inputs=[/28/presolve_273], perturbed=True)
+  (/28/presolve_276): BoundMul(name=/28/presolve_276, inputs=[/28/presolve_271, /35/presolve_328], perturbed=True)
+  (/28/presolve_278): BoundAdd(name=/28/presolve_278, inputs=[/28/presolve_276, /35/presolve_330], perturbed=True)
+  (/28/presolve_279): BoundAdd(name=/28/presolve_279, inputs=[/28/presolve_274, /28/presolve_278], perturbed=True)
+  (/28/presolve_281): BoundGather(name=/28/presolve_281, inputs=[/26, /35/presolve_161], perturbed=True)
+  (/28/presolve_283): BoundAdd(name=/28/presolve_283, inputs=[/28/presolve_281, /35/presolve_325], perturbed=True)
+  (/28/presolve_284): BoundSqr(name=/28/presolve_284, inputs=[/28/presolve_283], perturbed=True)
+  (/28/presolve_286): BoundMul(name=/28/presolve_286, inputs=[/28/presolve_281, /35/presolve_328], perturbed=True)
+  (/28/presolve_288): BoundAdd(name=/28/presolve_288, inputs=[/28/presolve_286, /35/presolve_330], perturbed=True)
+  (/28/presolve_289): BoundAdd(name=/28/presolve_289, inputs=[/28/presolve_284, /28/presolve_288], perturbed=True)
+  (/28/presolve_291): BoundGather(name=/28/presolve_291, inputs=[/26, /35/presolve_163], perturbed=True)
+  (/28/presolve_293): BoundAdd(name=/28/presolve_293, inputs=[/28/presolve_291, /35/presolve_325], perturbed=True)
+  (/28/presolve_294): BoundSqr(name=/28/presolve_294, inputs=[/28/presolve_293], perturbed=True)
+  (/28/presolve_296): BoundMul(name=/28/presolve_296, inputs=[/28/presolve_291, /35/presolve_328], perturbed=True)
+  (/28/presolve_298): BoundAdd(name=/28/presolve_298, inputs=[/28/presolve_296, /35/presolve_330], perturbed=True)
+  (/28/presolve_299): BoundAdd(name=/28/presolve_299, inputs=[/28/presolve_294, /28/presolve_298], perturbed=True)
+  (/28/presolve_301): BoundGather(name=/28/presolve_301, inputs=[/26, /35/presolve_173], perturbed=True)
+  (/28/presolve_303): BoundAdd(name=/28/presolve_303, inputs=[/28/presolve_301, /35/presolve_325], perturbed=True)
+  (/28/presolve_304): BoundSqr(name=/28/presolve_304, inputs=[/28/presolve_303], perturbed=True)
+  (/28/presolve_306): BoundMul(name=/28/presolve_306, inputs=[/28/presolve_301, /35/presolve_328], perturbed=True)
+  (/28/presolve_308): BoundAdd(name=/28/presolve_308, inputs=[/28/presolve_306, /35/presolve_330], perturbed=True)
+  (/28/presolve_309): BoundAdd(name=/28/presolve_309, inputs=[/28/presolve_304, /28/presolve_308], perturbed=True)
+  (/28/presolve_311): BoundGather(name=/28/presolve_311, inputs=[/26, /35/presolve_183], perturbed=True)
+  (/28/presolve_313): BoundAdd(name=/28/presolve_313, inputs=[/28/presolve_311, /35/presolve_325], perturbed=True)
+  (/28/presolve_314): BoundSqr(name=/28/presolve_314, inputs=[/28/presolve_313], perturbed=True)
+  (/28/presolve_316): BoundMul(name=/28/presolve_316, inputs=[/28/presolve_311, /35/presolve_328], perturbed=True)
+  (/28/presolve_318): BoundAdd(name=/28/presolve_318, inputs=[/28/presolve_316, /35/presolve_330], perturbed=True)
+  (/28/presolve_319): BoundAdd(name=/28/presolve_319, inputs=[/28/presolve_314, /28/presolve_318], perturbed=True)
+  (/28/presolve_321): BoundGather(name=/28/presolve_321, inputs=[/26, /35/presolve_193], perturbed=True)
+  (/28/presolve_323): BoundAdd(name=/28/presolve_323, inputs=[/28/presolve_321, /35/presolve_325], perturbed=True)
+  (/28/presolve_324): BoundSqr(name=/28/presolve_324, inputs=[/28/presolve_323], perturbed=True)
+  (/28/presolve_326): BoundMul(name=/28/presolve_326, inputs=[/28/presolve_321, /35/presolve_328], perturbed=True)
+  (/28/presolve_328): BoundAdd(name=/28/presolve_328, inputs=[/28/presolve_326, /35/presolve_330], perturbed=True)
+  (/28/presolve_329): BoundAdd(name=/28/presolve_329, inputs=[/28/presolve_324, /28/presolve_328], perturbed=True)
+  (/28/presolve_331): BoundGather(name=/28/presolve_331, inputs=[/26, /35/presolve_203], perturbed=True)
+  (/28/presolve_333): BoundAdd(name=/28/presolve_333, inputs=[/28/presolve_331, /35/presolve_325], perturbed=True)
+  (/28/presolve_334): BoundSqr(name=/28/presolve_334, inputs=[/28/presolve_333], perturbed=True)
+  (/28/presolve_336): BoundMul(name=/28/presolve_336, inputs=[/28/presolve_331, /35/presolve_328], perturbed=True)
+  (/28/presolve_338): BoundAdd(name=/28/presolve_338, inputs=[/28/presolve_336, /35/presolve_330], perturbed=True)
+  (/28/presolve_339): BoundAdd(name=/28/presolve_339, inputs=[/28/presolve_334, /28/presolve_338], perturbed=True)
+  (/28/presolve_341): BoundGather(name=/28/presolve_341, inputs=[/26, /35/presolve_213], perturbed=True)
+  (/28/presolve_343): BoundAdd(name=/28/presolve_343, inputs=[/28/presolve_341, /35/presolve_325], perturbed=True)
+  (/28/presolve_344): BoundSqr(name=/28/presolve_344, inputs=[/28/presolve_343], perturbed=True)
+  (/28/presolve_346): BoundMul(name=/28/presolve_346, inputs=[/28/presolve_341, /35/presolve_328], perturbed=True)
+  (/28/presolve_348): BoundAdd(name=/28/presolve_348, inputs=[/28/presolve_346, /35/presolve_330], perturbed=True)
+  (/28/presolve_349): BoundAdd(name=/28/presolve_349, inputs=[/28/presolve_344, /28/presolve_348], perturbed=True)
+  (/28/presolve_351): BoundGather(name=/28/presolve_351, inputs=[/26, /35/presolve_223], perturbed=True)
+  (/28/presolve_353): BoundAdd(name=/28/presolve_353, inputs=[/28/presolve_351, /35/presolve_325], perturbed=True)
+  (/28/presolve_354): BoundSqr(name=/28/presolve_354, inputs=[/28/presolve_353], perturbed=True)
+  (/28/presolve_356): BoundMul(name=/28/presolve_356, inputs=[/28/presolve_351, /35/presolve_328], perturbed=True)
+  (/28/presolve_358): BoundAdd(name=/28/presolve_358, inputs=[/28/presolve_356, /35/presolve_330], perturbed=True)
+  (/28/presolve_359): BoundAdd(name=/28/presolve_359, inputs=[/28/presolve_354, /28/presolve_358], perturbed=True)
+  (/28/presolve_361): BoundGather(name=/28/presolve_361, inputs=[/26, /35/presolve_233], perturbed=True)
+  (/28/presolve_363): BoundAdd(name=/28/presolve_363, inputs=[/28/presolve_361, /35/presolve_325], perturbed=True)
+  (/28/presolve_364): BoundSqr(name=/28/presolve_364, inputs=[/28/presolve_363], perturbed=True)
+  (/28/presolve_366): BoundMul(name=/28/presolve_366, inputs=[/28/presolve_361, /35/presolve_328], perturbed=True)
+  (/28/presolve_368): BoundAdd(name=/28/presolve_368, inputs=[/28/presolve_366, /35/presolve_330], perturbed=True)
+  (/28/presolve_369): BoundAdd(name=/28/presolve_369, inputs=[/28/presolve_364, /28/presolve_368], perturbed=True)
+  (/28/presolve_371): BoundGather(name=/28/presolve_371, inputs=[/26, /35/presolve_243], perturbed=True)
+  (/28/presolve_373): BoundAdd(name=/28/presolve_373, inputs=[/28/presolve_371, /35/presolve_325], perturbed=True)
+  (/28/presolve_374): BoundSqr(name=/28/presolve_374, inputs=[/28/presolve_373], perturbed=True)
+  (/28/presolve_376): BoundMul(name=/28/presolve_376, inputs=[/28/presolve_371, /35/presolve_328], perturbed=True)
+  (/28/presolve_378): BoundAdd(name=/28/presolve_378, inputs=[/28/presolve_376, /35/presolve_330], perturbed=True)
+  (/28/presolve_379): BoundAdd(name=/28/presolve_379, inputs=[/28/presolve_374, /28/presolve_378], perturbed=True)
+  (/28/presolve_381): BoundGather(name=/28/presolve_381, inputs=[/26, /35/presolve_253], perturbed=True)
+  (/28/presolve_383): BoundAdd(name=/28/presolve_383, inputs=[/28/presolve_381, /35/presolve_325], perturbed=True)
+  (/28/presolve_384): BoundSqr(name=/28/presolve_384, inputs=[/28/presolve_383], perturbed=True)
+  (/28/presolve_386): BoundMul(name=/28/presolve_386, inputs=[/28/presolve_381, /35/presolve_328], perturbed=True)
+  (/28/presolve_388): BoundAdd(name=/28/presolve_388, inputs=[/28/presolve_386, /35/presolve_330], perturbed=True)
+  (/28/presolve_389): BoundAdd(name=/28/presolve_389, inputs=[/28/presolve_384, /28/presolve_388], perturbed=True)
+  (/28/presolve_391): BoundGather(name=/28/presolve_391, inputs=[/26, /35/presolve_263], perturbed=True)
+  (/28/presolve_393): BoundAdd(name=/28/presolve_393, inputs=[/28/presolve_391, /35/presolve_325], perturbed=True)
+  (/28/presolve_394): BoundSqr(name=/28/presolve_394, inputs=[/28/presolve_393], perturbed=True)
+  (/28/presolve_396): BoundMul(name=/28/presolve_396, inputs=[/28/presolve_391, /35/presolve_328], perturbed=True)
+  (/28/presolve_398): BoundAdd(name=/28/presolve_398, inputs=[/28/presolve_396, /35/presolve_330], perturbed=True)
+  (/28/presolve_399): BoundAdd(name=/28/presolve_399, inputs=[/28/presolve_394, /28/presolve_398], perturbed=True)
+  (/28/presolve_401): BoundGather(name=/28/presolve_401, inputs=[/26, /35/presolve_273], perturbed=True)
+  (/28/presolve_403): BoundAdd(name=/28/presolve_403, inputs=[/28/presolve_401, /35/presolve_325], perturbed=True)
+  (/28/presolve_404): BoundSqr(name=/28/presolve_404, inputs=[/28/presolve_403], perturbed=True)
+  (/28/presolve_406): BoundMul(name=/28/presolve_406, inputs=[/28/presolve_401, /35/presolve_328], perturbed=True)
+  (/28/presolve_408): BoundAdd(name=/28/presolve_408, inputs=[/28/presolve_406, /35/presolve_330], perturbed=True)
+  (/28/presolve_409): BoundAdd(name=/28/presolve_409, inputs=[/28/presolve_404, /28/presolve_408], perturbed=True)
+  (/28/presolve_411): BoundGather(name=/28/presolve_411, inputs=[/26, /35/presolve_283], perturbed=True)
+  (/28/presolve_413): BoundAdd(name=/28/presolve_413, inputs=[/28/presolve_411, /35/presolve_325], perturbed=True)
+  (/28/presolve_414): BoundSqr(name=/28/presolve_414, inputs=[/28/presolve_413], perturbed=True)
+  (/28/presolve_416): BoundMul(name=/28/presolve_416, inputs=[/28/presolve_411, /35/presolve_328], perturbed=True)
+  (/28/presolve_418): BoundAdd(name=/28/presolve_418, inputs=[/28/presolve_416, /35/presolve_330], perturbed=True)
+  (/28/presolve_419): BoundAdd(name=/28/presolve_419, inputs=[/28/presolve_414, /28/presolve_418], perturbed=True)
+  (/28/presolve_421): BoundGather(name=/28/presolve_421, inputs=[/26, /35/presolve_293], perturbed=True)
+  (/28/presolve_423): BoundAdd(name=/28/presolve_423, inputs=[/28/presolve_421, /35/presolve_325], perturbed=True)
+  (/28/presolve_424): BoundSqr(name=/28/presolve_424, inputs=[/28/presolve_423], perturbed=True)
+  (/28/presolve_426): BoundMul(name=/28/presolve_426, inputs=[/28/presolve_421, /35/presolve_328], perturbed=True)
+  (/28/presolve_428): BoundAdd(name=/28/presolve_428, inputs=[/28/presolve_426, /35/presolve_330], perturbed=True)
+  (/28/presolve_429): BoundAdd(name=/28/presolve_429, inputs=[/28/presolve_424, /28/presolve_428], perturbed=True)
+  (/28/presolve_431): BoundGather(name=/28/presolve_431, inputs=[/26, /35/presolve_303], perturbed=True)
+  (/28/presolve_433): BoundAdd(name=/28/presolve_433, inputs=[/28/presolve_431, /35/presolve_325], perturbed=True)
+  (/28/presolve_434): BoundSqr(name=/28/presolve_434, inputs=[/28/presolve_433], perturbed=True)
+  (/28/presolve_436): BoundMul(name=/28/presolve_436, inputs=[/28/presolve_431, /35/presolve_328], perturbed=True)
+  (/28/presolve_438): BoundAdd(name=/28/presolve_438, inputs=[/28/presolve_436, /35/presolve_330], perturbed=True)
+  (/28/presolve_439): BoundAdd(name=/28/presolve_439, inputs=[/28/presolve_434, /28/presolve_438], perturbed=True)
+  (/28/presolve_441): BoundGather(name=/28/presolve_441, inputs=[/26, /35/presolve_313], perturbed=True)
+  (/28/presolve_443): BoundAdd(name=/28/presolve_443, inputs=[/28/presolve_441, /35/presolve_325], perturbed=True)
+  (/28/presolve_444): BoundSqr(name=/28/presolve_444, inputs=[/28/presolve_443], perturbed=True)
+  (/28/presolve_446): BoundMul(name=/28/presolve_446, inputs=[/28/presolve_441, /35/presolve_328], perturbed=True)
+  (/28/presolve_448): BoundAdd(name=/28/presolve_448, inputs=[/28/presolve_446, /35/presolve_330], perturbed=True)
+  (/28/presolve_449): BoundAdd(name=/28/presolve_449, inputs=[/28/presolve_444, /28/presolve_448], perturbed=True)
+  (/28/presolve_451): BoundGather(name=/28/presolve_451, inputs=[/26, /35/presolve_323], perturbed=True)
+  (/28/presolve_453): BoundAdd(name=/28/presolve_453, inputs=[/28/presolve_451, /35/presolve_325], perturbed=True)
+  (/28/presolve_454): BoundSqr(name=/28/presolve_454, inputs=[/28/presolve_453], perturbed=True)
+  (/28/presolve_456): BoundMul(name=/28/presolve_456, inputs=[/28/presolve_451, /35/presolve_328], perturbed=True)
+  (/28/presolve_458): BoundAdd(name=/28/presolve_458, inputs=[/28/presolve_456, /35/presolve_330], perturbed=True)
+  (/28/presolve_459): BoundAdd(name=/28/presolve_459, inputs=[/28/presolve_454, /28/presolve_458], perturbed=True)
+  (/28/completed_square): BoundConcat(name=/28/completed_square, inputs=[/28/presolve_9, /28/presolve_19, /28/presolve_29, /28/presolve_39, /28/presolve_49, /28/presolve_59, /28/presolve_69, /28/presolve_79, /28/presolve_89, /28/presolve_99, /28/presolve_109, /28/presolve_119, /28/presolve_129, /28/presolve_139, /28/presolve_149, /28/presolve_159, /28/presolve_169, /28/presolve_179, /28/presolve_189, /28/presolve_199, /28/presolve_209, /28/presolve_219, /28/presolve_229, /28/presolve_239, /28/presolve_249, /28/presolve_259, /28/presolve_269, /28/presolve_279, /28/presolve_289, /28/presolve_299, /28/presolve_309, /28/presolve_319, /28/presolve_329, /28/presolve_339, /28/presolve_349, /28/presolve_359, /28/presolve_369, /28/presolve_379, /28/presolve_389, /28/presolve_399, /28/presolve_409, /28/presolve_419, /28/presolve_429, /28/presolve_439, /28/presolve_449, /28/presolve_459], perturbed=True)
+)
+Original output in the first batch: tensor([[ 4.37287500e+03, -3.42500000e+00,  3.42500000e+00,  1.82500000e+00,
+         -1.82500000e+00, -7.50000000e-02,  7.50000000e-02,  3.85000000e+00,
+         -3.85000000e+00, -9.75000000e-01,  9.75000000e-01, -2.30000000e+00,
+          2.30000000e+00, -5.67500000e+00,  5.67500000e+00, -2.15000000e+00,
+          2.15000000e+00]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [45.99999990557235, -9.350000000001803, -2.5000000000009037, -17.000000000003492, -20.650000000003917, -14.550000000002957, -14.400000000003025, -13.250000000003071, -20.950000000004106, -14.200000000002793]
+Global lower bound: -20.950000000004106
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 17), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 17), values=[[45.99999990557235, -9.350000000001803, -2.5000000000009037, -17.000000000003492, -20.650000000003917, -14.550000000002957, -14.400000000003025, -13.250000000003071, -20.950000000004106, -14.200000000002793, ...]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
+         [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]],
+       device='cuda:0')
+RHS: tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       device='cuda:0')
+OR spec sizes: tensor([16], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 178.0411570072174
+Model prediction is: tensor([ 4.37287500e+03, -3.42500000e+00,  3.42500000e+00,  1.82500000e+00,
+        -1.82500000e+00, -7.50000000e-02,  7.50000000e-02,  3.85000000e+00,
+        -3.85000000e+00, -9.75000000e-01,  9.75000000e-01, -2.30000000e+00,
+         2.30000000e+00, -5.67500000e+00,  5.67500000e+00, -2.15000000e+00,
+         2.15000000e+00], device='cuda:0')
+[Op] setup t=3.711 s=3.7100 work=1 dD=0 dP=0
+[Op] reference_bounds t=3.711 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 92, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=3.729 s=0.0182 work=1 dD=0 dP=0
+[Structure] objective=poly rows={'affine': 16} duplicates=0 opposites=8 redundant=0 aliases=0 pool={'rows': 8, 'ranged': 8, 'merged': 8, 'masked': 0, 'opaque': 0} spent=2334 time=0.074s
+[Op] struct_forms t=3.804 s=0.0749 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'objective is not a quadratic polynomial', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.002s
+[Op] struct_cert t=3.807 s=0.0028 work=1 dD=0 dP=0
+[Op] hybrid t=3.824 s=0.0170 work=1 dD=0 dP=0
+[Op] initial_verify t=3.824 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=3.826 s=0.0023 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 16 vars, 16 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=16 merged=8 atoms=0 nnzJ=53 nnzH=47 hessian=exact reproduces=True build=0.00s
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: divide by zero encountered in power
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: invalid value encountered in multiply
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+  [IPOPT] LP-point start kept: obj=244.89955117260587 viol=5.366970223796841e-07 (center start: obj=244.89955528368307 viol=5.22583043949254e-07)
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=244.899551, viol=5.37e-07
+    [ALM-PGD] Output affine equality projection: pairs=8 restarts=5120/20480 sweeps=50 max_residual=7.149e+00->3.400e-02
+    [ALM-PGD] Positive-residual RMS scale: min=1.000e+00 median=1.909e+00 max=5.170e+00
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+    [ALM-SQP] it=0 running=64/64 accepted=64 feasible=64 best=245.755 |d|=1.05e-01
+    [ALM-SQP] it=1 running=64/64 accepted=64 feasible=64 best=244.906 |d|=3.48e-01
+    [ALM-SQP] it=2 running=64/64 accepted=64 feasible=64 best=244.9 |d|=1.81e-01
+    [ALM-SQP] it=9 running=45/64 accepted=33 feasible=64 best=244.899 |d|=2.31e-02
+    [ALM-SQP] it=19 running=10/64 accepted=1 feasible=64 best=244.899 |d|=1.90e-04
+    [ALM-SQP] it=29 running=0/64 accepted=0 feasible=64 best=244.899 |d|=1.59e-05
+    [ALM-SQP] Optimality polish: candidates=32+32 iters=30 feasible=64 improved=4 best_feas_obj=254.424->244.899 time=0.52s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=230
+  [ALM] Verification: valid=True, obj=244.899446, viol=8.99e-07
+  [Root] Parallel done: IPOPT 0.03s, ALM 0.85s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 244.899551
+  Violation: 5.37e-07
+  Time: 0.03s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 244.899446
+  Violation: 8.99e-07
+  Time: 0.85s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: alm
+Best objective: 244.899446
+======================================================================
+NLP Comparison: Best objective = 244.899446 (not counterexample)
+  Local (IPOPT): verified=True, obj=244.89955117260587, time=0.03s
+  ALM:   verified=True, obj=244.89944612677982, time=0.85s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=4.681 s=0.8531 work=1 dD=0 dP=0
+[Op] search_state t=4.682 s=0.0009 work=1 dD=0 dP=0
+[Op] incumbent t=4.682 s=0.0001 work=1 dD=0 dP=inf
+<gear>/complete_verifier/nlp_solver/quadratic_tangent.py:123: UserWarning: index_reduce() is in beta and the API may change at any time. (Triggered internally at /pytorch/aten/src/ATen/native/TensorAdvancedIndexing.cpp:1517.)
+  out = data.clone().index_reduce_(axis, _const(ins[2]).long(), src, "amax",
+[Op] tangent t=5.321 s=0.6381 work=1 dD=0 dP=0
+[Op] consistency t=5.321 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=5.321 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=5.323 s=0.0020 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=5.324 s=0.0011 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=5.325 s=0.0009 work=1 dD=0 dP=0
+[Op] convex_cuts t=5.929 s=0.6042 work=1 dD=0 dP=0
+[LiftedLP] 16/16 constraint rows and a polynomial objective lifted: n=16, 0 atoms, 170 products (31 squares), 742 McCormick rows
+[LiftedLP] built in 0.42s
+[Op] lifted_lp t=6.350 s=0.4208 work=1 dD=0 dP=0
+[LiftedLP] root bound before OBBT: 177.28198209 (incumbent 244.899446127, version 1)
+[Op] lifted_bound t=6.402 s=0.0513 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.776 (372 LPs, 1.3s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 1: mean relative shrink 0.531 (744 LPs, 2.7s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 2: mean relative shrink 0.484 (1116 LPs, 4.4s) [0 dual replays, 0 deferred]
+[LiftedLP] OBBT round 3: mean relative shrink 0.316 (1258 LPs, 5.0s) [96 dual replays, 0 deferred]
+[LiftedLP] McCormick OBBT warm-up in 5.00s
+[Op] lifted_warm_up t=11.403 s=5.0012 work=1 dD=0 dP=0
+[LiftedLP] RLT: 8 linear equalities, 16 multipliers, 244 rows, 89 new products (cap 1200)
+[Op] lifted_rlt t=11.405 s=0.0021 work=1 dD=0 dP=0
+[LiftedLP] root bound before OBBT: 243.214834451 (incumbent 244.899446127, version 3)
+[Op] lifted_bound t=11.427 s=0.0212 work=1 dD=0 dP=0
+[LiftedLP] OBBT round 0: mean relative shrink 0.352 (150 LPs, 2.7s) [0 dual replays, 222 deferred]
+[LiftedLP] OBBT round 1: mean relative shrink 0.300 (258 LPs, 4.9s) [46 dual replays, 440 deferred]
+[LiftedLP] OBBT round 2: mean relative shrink 0.009 (262 LPs, 5.0s) [46 dual replays, 440 deferred]
+[LiftedLP] root OBBT in 10.00s: mean width ratio 0.0211, min 0.0011, cutoff 244.8994461
+[LiftedLP] audit: incumbent inside the OBBT box: True (min slack 5.73e-10)
+[Op] lifted_obbt t=16.426 s=4.9997 work=1 dD=0 dP=0
+[LiftedLP] root bound: 244.396621971
+[LiftedLP] lifted-LP B&B: 219 nodes in 4.50s, D=244.874993226, incumbent 244.899446127, CLOSED
+Primal Solution tensor([244.89944613], device='cuda:0'), Dual Solution 244.87499322597338
+Solution gap: 0.024452900806437583
+Found optimal object: tensor([244.89944613], device='cuda:0')
+[best-primal] objective=244.89944612677982 x=[0.039863154633021786, 1.762851998328559e-09, 1.0129617179115637e-09, 8.310409920872357e-09, 0.6602419226559388, 2.490821936757683e-09, 0.6742381360135054, 5.727183496936553e-10, 0.7919662764429249, 0.20284533822029382, 0.844354439775732, 1.2699072251327612, 0.9347275855020607, 1.6819603372003944, 0.15539127013533077, 1.5678645034821743]
+[Op] lifted_bab t=20.930 s=4.5037 work=1 dD=198.875 dP=0
+problem_name=hs119 status=verified success=True
+
+#RUNNER rc=0 elapsed=21.89 waited=0.0

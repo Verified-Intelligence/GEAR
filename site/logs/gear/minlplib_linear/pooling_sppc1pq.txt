@@ -1,0 +1,1153 @@
+#CMD <env>/bin/python nlp_example.py --problem_name pooling_sppc1pq --benchmark minlplib_linear --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792646191.835516429
+INFO     00:16:33     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+[nlp_example] Loaded 1790 input linear constraints from pooling_sppc1pq_model_state.pt
+Precompiled vnnlib file found at benchmarks/minlplib_linear/vnnlib_minlplib_linear/pooling_sppc1pq.vnnlib.compiled
+[W1022 00:16:34.329946408 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib_linear/py_minlplib_linear/modules.py:77: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  v = _broadcast_scalar_last_dim(v, int(self.indices.numel()))
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/7): BoundBuffers(name=/7, inputs=[], perturbed=False)
+  (/11): BoundBuffers(name=/11, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/14): BoundBuffers(name=/14, inputs=[], perturbed=False)
+  (/15): BoundBuffers(name=/15, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/18): BoundShape(name=/18, inputs=[/0], perturbed=False)
+  (/19): BoundConstant(name=/19, value=0)
+  (/20): BoundGather(name=/20, inputs=[/18, /19], perturbed=False)
+  (/21): BoundConstant(name=/21, value=9541)
+  (/23): BoundUnsqueeze(name=/23, inputs=[/20, /77], perturbed=False)
+  (/25): BoundUnsqueeze(name=/25, inputs=[/21, /77], perturbed=False)
+  (/26): BoundConcat(name=/26, inputs=[/23, /25], perturbed=False)
+  (/27): BoundConstantOfShape(name=/27, inputs=[/26], perturbed=False)
+  (/28): BoundConstant(name=/28, value=-1)
+  (/29): BoundGather(name=/29, inputs=[/0, /6], perturbed=True)
+  (/30): BoundTranspose(name=/30, inputs=[/7], perturbed=False)
+  (/v): BoundMatMul(name=/v, inputs=[/29, /30], perturbed=True)
+  (/32): BoundConstant(name=/32, value=1)
+  (/33): BoundATenIndex_add(name=/33, inputs=[/27, /32, /5, /v, /32], perturbed=True)
+  (/34): BoundCast(name=/34, inputs=[/33], perturbed=True)
+  (/35): BoundAdd(name=/35, inputs=[/27, /34], perturbed=True)
+  (/36): BoundGather(name=/36, inputs=[/0, /11], perturbed=True)
+  (/37): BoundMul(name=/37, inputs=[/36, /14], perturbed=True)
+  (/38): BoundGather(name=/38, inputs=[/0, /13], perturbed=True)
+  (/39): BoundMul(name=/39, inputs=[/38, /12], perturbed=True)
+  (/v-3): BoundMul(name=/v-3, inputs=[/37, /39], perturbed=True)
+  (/43): BoundMul(name=/43, inputs=[/v-3, /49], perturbed=True)
+  (/v-7): BoundCast(name=/v-7, inputs=[/43], perturbed=True)
+  (/45): BoundATenIndex_add(name=/45, inputs=[/35, /32, /4, /v-7, /32], perturbed=True)
+  (/46): BoundGather(name=/46, inputs=[/0, /16], perturbed=True)
+  (/v-11): BoundMul(name=/v-11, inputs=[/15, /46], perturbed=True)
+  (/48): BoundConstant(name=/48, inputs=[], perturbed=False)
+  (/49): BoundReshape(name=/49, inputs=[/14, /48], perturbed=False)
+  (/50): BoundMul(name=/50, inputs=[/v-11, /49], perturbed=True)
+  (/v-15): BoundCast(name=/v-15, inputs=[/50], perturbed=True)
+  (/52): BoundATenIndex_add(name=/52, inputs=[/45, /32, /4, /v-15, /32], perturbed=True)
+  (/56): BoundUnsqueeze(name=/56, inputs=[/28, /77], perturbed=False)
+  (/57): BoundConcat(name=/57, inputs=[/23, /56], perturbed=False)
+  (/58): BoundReshape(name=/58, inputs=[/0, /57], perturbed=True)
+  (/59): BoundNeg(name=/59, inputs=[/2], perturbed=False)
+  (/60): BoundLinear(name=/60, inputs=[/58, /1, /59], perturbed=True)
+  (/61): BoundConstant(name=/61, value=9223372036854775807)
+  (/65): BoundUnsqueeze(name=/65, inputs=[/19, /77], perturbed=False)
+  (/70): BoundSlice(name=/70, inputs=[/52, /65, /78, /78, /78], perturbed=True)
+  (/76): BoundUnsqueeze(name=/76, inputs=[/61, /77], perturbed=False)
+  (/77): BoundConstant(name=/77, value=tensor([0], device='cuda:0'))
+  (/78): BoundUnsqueeze(name=/78, inputs=[/32, /77], perturbed=False)
+  (/79): BoundSlice(name=/79, inputs=[/52, /78, /76, /78, /78], perturbed=True)
+  (/80): BoundConcat(name=/80, inputs=[/70, /60, /79], perturbed=True)
+)
+Original output in the first batch: tensor([[-3.09342100e+06,  4.83500000e+02,  6.18100000e+03,  ...,
+          4.02500000e+01, -1.50000000e+01,  1.50000000e+01]], device='cuda:0')
+build batch [1/1]
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 9540x9540 for node BoundMul(name=/37, inputs=[/36, /14], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 9540x9540 for node BoundMul(name=/39, inputs=[/38, /12], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+initial crown bounds (first 10 items): [-6283003.000033375, -16.00000000008346, -61.000000000401414, -16.00000000008346, -99.00000000059963, -16.00000000008346, -99.00000000059963, -16.00000000008346, -99.00000000059963, -16.00000000008346]
+Global lower bound: -6283003.000033375
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 11331), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 11331), values=[[-6283003.000033375, -16.00000000008346, -61.000000000401414, -16.00000000008346, -99.00000000059963, -16.00000000008346, -99.00000000059963, -16.00000000008346, -99.00000000059963, -16.00000000008346, ...]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0.,  ..., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([11330], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 162.77961659431458
+Model prediction is: tensor([-3.09342100e+06,  4.83500000e+02,  6.18100000e+03,  ...,
+         4.02500000e+01, -1.50000000e+01,  1.50000000e+01], device='cuda:0')
+[Op] setup t=19.558 s=19.5574 work=1 dD=0 dP=0
+[Op] reference_bounds t=19.558 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=26.574 s=7.0155 work=1 dD=0 dP=0
+[Structure] objective=affine rows={'quad': 9540, 'affine': 1790} duplicates=0 opposites=30 redundant=280 aliases=0 pool={'rows': 6530, 'ranged': 4800, 'merged': 6590, 'masked': 0, 'opaque': 0} spent=509533 time=2.976s
+[Op] struct_forms t=29.551 s=2.9773 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=2.118s
+[Op] struct_cert t=31.691 s=2.1397 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=-6283003.00003 (root lb was -6283003.00003)
+[Op] hybrid t=31.741 s=0.0505 work=1 dD=4.99003e-06 dP=0
+[Op] initial_verify t=31.741 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=31.743 s=0.0012 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 5840 vars, 11330 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=13120 merged=6530 atoms=0 nnzJ=232340 nnzH=4770 hessian=exact reproduces=True build=1.86s
+  [IPOPT] Solver status: cyipopt: The user call-back function intermediate_callback (see Section 3.3.4 in the documentation) returned false, i.e., the user code requested a premature termination of the optimization.
+  [Root] Parallel done: IPOPT 61.15s, ALM 61.18s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: False
+  Objective: -972362.424835
+  Violation: 6.89e+04
+  Time: 61.15s
+  Verified: False
+  Status: cyipopt: The user call-back function intermediate_callback (see Section 3.3.4 in the documentation) returned false, i.e., the user code requested a premature termination of the optimization.
+
+ALM-PGD:
+  Success: False
+  Objective: inf
+  Violation: inf
+  Time: 61.18s
+  Verified: False
+  Outer iterations: 0
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: none
+Best objective: None
+======================================================================
+NLP Comparison: No feasible solution found by either solver
+  Local (IPOPT): verified=False, obj=-972362.4248348454, time=61.15s
+  ALM:   verified=False, obj=inf, time=61.18s
+======================================================================
+[Mech] lp_alternation P=-75335.16122 found=True offered=88 rejected=0 tape_best=-75335.16121643611 sources=None perturbed=None lps=None colours=2 bipartite=True |S|=311 |B|=307 t=61.28s reason=ok
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=93.049 s=61.3065 work=1 dD=0 dP=inf
+[Op] search_state t=93.050 s=0.0002 work=1 dD=0 dP=0
+[Op] incumbent t=93.050 s=0.0001 work=1 dD=0 dP=0
+[Op] tangent t=93.051 s=0.0013 work=1 dD=0 dP=0
+[Op] consistency t=93.051 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=93.052 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=93.843 s=0.7915 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=93.845 s=0.0015 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=93.846 s=0.0008 work=1 dD=0 dP=0
+[Op] convex_cuts t=93.846 s=0.0002 work=1 dD=0 dP=0
+[LiftedLP] not applicable (0.00s)
+[Op] lifted_lp t=93.848 s=0.0015 work=1 dD=0 dP=0
+[Op] lifted_obbt t=93.848 s=0.0000 work=1 dD=0 dP=0
+[Op] lifted_bab t=93.850 s=0.0019 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+<gear>/complete_verifier/auto_LiRPA/concretize_func.py:804: UserWarning: torch.searchsorted(): input value tensor is non-contiguous, this will lower the performance due to extra data copy when converting non-contiguous tensor to contiguous, please use contiguous input value tensor if possible. This message will only appear once per program. (Triggered internally at /pytorch/aten/src/ATen/native/BucketizationUtils.h:32.)
+  optimal_beta = _solve_dual_var(constr_a_solve, object_a_solve, constr_d_solve, epsilon_solve) # shape (B_act, H_act)
+	Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=94.416 s=0.5662 work=1 dD=0 dP=0
+[M3] compiler complete=True squares=0 census={'product': 9540, 'affine': 1790} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	CROWN spec batching: 11331 rows per chunk ran out of GPU memory; retrying with 5665.
+	CROWN spec batching: 11331 final spec rows in 3 chunks (chunk size 5665).
+<gear>/complete_verifier/input_split/bounding.py:608: UserWarning: [DualAscent] Skipped due to error: CUDA error: invalid configuration argument
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+  warnings.warn(f"[DualAscent] Skipped due to error: {e}")
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+	[OOM] batch 2 did not fit; retrying with 1
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5206    init 0.0003    concretize 0.4590    bounding 3.4975    filtering 0.0852    decision 0.0096    split 0.0009    summary 0.0658    
+		Accumulated time: sort_domains 0.0000    pickout 1.1523    bounding 21.3640    init 0.0082    concretize 12.2979    filtering 0.2538    decision 0.0096    split 0.0009    clip 0.0000    summary 0.0658    
+		Length of domains: 1
+		4 domains visited
+		Dual Solution This Iter: -6283003.000028385
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -6283003.000028385
+	Solution gap: 6207667.838811949
+	[Op] sort_domains t=118.677 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=118.677 s=1.1523 work=1 dD=0 dP=0
+	[Op] split t=118.677 s=0.0009 work=1 dD=0 dP=0
+	[Op] bounding t=118.677 s=21.3640 work=1 dD=0 dP=0
+	[Op] filtering t=118.677 s=0.2538 work=1 dD=0 dP=0
+	[Op] decision t=118.677 s=0.0096 work=1 dD=0 dP=0
+	[Op] summary t=118.677 s=0.0658 work=1 dD=0 dP=0
+	[Op] lifted_bab t=118.677 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 99.12017321586609
+
+Iteration 2
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4336    init 0.0003    concretize 0.4590    bounding 3.4083    filtering 0.0852    decision 0.0048    split 0.0206    summary 0.0628    clip 0.0332    add_domain 0.3909    
+		Accumulated time: sort_domains 0.0000    pickout 1.5859    bounding 24.7723    init 0.0097    concretize 14.3026    filtering 0.3390    decision 0.0144    split 0.0215    clip 0.0332    summary 0.1286    add_domain 0.3909    
+		Length of domains: 2
+		5 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=123.144 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=123.144 s=0.4336 work=1 dD=0 dP=0
+	[Op] split t=123.144 s=0.0206 work=1 dD=0 dP=0
+	[Op] bounding t=123.144 s=3.4083 work=1 dD=6.12598e+06 dP=0
+	[Op] filtering t=123.144 s=0.0852 work=1 dD=0 dP=0
+	[Op] clip t=123.144 s=0.0332 work=1 dD=0 dP=0
+	[Op] decision t=123.144 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=123.144 s=0.3909 work=1 dD=0 dP=0
+	[Op] summary t=123.144 s=0.0628 work=1 dD=0 dP=0
+	[Op] lifted_bab t=123.144 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 103.58718419075012
+
+Iteration 3
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5157    init 0.0002    concretize 0.4591    bounding 3.4087    filtering 0.0851    decision 0.0048    split 0.0206    summary 0.0609    clip 0.0332    add_domain 0.3909    
+		Accumulated time: sort_domains 0.0000    pickout 2.1016    bounding 28.1810    init 0.0113    concretize 16.3069    filtering 0.4241    decision 0.0144    split 0.0215    clip 0.0332    summary 0.1896    add_domain 0.3909    
+		Length of domains: 1
+		6 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=127.242 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=127.242 s=0.5157 work=1 dD=0 dP=0
+	[Op] bounding t=127.242 s=3.4087 work=1 dD=0 dP=0
+	[Op] filtering t=127.242 s=0.0851 work=1 dD=0 dP=0
+	[Op] summary t=127.242 s=0.0609 work=1 dD=0 dP=0
+	[Op] lifted_bab t=127.242 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 107.68423819541931
+
+Iteration 4
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4303    init 0.0002    concretize 0.4591    bounding 3.4074    filtering 0.0851    decision 0.0048    split 0.0004    summary 0.0649    clip 0.0345    add_domain 0.2864    
+		Accumulated time: sort_domains 0.0000    pickout 2.5320    bounding 31.5884    init 0.0129    concretize 18.3111    filtering 0.5092    decision 0.0192    split 0.0220    clip 0.0677    summary 0.2545    add_domain 0.6773    
+		Length of domains: 2
+		7 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=131.581 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=131.581 s=0.4303 work=1 dD=0 dP=0
+	[Op] split t=131.581 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=131.581 s=3.4074 work=1 dD=0 dP=0
+	[Op] filtering t=131.581 s=0.0851 work=1 dD=0 dP=0
+	[Op] clip t=131.581 s=0.0345 work=1 dD=0 dP=0
+	[Op] decision t=131.581 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=131.581 s=0.2864 work=1 dD=0 dP=0
+	[Op] summary t=131.581 s=0.0649 work=1 dD=0 dP=0
+	[Op] lifted_bab t=131.581 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 112.02418160438538
+
+Iteration 5
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=7790, useful_mean=7790.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 0/1 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=15.9964)
+	  [ALM-BaB] Replaced 1 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=1, restarts=1000, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=2.64e+03 local_obj_at_min_viol=-517544.5615 local_domain=0 local_restart=0 rho=50 eps=1.41e-01 eta=4.37e-02 grad=1.83e+07 ||mu||=1.60e+01 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=NA
+	    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=1 iters=1/30 min_viol=2.644e+03->2.644e+03 feasible=0/1 improved=0 newly_feasible=0
+	  [ALM-BaB] Solved 1 domains: success=False, obj=-517544.56152759894, time=10.07s
+	  ALM-PGD did not find feasible solution
+	  Running IPOPT-in-BaB parallelly on top 1 domains (timeout=10.0s)
+	  [IPOPT-in-BaB] No improvement found. Best local obj: inf
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5264    init 0.0004    concretize 0.4593    bounding 3.4400    filtering 0.0852    decision 0.0049    split 0.0005    summary 0.0632    clip 0.0347    add_domain 0.2645    alm_attack 21.1427    
+		Accumulated time: sort_domains 0.0000    pickout 3.0584    bounding 35.0284    init 0.0148    concretize 20.3155    filtering 0.5944    decision 0.0240    split 0.0224    clip 0.1024    summary 0.3177    add_domain 0.9419    alm_attack 21.1427    
+		Length of domains: 2
+		8 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=157.170 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=157.170 s=0.5264 work=1 dD=0 dP=0
+	[Op] alm_attack t=157.170 s=21.1427 work=1 dD=0 dP=0
+	[Op] split t=157.170 s=0.0005 work=1 dD=0 dP=0
+	[Op] bounding t=157.170 s=3.4400 work=1 dD=0 dP=0
+	[Op] filtering t=157.170 s=0.0852 work=1 dD=0 dP=0
+	[Op] clip t=157.170 s=0.0347 work=1 dD=0 dP=0
+	[Op] decision t=157.170 s=0.0049 work=1 dD=0 dP=0
+	[Op] add_domain t=157.170 s=0.2645 work=1 dD=0 dP=0
+	[Op] summary t=157.170 s=0.0632 work=1 dD=0 dP=0
+	[Op] lifted_bab t=157.170 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 137.61273193359375
+
+Iteration 6
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5361    init 0.0004    concretize 0.4592    bounding 3.4358    filtering 0.0847    decision 0.0048    split 0.0003    summary 0.0588    clip 0.0345    add_domain 0.2791    alm_attack 21.1427    
+		Accumulated time: sort_domains 0.0000    pickout 3.5945    bounding 38.4642    init 0.0167    concretize 22.3201    filtering 0.6791    decision 0.0288    split 0.0228    clip 0.1370    summary 0.3766    add_domain 1.2209    alm_attack 21.1427    
+		Length of domains: 3
+		9 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=161.629 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=161.629 s=0.5361 work=1 dD=0 dP=0
+	[Op] split t=161.629 s=0.0003 work=1 dD=0 dP=0
+	[Op] bounding t=161.629 s=3.4358 work=1 dD=0 dP=0
+	[Op] filtering t=161.629 s=0.0847 work=1 dD=0 dP=0
+	[Op] clip t=161.629 s=0.0345 work=1 dD=0 dP=0
+	[Op] decision t=161.629 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=161.629 s=0.2791 work=1 dD=0 dP=0
+	[Op] summary t=161.629 s=0.0588 work=1 dD=0 dP=0
+	[Op] lifted_bab t=161.629 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 142.07157731056213
+
+Iteration 7
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5814    init 0.0002    concretize 0.4591    bounding 3.4657    filtering 0.0850    decision 0.0048    split 0.0004    summary 0.0598    clip 0.0346    add_domain 0.2647    alm_attack 21.1427    
+		Accumulated time: sort_domains 0.0001    pickout 4.1759    bounding 41.9299    init 0.0182    concretize 24.3242    filtering 0.7641    decision 0.0337    split 0.0232    clip 0.1716    summary 0.4364    add_domain 1.4856    alm_attack 21.1427    
+		Length of domains: 3
+		10 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=166.180 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=166.180 s=0.5814 work=1 dD=0 dP=0
+	[Op] split t=166.180 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=166.180 s=3.4657 work=1 dD=0 dP=0
+	[Op] filtering t=166.180 s=0.0850 work=1 dD=0 dP=0
+	[Op] clip t=166.180 s=0.0346 work=1 dD=0 dP=0
+	[Op] decision t=166.180 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=166.180 s=0.2647 work=1 dD=0 dP=0
+	[Op] summary t=166.180 s=0.0598 work=1 dD=0 dP=0
+	[Op] lifted_bab t=166.180 s=0.0002 work=1 dD=0 dP=0
+	Cumulative time: 146.62247347831726
+
+Iteration 8
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5671    init 0.0003    concretize 0.4591    bounding 3.4209    filtering 0.0849    decision 0.0048    split 0.0004    summary 0.0619    clip 0.0346    add_domain 0.2619    alm_attack 21.1427    
+		Accumulated time: sort_domains 0.0001    pickout 4.7430    bounding 45.3508    init 0.0197    concretize 26.3283    filtering 0.8490    decision 0.0385    split 0.0237    clip 0.2062    summary 0.4983    add_domain 1.7475    alm_attack 21.1427    
+		Length of domains: 3
+		11 domains visited
+		Dual Solution This Iter: -157026.4742016836
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -157026.4742016836
+	Solution gap: 81691.31298524748
+	[Op] sort_domains t=170.660 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=170.660 s=0.5671 work=1 dD=0 dP=0
+	[Op] split t=170.660 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=170.660 s=3.4209 work=1 dD=0 dP=0
+	[Op] filtering t=170.660 s=0.0849 work=1 dD=0 dP=0
+	[Op] clip t=170.660 s=0.0346 work=1 dD=0 dP=0
+	[Op] decision t=170.660 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=170.660 s=0.2619 work=1 dD=0 dP=0
+	[Op] summary t=170.660 s=0.0619 work=1 dD=0 dP=0
+	[Op] lifted_bab t=170.660 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 151.1029088497162
+
+Iteration 9
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5602    init 0.0003    concretize 0.4592    bounding 3.4111    filtering 0.0849    decision 0.0048    split 0.0004    summary 0.0608    clip 0.0346    add_domain 0.2621    alm_attack 21.1427    
+		Accumulated time: sort_domains 0.0001    pickout 5.3032    bounding 48.7619    init 0.0213    concretize 28.3325    filtering 0.9339    decision 0.0433    split 0.0241    clip 0.2408    summary 0.5591    add_domain 2.0096    alm_attack 21.1427    
+		Length of domains: 3
+		12 domains visited
+		Dual Solution This Iter: -156555.4151448219
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121644], device='cuda:0'), Dual Solution -156555.4151448219
+	Solution gap: 81220.25392838578
+	[Op] sort_domains t=175.134 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=175.134 s=0.5602 work=1 dD=0 dP=0
+	[Op] split t=175.134 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=175.134 s=3.4111 work=1 dD=471.059 dP=0
+	[Op] filtering t=175.134 s=0.0849 work=1 dD=0 dP=0
+	[Op] clip t=175.134 s=0.0346 work=1 dD=0 dP=0
+	[Op] decision t=175.134 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=175.134 s=0.2621 work=1 dD=0 dP=0
+	[Op] summary t=175.134 s=0.0608 work=1 dD=0 dP=0
+	[Op] lifted_bab t=175.134 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 155.57696080207825
+
+Iteration 10
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=7790, useful_mean=7790.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/1 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=15.9627)
+	  [ALM-BaB] Shared budget: domains=1, restarts=1000, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=3.68e+03 local_obj_at_min_viol=-725058.1057 local_domain=0 local_restart=620 rho=50 eps=1.41e-01 eta=4.37e-02 grad=1.10e+08 ||mu||=1.60e+01 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=-75335.1612
+	    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=1 iters=1/30 min_viol=5.941e-10->4.254e-09 feasible=1/1 improved=1 newly_feasible=0 below_level=0
+	  [ALM-BaB] Solved 1 domains: success=True, obj=-75335.16121650947, time=6.71s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=0/1, success=1/1, shifted_obj=-75335.161217, raw_obj=-75335.161217, rhs_obj=0.000000
+	  ALM-PGD found obj=-75335.161217
+	  ALM-PGD raw obj=-75335.161217
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.5683    init 0.0003    concretize 0.0003    bounding 0.9044    filtering 0.0850    decision 0.0048    split 0.0004    summary 0.0634    clip 0.0345    add_domain 0.2599    alm_attack 7.0294    
+		Accumulated time: sort_domains 0.0001    pickout 5.8715    bounding 49.6664    init 0.0227    concretize 28.3340    filtering 1.0189    decision 0.0481    split 0.0245    clip 0.2753    summary 0.6225    add_domain 2.2694    alm_attack 28.1721    
+		Length of domains: 3
+		13 domains visited
+		Dual Solution This Iter: -154116.32492889493
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-75335.16121651], device='cuda:0'), Dual Solution -154116.32492889493
+	Solution gap: 78781.16371238546
+	[Op] sort_domains t=184.133 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=184.133 s=0.5683 work=1 dD=0 dP=0
+	[Op] alm_attack t=184.133 s=7.0294 work=1 dD=0 dP=7.33562e-08
+	[Op] split t=184.133 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=184.133 s=0.9044 work=1 dD=2439.09 dP=0
+	[Op] filtering t=184.133 s=0.0850 work=1 dD=0 dP=0
+	[Op] clip t=184.133 s=0.0345 work=1 dD=0 dP=0
+	[Op] decision t=184.133 s=0.0048 work=1 dD=0 dP=0
+	[Op] add_domain t=184.133 s=0.2599 work=1 dD=0 dP=0
+	[Op] summary t=184.133 s=0.0634 work=1 dD=0 dP=0
+	[Op] lifted_bab t=184.133 s=0.0001 work=1 dD=0 dP=0
+	Time out! Current sub-optimal object: tensor([-75335.16121651], device='cuda:0')
+[best-primal] objective=-75335.16121650947 x=[1e-12, 0.17967077176306043, 9.999999999999998e-13, 1e-12, 1e-12, 109.95715184191656, 1e-12, 1e-12, 9.999999999999998e-13, 0.22219207270423244, 1e-12, 1e-12, 0.0011381594357825914, 1e-12, 1e-12, 0.0004872762232439408, 1e-12, 6.794785330845537, 6.232549310594572, 0.023096746706091263, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 4.992811615336775, 1e-12, 1.0000000000000002e-12, 1e-12, 22.472085641666748, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 3.9425412229719132, 1e-12, 40.42275252918935, 9.999999999999998e-13, 1e-12, 22.10077353531757, 1e-12, 15.681497217572886, 1e-12, 1e-12, 1.769978129149366, 9.999999999999998e-13, 2.928299933288528, 1e-12, 0.6158288191090147, 11.060299140052159, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 60.98419591440863, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 4.173587394723784, 0.5715767896286462, 0.038830342536745485, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.614496348765716, 1e-12, 9.999999999999998e-13, 3.4964424841497173, 0.27289726856622354, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 12.023914891513448, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 0.004098177161308171, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.999999999999, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.7804747689829129, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 0.5631788828209054, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.999999999999, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 0.18256480675055925, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.999999999999, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 18.999999999999, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.2611965197393049, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 0.9285356861728654, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.05241071830671507, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.22457753312973122, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.8200119967788636, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 0.4236741684432489, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 5.308474669371571e-07, 5.957374176588329e-07, 1e-12, 1e-12, 1e-12, 1e-12, 27.73632719098397, 17.651829810718603, 1e-12, 1e-12, 0.6618877820572057, 0.3181006333187742, 1e-12, 14.272117226181368, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 0.9999953050457502, 1e-12, 0.3235577723693086, 1e-12, 1e-12, 1e-12, 0.06296742252511651, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 2.8022873601697876e-08, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 3.942515998971068, 1e-12, 40.422493908293255, 9.999999999999998e-13, 1e-12, 22.100632136686883, 1e-12, 15.681396888856785, 1e-12, 1.7699668049989508, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0009091386442307575, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 2.0933300403645207e-06, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 0.11451225247652055, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 0.6975535175594622, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 0.9988954580599608, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 0.07014174073832351, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 6.162207435625488, 1e-12, 1e-12, 0.12538945889899925, 1e-12, 8.818011430854473e-05, 1e-12, 9.999999999999998e-13, 0.00011051160502957734, 1e-12, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 0.574904238810327, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 1e-12, 0.002036935441222509, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 0.0569182290901638, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 0.999999999999, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 45.466493494094735, 0.00020905212498281676, 22.835589165451, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 58.446525620956095, 0.0008378794753680687, 1e-12, 1e-12, 1e-12, 2.4325153403972752, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 4.037576970363854, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 4.4195120752867e-05, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.010942829739644971, 1e-12, 1e-12, 1e-12, 0.003979509005006124, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.019463465946878, 1e-12, 1e-12, 1e-12, 0.00012906695007228506, 1e-12, 9.999999999999998e-13, 0.00016175297481303455, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 13.535945358323264, 1e-12, 1e-12, 8.266461944278847, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0019075736750164749, 1e-12, 0.0049048871518859805, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.26502317257939356, 9.999999999999998e-13, 25.55563810367842, 1e-12, 38.44436189632158, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 42.76467464788488, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 31.937363844880835, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 6.234467364527089e-08, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 55.999999999999, 1e-12, 0.0003638874901205234, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.055375532015399, 1e-12, 1e-12, 5.530158052871435, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 60.98419591440863, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 4.173587394723784, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 8.331372219420698e-05, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 0.987026496438703, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 0.24729562978846253, 0.0024988506331234056, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.5424574063848225, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 0.6463843892785457, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 28.720425381554904, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 0.05803579610400812, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 154.8703936014487, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 0.3350432679628999, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 4.2072020050684715, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 13.923807054043335, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 18.42737981880878, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 0.01645141308462216, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 4.073413745563967, 1e-12, 9.999999999999998e-13, 1.4813523619817792, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.9237391428618468, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.45344441645386924, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.6112803604497129, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.29491485774765513, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.5152138254098363, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.04693303678302272, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 17.81995124084076, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 2.3229006508919103e-06, 3.330070963197865e-11, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.667797028960428e-08, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.8746105411010008, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.07146431382713456, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 4.430016449658803e-07, 9.999999999999998e-13, 0.006177401923523951, 0.0056662514303352915, 1e-12, 2.0998144986517022e-05, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 0.004539157982866854, 8.253039977422582e-06, 9.999999999999998e-13, 8.461816218357298e-05, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 4.626421315677346e-05, 9.999999999999998e-13, 3.282654920343797e-05, 9.999999999999998e-13, 3.70514838853656e-06, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 0.00023395527099083667, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 0.00022658853895971795, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 8.79810451529216, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 4.015354093637594e-06, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 16.402471278697647, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 0.021351288198314923, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.3024464824408509, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 0.9984930185946579, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 4.304574108092717e-06, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 0.00028343331064133317, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.989995774822773, 1e-12, 1e-12, 1e-12, 0.8513763841183034, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 3.479092242146154, 1e-12, 1e-12, 2.124697083137421, 1e-12, 0.3671779441290241, 1e-12, 0.07721844240248904, 1.386844924432207, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.02232372851883193, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 5.527414704931726, 1e-12, 9.999999999999998e-13, 2.0101196048941823, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 4.894967701754087, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 92.08833063025067, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.010369169891937154, 1e-12, 1e-12, 0.006332498103115749, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.9999761403723725, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 0.3731689451556234, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 3.919054649470511e-06, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.10177784921578424, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 20.36202695258225, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 0.0011045419400391662, 1e-12, 1e-12, 1e-12, 1.7731372187164546e-07, 1e-12, 0.002472537379949133, 0.0022679467256846576, 8.404617188829015e-06, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0018168216873494952, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 0.0014982583740533574, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.004565021657244028, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 28.57519101688847, 1e-12, 1e-12, 1e-12, 5.561004185807668, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 0.20059197304869644, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.25249700720773427, 1e-12, 0.6492380046774243, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 18.999999962910252, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 3.708974863113717e-08, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.42274508136718586, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 74.15195401950172, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.21106423608941788, 1e-12, 0.5427031591892114, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.022143167959856155, 1e-12, 8.347832162752951e-07, 9.368257899733976e-07, 1e-12, 1e-12, 1e-12, 1e-12, 43.61671075449353, 27.758352785509704, 1e-12, 1e-12, 1.0408504249016048, 0.5002285709547528, 1e-12, 22.44359192268717, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 24.446337671142444, 0.0003504585493311727, 1e-12, 1e-12, 1.0174444206870723, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 44.30838898524592, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.5772499028148328, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 2.580554950383733, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 2.561121989159504, 1e-12, 0.5386103767065257, 9.673454215619953, 9.999999999999998e-13, 0.015771809147001176, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 11.919527246694651, 1e-12, 1e-12, 1e-12, 1e-12, 0.5523051060485621, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1.140008408564276e-07, 1e-12, 0.0015896758434025293, 0.0014581377629239054, 5.403605634630295e-06, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0011680945944723123, 1e-12, 1.0000000000000002e-12, 1e-12, 0.005091917052922924, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 0.0002486393101748648, 2.9622034371061765e-05, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 2.4498994383581178e-05, 1e-12, 0.000151466380349035, 1e-12, 1e-12, 1e-12, 4.752624237502884e-06, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.1636846876616184, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.7139467922010154, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 7.111812379551657, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.00048654190703624684, 1e-12, 6.784545715698663, 6.223156974675629, 1e-12, 0.023061940338281288, 1e-12, 1e-12, 1e-12, 1e-12, 4.985287541072086, 1.6970960868493094e-05, 1e-12, 0.00017400273391498787, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.513441752894874e-05, 1e-12, 6.750216689889223e-05, 1e-12, 7.6190020266267465e-06, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 0.4278679454999999, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1.1005812538526756e-05, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 0.0027250685302796767, 1e-12, 9.999999999999998e-13, 0.0009910082687495615, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.7754224668702688, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.7388034802606938, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 2.3859627734529657e-05, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.23707716950669155, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.00029911361673394326, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.4741832127652615, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0004638878093808e-06, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 5.79537333504649, 44.955763992587606, 1e-12, 4.694953636530386e-06, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 4.635804012962036, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 28.670987692026067, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.00019438856925987316, 1e-12, 1e-12, 0.0001187139625383806, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 5.77172955326808, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.1266947300816155e-08, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.011046570714753873, 1e-12, 1e-12, 1e-12, 1e-12, 0.0009414207617321179, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0433757547398184, 1e-12, 1e-12, 1e-12, 0.008441334776314733, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 0.3887196395502876, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1.593517427465378e-11, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.4824613804040834, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 13.0562052974538, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 26.17727925352951, 3.1186712400528602, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 2.579306614704753, 15.946705020736612, 1e-12, 1e-12, 1e-12, 0.5003664616214921, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.3494184824474869, 1e-12, 1e-12, 1e-12, 1e-12, 5.00011757890622e-06, 1e-12, 9.999999999999998e-13, 6.266390368332581e-06, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 0.011176131570509618, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 35.74454812386511, 9.999999999999998e-13, 4.258482829438938, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 3.521991285747802, 21.774904852036777, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 0.6832403357803516, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 0.24887864408505095, 1e-12, 1e-12, 1e-12, 3.5614100164006883e-06, 1e-12, 9.999999999999998e-13, 4.463332126149392e-06, 1e-12, 30.367812807957748, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 8.999999999999, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 17.76549499540365, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 12.777863145043806, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 227.39997526648236, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 0.9999936020958516, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 3.923182937981551e-05, 1e-12, 1e-12, 1e-12, 36.79664331299999, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 48.07619294595667, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.8283208247254095, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 0.4764581647019877, 81.2367264603615, 1e-12, 1e-12, 9.999999999999998e-13, 0.16415627660022403, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.00013827875003527698, 0.0010726533895898866, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.0001106111974606326, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 13.035394794968006, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.008659573744741515, 1e-12, 1e-12, 1e-12, 1e-12, 0.0016852354832328751, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 23.519905829571105, 1e-12, 1e-12, 14.363710943441331, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 8.87630064678407, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 6.195086289250163e-05, 7.380613261145268e-06, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 6.104158835519624e-06, 3.7739297761191896e-05, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1.1841617977062966e-06, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 8.366423768069644e-05, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 21.212571723120657, 0.12148780541629378, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 12.719289800833947, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 6.094278585219668, 1e-12, 64.74660161648465, 32.27012612687797, 1.0000000000000002e-12, 1e-12, 7.497272958987055, 1e-12, 0.7090583944611737, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 99.999999999999, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1.3698528021512968, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.00023136234942413116, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 3.718264171302912, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 3.720475699051515, 12.320780607505588, 1e-12, 1e-12, 6.87924067492328, 1e-12, 1e-12, 1e-12, 1e-12, 41.73289919318939, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 74.95816352324613, 1e-12, 25.939796656110087, 1e-12, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 11.120708657954145, 27.588374543357588, 14.360238878142761, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 7.178889300213503, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.3656306832124517e-06, 1.5325632076322298e-06, 1e-12, 1e-12, 1e-12, 1e-12, 71.35303794547751, 45.41018259622828, 1e-12, 1e-12, 1.7027382069579715, 0.8183292042737716, 1e-12, 36.71570914886853, 1.0065354848839798e-12, 61.92213796756768, 7.377191072139429, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 6.101328503605774, 37.72179907845149, 1e-12, 1e-12, 1e-12, 1.1836127341878788, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 166.78992084814337, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.21944191729489304, 1e-12, 9.999999999999998e-13, 1.0000000000000002e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 25.55563810367842, 1e-12, 38.44436189632158, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 45.46649349409441, 22.83558916545083, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 54.793154561055566, 1e-12, 1e-12, 1e-12, 1e-12, 6.30025039491066e-12, 17.82003490507844, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 1e-12, 82.89286561499739, 0.0011883380579999253, 1e-12, 1e-12, 3.449959857762243, 1e-12, 0.39050823326449674, 9.42437126105615e-12, 1e-12, 1e-12, 1e-12, 1e-12, 85.99999999999899, 1e-12, 5.795511613795905, 44.95683664597627, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 4.635914624159007, 9.999999999999998e-13, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 10.001042345537527, 9.064291911765028e-05, 1e-12, 1e-12, 1e-12, 0.8523178048800355, 1e-12, 1e-12, 1e-12, 1e-12, 76.83111915990048, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 92.08833063025068, 15.779968028104898, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.00022580859197613663, 1e-12, 9.999999999999998e-13, 0.0002829943023370938, 1e-12, 54.98376255331527, 3.3425131925478934e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.0000000000000002e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 28.95078411774234, 9.999999999999998e-13, 9.999999999999998e-13, 9.999999999999998e-13, 5.634098178592334, 9.999999999999998e-13, 9.999999999999998e-13, 56.70909336108244, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1.1070136957726965e-07, 1e-12, 1e-12, 1e-12, 0.999999999999, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.7050851142294405, 1e-12, 55.999999999999, 1e-12, 1e-12, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 80.27369478981988, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 49.60088252051711, 1e-12, 1e-12, 1e-12, 30.291479235794686, 1e-12, 9.999999999999998e-13, 23.514283658241943, 1e-12, 1e-12, 9.999999999999998e-13, 1e-12, 4.204241565865346e-12, 1e-12, 9.999999999999998e-13, 1e-12, 1e-12, 9.999999999999998e-13, 61.999999999999005, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 1e-12, 0.46546881697216863, 1e-12, 1.1968460510185217, 1e-12, 9.999999999999998e-13, 1e-12, 2.4747052140039583, 1e-12]
+problem_name=pooling_sppc1pq status=unknown success=False
+
+#RUNNER rc=0 elapsed=185.33 waited=0.0

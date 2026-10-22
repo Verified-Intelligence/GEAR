@@ -1,0 +1,1849 @@
+#CMD <env>/bin/python nlp_example.py --problem_name cute_obstclal --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792653432.741224123
+INFO     02:17:14     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/cute_obstclal.vnnlib.compiled
+[W1022 02:17:14.615096726 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:207: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if self.bias.numel() > 0 and (self.bias != 0).any().item():
+benchmarks/gams_world/mod_files_gams/modules.py:207: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if self.bias.numel() > 0 and (self.bias != 0).any().item():
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=71 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/9): BoundBuffers(name=/9, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/15): BoundBuffers(name=/15, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/17): BoundShape(name=/17, inputs=[/0], perturbed=False)
+  (/18): BoundConstant(name=/18, value=0)
+  (/19): BoundGather(name=/19, inputs=[/17, /18], perturbed=False)
+  (/20): BoundGather(name=/20, inputs=[/0, /2], perturbed=True)
+  (/21): BoundConstant(name=/21, value=128)
+  (/22): BoundConstant(name=/22, value=2)
+  (/31): BoundUnsqueeze(name=/31, inputs=[/19, /64], perturbed=False)
+  (/33): BoundUnsqueeze(name=/33, inputs=[/21, /64], perturbed=False)
+  (/35): BoundUnsqueeze(name=/35, inputs=[/22, /64], perturbed=False)
+  (/36): BoundConcat(name=/36, inputs=[/31, /33, /35], perturbed=False)
+  (/53): BoundReshape(name=/53, inputs=[/3, /59], perturbed=False)
+  (/54): BoundMul(name=/54, inputs=[/58, /53], perturbed=True)
+  (/55): BoundConstant(name=/55, value=tensor([-1], device='cuda:0'))
+  (/56): BoundReduceSum(name=/56, inputs=[/54, /55], perturbed=True)
+  (/58): BoundReshape(name=/58, inputs=[/20, /36], perturbed=True)
+  (/59): BoundConstant(name=/59, inputs=[], perturbed=False)
+  (/60): BoundReshape(name=/60, inputs=[/6, /59], perturbed=False)
+  (/61): BoundMul(name=/61, inputs=[/58, /60], perturbed=True)
+  (/64): BoundConstant(name=/64, value=tensor([0], device='cuda:0'))
+  (/65): BoundUnsqueeze(name=/65, inputs=[/1, /64], perturbed=False)
+  (/66): BoundMul(name=/66, inputs=[/63/hidden_scaled_square, /65], perturbed=True)
+  (/67): BoundReduceSum(name=/67, inputs=[/66, /55], perturbed=True)
+  (/68): BoundShape(name=/68, inputs=[/67], perturbed=False)
+  (/69): BoundConstantOfShape(name=/69, inputs=[/68], perturbed=False)
+  (/70): BoundGather(name=/70, inputs=[/0, /9], perturbed=True)
+  (/73): BoundReshape(name=/73, inputs=[/10, /59], perturbed=False)
+  (/74): BoundMul(name=/74, inputs=[/77, /73], perturbed=True)
+  (/75): BoundReduceSum(name=/75, inputs=[/74, /55], perturbed=True)
+  (/77): BoundReshape(name=/77, inputs=[/70, /36], perturbed=True)
+  (/79): BoundReshape(name=/79, inputs=[/13, /59], perturbed=False)
+  (/80): BoundMul(name=/80, inputs=[/77, /79], perturbed=True)
+  (/85): BoundMul(name=/85, inputs=[/82/hidden_scaled_square, /65], perturbed=True)
+  (/86): BoundReduceSum(name=/86, inputs=[/85, /55], perturbed=True)
+  (/87): BoundSub(name=/87, inputs=[/86, /69], perturbed=True)
+  (/88): BoundAdd(name=/88, inputs=[/67, /87], perturbed=True)
+  (/89): BoundSub(name=/89, inputs=[/88, /67], perturbed=True)
+  (/90): BoundSub(name=/90, inputs=[/89, /87], perturbed=True)
+  (/91): BoundGather(name=/91, inputs=[/0, /16], perturbed=True)
+  (/93): BoundUnsqueeze(name=/93, inputs=[/15, /64], perturbed=False)
+  (/94): BoundMul(name=/94, inputs=[/91, /93], perturbed=True)
+  (/95): BoundReduceSum(name=/95, inputs=[/94, /55], perturbed=True)
+  (/63/hidden_square): BoundSqr(name=/63/hidden_square, inputs=[/56], perturbed=True)
+  (/63/hidden_scale): BoundConstant(name=/63/hidden_scale, inputs=[], perturbed=False)
+  (/63/hidden_scaled_square): BoundMul(name=/63/hidden_scaled_square, inputs=[/63/hidden_square, /63/hidden_scale], perturbed=True)
+  (/82/hidden_square): BoundSqr(name=/82/hidden_square, inputs=[/75], perturbed=True)
+  (/82/hidden_scale): BoundConstant(name=/82/hidden_scale, inputs=[], perturbed=False)
+  (/82/hidden_scaled_square): BoundMul(name=/82/hidden_scaled_square, inputs=[/82/hidden_square, /82/hidden_scale], perturbed=True)
+  (/97/presolve_1): BoundGather(name=/97/presolve_1, inputs=[/56, /64], perturbed=True)
+  (/97/presolve_3): BoundAdd(name=/97/presolve_3, inputs=[/97/presolve_1, /97/presolve_57], perturbed=True)
+  (/97/presolve_4): BoundSqr(name=/97/presolve_4, inputs=[/97/presolve_3], perturbed=True)
+  (/97/presolve_6): BoundMul(name=/97/presolve_6, inputs=[/97/presolve_4, /97/presolve_1488], perturbed=True)
+  (/97/presolve_8): BoundGather(name=/97/presolve_8, inputs=[/56, /97/presolve_881], perturbed=True)
+  (/97/presolve_10): BoundAdd(name=/97/presolve_10, inputs=[/97/presolve_8, /97/presolve_57], perturbed=True)
+  (/97/presolve_11): BoundSqr(name=/97/presolve_11, inputs=[/97/presolve_10], perturbed=True)
+  (/97/presolve_13): BoundMul(name=/97/presolve_13, inputs=[/97/presolve_11, /97/presolve_1488], perturbed=True)
+  (/97/presolve_14): BoundAdd(name=/97/presolve_14, inputs=[/97/presolve_6, /97/presolve_13], perturbed=True)
+  (/97/presolve_16): BoundGather(name=/97/presolve_16, inputs=[/56, /97/presolve_891], perturbed=True)
+  (/97/presolve_18): BoundAdd(name=/97/presolve_18, inputs=[/97/presolve_16, /97/presolve_57], perturbed=True)
+  (/97/presolve_19): BoundSqr(name=/97/presolve_19, inputs=[/97/presolve_18], perturbed=True)
+  (/97/presolve_21): BoundMul(name=/97/presolve_21, inputs=[/97/presolve_19, /97/presolve_1488], perturbed=True)
+  (/97/presolve_22): BoundAdd(name=/97/presolve_22, inputs=[/97/presolve_14, /97/presolve_21], perturbed=True)
+  (/97/presolve_24): BoundGather(name=/97/presolve_24, inputs=[/56, /97/presolve_901], perturbed=True)
+  (/97/presolve_26): BoundAdd(name=/97/presolve_26, inputs=[/97/presolve_24, /97/presolve_57], perturbed=True)
+  (/97/presolve_27): BoundSqr(name=/97/presolve_27, inputs=[/97/presolve_26], perturbed=True)
+  (/97/presolve_29): BoundMul(name=/97/presolve_29, inputs=[/97/presolve_27, /97/presolve_1488], perturbed=True)
+  (/97/presolve_30): BoundAdd(name=/97/presolve_30, inputs=[/97/presolve_22, /97/presolve_29], perturbed=True)
+  (/97/presolve_32): BoundGather(name=/97/presolve_32, inputs=[/56, /97/presolve_911], perturbed=True)
+  (/97/presolve_34): BoundAdd(name=/97/presolve_34, inputs=[/97/presolve_32, /97/presolve_57], perturbed=True)
+  (/97/presolve_35): BoundSqr(name=/97/presolve_35, inputs=[/97/presolve_34], perturbed=True)
+  (/97/presolve_37): BoundMul(name=/97/presolve_37, inputs=[/97/presolve_35, /97/presolve_1488], perturbed=True)
+  (/97/presolve_38): BoundAdd(name=/97/presolve_38, inputs=[/97/presolve_30, /97/presolve_37], perturbed=True)
+  (/97/presolve_40): BoundGather(name=/97/presolve_40, inputs=[/56, /97/presolve_921], perturbed=True)
+  (/97/presolve_42): BoundAdd(name=/97/presolve_42, inputs=[/97/presolve_40, /97/presolve_57], perturbed=True)
+  (/97/presolve_43): BoundSqr(name=/97/presolve_43, inputs=[/97/presolve_42], perturbed=True)
+  (/97/presolve_45): BoundMul(name=/97/presolve_45, inputs=[/97/presolve_43, /97/presolve_1488], perturbed=True)
+  (/97/presolve_46): BoundAdd(name=/97/presolve_46, inputs=[/97/presolve_38, /97/presolve_45], perturbed=True)
+  (/97/presolve_48): BoundGather(name=/97/presolve_48, inputs=[/56, /97/presolve_931], perturbed=True)
+  (/97/presolve_50): BoundAdd(name=/97/presolve_50, inputs=[/97/presolve_48, /97/presolve_57], perturbed=True)
+  (/97/presolve_51): BoundSqr(name=/97/presolve_51, inputs=[/97/presolve_50], perturbed=True)
+  (/97/presolve_53): BoundMul(name=/97/presolve_53, inputs=[/97/presolve_51, /97/presolve_1488], perturbed=True)
+  (/97/presolve_54): BoundAdd(name=/97/presolve_54, inputs=[/97/presolve_46, /97/presolve_53], perturbed=True)
+  (/97/presolve_56): BoundGather(name=/97/presolve_56, inputs=[/56, /97/presolve_941], perturbed=True)
+  (/97/presolve_57): BoundConstant(name=/97/presolve_57, value=0.0246913580246914)
+  (/97/presolve_58): BoundAdd(name=/97/presolve_58, inputs=[/97/presolve_56, /97/presolve_57], perturbed=True)
+  (/97/presolve_59): BoundSqr(name=/97/presolve_59, inputs=[/97/presolve_58], perturbed=True)
+  (/97/presolve_61): BoundMul(name=/97/presolve_61, inputs=[/97/presolve_59, /97/presolve_1488], perturbed=True)
+  (/97/presolve_62): BoundAdd(name=/97/presolve_62, inputs=[/97/presolve_54, /97/presolve_61], perturbed=True)
+  (/97/presolve_64): BoundGather(name=/97/presolve_64, inputs=[/56, /97/presolve_951], perturbed=True)
+  (/97/presolve_66): BoundAdd(name=/97/presolve_66, inputs=[/97/presolve_64, /97/presolve_121], perturbed=True)
+  (/97/presolve_67): BoundSqr(name=/97/presolve_67, inputs=[/97/presolve_66], perturbed=True)
+  (/97/presolve_69): BoundMul(name=/97/presolve_69, inputs=[/97/presolve_67, /97/presolve_1488], perturbed=True)
+  (/97/presolve_70): BoundAdd(name=/97/presolve_70, inputs=[/97/presolve_62, /97/presolve_69], perturbed=True)
+  (/97/presolve_72): BoundGather(name=/97/presolve_72, inputs=[/56, /97/presolve_961], perturbed=True)
+  (/97/presolve_74): BoundAdd(name=/97/presolve_74, inputs=[/97/presolve_72, /97/presolve_121], perturbed=True)
+  (/97/presolve_75): BoundSqr(name=/97/presolve_75, inputs=[/97/presolve_74], perturbed=True)
+  (/97/presolve_77): BoundMul(name=/97/presolve_77, inputs=[/97/presolve_75, /97/presolve_1488], perturbed=True)
+  (/97/presolve_78): BoundAdd(name=/97/presolve_78, inputs=[/97/presolve_70, /97/presolve_77], perturbed=True)
+  (/97/presolve_80): BoundGather(name=/97/presolve_80, inputs=[/56, /97/presolve_971], perturbed=True)
+  (/97/presolve_82): BoundAdd(name=/97/presolve_82, inputs=[/97/presolve_80, /97/presolve_121], perturbed=True)
+  (/97/presolve_83): BoundSqr(name=/97/presolve_83, inputs=[/97/presolve_82], perturbed=True)
+  (/97/presolve_85): BoundMul(name=/97/presolve_85, inputs=[/97/presolve_83, /97/presolve_1488], perturbed=True)
+  (/97/presolve_86): BoundAdd(name=/97/presolve_86, inputs=[/97/presolve_78, /97/presolve_85], perturbed=True)
+  (/97/presolve_88): BoundGather(name=/97/presolve_88, inputs=[/56, /97/presolve_981], perturbed=True)
+  (/97/presolve_90): BoundAdd(name=/97/presolve_90, inputs=[/97/presolve_88, /97/presolve_121], perturbed=True)
+  (/97/presolve_91): BoundSqr(name=/97/presolve_91, inputs=[/97/presolve_90], perturbed=True)
+  (/97/presolve_93): BoundMul(name=/97/presolve_93, inputs=[/97/presolve_91, /97/presolve_1488], perturbed=True)
+  (/97/presolve_94): BoundAdd(name=/97/presolve_94, inputs=[/97/presolve_86, /97/presolve_93], perturbed=True)
+  (/97/presolve_96): BoundGather(name=/97/presolve_96, inputs=[/56, /97/presolve_991], perturbed=True)
+  (/97/presolve_98): BoundAdd(name=/97/presolve_98, inputs=[/97/presolve_96, /97/presolve_121], perturbed=True)
+  (/97/presolve_99): BoundSqr(name=/97/presolve_99, inputs=[/97/presolve_98], perturbed=True)
+  (/97/presolve_101): BoundMul(name=/97/presolve_101, inputs=[/97/presolve_99, /97/presolve_1488], perturbed=True)
+  (/97/presolve_102): BoundAdd(name=/97/presolve_102, inputs=[/97/presolve_94, /97/presolve_101], perturbed=True)
+  (/97/presolve_104): BoundGather(name=/97/presolve_104, inputs=[/56, /97/presolve_1001], perturbed=True)
+  (/97/presolve_106): BoundAdd(name=/97/presolve_106, inputs=[/97/presolve_104, /97/presolve_121], perturbed=True)
+  (/97/presolve_107): BoundSqr(name=/97/presolve_107, inputs=[/97/presolve_106], perturbed=True)
+  (/97/presolve_109): BoundMul(name=/97/presolve_109, inputs=[/97/presolve_107, /97/presolve_1488], perturbed=True)
+  (/97/presolve_110): BoundAdd(name=/97/presolve_110, inputs=[/97/presolve_102, /97/presolve_109], perturbed=True)
+  (/97/presolve_112): BoundGather(name=/97/presolve_112, inputs=[/56, /97/presolve_1011], perturbed=True)
+  (/97/presolve_114): BoundAdd(name=/97/presolve_114, inputs=[/97/presolve_112, /97/presolve_121], perturbed=True)
+  (/97/presolve_115): BoundSqr(name=/97/presolve_115, inputs=[/97/presolve_114], perturbed=True)
+  (/97/presolve_117): BoundMul(name=/97/presolve_117, inputs=[/97/presolve_115, /97/presolve_1488], perturbed=True)
+  (/97/presolve_118): BoundAdd(name=/97/presolve_118, inputs=[/97/presolve_110, /97/presolve_117], perturbed=True)
+  (/97/presolve_120): BoundGather(name=/97/presolve_120, inputs=[/56, /97/presolve_1021], perturbed=True)
+  (/97/presolve_121): BoundConstant(name=/97/presolve_121, value=0.0493827160493828)
+  (/97/presolve_122): BoundAdd(name=/97/presolve_122, inputs=[/97/presolve_120, /97/presolve_121], perturbed=True)
+  (/97/presolve_123): BoundSqr(name=/97/presolve_123, inputs=[/97/presolve_122], perturbed=True)
+  (/97/presolve_125): BoundMul(name=/97/presolve_125, inputs=[/97/presolve_123, /97/presolve_1488], perturbed=True)
+  (/97/presolve_126): BoundAdd(name=/97/presolve_126, inputs=[/97/presolve_118, /97/presolve_125], perturbed=True)
+  (/97/presolve_128): BoundGather(name=/97/presolve_128, inputs=[/56, /97/presolve_1031], perturbed=True)
+  (/97/presolve_130): BoundAdd(name=/97/presolve_130, inputs=[/97/presolve_128, /97/presolve_185], perturbed=True)
+  (/97/presolve_131): BoundSqr(name=/97/presolve_131, inputs=[/97/presolve_130], perturbed=True)
+  (/97/presolve_133): BoundMul(name=/97/presolve_133, inputs=[/97/presolve_131, /97/presolve_1488], perturbed=True)
+  (/97/presolve_134): BoundAdd(name=/97/presolve_134, inputs=[/97/presolve_126, /97/presolve_133], perturbed=True)
+  (/97/presolve_136): BoundGather(name=/97/presolve_136, inputs=[/56, /97/presolve_1041], perturbed=True)
+  (/97/presolve_138): BoundAdd(name=/97/presolve_138, inputs=[/97/presolve_136, /97/presolve_185], perturbed=True)
+  (/97/presolve_139): BoundSqr(name=/97/presolve_139, inputs=[/97/presolve_138], perturbed=True)
+  (/97/presolve_141): BoundMul(name=/97/presolve_141, inputs=[/97/presolve_139, /97/presolve_1488], perturbed=True)
+  (/97/presolve_142): BoundAdd(name=/97/presolve_142, inputs=[/97/presolve_134, /97/presolve_141], perturbed=True)
+  (/97/presolve_144): BoundGather(name=/97/presolve_144, inputs=[/56, /97/presolve_1051], perturbed=True)
+  (/97/presolve_146): BoundAdd(name=/97/presolve_146, inputs=[/97/presolve_144, /97/presolve_185], perturbed=True)
+  (/97/presolve_147): BoundSqr(name=/97/presolve_147, inputs=[/97/presolve_146], perturbed=True)
+  (/97/presolve_149): BoundMul(name=/97/presolve_149, inputs=[/97/presolve_147, /97/presolve_1488], perturbed=True)
+  (/97/presolve_150): BoundAdd(name=/97/presolve_150, inputs=[/97/presolve_142, /97/presolve_149], perturbed=True)
+  (/97/presolve_152): BoundGather(name=/97/presolve_152, inputs=[/56, /97/presolve_1061], perturbed=True)
+  (/97/presolve_154): BoundAdd(name=/97/presolve_154, inputs=[/97/presolve_152, /97/presolve_185], perturbed=True)
+  (/97/presolve_155): BoundSqr(name=/97/presolve_155, inputs=[/97/presolve_154], perturbed=True)
+  (/97/presolve_157): BoundMul(name=/97/presolve_157, inputs=[/97/presolve_155, /97/presolve_1488], perturbed=True)
+  (/97/presolve_158): BoundAdd(name=/97/presolve_158, inputs=[/97/presolve_150, /97/presolve_157], perturbed=True)
+  (/97/presolve_160): BoundGather(name=/97/presolve_160, inputs=[/56, /97/presolve_1071], perturbed=True)
+  (/97/presolve_162): BoundAdd(name=/97/presolve_162, inputs=[/97/presolve_160, /97/presolve_185], perturbed=True)
+  (/97/presolve_163): BoundSqr(name=/97/presolve_163, inputs=[/97/presolve_162], perturbed=True)
+  (/97/presolve_165): BoundMul(name=/97/presolve_165, inputs=[/97/presolve_163, /97/presolve_1488], perturbed=True)
+  (/97/presolve_166): BoundAdd(name=/97/presolve_166, inputs=[/97/presolve_158, /97/presolve_165], perturbed=True)
+  (/97/presolve_168): BoundGather(name=/97/presolve_168, inputs=[/56, /97/presolve_1081], perturbed=True)
+  (/97/presolve_170): BoundAdd(name=/97/presolve_170, inputs=[/97/presolve_168, /97/presolve_185], perturbed=True)
+  (/97/presolve_171): BoundSqr(name=/97/presolve_171, inputs=[/97/presolve_170], perturbed=True)
+  (/97/presolve_173): BoundMul(name=/97/presolve_173, inputs=[/97/presolve_171, /97/presolve_1488], perturbed=True)
+  (/97/presolve_174): BoundAdd(name=/97/presolve_174, inputs=[/97/presolve_166, /97/presolve_173], perturbed=True)
+  (/97/presolve_176): BoundGather(name=/97/presolve_176, inputs=[/56, /97/presolve_1091], perturbed=True)
+  (/97/presolve_178): BoundAdd(name=/97/presolve_178, inputs=[/97/presolve_176, /97/presolve_185], perturbed=True)
+  (/97/presolve_179): BoundSqr(name=/97/presolve_179, inputs=[/97/presolve_178], perturbed=True)
+  (/97/presolve_181): BoundMul(name=/97/presolve_181, inputs=[/97/presolve_179, /97/presolve_1488], perturbed=True)
+  (/97/presolve_182): BoundAdd(name=/97/presolve_182, inputs=[/97/presolve_174, /97/presolve_181], perturbed=True)
+  (/97/presolve_184): BoundGather(name=/97/presolve_184, inputs=[/56, /97/presolve_1101], perturbed=True)
+  (/97/presolve_185): BoundConstant(name=/97/presolve_185, value=0.0740740740740742)
+  (/97/presolve_186): BoundAdd(name=/97/presolve_186, inputs=[/97/presolve_184, /97/presolve_185], perturbed=True)
+  (/97/presolve_187): BoundSqr(name=/97/presolve_187, inputs=[/97/presolve_186], perturbed=True)
+  (/97/presolve_189): BoundMul(name=/97/presolve_189, inputs=[/97/presolve_187, /97/presolve_1488], perturbed=True)
+  (/97/presolve_190): BoundAdd(name=/97/presolve_190, inputs=[/97/presolve_182, /97/presolve_189], perturbed=True)
+  (/97/presolve_192): BoundGather(name=/97/presolve_192, inputs=[/56, /97/presolve_1111], perturbed=True)
+  (/97/presolve_194): BoundAdd(name=/97/presolve_194, inputs=[/97/presolve_192, /97/presolve_249], perturbed=True)
+  (/97/presolve_195): BoundSqr(name=/97/presolve_195, inputs=[/97/presolve_194], perturbed=True)
+  (/97/presolve_197): BoundMul(name=/97/presolve_197, inputs=[/97/presolve_195, /97/presolve_1488], perturbed=True)
+  (/97/presolve_198): BoundAdd(name=/97/presolve_198, inputs=[/97/presolve_190, /97/presolve_197], perturbed=True)
+  (/97/presolve_200): BoundGather(name=/97/presolve_200, inputs=[/56, /97/presolve_1121], perturbed=True)
+  (/97/presolve_202): BoundAdd(name=/97/presolve_202, inputs=[/97/presolve_200, /97/presolve_249], perturbed=True)
+  (/97/presolve_203): BoundSqr(name=/97/presolve_203, inputs=[/97/presolve_202], perturbed=True)
+  (/97/presolve_205): BoundMul(name=/97/presolve_205, inputs=[/97/presolve_203, /97/presolve_1488], perturbed=True)
+  (/97/presolve_206): BoundAdd(name=/97/presolve_206, inputs=[/97/presolve_198, /97/presolve_205], perturbed=True)
+  (/97/presolve_208): BoundGather(name=/97/presolve_208, inputs=[/56, /97/presolve_1131], perturbed=True)
+  (/97/presolve_210): BoundAdd(name=/97/presolve_210, inputs=[/97/presolve_208, /97/presolve_249], perturbed=True)
+  (/97/presolve_211): BoundSqr(name=/97/presolve_211, inputs=[/97/presolve_210], perturbed=True)
+  (/97/presolve_213): BoundMul(name=/97/presolve_213, inputs=[/97/presolve_211, /97/presolve_1488], perturbed=True)
+  (/97/presolve_214): BoundAdd(name=/97/presolve_214, inputs=[/97/presolve_206, /97/presolve_213], perturbed=True)
+  (/97/presolve_216): BoundGather(name=/97/presolve_216, inputs=[/56, /97/presolve_1141], perturbed=True)
+  (/97/presolve_218): BoundAdd(name=/97/presolve_218, inputs=[/97/presolve_216, /97/presolve_249], perturbed=True)
+  (/97/presolve_219): BoundSqr(name=/97/presolve_219, inputs=[/97/presolve_218], perturbed=True)
+  (/97/presolve_221): BoundMul(name=/97/presolve_221, inputs=[/97/presolve_219, /97/presolve_1488], perturbed=True)
+  (/97/presolve_222): BoundAdd(name=/97/presolve_222, inputs=[/97/presolve_214, /97/presolve_221], perturbed=True)
+  (/97/presolve_224): BoundGather(name=/97/presolve_224, inputs=[/56, /97/presolve_1151], perturbed=True)
+  (/97/presolve_226): BoundAdd(name=/97/presolve_226, inputs=[/97/presolve_224, /97/presolve_249], perturbed=True)
+  (/97/presolve_227): BoundSqr(name=/97/presolve_227, inputs=[/97/presolve_226], perturbed=True)
+  (/97/presolve_229): BoundMul(name=/97/presolve_229, inputs=[/97/presolve_227, /97/presolve_1488], perturbed=True)
+  (/97/presolve_230): BoundAdd(name=/97/presolve_230, inputs=[/97/presolve_222, /97/presolve_229], perturbed=True)
+  (/97/presolve_232): BoundGather(name=/97/presolve_232, inputs=[/56, /97/presolve_1161], perturbed=True)
+  (/97/presolve_234): BoundAdd(name=/97/presolve_234, inputs=[/97/presolve_232, /97/presolve_249], perturbed=True)
+  (/97/presolve_235): BoundSqr(name=/97/presolve_235, inputs=[/97/presolve_234], perturbed=True)
+  (/97/presolve_237): BoundMul(name=/97/presolve_237, inputs=[/97/presolve_235, /97/presolve_1488], perturbed=True)
+  (/97/presolve_238): BoundAdd(name=/97/presolve_238, inputs=[/97/presolve_230, /97/presolve_237], perturbed=True)
+  (/97/presolve_240): BoundGather(name=/97/presolve_240, inputs=[/56, /97/presolve_1171], perturbed=True)
+  (/97/presolve_242): BoundAdd(name=/97/presolve_242, inputs=[/97/presolve_240, /97/presolve_249], perturbed=True)
+  (/97/presolve_243): BoundSqr(name=/97/presolve_243, inputs=[/97/presolve_242], perturbed=True)
+  (/97/presolve_245): BoundMul(name=/97/presolve_245, inputs=[/97/presolve_243, /97/presolve_1488], perturbed=True)
+  (/97/presolve_246): BoundAdd(name=/97/presolve_246, inputs=[/97/presolve_238, /97/presolve_245], perturbed=True)
+  (/97/presolve_248): BoundGather(name=/97/presolve_248, inputs=[/56, /97/presolve_1181], perturbed=True)
+  (/97/presolve_249): BoundConstant(name=/97/presolve_249, value=0.0987654320987656)
+  (/97/presolve_250): BoundAdd(name=/97/presolve_250, inputs=[/97/presolve_248, /97/presolve_249], perturbed=True)
+  (/97/presolve_251): BoundSqr(name=/97/presolve_251, inputs=[/97/presolve_250], perturbed=True)
+  (/97/presolve_253): BoundMul(name=/97/presolve_253, inputs=[/97/presolve_251, /97/presolve_1488], perturbed=True)
+  (/97/presolve_254): BoundAdd(name=/97/presolve_254, inputs=[/97/presolve_246, /97/presolve_253], perturbed=True)
+  (/97/presolve_256): BoundGather(name=/97/presolve_256, inputs=[/56, /97/presolve_1191], perturbed=True)
+  (/97/presolve_258): BoundAdd(name=/97/presolve_258, inputs=[/97/presolve_256, /97/presolve_313], perturbed=True)
+  (/97/presolve_259): BoundSqr(name=/97/presolve_259, inputs=[/97/presolve_258], perturbed=True)
+  (/97/presolve_261): BoundMul(name=/97/presolve_261, inputs=[/97/presolve_259, /97/presolve_1488], perturbed=True)
+  (/97/presolve_262): BoundAdd(name=/97/presolve_262, inputs=[/97/presolve_254, /97/presolve_261], perturbed=True)
+  (/97/presolve_264): BoundGather(name=/97/presolve_264, inputs=[/56, /97/presolve_1201], perturbed=True)
+  (/97/presolve_266): BoundAdd(name=/97/presolve_266, inputs=[/97/presolve_264, /97/presolve_313], perturbed=True)
+  (/97/presolve_267): BoundSqr(name=/97/presolve_267, inputs=[/97/presolve_266], perturbed=True)
+  (/97/presolve_269): BoundMul(name=/97/presolve_269, inputs=[/97/presolve_267, /97/presolve_1488], perturbed=True)
+  (/97/presolve_270): BoundAdd(name=/97/presolve_270, inputs=[/97/presolve_262, /97/presolve_269], perturbed=True)
+  (/97/presolve_272): BoundGather(name=/97/presolve_272, inputs=[/56, /97/presolve_1211], perturbed=True)
+  (/97/presolve_274): BoundAdd(name=/97/presolve_274, inputs=[/97/presolve_272, /97/presolve_313], perturbed=True)
+  (/97/presolve_275): BoundSqr(name=/97/presolve_275, inputs=[/97/presolve_274], perturbed=True)
+  (/97/presolve_277): BoundMul(name=/97/presolve_277, inputs=[/97/presolve_275, /97/presolve_1488], perturbed=True)
+  (/97/presolve_278): BoundAdd(name=/97/presolve_278, inputs=[/97/presolve_270, /97/presolve_277], perturbed=True)
+  (/97/presolve_280): BoundGather(name=/97/presolve_280, inputs=[/56, /97/presolve_1221], perturbed=True)
+  (/97/presolve_282): BoundAdd(name=/97/presolve_282, inputs=[/97/presolve_280, /97/presolve_313], perturbed=True)
+  (/97/presolve_283): BoundSqr(name=/97/presolve_283, inputs=[/97/presolve_282], perturbed=True)
+  (/97/presolve_285): BoundMul(name=/97/presolve_285, inputs=[/97/presolve_283, /97/presolve_1488], perturbed=True)
+  (/97/presolve_286): BoundAdd(name=/97/presolve_286, inputs=[/97/presolve_278, /97/presolve_285], perturbed=True)
+  (/97/presolve_288): BoundGather(name=/97/presolve_288, inputs=[/56, /97/presolve_1231], perturbed=True)
+  (/97/presolve_290): BoundAdd(name=/97/presolve_290, inputs=[/97/presolve_288, /97/presolve_313], perturbed=True)
+  (/97/presolve_291): BoundSqr(name=/97/presolve_291, inputs=[/97/presolve_290], perturbed=True)
+  (/97/presolve_293): BoundMul(name=/97/presolve_293, inputs=[/97/presolve_291, /97/presolve_1488], perturbed=True)
+  (/97/presolve_294): BoundAdd(name=/97/presolve_294, inputs=[/97/presolve_286, /97/presolve_293], perturbed=True)
+  (/97/presolve_296): BoundGather(name=/97/presolve_296, inputs=[/56, /97/presolve_1241], perturbed=True)
+  (/97/presolve_298): BoundAdd(name=/97/presolve_298, inputs=[/97/presolve_296, /97/presolve_313], perturbed=True)
+  (/97/presolve_299): BoundSqr(name=/97/presolve_299, inputs=[/97/presolve_298], perturbed=True)
+  (/97/presolve_301): BoundMul(name=/97/presolve_301, inputs=[/97/presolve_299, /97/presolve_1488], perturbed=True)
+  (/97/presolve_302): BoundAdd(name=/97/presolve_302, inputs=[/97/presolve_294, /97/presolve_301], perturbed=True)
+  (/97/presolve_304): BoundGather(name=/97/presolve_304, inputs=[/56, /97/presolve_1251], perturbed=True)
+  (/97/presolve_306): BoundAdd(name=/97/presolve_306, inputs=[/97/presolve_304, /97/presolve_313], perturbed=True)
+  (/97/presolve_307): BoundSqr(name=/97/presolve_307, inputs=[/97/presolve_306], perturbed=True)
+  (/97/presolve_309): BoundMul(name=/97/presolve_309, inputs=[/97/presolve_307, /97/presolve_1488], perturbed=True)
+  (/97/presolve_310): BoundAdd(name=/97/presolve_310, inputs=[/97/presolve_302, /97/presolve_309], perturbed=True)
+  (/97/presolve_312): BoundGather(name=/97/presolve_312, inputs=[/56, /97/presolve_1261], perturbed=True)
+  (/97/presolve_313): BoundConstant(name=/97/presolve_313, value=0.12345679012345699)
+  (/97/presolve_314): BoundAdd(name=/97/presolve_314, inputs=[/97/presolve_312, /97/presolve_313], perturbed=True)
+  (/97/presolve_315): BoundSqr(name=/97/presolve_315, inputs=[/97/presolve_314], perturbed=True)
+  (/97/presolve_317): BoundMul(name=/97/presolve_317, inputs=[/97/presolve_315, /97/presolve_1488], perturbed=True)
+  (/97/presolve_318): BoundAdd(name=/97/presolve_318, inputs=[/97/presolve_310, /97/presolve_317], perturbed=True)
+  (/97/presolve_320): BoundGather(name=/97/presolve_320, inputs=[/56, /97/presolve_1271], perturbed=True)
+  (/97/presolve_322): BoundAdd(name=/97/presolve_322, inputs=[/97/presolve_320, /97/presolve_377], perturbed=True)
+  (/97/presolve_323): BoundSqr(name=/97/presolve_323, inputs=[/97/presolve_322], perturbed=True)
+  (/97/presolve_325): BoundMul(name=/97/presolve_325, inputs=[/97/presolve_323, /97/presolve_1488], perturbed=True)
+  (/97/presolve_326): BoundAdd(name=/97/presolve_326, inputs=[/97/presolve_318, /97/presolve_325], perturbed=True)
+  (/97/presolve_328): BoundGather(name=/97/presolve_328, inputs=[/56, /97/presolve_1281], perturbed=True)
+  (/97/presolve_330): BoundAdd(name=/97/presolve_330, inputs=[/97/presolve_328, /97/presolve_377], perturbed=True)
+  (/97/presolve_331): BoundSqr(name=/97/presolve_331, inputs=[/97/presolve_330], perturbed=True)
+  (/97/presolve_333): BoundMul(name=/97/presolve_333, inputs=[/97/presolve_331, /97/presolve_1488], perturbed=True)
+  (/97/presolve_334): BoundAdd(name=/97/presolve_334, inputs=[/97/presolve_326, /97/presolve_333], perturbed=True)
+  (/97/presolve_336): BoundGather(name=/97/presolve_336, inputs=[/56, /97/presolve_1291], perturbed=True)
+  (/97/presolve_338): BoundAdd(name=/97/presolve_338, inputs=[/97/presolve_336, /97/presolve_377], perturbed=True)
+  (/97/presolve_339): BoundSqr(name=/97/presolve_339, inputs=[/97/presolve_338], perturbed=True)
+  (/97/presolve_341): BoundMul(name=/97/presolve_341, inputs=[/97/presolve_339, /97/presolve_1488], perturbed=True)
+  (/97/presolve_342): BoundAdd(name=/97/presolve_342, inputs=[/97/presolve_334, /97/presolve_341], perturbed=True)
+  (/97/presolve_344): BoundGather(name=/97/presolve_344, inputs=[/56, /97/presolve_1301], perturbed=True)
+  (/97/presolve_346): BoundAdd(name=/97/presolve_346, inputs=[/97/presolve_344, /97/presolve_377], perturbed=True)
+  (/97/presolve_347): BoundSqr(name=/97/presolve_347, inputs=[/97/presolve_346], perturbed=True)
+  (/97/presolve_349): BoundMul(name=/97/presolve_349, inputs=[/97/presolve_347, /97/presolve_1488], perturbed=True)
+  (/97/presolve_350): BoundAdd(name=/97/presolve_350, inputs=[/97/presolve_342, /97/presolve_349], perturbed=True)
+  (/97/presolve_352): BoundGather(name=/97/presolve_352, inputs=[/56, /97/presolve_1311], perturbed=True)
+  (/97/presolve_354): BoundAdd(name=/97/presolve_354, inputs=[/97/presolve_352, /97/presolve_377], perturbed=True)
+  (/97/presolve_355): BoundSqr(name=/97/presolve_355, inputs=[/97/presolve_354], perturbed=True)
+  (/97/presolve_357): BoundMul(name=/97/presolve_357, inputs=[/97/presolve_355, /97/presolve_1488], perturbed=True)
+  (/97/presolve_358): BoundAdd(name=/97/presolve_358, inputs=[/97/presolve_350, /97/presolve_357], perturbed=True)
+  (/97/presolve_360): BoundGather(name=/97/presolve_360, inputs=[/56, /97/presolve_1321], perturbed=True)
+  (/97/presolve_362): BoundAdd(name=/97/presolve_362, inputs=[/97/presolve_360, /97/presolve_377], perturbed=True)
+  (/97/presolve_363): BoundSqr(name=/97/presolve_363, inputs=[/97/presolve_362], perturbed=True)
+  (/97/presolve_365): BoundMul(name=/97/presolve_365, inputs=[/97/presolve_363, /97/presolve_1488], perturbed=True)
+  (/97/presolve_366): BoundAdd(name=/97/presolve_366, inputs=[/97/presolve_358, /97/presolve_365], perturbed=True)
+  (/97/presolve_368): BoundGather(name=/97/presolve_368, inputs=[/56, /97/presolve_1331], perturbed=True)
+  (/97/presolve_370): BoundAdd(name=/97/presolve_370, inputs=[/97/presolve_368, /97/presolve_377], perturbed=True)
+  (/97/presolve_371): BoundSqr(name=/97/presolve_371, inputs=[/97/presolve_370], perturbed=True)
+  (/97/presolve_373): BoundMul(name=/97/presolve_373, inputs=[/97/presolve_371, /97/presolve_1488], perturbed=True)
+  (/97/presolve_374): BoundAdd(name=/97/presolve_374, inputs=[/97/presolve_366, /97/presolve_373], perturbed=True)
+  (/97/presolve_376): BoundGather(name=/97/presolve_376, inputs=[/56, /97/presolve_1341], perturbed=True)
+  (/97/presolve_377): BoundConstant(name=/97/presolve_377, value=0.1481481481481484)
+  (/97/presolve_378): BoundAdd(name=/97/presolve_378, inputs=[/97/presolve_376, /97/presolve_377], perturbed=True)
+  (/97/presolve_379): BoundSqr(name=/97/presolve_379, inputs=[/97/presolve_378], perturbed=True)
+  (/97/presolve_381): BoundMul(name=/97/presolve_381, inputs=[/97/presolve_379, /97/presolve_1488], perturbed=True)
+  (/97/presolve_382): BoundAdd(name=/97/presolve_382, inputs=[/97/presolve_374, /97/presolve_381], perturbed=True)
+  (/97/presolve_384): BoundGather(name=/97/presolve_384, inputs=[/56, /97/presolve_1351], perturbed=True)
+  (/97/presolve_386): BoundAdd(name=/97/presolve_386, inputs=[/97/presolve_384, /97/presolve_457], perturbed=True)
+  (/97/presolve_387): BoundSqr(name=/97/presolve_387, inputs=[/97/presolve_386], perturbed=True)
+  (/97/presolve_389): BoundMul(name=/97/presolve_389, inputs=[/97/presolve_387, /97/presolve_1488], perturbed=True)
+  (/97/presolve_390): BoundAdd(name=/97/presolve_390, inputs=[/97/presolve_382, /97/presolve_389], perturbed=True)
+  (/97/presolve_392): BoundGather(name=/97/presolve_392, inputs=[/56, /97/presolve_1356], perturbed=True)
+  (/97/presolve_394): BoundAdd(name=/97/presolve_394, inputs=[/97/presolve_392, /97/presolve_553], perturbed=True)
+  (/97/presolve_395): BoundSqr(name=/97/presolve_395, inputs=[/97/presolve_394], perturbed=True)
+  (/97/presolve_397): BoundMul(name=/97/presolve_397, inputs=[/97/presolve_395, /97/presolve_1488], perturbed=True)
+  (/97/presolve_398): BoundAdd(name=/97/presolve_398, inputs=[/97/presolve_390, /97/presolve_397], perturbed=True)
+  (/97/presolve_400): BoundGather(name=/97/presolve_400, inputs=[/56, /97/presolve_1361], perturbed=True)
+  (/97/presolve_402): BoundAdd(name=/97/presolve_402, inputs=[/97/presolve_400, /97/presolve_473], perturbed=True)
+  (/97/presolve_403): BoundSqr(name=/97/presolve_403, inputs=[/97/presolve_402], perturbed=True)
+  (/97/presolve_405): BoundMul(name=/97/presolve_405, inputs=[/97/presolve_403, /97/presolve_1488], perturbed=True)
+  (/97/presolve_406): BoundAdd(name=/97/presolve_406, inputs=[/97/presolve_398, /97/presolve_405], perturbed=True)
+  (/97/presolve_408): BoundGather(name=/97/presolve_408, inputs=[/56, /97/presolve_1371], perturbed=True)
+  (/97/presolve_410): BoundAdd(name=/97/presolve_410, inputs=[/97/presolve_408, /97/presolve_457], perturbed=True)
+  (/97/presolve_411): BoundSqr(name=/97/presolve_411, inputs=[/97/presolve_410], perturbed=True)
+  (/97/presolve_413): BoundMul(name=/97/presolve_413, inputs=[/97/presolve_411, /97/presolve_1488], perturbed=True)
+  (/97/presolve_414): BoundAdd(name=/97/presolve_414, inputs=[/97/presolve_406, /97/presolve_413], perturbed=True)
+  (/97/presolve_416): BoundGather(name=/97/presolve_416, inputs=[/56, /97/presolve_1376], perturbed=True)
+  (/97/presolve_418): BoundAdd(name=/97/presolve_418, inputs=[/97/presolve_416, /97/presolve_553], perturbed=True)
+  (/97/presolve_419): BoundSqr(name=/97/presolve_419, inputs=[/97/presolve_418], perturbed=True)
+  (/97/presolve_421): BoundMul(name=/97/presolve_421, inputs=[/97/presolve_419, /97/presolve_1488], perturbed=True)
+  (/97/presolve_422): BoundAdd(name=/97/presolve_422, inputs=[/97/presolve_414, /97/presolve_421], perturbed=True)
+  (/97/presolve_424): BoundGather(name=/97/presolve_424, inputs=[/56, /97/presolve_1381], perturbed=True)
+  (/97/presolve_426): BoundAdd(name=/97/presolve_426, inputs=[/97/presolve_424, /97/presolve_473], perturbed=True)
+  (/97/presolve_427): BoundSqr(name=/97/presolve_427, inputs=[/97/presolve_426], perturbed=True)
+  (/97/presolve_429): BoundMul(name=/97/presolve_429, inputs=[/97/presolve_427, /97/presolve_1488], perturbed=True)
+  (/97/presolve_430): BoundAdd(name=/97/presolve_430, inputs=[/97/presolve_422, /97/presolve_429], perturbed=True)
+  (/97/presolve_432): BoundGather(name=/97/presolve_432, inputs=[/56, /97/presolve_1391], perturbed=True)
+  (/97/presolve_434): BoundAdd(name=/97/presolve_434, inputs=[/97/presolve_432, /97/presolve_457], perturbed=True)
+  (/97/presolve_435): BoundSqr(name=/97/presolve_435, inputs=[/97/presolve_434], perturbed=True)
+  (/97/presolve_437): BoundMul(name=/97/presolve_437, inputs=[/97/presolve_435, /97/presolve_1488], perturbed=True)
+  (/97/presolve_438): BoundAdd(name=/97/presolve_438, inputs=[/97/presolve_430, /97/presolve_437], perturbed=True)
+  (/97/presolve_440): BoundGather(name=/97/presolve_440, inputs=[/56, /97/presolve_1396], perturbed=True)
+  (/97/presolve_442): BoundAdd(name=/97/presolve_442, inputs=[/97/presolve_440, /97/presolve_553], perturbed=True)
+  (/97/presolve_443): BoundSqr(name=/97/presolve_443, inputs=[/97/presolve_442], perturbed=True)
+  (/97/presolve_445): BoundMul(name=/97/presolve_445, inputs=[/97/presolve_443, /97/presolve_1488], perturbed=True)
+  (/97/presolve_446): BoundAdd(name=/97/presolve_446, inputs=[/97/presolve_438, /97/presolve_445], perturbed=True)
+  (/97/presolve_448): BoundGather(name=/97/presolve_448, inputs=[/56, /97/presolve_1401], perturbed=True)
+  (/97/presolve_450): BoundAdd(name=/97/presolve_450, inputs=[/97/presolve_448, /97/presolve_473], perturbed=True)
+  (/97/presolve_451): BoundSqr(name=/97/presolve_451, inputs=[/97/presolve_450], perturbed=True)
+  (/97/presolve_453): BoundMul(name=/97/presolve_453, inputs=[/97/presolve_451, /97/presolve_1488], perturbed=True)
+  (/97/presolve_454): BoundAdd(name=/97/presolve_454, inputs=[/97/presolve_446, /97/presolve_453], perturbed=True)
+  (/97/presolve_456): BoundGather(name=/97/presolve_456, inputs=[/56, /97/presolve_1411], perturbed=True)
+  (/97/presolve_457): BoundConstant(name=/97/presolve_457, value=0.17283950617283977)
+  (/97/presolve_458): BoundAdd(name=/97/presolve_458, inputs=[/97/presolve_456, /97/presolve_457], perturbed=True)
+  (/97/presolve_459): BoundSqr(name=/97/presolve_459, inputs=[/97/presolve_458], perturbed=True)
+  (/97/presolve_461): BoundMul(name=/97/presolve_461, inputs=[/97/presolve_459, /97/presolve_1488], perturbed=True)
+  (/97/presolve_462): BoundAdd(name=/97/presolve_462, inputs=[/97/presolve_454, /97/presolve_461], perturbed=True)
+  (/97/presolve_464): BoundGather(name=/97/presolve_464, inputs=[/56, /97/presolve_1416], perturbed=True)
+  (/97/presolve_466): BoundAdd(name=/97/presolve_466, inputs=[/97/presolve_464, /97/presolve_553], perturbed=True)
+  (/97/presolve_467): BoundSqr(name=/97/presolve_467, inputs=[/97/presolve_466], perturbed=True)
+  (/97/presolve_469): BoundMul(name=/97/presolve_469, inputs=[/97/presolve_467, /97/presolve_1488], perturbed=True)
+  (/97/presolve_470): BoundAdd(name=/97/presolve_470, inputs=[/97/presolve_462, /97/presolve_469], perturbed=True)
+  (/97/presolve_472): BoundGather(name=/97/presolve_472, inputs=[/56, /97/presolve_1421], perturbed=True)
+  (/97/presolve_473): BoundConstant(name=/97/presolve_473, value=0.1728395061728398)
+  (/97/presolve_474): BoundAdd(name=/97/presolve_474, inputs=[/97/presolve_472, /97/presolve_473], perturbed=True)
+  (/97/presolve_475): BoundSqr(name=/97/presolve_475, inputs=[/97/presolve_474], perturbed=True)
+  (/97/presolve_477): BoundMul(name=/97/presolve_477, inputs=[/97/presolve_475, /97/presolve_1488], perturbed=True)
+  (/97/presolve_478): BoundAdd(name=/97/presolve_478, inputs=[/97/presolve_470, /97/presolve_477], perturbed=True)
+  (/97/presolve_480): BoundGather(name=/97/presolve_480, inputs=[/56, /97/presolve_1436], perturbed=True)
+  (/97/presolve_481): BoundConstant(name=/97/presolve_481, value=0.1975308641975312)
+  (/97/presolve_482): BoundAdd(name=/97/presolve_482, inputs=[/97/presolve_480, /97/presolve_481], perturbed=True)
+  (/97/presolve_483): BoundSqr(name=/97/presolve_483, inputs=[/97/presolve_482], perturbed=True)
+  (/97/presolve_485): BoundMul(name=/97/presolve_485, inputs=[/97/presolve_483, /97/presolve_1488], perturbed=True)
+  (/97/presolve_486): BoundAdd(name=/97/presolve_486, inputs=[/97/presolve_478, /97/presolve_485], perturbed=True)
+  (/97/presolve_488): BoundGather(name=/97/presolve_488, inputs=[/56, /97/presolve_535], perturbed=True)
+  (/97/presolve_489): BoundConstant(name=/97/presolve_489, value=0.3950617283950624)
+  (/97/presolve_490): BoundAdd(name=/97/presolve_490, inputs=[/97/presolve_488, /97/presolve_489], perturbed=True)
+  (/97/presolve_491): BoundSqr(name=/97/presolve_491, inputs=[/97/presolve_490], perturbed=True)
+  (/97/presolve_493): BoundMul(name=/97/presolve_493, inputs=[/97/presolve_491, /97/presolve_1488], perturbed=True)
+  (/97/presolve_494): BoundAdd(name=/97/presolve_494, inputs=[/97/presolve_486, /97/presolve_493], perturbed=True)
+  (/97/presolve_496): BoundGather(name=/97/presolve_496, inputs=[/56, /97/presolve_1451], perturbed=True)
+  (/97/presolve_497): BoundConstant(name=/97/presolve_497, value=0.5925925925925936)
+  (/97/presolve_498): BoundAdd(name=/97/presolve_498, inputs=[/97/presolve_496, /97/presolve_497], perturbed=True)
+  (/97/presolve_499): BoundSqr(name=/97/presolve_499, inputs=[/97/presolve_498], perturbed=True)
+  (/97/presolve_501): BoundMul(name=/97/presolve_501, inputs=[/97/presolve_499, /97/presolve_1488], perturbed=True)
+  (/97/presolve_502): BoundAdd(name=/97/presolve_502, inputs=[/97/presolve_494, /97/presolve_501], perturbed=True)
+  (/97/presolve_504): BoundGather(name=/97/presolve_504, inputs=[/56, /97/presolve_543], perturbed=True)
+  (/97/presolve_505): BoundConstant(name=/97/presolve_505, value=0.7901234567901247)
+  (/97/presolve_506): BoundAdd(name=/97/presolve_506, inputs=[/97/presolve_504, /97/presolve_505], perturbed=True)
+  (/97/presolve_507): BoundSqr(name=/97/presolve_507, inputs=[/97/presolve_506], perturbed=True)
+  (/97/presolve_509): BoundMul(name=/97/presolve_509, inputs=[/97/presolve_507, /97/presolve_1488], perturbed=True)
+  (/97/presolve_510): BoundAdd(name=/97/presolve_510, inputs=[/97/presolve_502, /97/presolve_509], perturbed=True)
+  (/97/presolve_512): BoundGather(name=/97/presolve_512, inputs=[/56, /97/presolve_1466], perturbed=True)
+  (/97/presolve_513): BoundConstant(name=/97/presolve_513, value=0.9876543209876559)
+  (/97/presolve_514): BoundAdd(name=/97/presolve_514, inputs=[/97/presolve_512, /97/presolve_513], perturbed=True)
+  (/97/presolve_515): BoundSqr(name=/97/presolve_515, inputs=[/97/presolve_514], perturbed=True)
+  (/97/presolve_517): BoundMul(name=/97/presolve_517, inputs=[/97/presolve_515, /97/presolve_1488], perturbed=True)
+  (/97/presolve_518): BoundAdd(name=/97/presolve_518, inputs=[/97/presolve_510, /97/presolve_517], perturbed=True)
+  (/97/presolve_520): BoundGather(name=/97/presolve_520, inputs=[/56, /97/presolve_551], perturbed=True)
+  (/97/presolve_521): BoundConstant(name=/97/presolve_521, value=1.1851851851851871)
+  (/97/presolve_522): BoundAdd(name=/97/presolve_522, inputs=[/97/presolve_520, /97/presolve_521], perturbed=True)
+  (/97/presolve_523): BoundSqr(name=/97/presolve_523, inputs=[/97/presolve_522], perturbed=True)
+  (/97/presolve_525): BoundMul(name=/97/presolve_525, inputs=[/97/presolve_523, /97/presolve_1488], perturbed=True)
+  (/97/presolve_526): BoundAdd(name=/97/presolve_526, inputs=[/97/presolve_518, /97/presolve_525], perturbed=True)
+  (/97/presolve_528): BoundGather(name=/97/presolve_528, inputs=[/56, /97/presolve_1481], perturbed=True)
+  (/97/presolve_529): BoundConstant(name=/97/presolve_529, value=1.3827160493827182)
+  (/97/presolve_530): BoundAdd(name=/97/presolve_530, inputs=[/97/presolve_528, /97/presolve_529], perturbed=True)
+  (/97/presolve_531): BoundSqr(name=/97/presolve_531, inputs=[/97/presolve_530], perturbed=True)
+  (/97/presolve_533): BoundMul(name=/97/presolve_533, inputs=[/97/presolve_531, /97/presolve_1488], perturbed=True)
+  (/97/presolve_534): BoundAdd(name=/97/presolve_534, inputs=[/97/presolve_526, /97/presolve_533], perturbed=True)
+  (/97/presolve_535): BoundConstant(name=/97/presolve_535, value=tensor([115], device='cuda:0'))
+  (/97/presolve_536): BoundGather(name=/97/presolve_536, inputs=[/75, /97/presolve_535], perturbed=True)
+  (/97/presolve_538): BoundAdd(name=/97/presolve_538, inputs=[/97/presolve_536, /97/presolve_553], perturbed=True)
+  (/97/presolve_539): BoundSqr(name=/97/presolve_539, inputs=[/97/presolve_538], perturbed=True)
+  (/97/presolve_541): BoundMul(name=/97/presolve_541, inputs=[/97/presolve_539, /97/presolve_1488], perturbed=True)
+  (/97/presolve_542): BoundAdd(name=/97/presolve_542, inputs=[/97/presolve_534, /97/presolve_541], perturbed=True)
+  (/97/presolve_543): BoundConstant(name=/97/presolve_543, value=tensor([119], device='cuda:0'))
+  (/97/presolve_544): BoundGather(name=/97/presolve_544, inputs=[/75, /97/presolve_543], perturbed=True)
+  (/97/presolve_546): BoundAdd(name=/97/presolve_546, inputs=[/97/presolve_544, /97/presolve_553], perturbed=True)
+  (/97/presolve_547): BoundSqr(name=/97/presolve_547, inputs=[/97/presolve_546], perturbed=True)
+  (/97/presolve_549): BoundMul(name=/97/presolve_549, inputs=[/97/presolve_547, /97/presolve_1488], perturbed=True)
+  (/97/presolve_550): BoundAdd(name=/97/presolve_550, inputs=[/97/presolve_542, /97/presolve_549], perturbed=True)
+  (/97/presolve_551): BoundConstant(name=/97/presolve_551, value=tensor([123], device='cuda:0'))
+  (/97/presolve_552): BoundGather(name=/97/presolve_552, inputs=[/75, /97/presolve_551], perturbed=True)
+  (/97/presolve_553): BoundConstant(name=/97/presolve_553, value=1.3877787807814457e-17)
+  (/97/presolve_554): BoundAdd(name=/97/presolve_554, inputs=[/97/presolve_552, /97/presolve_553], perturbed=True)
+  (/97/presolve_555): BoundSqr(name=/97/presolve_555, inputs=[/97/presolve_554], perturbed=True)
+  (/97/presolve_557): BoundMul(name=/97/presolve_557, inputs=[/97/presolve_555, /97/presolve_1488], perturbed=True)
+  (/97/presolve_558): BoundAdd(name=/97/presolve_558, inputs=[/97/presolve_550, /97/presolve_557], perturbed=True)
+  (/97/presolve_560): BoundGather(name=/97/presolve_560, inputs=[/75, /97/presolve_866], perturbed=True)
+  (/97/presolve_561): BoundConstant(name=/97/presolve_561, value=-9.71445146547012e-17)
+  (/97/presolve_562): BoundAdd(name=/97/presolve_562, inputs=[/97/presolve_560, /97/presolve_561], perturbed=True)
+  (/97/presolve_563): BoundSqr(name=/97/presolve_563, inputs=[/97/presolve_562], perturbed=True)
+  (/97/presolve_565): BoundMul(name=/97/presolve_565, inputs=[/97/presolve_563, /97/presolve_1488], perturbed=True)
+  (/97/presolve_566): BoundAdd(name=/97/presolve_566, inputs=[/97/presolve_558, /97/presolve_565], perturbed=True)
+  (/97/presolve_568): BoundGather(name=/97/presolve_568, inputs=[/63/hidden_square, /97/presolve_876], perturbed=True)
+  (/97/presolve_570): BoundMul(name=/97/presolve_570, inputs=[/97/presolve_568, /97/presolve_1488], perturbed=True)
+  (/97/presolve_572): BoundGather(name=/97/presolve_572, inputs=[/63/hidden_square, /97/presolve_886], perturbed=True)
+  (/97/presolve_574): BoundMul(name=/97/presolve_574, inputs=[/97/presolve_572, /97/presolve_1488], perturbed=True)
+  (/97/presolve_575): BoundAdd(name=/97/presolve_575, inputs=[/97/presolve_570, /97/presolve_574], perturbed=True)
+  (/97/presolve_577): BoundGather(name=/97/presolve_577, inputs=[/63/hidden_square, /97/presolve_896], perturbed=True)
+  (/97/presolve_579): BoundMul(name=/97/presolve_579, inputs=[/97/presolve_577, /97/presolve_1488], perturbed=True)
+  (/97/presolve_580): BoundAdd(name=/97/presolve_580, inputs=[/97/presolve_575, /97/presolve_579], perturbed=True)
+  (/97/presolve_582): BoundGather(name=/97/presolve_582, inputs=[/63/hidden_square, /97/presolve_906], perturbed=True)
+  (/97/presolve_584): BoundMul(name=/97/presolve_584, inputs=[/97/presolve_582, /97/presolve_1488], perturbed=True)
+  (/97/presolve_585): BoundAdd(name=/97/presolve_585, inputs=[/97/presolve_580, /97/presolve_584], perturbed=True)
+  (/97/presolve_587): BoundGather(name=/97/presolve_587, inputs=[/63/hidden_square, /97/presolve_916], perturbed=True)
+  (/97/presolve_589): BoundMul(name=/97/presolve_589, inputs=[/97/presolve_587, /97/presolve_1488], perturbed=True)
+  (/97/presolve_590): BoundAdd(name=/97/presolve_590, inputs=[/97/presolve_585, /97/presolve_589], perturbed=True)
+  (/97/presolve_592): BoundGather(name=/97/presolve_592, inputs=[/63/hidden_square, /97/presolve_926], perturbed=True)
+  (/97/presolve_594): BoundMul(name=/97/presolve_594, inputs=[/97/presolve_592, /97/presolve_1488], perturbed=True)
+  (/97/presolve_595): BoundAdd(name=/97/presolve_595, inputs=[/97/presolve_590, /97/presolve_594], perturbed=True)
+  (/97/presolve_597): BoundGather(name=/97/presolve_597, inputs=[/63/hidden_square, /97/presolve_936], perturbed=True)
+  (/97/presolve_599): BoundMul(name=/97/presolve_599, inputs=[/97/presolve_597, /97/presolve_1488], perturbed=True)
+  (/97/presolve_600): BoundAdd(name=/97/presolve_600, inputs=[/97/presolve_595, /97/presolve_599], perturbed=True)
+  (/97/presolve_602): BoundGather(name=/97/presolve_602, inputs=[/63/hidden_square, /97/presolve_946], perturbed=True)
+  (/97/presolve_604): BoundMul(name=/97/presolve_604, inputs=[/97/presolve_602, /97/presolve_1488], perturbed=True)
+  (/97/presolve_605): BoundAdd(name=/97/presolve_605, inputs=[/97/presolve_600, /97/presolve_604], perturbed=True)
+  (/97/presolve_607): BoundGather(name=/97/presolve_607, inputs=[/63/hidden_square, /97/presolve_956], perturbed=True)
+  (/97/presolve_609): BoundMul(name=/97/presolve_609, inputs=[/97/presolve_607, /97/presolve_1488], perturbed=True)
+  (/97/presolve_610): BoundAdd(name=/97/presolve_610, inputs=[/97/presolve_605, /97/presolve_609], perturbed=True)
+  (/97/presolve_612): BoundGather(name=/97/presolve_612, inputs=[/63/hidden_square, /97/presolve_966], perturbed=True)
+  (/97/presolve_614): BoundMul(name=/97/presolve_614, inputs=[/97/presolve_612, /97/presolve_1488], perturbed=True)
+  (/97/presolve_615): BoundAdd(name=/97/presolve_615, inputs=[/97/presolve_610, /97/presolve_614], perturbed=True)
+  (/97/presolve_617): BoundGather(name=/97/presolve_617, inputs=[/63/hidden_square, /97/presolve_976], perturbed=True)
+  (/97/presolve_619): BoundMul(name=/97/presolve_619, inputs=[/97/presolve_617, /97/presolve_1488], perturbed=True)
+  (/97/presolve_620): BoundAdd(name=/97/presolve_620, inputs=[/97/presolve_615, /97/presolve_619], perturbed=True)
+  (/97/presolve_622): BoundGather(name=/97/presolve_622, inputs=[/63/hidden_square, /97/presolve_986], perturbed=True)
+  (/97/presolve_624): BoundMul(name=/97/presolve_624, inputs=[/97/presolve_622, /97/presolve_1488], perturbed=True)
+  (/97/presolve_625): BoundAdd(name=/97/presolve_625, inputs=[/97/presolve_620, /97/presolve_624], perturbed=True)
+  (/97/presolve_627): BoundGather(name=/97/presolve_627, inputs=[/63/hidden_square, /97/presolve_996], perturbed=True)
+  (/97/presolve_629): BoundMul(name=/97/presolve_629, inputs=[/97/presolve_627, /97/presolve_1488], perturbed=True)
+  (/97/presolve_630): BoundAdd(name=/97/presolve_630, inputs=[/97/presolve_625, /97/presolve_629], perturbed=True)
+  (/97/presolve_632): BoundGather(name=/97/presolve_632, inputs=[/63/hidden_square, /97/presolve_1006], perturbed=True)
+  (/97/presolve_634): BoundMul(name=/97/presolve_634, inputs=[/97/presolve_632, /97/presolve_1488], perturbed=True)
+  (/97/presolve_635): BoundAdd(name=/97/presolve_635, inputs=[/97/presolve_630, /97/presolve_634], perturbed=True)
+  (/97/presolve_637): BoundGather(name=/97/presolve_637, inputs=[/63/hidden_square, /97/presolve_1016], perturbed=True)
+  (/97/presolve_639): BoundMul(name=/97/presolve_639, inputs=[/97/presolve_637, /97/presolve_1488], perturbed=True)
+  (/97/presolve_640): BoundAdd(name=/97/presolve_640, inputs=[/97/presolve_635, /97/presolve_639], perturbed=True)
+  (/97/presolve_642): BoundGather(name=/97/presolve_642, inputs=[/63/hidden_square, /97/presolve_1026], perturbed=True)
+  (/97/presolve_644): BoundMul(name=/97/presolve_644, inputs=[/97/presolve_642, /97/presolve_1488], perturbed=True)
+  (/97/presolve_645): BoundAdd(name=/97/presolve_645, inputs=[/97/presolve_640, /97/presolve_644], perturbed=True)
+  (/97/presolve_647): BoundGather(name=/97/presolve_647, inputs=[/63/hidden_square, /97/presolve_1036], perturbed=True)
+  (/97/presolve_649): BoundMul(name=/97/presolve_649, inputs=[/97/presolve_647, /97/presolve_1488], perturbed=True)
+  (/97/presolve_650): BoundAdd(name=/97/presolve_650, inputs=[/97/presolve_645, /97/presolve_649], perturbed=True)
+  (/97/presolve_652): BoundGather(name=/97/presolve_652, inputs=[/63/hidden_square, /97/presolve_1046], perturbed=True)
+  (/97/presolve_654): BoundMul(name=/97/presolve_654, inputs=[/97/presolve_652, /97/presolve_1488], perturbed=True)
+  (/97/presolve_655): BoundAdd(name=/97/presolve_655, inputs=[/97/presolve_650, /97/presolve_654], perturbed=True)
+  (/97/presolve_657): BoundGather(name=/97/presolve_657, inputs=[/63/hidden_square, /97/presolve_1056], perturbed=True)
+  (/97/presolve_659): BoundMul(name=/97/presolve_659, inputs=[/97/presolve_657, /97/presolve_1488], perturbed=True)
+  (/97/presolve_660): BoundAdd(name=/97/presolve_660, inputs=[/97/presolve_655, /97/presolve_659], perturbed=True)
+  (/97/presolve_662): BoundGather(name=/97/presolve_662, inputs=[/63/hidden_square, /97/presolve_1066], perturbed=True)
+  (/97/presolve_664): BoundMul(name=/97/presolve_664, inputs=[/97/presolve_662, /97/presolve_1488], perturbed=True)
+  (/97/presolve_665): BoundAdd(name=/97/presolve_665, inputs=[/97/presolve_660, /97/presolve_664], perturbed=True)
+  (/97/presolve_667): BoundGather(name=/97/presolve_667, inputs=[/63/hidden_square, /97/presolve_1076], perturbed=True)
+  (/97/presolve_669): BoundMul(name=/97/presolve_669, inputs=[/97/presolve_667, /97/presolve_1488], perturbed=True)
+  (/97/presolve_670): BoundAdd(name=/97/presolve_670, inputs=[/97/presolve_665, /97/presolve_669], perturbed=True)
+  (/97/presolve_672): BoundGather(name=/97/presolve_672, inputs=[/63/hidden_square, /97/presolve_1086], perturbed=True)
+  (/97/presolve_674): BoundMul(name=/97/presolve_674, inputs=[/97/presolve_672, /97/presolve_1488], perturbed=True)
+  (/97/presolve_675): BoundAdd(name=/97/presolve_675, inputs=[/97/presolve_670, /97/presolve_674], perturbed=True)
+  (/97/presolve_677): BoundGather(name=/97/presolve_677, inputs=[/63/hidden_square, /97/presolve_1096], perturbed=True)
+  (/97/presolve_679): BoundMul(name=/97/presolve_679, inputs=[/97/presolve_677, /97/presolve_1488], perturbed=True)
+  (/97/presolve_680): BoundAdd(name=/97/presolve_680, inputs=[/97/presolve_675, /97/presolve_679], perturbed=True)
+  (/97/presolve_682): BoundGather(name=/97/presolve_682, inputs=[/63/hidden_square, /97/presolve_1106], perturbed=True)
+  (/97/presolve_684): BoundMul(name=/97/presolve_684, inputs=[/97/presolve_682, /97/presolve_1488], perturbed=True)
+  (/97/presolve_685): BoundAdd(name=/97/presolve_685, inputs=[/97/presolve_680, /97/presolve_684], perturbed=True)
+  (/97/presolve_687): BoundGather(name=/97/presolve_687, inputs=[/63/hidden_square, /97/presolve_1116], perturbed=True)
+  (/97/presolve_689): BoundMul(name=/97/presolve_689, inputs=[/97/presolve_687, /97/presolve_1488], perturbed=True)
+  (/97/presolve_690): BoundAdd(name=/97/presolve_690, inputs=[/97/presolve_685, /97/presolve_689], perturbed=True)
+  (/97/presolve_692): BoundGather(name=/97/presolve_692, inputs=[/63/hidden_square, /97/presolve_1126], perturbed=True)
+  (/97/presolve_694): BoundMul(name=/97/presolve_694, inputs=[/97/presolve_692, /97/presolve_1488], perturbed=True)
+  (/97/presolve_695): BoundAdd(name=/97/presolve_695, inputs=[/97/presolve_690, /97/presolve_694], perturbed=True)
+  (/97/presolve_697): BoundGather(name=/97/presolve_697, inputs=[/63/hidden_square, /97/presolve_1136], perturbed=True)
+  (/97/presolve_699): BoundMul(name=/97/presolve_699, inputs=[/97/presolve_697, /97/presolve_1488], perturbed=True)
+  (/97/presolve_700): BoundAdd(name=/97/presolve_700, inputs=[/97/presolve_695, /97/presolve_699], perturbed=True)
+  (/97/presolve_702): BoundGather(name=/97/presolve_702, inputs=[/63/hidden_square, /97/presolve_1146], perturbed=True)
+  (/97/presolve_704): BoundMul(name=/97/presolve_704, inputs=[/97/presolve_702, /97/presolve_1488], perturbed=True)
+  (/97/presolve_705): BoundAdd(name=/97/presolve_705, inputs=[/97/presolve_700, /97/presolve_704], perturbed=True)
+  (/97/presolve_707): BoundGather(name=/97/presolve_707, inputs=[/63/hidden_square, /97/presolve_1156], perturbed=True)
+  (/97/presolve_709): BoundMul(name=/97/presolve_709, inputs=[/97/presolve_707, /97/presolve_1488], perturbed=True)
+  (/97/presolve_710): BoundAdd(name=/97/presolve_710, inputs=[/97/presolve_705, /97/presolve_709], perturbed=True)
+  (/97/presolve_712): BoundGather(name=/97/presolve_712, inputs=[/63/hidden_square, /97/presolve_1166], perturbed=True)
+  (/97/presolve_714): BoundMul(name=/97/presolve_714, inputs=[/97/presolve_712, /97/presolve_1488], perturbed=True)
+  (/97/presolve_715): BoundAdd(name=/97/presolve_715, inputs=[/97/presolve_710, /97/presolve_714], perturbed=True)
+  (/97/presolve_717): BoundGather(name=/97/presolve_717, inputs=[/63/hidden_square, /97/presolve_1176], perturbed=True)
+  (/97/presolve_719): BoundMul(name=/97/presolve_719, inputs=[/97/presolve_717, /97/presolve_1488], perturbed=True)
+  (/97/presolve_720): BoundAdd(name=/97/presolve_720, inputs=[/97/presolve_715, /97/presolve_719], perturbed=True)
+  (/97/presolve_722): BoundGather(name=/97/presolve_722, inputs=[/63/hidden_square, /97/presolve_1186], perturbed=True)
+  (/97/presolve_724): BoundMul(name=/97/presolve_724, inputs=[/97/presolve_722, /97/presolve_1488], perturbed=True)
+  (/97/presolve_725): BoundAdd(name=/97/presolve_725, inputs=[/97/presolve_720, /97/presolve_724], perturbed=True)
+  (/97/presolve_727): BoundGather(name=/97/presolve_727, inputs=[/63/hidden_square, /97/presolve_1196], perturbed=True)
+  (/97/presolve_729): BoundMul(name=/97/presolve_729, inputs=[/97/presolve_727, /97/presolve_1488], perturbed=True)
+  (/97/presolve_730): BoundAdd(name=/97/presolve_730, inputs=[/97/presolve_725, /97/presolve_729], perturbed=True)
+  (/97/presolve_732): BoundGather(name=/97/presolve_732, inputs=[/63/hidden_square, /97/presolve_1206], perturbed=True)
+  (/97/presolve_734): BoundMul(name=/97/presolve_734, inputs=[/97/presolve_732, /97/presolve_1488], perturbed=True)
+  (/97/presolve_735): BoundAdd(name=/97/presolve_735, inputs=[/97/presolve_730, /97/presolve_734], perturbed=True)
+  (/97/presolve_737): BoundGather(name=/97/presolve_737, inputs=[/63/hidden_square, /97/presolve_1216], perturbed=True)
+  (/97/presolve_739): BoundMul(name=/97/presolve_739, inputs=[/97/presolve_737, /97/presolve_1488], perturbed=True)
+  (/97/presolve_740): BoundAdd(name=/97/presolve_740, inputs=[/97/presolve_735, /97/presolve_739], perturbed=True)
+  (/97/presolve_742): BoundGather(name=/97/presolve_742, inputs=[/63/hidden_square, /97/presolve_1226], perturbed=True)
+  (/97/presolve_744): BoundMul(name=/97/presolve_744, inputs=[/97/presolve_742, /97/presolve_1488], perturbed=True)
+  (/97/presolve_745): BoundAdd(name=/97/presolve_745, inputs=[/97/presolve_740, /97/presolve_744], perturbed=True)
+  (/97/presolve_747): BoundGather(name=/97/presolve_747, inputs=[/63/hidden_square, /97/presolve_1236], perturbed=True)
+  (/97/presolve_749): BoundMul(name=/97/presolve_749, inputs=[/97/presolve_747, /97/presolve_1488], perturbed=True)
+  (/97/presolve_750): BoundAdd(name=/97/presolve_750, inputs=[/97/presolve_745, /97/presolve_749], perturbed=True)
+  (/97/presolve_752): BoundGather(name=/97/presolve_752, inputs=[/63/hidden_square, /97/presolve_1246], perturbed=True)
+  (/97/presolve_754): BoundMul(name=/97/presolve_754, inputs=[/97/presolve_752, /97/presolve_1488], perturbed=True)
+  (/97/presolve_755): BoundAdd(name=/97/presolve_755, inputs=[/97/presolve_750, /97/presolve_754], perturbed=True)
+  (/97/presolve_757): BoundGather(name=/97/presolve_757, inputs=[/63/hidden_square, /97/presolve_1256], perturbed=True)
+  (/97/presolve_759): BoundMul(name=/97/presolve_759, inputs=[/97/presolve_757, /97/presolve_1488], perturbed=True)
+  (/97/presolve_760): BoundAdd(name=/97/presolve_760, inputs=[/97/presolve_755, /97/presolve_759], perturbed=True)
+  (/97/presolve_762): BoundGather(name=/97/presolve_762, inputs=[/63/hidden_square, /97/presolve_1266], perturbed=True)
+  (/97/presolve_764): BoundMul(name=/97/presolve_764, inputs=[/97/presolve_762, /97/presolve_1488], perturbed=True)
+  (/97/presolve_765): BoundAdd(name=/97/presolve_765, inputs=[/97/presolve_760, /97/presolve_764], perturbed=True)
+  (/97/presolve_767): BoundGather(name=/97/presolve_767, inputs=[/63/hidden_square, /97/presolve_1276], perturbed=True)
+  (/97/presolve_769): BoundMul(name=/97/presolve_769, inputs=[/97/presolve_767, /97/presolve_1488], perturbed=True)
+  (/97/presolve_770): BoundAdd(name=/97/presolve_770, inputs=[/97/presolve_765, /97/presolve_769], perturbed=True)
+  (/97/presolve_772): BoundGather(name=/97/presolve_772, inputs=[/63/hidden_square, /97/presolve_1286], perturbed=True)
+  (/97/presolve_774): BoundMul(name=/97/presolve_774, inputs=[/97/presolve_772, /97/presolve_1488], perturbed=True)
+  (/97/presolve_775): BoundAdd(name=/97/presolve_775, inputs=[/97/presolve_770, /97/presolve_774], perturbed=True)
+  (/97/presolve_777): BoundGather(name=/97/presolve_777, inputs=[/63/hidden_square, /97/presolve_1491], perturbed=True)
+  (/97/presolve_779): BoundMul(name=/97/presolve_779, inputs=[/97/presolve_777, /97/presolve_1488], perturbed=True)
+  (/97/presolve_780): BoundAdd(name=/97/presolve_780, inputs=[/97/presolve_775, /97/presolve_779], perturbed=True)
+  (/97/presolve_782): BoundGather(name=/97/presolve_782, inputs=[/63/hidden_square, /97/presolve_1306], perturbed=True)
+  (/97/presolve_784): BoundMul(name=/97/presolve_784, inputs=[/97/presolve_782, /97/presolve_1488], perturbed=True)
+  (/97/presolve_785): BoundAdd(name=/97/presolve_785, inputs=[/97/presolve_780, /97/presolve_784], perturbed=True)
+  (/97/presolve_787): BoundGather(name=/97/presolve_787, inputs=[/63/hidden_square, /97/presolve_1316], perturbed=True)
+  (/97/presolve_789): BoundMul(name=/97/presolve_789, inputs=[/97/presolve_787, /97/presolve_1488], perturbed=True)
+  (/97/presolve_790): BoundAdd(name=/97/presolve_790, inputs=[/97/presolve_785, /97/presolve_789], perturbed=True)
+  (/97/presolve_792): BoundGather(name=/97/presolve_792, inputs=[/63/hidden_square, /97/presolve_1326], perturbed=True)
+  (/97/presolve_794): BoundMul(name=/97/presolve_794, inputs=[/97/presolve_792, /97/presolve_1488], perturbed=True)
+  (/97/presolve_795): BoundAdd(name=/97/presolve_795, inputs=[/97/presolve_790, /97/presolve_794], perturbed=True)
+  (/97/presolve_797): BoundGather(name=/97/presolve_797, inputs=[/63/hidden_square, /97/presolve_1336], perturbed=True)
+  (/97/presolve_799): BoundMul(name=/97/presolve_799, inputs=[/97/presolve_797, /97/presolve_1488], perturbed=True)
+  (/97/presolve_800): BoundAdd(name=/97/presolve_800, inputs=[/97/presolve_795, /97/presolve_799], perturbed=True)
+  (/97/presolve_802): BoundGather(name=/97/presolve_802, inputs=[/63/hidden_square, /97/presolve_1346], perturbed=True)
+  (/97/presolve_804): BoundMul(name=/97/presolve_804, inputs=[/97/presolve_802, /97/presolve_1488], perturbed=True)
+  (/97/presolve_805): BoundAdd(name=/97/presolve_805, inputs=[/97/presolve_800, /97/presolve_804], perturbed=True)
+  (/97/presolve_807): BoundGather(name=/97/presolve_807, inputs=[/63/hidden_square, /97/presolve_1366], perturbed=True)
+  (/97/presolve_809): BoundMul(name=/97/presolve_809, inputs=[/97/presolve_807, /97/presolve_1488], perturbed=True)
+  (/97/presolve_810): BoundAdd(name=/97/presolve_810, inputs=[/97/presolve_805, /97/presolve_809], perturbed=True)
+  (/97/presolve_812): BoundGather(name=/97/presolve_812, inputs=[/63/hidden_square, /97/presolve_1386], perturbed=True)
+  (/97/presolve_814): BoundMul(name=/97/presolve_814, inputs=[/97/presolve_812, /97/presolve_1488], perturbed=True)
+  (/97/presolve_815): BoundAdd(name=/97/presolve_815, inputs=[/97/presolve_810, /97/presolve_814], perturbed=True)
+  (/97/presolve_817): BoundGather(name=/97/presolve_817, inputs=[/63/hidden_square, /97/presolve_1406], perturbed=True)
+  (/97/presolve_819): BoundMul(name=/97/presolve_819, inputs=[/97/presolve_817, /97/presolve_1488], perturbed=True)
+  (/97/presolve_820): BoundAdd(name=/97/presolve_820, inputs=[/97/presolve_815, /97/presolve_819], perturbed=True)
+  (/97/presolve_822): BoundGather(name=/97/presolve_822, inputs=[/63/hidden_square, /97/presolve_1426], perturbed=True)
+  (/97/presolve_824): BoundMul(name=/97/presolve_824, inputs=[/97/presolve_822, /97/presolve_1488], perturbed=True)
+  (/97/presolve_825): BoundAdd(name=/97/presolve_825, inputs=[/97/presolve_820, /97/presolve_824], perturbed=True)
+  (/97/presolve_827): BoundGather(name=/97/presolve_827, inputs=[/63/hidden_square, /97/presolve_1431], perturbed=True)
+  (/97/presolve_829): BoundMul(name=/97/presolve_829, inputs=[/97/presolve_827, /97/presolve_1488], perturbed=True)
+  (/97/presolve_830): BoundAdd(name=/97/presolve_830, inputs=[/97/presolve_825, /97/presolve_829], perturbed=True)
+  (/97/presolve_832): BoundGather(name=/97/presolve_832, inputs=[/63/hidden_square, /97/presolve_1441], perturbed=True)
+  (/97/presolve_834): BoundMul(name=/97/presolve_834, inputs=[/97/presolve_832, /97/presolve_1488], perturbed=True)
+  (/97/presolve_835): BoundAdd(name=/97/presolve_835, inputs=[/97/presolve_830, /97/presolve_834], perturbed=True)
+  (/97/presolve_837): BoundGather(name=/97/presolve_837, inputs=[/63/hidden_square, /97/presolve_1446], perturbed=True)
+  (/97/presolve_839): BoundMul(name=/97/presolve_839, inputs=[/97/presolve_837, /97/presolve_1488], perturbed=True)
+  (/97/presolve_840): BoundAdd(name=/97/presolve_840, inputs=[/97/presolve_835, /97/presolve_839], perturbed=True)
+  (/97/presolve_842): BoundGather(name=/97/presolve_842, inputs=[/63/hidden_square, /97/presolve_1456], perturbed=True)
+  (/97/presolve_844): BoundMul(name=/97/presolve_844, inputs=[/97/presolve_842, /97/presolve_1488], perturbed=True)
+  (/97/presolve_845): BoundAdd(name=/97/presolve_845, inputs=[/97/presolve_840, /97/presolve_844], perturbed=True)
+  (/97/presolve_847): BoundGather(name=/97/presolve_847, inputs=[/63/hidden_square, /97/presolve_1461], perturbed=True)
+  (/97/presolve_849): BoundMul(name=/97/presolve_849, inputs=[/97/presolve_847, /97/presolve_1488], perturbed=True)
+  (/97/presolve_850): BoundAdd(name=/97/presolve_850, inputs=[/97/presolve_845, /97/presolve_849], perturbed=True)
+  (/97/presolve_852): BoundGather(name=/97/presolve_852, inputs=[/63/hidden_square, /97/presolve_1471], perturbed=True)
+  (/97/presolve_854): BoundMul(name=/97/presolve_854, inputs=[/97/presolve_852, /97/presolve_1488], perturbed=True)
+  (/97/presolve_855): BoundAdd(name=/97/presolve_855, inputs=[/97/presolve_850, /97/presolve_854], perturbed=True)
+  (/97/presolve_857): BoundGather(name=/97/presolve_857, inputs=[/63/hidden_square, /97/presolve_1476], perturbed=True)
+  (/97/presolve_859): BoundMul(name=/97/presolve_859, inputs=[/97/presolve_857, /97/presolve_1488], perturbed=True)
+  (/97/presolve_860): BoundAdd(name=/97/presolve_860, inputs=[/97/presolve_855, /97/presolve_859], perturbed=True)
+  (/97/presolve_862): BoundGather(name=/97/presolve_862, inputs=[/63/hidden_square, /97/presolve_1486], perturbed=True)
+  (/97/presolve_864): BoundMul(name=/97/presolve_864, inputs=[/97/presolve_862, /97/presolve_1488], perturbed=True)
+  (/97/presolve_865): BoundAdd(name=/97/presolve_865, inputs=[/97/presolve_860, /97/presolve_864], perturbed=True)
+  (/97/presolve_866): BoundConstant(name=/97/presolve_866, value=tensor([127], device='cuda:0'))
+  (/97/presolve_867): BoundGather(name=/97/presolve_867, inputs=[/63/hidden_square, /97/presolve_866], perturbed=True)
+  (/97/presolve_869): BoundMul(name=/97/presolve_869, inputs=[/97/presolve_867, /97/presolve_1488], perturbed=True)
+  (/97/presolve_870): BoundAdd(name=/97/presolve_870, inputs=[/97/presolve_865, /97/presolve_869], perturbed=True)
+  (/97/presolve_872): BoundGather(name=/97/presolve_872, inputs=[/82/hidden_square, /64], perturbed=True)
+  (/97/presolve_874): BoundMul(name=/97/presolve_874, inputs=[/97/presolve_872, /97/presolve_1488], perturbed=True)
+  (/97/presolve_875): BoundAdd(name=/97/presolve_875, inputs=[/97/presolve_870, /97/presolve_874], perturbed=True)
+  (/97/presolve_876): BoundConstant(name=/97/presolve_876, value=tensor([1], device='cuda:0'))
+  (/97/presolve_877): BoundGather(name=/97/presolve_877, inputs=[/82/hidden_square, /97/presolve_876], perturbed=True)
+  (/97/presolve_879): BoundMul(name=/97/presolve_879, inputs=[/97/presolve_877, /97/presolve_1488], perturbed=True)
+  (/97/presolve_880): BoundAdd(name=/97/presolve_880, inputs=[/97/presolve_875, /97/presolve_879], perturbed=True)
+  (/97/presolve_881): BoundConstant(name=/97/presolve_881, value=tensor([2], device='cuda:0'))
+  (/97/presolve_882): BoundGather(name=/97/presolve_882, inputs=[/82/hidden_square, /97/presolve_881], perturbed=True)
+  (/97/presolve_884): BoundMul(name=/97/presolve_884, inputs=[/97/presolve_882, /97/presolve_1488], perturbed=True)
+  (/97/presolve_885): BoundAdd(name=/97/presolve_885, inputs=[/97/presolve_880, /97/presolve_884], perturbed=True)
+  (/97/presolve_886): BoundConstant(name=/97/presolve_886, value=tensor([3], device='cuda:0'))
+  (/97/presolve_887): BoundGather(name=/97/presolve_887, inputs=[/82/hidden_square, /97/presolve_886], perturbed=True)
+  (/97/presolve_889): BoundMul(name=/97/presolve_889, inputs=[/97/presolve_887, /97/presolve_1488], perturbed=True)
+  (/97/presolve_890): BoundAdd(name=/97/presolve_890, inputs=[/97/presolve_885, /97/presolve_889], perturbed=True)
+  (/97/presolve_891): BoundConstant(name=/97/presolve_891, value=tensor([4], device='cuda:0'))
+  (/97/presolve_892): BoundGather(name=/97/presolve_892, inputs=[/82/hidden_square, /97/presolve_891], perturbed=True)
+  (/97/presolve_894): BoundMul(name=/97/presolve_894, inputs=[/97/presolve_892, /97/presolve_1488], perturbed=True)
+  (/97/presolve_895): BoundAdd(name=/97/presolve_895, inputs=[/97/presolve_890, /97/presolve_894], perturbed=True)
+  (/97/presolve_896): BoundConstant(name=/97/presolve_896, value=tensor([5], device='cuda:0'))
+  (/97/presolve_897): BoundGather(name=/97/presolve_897, inputs=[/82/hidden_square, /97/presolve_896], perturbed=True)
+  (/97/presolve_899): BoundMul(name=/97/presolve_899, inputs=[/97/presolve_897, /97/presolve_1488], perturbed=True)
+  (/97/presolve_900): BoundAdd(name=/97/presolve_900, inputs=[/97/presolve_895, /97/presolve_899], perturbed=True)
+  (/97/presolve_901): BoundConstant(name=/97/presolve_901, value=tensor([6], device='cuda:0'))
+  (/97/presolve_902): BoundGather(name=/97/presolve_902, inputs=[/82/hidden_square, /97/presolve_901], perturbed=True)
+  (/97/presolve_904): BoundMul(name=/97/presolve_904, inputs=[/97/presolve_902, /97/presolve_1488], perturbed=True)
+  (/97/presolve_905): BoundAdd(name=/97/presolve_905, inputs=[/97/presolve_900, /97/presolve_904], perturbed=True)
+  (/97/presolve_906): BoundConstant(name=/97/presolve_906, value=tensor([7], device='cuda:0'))
+  (/97/presolve_907): BoundGather(name=/97/presolve_907, inputs=[/82/hidden_square, /97/presolve_906], perturbed=True)
+  (/97/presolve_909): BoundMul(name=/97/presolve_909, inputs=[/97/presolve_907, /97/presolve_1488], perturbed=True)
+  (/97/presolve_910): BoundAdd(name=/97/presolve_910, inputs=[/97/presolve_905, /97/presolve_909], perturbed=True)
+  (/97/presolve_911): BoundConstant(name=/97/presolve_911, value=tensor([8], device='cuda:0'))
+  (/97/presolve_912): BoundGather(name=/97/presolve_912, inputs=[/82/hidden_square, /97/presolve_911], perturbed=True)
+  (/97/presolve_914): BoundMul(name=/97/presolve_914, inputs=[/97/presolve_912, /97/presolve_1488], perturbed=True)
+  (/97/presolve_915): BoundAdd(name=/97/presolve_915, inputs=[/97/presolve_910, /97/presolve_914], perturbed=True)
+  (/97/presolve_916): BoundConstant(name=/97/presolve_916, value=tensor([9], device='cuda:0'))
+  (/97/presolve_917): BoundGather(name=/97/presolve_917, inputs=[/82/hidden_square, /97/presolve_916], perturbed=True)
+  (/97/presolve_919): BoundMul(name=/97/presolve_919, inputs=[/97/presolve_917, /97/presolve_1488], perturbed=True)
+  (/97/presolve_920): BoundAdd(name=/97/presolve_920, inputs=[/97/presolve_915, /97/presolve_919], perturbed=True)
+  (/97/presolve_921): BoundConstant(name=/97/presolve_921, value=tensor([10], device='cuda:0'))
+  (/97/presolve_922): BoundGather(name=/97/presolve_922, inputs=[/82/hidden_square, /97/presolve_921], perturbed=True)
+  (/97/presolve_924): BoundMul(name=/97/presolve_924, inputs=[/97/presolve_922, /97/presolve_1488], perturbed=True)
+  (/97/presolve_925): BoundAdd(name=/97/presolve_925, inputs=[/97/presolve_920, /97/presolve_924], perturbed=True)
+  (/97/presolve_926): BoundConstant(name=/97/presolve_926, value=tensor([11], device='cuda:0'))
+  (/97/presolve_927): BoundGather(name=/97/presolve_927, inputs=[/82/hidden_square, /97/presolve_926], perturbed=True)
+  (/97/presolve_929): BoundMul(name=/97/presolve_929, inputs=[/97/presolve_927, /97/presolve_1488], perturbed=True)
+  (/97/presolve_930): BoundAdd(name=/97/presolve_930, inputs=[/97/presolve_925, /97/presolve_929], perturbed=True)
+  (/97/presolve_931): BoundConstant(name=/97/presolve_931, value=tensor([12], device='cuda:0'))
+  (/97/presolve_932): BoundGather(name=/97/presolve_932, inputs=[/82/hidden_square, /97/presolve_931], perturbed=True)
+  (/97/presolve_934): BoundMul(name=/97/presolve_934, inputs=[/97/presolve_932, /97/presolve_1488], perturbed=True)
+  (/97/presolve_935): BoundAdd(name=/97/presolve_935, inputs=[/97/presolve_930, /97/presolve_934], perturbed=True)
+  (/97/presolve_936): BoundConstant(name=/97/presolve_936, value=tensor([13], device='cuda:0'))
+  (/97/presolve_937): BoundGather(name=/97/presolve_937, inputs=[/82/hidden_square, /97/presolve_936], perturbed=True)
+  (/97/presolve_939): BoundMul(name=/97/presolve_939, inputs=[/97/presolve_937, /97/presolve_1488], perturbed=True)
+  (/97/presolve_940): BoundAdd(name=/97/presolve_940, inputs=[/97/presolve_935, /97/presolve_939], perturbed=True)
+  (/97/presolve_941): BoundConstant(name=/97/presolve_941, value=tensor([14], device='cuda:0'))
+  (/97/presolve_942): BoundGather(name=/97/presolve_942, inputs=[/82/hidden_square, /97/presolve_941], perturbed=True)
+  (/97/presolve_944): BoundMul(name=/97/presolve_944, inputs=[/97/presolve_942, /97/presolve_1488], perturbed=True)
+  (/97/presolve_945): BoundAdd(name=/97/presolve_945, inputs=[/97/presolve_940, /97/presolve_944], perturbed=True)
+  (/97/presolve_946): BoundConstant(name=/97/presolve_946, value=tensor([15], device='cuda:0'))
+  (/97/presolve_947): BoundGather(name=/97/presolve_947, inputs=[/82/hidden_square, /97/presolve_946], perturbed=True)
+  (/97/presolve_949): BoundMul(name=/97/presolve_949, inputs=[/97/presolve_947, /97/presolve_1488], perturbed=True)
+  (/97/presolve_950): BoundAdd(name=/97/presolve_950, inputs=[/97/presolve_945, /97/presolve_949], perturbed=True)
+  (/97/presolve_951): BoundConstant(name=/97/presolve_951, value=tensor([16], device='cuda:0'))
+  (/97/presolve_952): BoundGather(name=/97/presolve_952, inputs=[/82/hidden_square, /97/presolve_951], perturbed=True)
+  (/97/presolve_954): BoundMul(name=/97/presolve_954, inputs=[/97/presolve_952, /97/presolve_1488], perturbed=True)
+  (/97/presolve_955): BoundAdd(name=/97/presolve_955, inputs=[/97/presolve_950, /97/presolve_954], perturbed=True)
+  (/97/presolve_956): BoundConstant(name=/97/presolve_956, value=tensor([17], device='cuda:0'))
+  (/97/presolve_957): BoundGather(name=/97/presolve_957, inputs=[/82/hidden_square, /97/presolve_956], perturbed=True)
+  (/97/presolve_959): BoundMul(name=/97/presolve_959, inputs=[/97/presolve_957, /97/presolve_1488], perturbed=True)
+  (/97/presolve_960): BoundAdd(name=/97/presolve_960, inputs=[/97/presolve_955, /97/presolve_959], perturbed=True)
+  (/97/presolve_961): BoundConstant(name=/97/presolve_961, value=tensor([18], device='cuda:0'))
+  (/97/presolve_962): BoundGather(name=/97/presolve_962, inputs=[/82/hidden_square, /97/presolve_961], perturbed=True)
+  (/97/presolve_964): BoundMul(name=/97/presolve_964, inputs=[/97/presolve_962, /97/presolve_1488], perturbed=True)
+  (/97/presolve_965): BoundAdd(name=/97/presolve_965, inputs=[/97/presolve_960, /97/presolve_964], perturbed=True)
+  (/97/presolve_966): BoundConstant(name=/97/presolve_966, value=tensor([19], device='cuda:0'))
+  (/97/presolve_967): BoundGather(name=/97/presolve_967, inputs=[/82/hidden_square, /97/presolve_966], perturbed=True)
+  (/97/presolve_969): BoundMul(name=/97/presolve_969, inputs=[/97/presolve_967, /97/presolve_1488], perturbed=True)
+  (/97/presolve_970): BoundAdd(name=/97/presolve_970, inputs=[/97/presolve_965, /97/presolve_969], perturbed=True)
+  (/97/presolve_971): BoundConstant(name=/97/presolve_971, value=tensor([20], device='cuda:0'))
+  (/97/presolve_972): BoundGather(name=/97/presolve_972, inputs=[/82/hidden_square, /97/presolve_971], perturbed=True)
+  (/97/presolve_974): BoundMul(name=/97/presolve_974, inputs=[/97/presolve_972, /97/presolve_1488], perturbed=True)
+  (/97/presolve_975): BoundAdd(name=/97/presolve_975, inputs=[/97/presolve_970, /97/presolve_974], perturbed=True)
+  (/97/presolve_976): BoundConstant(name=/97/presolve_976, value=tensor([21], device='cuda:0'))
+  (/97/presolve_977): BoundGather(name=/97/presolve_977, inputs=[/82/hidden_square, /97/presolve_976], perturbed=True)
+  (/97/presolve_979): BoundMul(name=/97/presolve_979, inputs=[/97/presolve_977, /97/presolve_1488], perturbed=True)
+  (/97/presolve_980): BoundAdd(name=/97/presolve_980, inputs=[/97/presolve_975, /97/presolve_979], perturbed=True)
+  (/97/presolve_981): BoundConstant(name=/97/presolve_981, value=tensor([22], device='cuda:0'))
+  (/97/presolve_982): BoundGather(name=/97/presolve_982, inputs=[/82/hidden_square, /97/presolve_981], perturbed=True)
+  (/97/presolve_984): BoundMul(name=/97/presolve_984, inputs=[/97/presolve_982, /97/presolve_1488], perturbed=True)
+  (/97/presolve_985): BoundAdd(name=/97/presolve_985, inputs=[/97/presolve_980, /97/presolve_984], perturbed=True)
+  (/97/presolve_986): BoundConstant(name=/97/presolve_986, value=tensor([23], device='cuda:0'))
+  (/97/presolve_987): BoundGather(name=/97/presolve_987, inputs=[/82/hidden_square, /97/presolve_986], perturbed=True)
+  (/97/presolve_989): BoundMul(name=/97/presolve_989, inputs=[/97/presolve_987, /97/presolve_1488], perturbed=True)
+  (/97/presolve_990): BoundAdd(name=/97/presolve_990, inputs=[/97/presolve_985, /97/presolve_989], perturbed=True)
+  (/97/presolve_991): BoundConstant(name=/97/presolve_991, value=tensor([24], device='cuda:0'))
+  (/97/presolve_992): BoundGather(name=/97/presolve_992, inputs=[/82/hidden_square, /97/presolve_991], perturbed=True)
+  (/97/presolve_994): BoundMul(name=/97/presolve_994, inputs=[/97/presolve_992, /97/presolve_1488], perturbed=True)
+  (/97/presolve_995): BoundAdd(name=/97/presolve_995, inputs=[/97/presolve_990, /97/presolve_994], perturbed=True)
+  (/97/presolve_996): BoundConstant(name=/97/presolve_996, value=tensor([25], device='cuda:0'))
+  (/97/presolve_997): BoundGather(name=/97/presolve_997, inputs=[/82/hidden_square, /97/presolve_996], perturbed=True)
+  (/97/presolve_999): BoundMul(name=/97/presolve_999, inputs=[/97/presolve_997, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1000): BoundAdd(name=/97/presolve_1000, inputs=[/97/presolve_995, /97/presolve_999], perturbed=True)
+  (/97/presolve_1001): BoundConstant(name=/97/presolve_1001, value=tensor([26], device='cuda:0'))
+  (/97/presolve_1002): BoundGather(name=/97/presolve_1002, inputs=[/82/hidden_square, /97/presolve_1001], perturbed=True)
+  (/97/presolve_1004): BoundMul(name=/97/presolve_1004, inputs=[/97/presolve_1002, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1005): BoundAdd(name=/97/presolve_1005, inputs=[/97/presolve_1000, /97/presolve_1004], perturbed=True)
+  (/97/presolve_1006): BoundConstant(name=/97/presolve_1006, value=tensor([27], device='cuda:0'))
+  (/97/presolve_1007): BoundGather(name=/97/presolve_1007, inputs=[/82/hidden_square, /97/presolve_1006], perturbed=True)
+  (/97/presolve_1009): BoundMul(name=/97/presolve_1009, inputs=[/97/presolve_1007, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1010): BoundAdd(name=/97/presolve_1010, inputs=[/97/presolve_1005, /97/presolve_1009], perturbed=True)
+  (/97/presolve_1011): BoundConstant(name=/97/presolve_1011, value=tensor([28], device='cuda:0'))
+  (/97/presolve_1012): BoundGather(name=/97/presolve_1012, inputs=[/82/hidden_square, /97/presolve_1011], perturbed=True)
+  (/97/presolve_1014): BoundMul(name=/97/presolve_1014, inputs=[/97/presolve_1012, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1015): BoundAdd(name=/97/presolve_1015, inputs=[/97/presolve_1010, /97/presolve_1014], perturbed=True)
+  (/97/presolve_1016): BoundConstant(name=/97/presolve_1016, value=tensor([29], device='cuda:0'))
+  (/97/presolve_1017): BoundGather(name=/97/presolve_1017, inputs=[/82/hidden_square, /97/presolve_1016], perturbed=True)
+  (/97/presolve_1019): BoundMul(name=/97/presolve_1019, inputs=[/97/presolve_1017, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1020): BoundAdd(name=/97/presolve_1020, inputs=[/97/presolve_1015, /97/presolve_1019], perturbed=True)
+  (/97/presolve_1021): BoundConstant(name=/97/presolve_1021, value=tensor([30], device='cuda:0'))
+  (/97/presolve_1022): BoundGather(name=/97/presolve_1022, inputs=[/82/hidden_square, /97/presolve_1021], perturbed=True)
+  (/97/presolve_1024): BoundMul(name=/97/presolve_1024, inputs=[/97/presolve_1022, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1025): BoundAdd(name=/97/presolve_1025, inputs=[/97/presolve_1020, /97/presolve_1024], perturbed=True)
+  (/97/presolve_1026): BoundConstant(name=/97/presolve_1026, value=tensor([31], device='cuda:0'))
+  (/97/presolve_1027): BoundGather(name=/97/presolve_1027, inputs=[/82/hidden_square, /97/presolve_1026], perturbed=True)
+  (/97/presolve_1029): BoundMul(name=/97/presolve_1029, inputs=[/97/presolve_1027, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1030): BoundAdd(name=/97/presolve_1030, inputs=[/97/presolve_1025, /97/presolve_1029], perturbed=True)
+  (/97/presolve_1031): BoundConstant(name=/97/presolve_1031, value=tensor([32], device='cuda:0'))
+  (/97/presolve_1032): BoundGather(name=/97/presolve_1032, inputs=[/82/hidden_square, /97/presolve_1031], perturbed=True)
+  (/97/presolve_1034): BoundMul(name=/97/presolve_1034, inputs=[/97/presolve_1032, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1035): BoundAdd(name=/97/presolve_1035, inputs=[/97/presolve_1030, /97/presolve_1034], perturbed=True)
+  (/97/presolve_1036): BoundConstant(name=/97/presolve_1036, value=tensor([33], device='cuda:0'))
+  (/97/presolve_1037): BoundGather(name=/97/presolve_1037, inputs=[/82/hidden_square, /97/presolve_1036], perturbed=True)
+  (/97/presolve_1039): BoundMul(name=/97/presolve_1039, inputs=[/97/presolve_1037, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1040): BoundAdd(name=/97/presolve_1040, inputs=[/97/presolve_1035, /97/presolve_1039], perturbed=True)
+  (/97/presolve_1041): BoundConstant(name=/97/presolve_1041, value=tensor([34], device='cuda:0'))
+  (/97/presolve_1042): BoundGather(name=/97/presolve_1042, inputs=[/82/hidden_square, /97/presolve_1041], perturbed=True)
+  (/97/presolve_1044): BoundMul(name=/97/presolve_1044, inputs=[/97/presolve_1042, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1045): BoundAdd(name=/97/presolve_1045, inputs=[/97/presolve_1040, /97/presolve_1044], perturbed=True)
+  (/97/presolve_1046): BoundConstant(name=/97/presolve_1046, value=tensor([35], device='cuda:0'))
+  (/97/presolve_1047): BoundGather(name=/97/presolve_1047, inputs=[/82/hidden_square, /97/presolve_1046], perturbed=True)
+  (/97/presolve_1049): BoundMul(name=/97/presolve_1049, inputs=[/97/presolve_1047, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1050): BoundAdd(name=/97/presolve_1050, inputs=[/97/presolve_1045, /97/presolve_1049], perturbed=True)
+  (/97/presolve_1051): BoundConstant(name=/97/presolve_1051, value=tensor([36], device='cuda:0'))
+  (/97/presolve_1052): BoundGather(name=/97/presolve_1052, inputs=[/82/hidden_square, /97/presolve_1051], perturbed=True)
+  (/97/presolve_1054): BoundMul(name=/97/presolve_1054, inputs=[/97/presolve_1052, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1055): BoundAdd(name=/97/presolve_1055, inputs=[/97/presolve_1050, /97/presolve_1054], perturbed=True)
+  (/97/presolve_1056): BoundConstant(name=/97/presolve_1056, value=tensor([37], device='cuda:0'))
+  (/97/presolve_1057): BoundGather(name=/97/presolve_1057, inputs=[/82/hidden_square, /97/presolve_1056], perturbed=True)
+  (/97/presolve_1059): BoundMul(name=/97/presolve_1059, inputs=[/97/presolve_1057, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1060): BoundAdd(name=/97/presolve_1060, inputs=[/97/presolve_1055, /97/presolve_1059], perturbed=True)
+  (/97/presolve_1061): BoundConstant(name=/97/presolve_1061, value=tensor([38], device='cuda:0'))
+  (/97/presolve_1062): BoundGather(name=/97/presolve_1062, inputs=[/82/hidden_square, /97/presolve_1061], perturbed=True)
+  (/97/presolve_1064): BoundMul(name=/97/presolve_1064, inputs=[/97/presolve_1062, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1065): BoundAdd(name=/97/presolve_1065, inputs=[/97/presolve_1060, /97/presolve_1064], perturbed=True)
+  (/97/presolve_1066): BoundConstant(name=/97/presolve_1066, value=tensor([39], device='cuda:0'))
+  (/97/presolve_1067): BoundGather(name=/97/presolve_1067, inputs=[/82/hidden_square, /97/presolve_1066], perturbed=True)
+  (/97/presolve_1069): BoundMul(name=/97/presolve_1069, inputs=[/97/presolve_1067, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1070): BoundAdd(name=/97/presolve_1070, inputs=[/97/presolve_1065, /97/presolve_1069], perturbed=True)
+  (/97/presolve_1071): BoundConstant(name=/97/presolve_1071, value=tensor([40], device='cuda:0'))
+  (/97/presolve_1072): BoundGather(name=/97/presolve_1072, inputs=[/82/hidden_square, /97/presolve_1071], perturbed=True)
+  (/97/presolve_1074): BoundMul(name=/97/presolve_1074, inputs=[/97/presolve_1072, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1075): BoundAdd(name=/97/presolve_1075, inputs=[/97/presolve_1070, /97/presolve_1074], perturbed=True)
+  (/97/presolve_1076): BoundConstant(name=/97/presolve_1076, value=tensor([41], device='cuda:0'))
+  (/97/presolve_1077): BoundGather(name=/97/presolve_1077, inputs=[/82/hidden_square, /97/presolve_1076], perturbed=True)
+  (/97/presolve_1079): BoundMul(name=/97/presolve_1079, inputs=[/97/presolve_1077, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1080): BoundAdd(name=/97/presolve_1080, inputs=[/97/presolve_1075, /97/presolve_1079], perturbed=True)
+  (/97/presolve_1081): BoundConstant(name=/97/presolve_1081, value=tensor([42], device='cuda:0'))
+  (/97/presolve_1082): BoundGather(name=/97/presolve_1082, inputs=[/82/hidden_square, /97/presolve_1081], perturbed=True)
+  (/97/presolve_1084): BoundMul(name=/97/presolve_1084, inputs=[/97/presolve_1082, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1085): BoundAdd(name=/97/presolve_1085, inputs=[/97/presolve_1080, /97/presolve_1084], perturbed=True)
+  (/97/presolve_1086): BoundConstant(name=/97/presolve_1086, value=tensor([43], device='cuda:0'))
+  (/97/presolve_1087): BoundGather(name=/97/presolve_1087, inputs=[/82/hidden_square, /97/presolve_1086], perturbed=True)
+  (/97/presolve_1089): BoundMul(name=/97/presolve_1089, inputs=[/97/presolve_1087, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1090): BoundAdd(name=/97/presolve_1090, inputs=[/97/presolve_1085, /97/presolve_1089], perturbed=True)
+  (/97/presolve_1091): BoundConstant(name=/97/presolve_1091, value=tensor([44], device='cuda:0'))
+  (/97/presolve_1092): BoundGather(name=/97/presolve_1092, inputs=[/82/hidden_square, /97/presolve_1091], perturbed=True)
+  (/97/presolve_1094): BoundMul(name=/97/presolve_1094, inputs=[/97/presolve_1092, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1095): BoundAdd(name=/97/presolve_1095, inputs=[/97/presolve_1090, /97/presolve_1094], perturbed=True)
+  (/97/presolve_1096): BoundConstant(name=/97/presolve_1096, value=tensor([45], device='cuda:0'))
+  (/97/presolve_1097): BoundGather(name=/97/presolve_1097, inputs=[/82/hidden_square, /97/presolve_1096], perturbed=True)
+  (/97/presolve_1099): BoundMul(name=/97/presolve_1099, inputs=[/97/presolve_1097, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1100): BoundAdd(name=/97/presolve_1100, inputs=[/97/presolve_1095, /97/presolve_1099], perturbed=True)
+  (/97/presolve_1101): BoundConstant(name=/97/presolve_1101, value=tensor([46], device='cuda:0'))
+  (/97/presolve_1102): BoundGather(name=/97/presolve_1102, inputs=[/82/hidden_square, /97/presolve_1101], perturbed=True)
+  (/97/presolve_1104): BoundMul(name=/97/presolve_1104, inputs=[/97/presolve_1102, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1105): BoundAdd(name=/97/presolve_1105, inputs=[/97/presolve_1100, /97/presolve_1104], perturbed=True)
+  (/97/presolve_1106): BoundConstant(name=/97/presolve_1106, value=tensor([47], device='cuda:0'))
+  (/97/presolve_1107): BoundGather(name=/97/presolve_1107, inputs=[/82/hidden_square, /97/presolve_1106], perturbed=True)
+  (/97/presolve_1109): BoundMul(name=/97/presolve_1109, inputs=[/97/presolve_1107, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1110): BoundAdd(name=/97/presolve_1110, inputs=[/97/presolve_1105, /97/presolve_1109], perturbed=True)
+  (/97/presolve_1111): BoundConstant(name=/97/presolve_1111, value=tensor([48], device='cuda:0'))
+  (/97/presolve_1112): BoundGather(name=/97/presolve_1112, inputs=[/82/hidden_square, /97/presolve_1111], perturbed=True)
+  (/97/presolve_1114): BoundMul(name=/97/presolve_1114, inputs=[/97/presolve_1112, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1115): BoundAdd(name=/97/presolve_1115, inputs=[/97/presolve_1110, /97/presolve_1114], perturbed=True)
+  (/97/presolve_1116): BoundConstant(name=/97/presolve_1116, value=tensor([49], device='cuda:0'))
+  (/97/presolve_1117): BoundGather(name=/97/presolve_1117, inputs=[/82/hidden_square, /97/presolve_1116], perturbed=True)
+  (/97/presolve_1119): BoundMul(name=/97/presolve_1119, inputs=[/97/presolve_1117, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1120): BoundAdd(name=/97/presolve_1120, inputs=[/97/presolve_1115, /97/presolve_1119], perturbed=True)
+  (/97/presolve_1121): BoundConstant(name=/97/presolve_1121, value=tensor([50], device='cuda:0'))
+  (/97/presolve_1122): BoundGather(name=/97/presolve_1122, inputs=[/82/hidden_square, /97/presolve_1121], perturbed=True)
+  (/97/presolve_1124): BoundMul(name=/97/presolve_1124, inputs=[/97/presolve_1122, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1125): BoundAdd(name=/97/presolve_1125, inputs=[/97/presolve_1120, /97/presolve_1124], perturbed=True)
+  (/97/presolve_1126): BoundConstant(name=/97/presolve_1126, value=tensor([51], device='cuda:0'))
+  (/97/presolve_1127): BoundGather(name=/97/presolve_1127, inputs=[/82/hidden_square, /97/presolve_1126], perturbed=True)
+  (/97/presolve_1129): BoundMul(name=/97/presolve_1129, inputs=[/97/presolve_1127, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1130): BoundAdd(name=/97/presolve_1130, inputs=[/97/presolve_1125, /97/presolve_1129], perturbed=True)
+  (/97/presolve_1131): BoundConstant(name=/97/presolve_1131, value=tensor([52], device='cuda:0'))
+  (/97/presolve_1132): BoundGather(name=/97/presolve_1132, inputs=[/82/hidden_square, /97/presolve_1131], perturbed=True)
+  (/97/presolve_1134): BoundMul(name=/97/presolve_1134, inputs=[/97/presolve_1132, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1135): BoundAdd(name=/97/presolve_1135, inputs=[/97/presolve_1130, /97/presolve_1134], perturbed=True)
+  (/97/presolve_1136): BoundConstant(name=/97/presolve_1136, value=tensor([53], device='cuda:0'))
+  (/97/presolve_1137): BoundGather(name=/97/presolve_1137, inputs=[/82/hidden_square, /97/presolve_1136], perturbed=True)
+  (/97/presolve_1139): BoundMul(name=/97/presolve_1139, inputs=[/97/presolve_1137, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1140): BoundAdd(name=/97/presolve_1140, inputs=[/97/presolve_1135, /97/presolve_1139], perturbed=True)
+  (/97/presolve_1141): BoundConstant(name=/97/presolve_1141, value=tensor([54], device='cuda:0'))
+  (/97/presolve_1142): BoundGather(name=/97/presolve_1142, inputs=[/82/hidden_square, /97/presolve_1141], perturbed=True)
+  (/97/presolve_1144): BoundMul(name=/97/presolve_1144, inputs=[/97/presolve_1142, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1145): BoundAdd(name=/97/presolve_1145, inputs=[/97/presolve_1140, /97/presolve_1144], perturbed=True)
+  (/97/presolve_1146): BoundConstant(name=/97/presolve_1146, value=tensor([55], device='cuda:0'))
+  (/97/presolve_1147): BoundGather(name=/97/presolve_1147, inputs=[/82/hidden_square, /97/presolve_1146], perturbed=True)
+  (/97/presolve_1149): BoundMul(name=/97/presolve_1149, inputs=[/97/presolve_1147, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1150): BoundAdd(name=/97/presolve_1150, inputs=[/97/presolve_1145, /97/presolve_1149], perturbed=True)
+  (/97/presolve_1151): BoundConstant(name=/97/presolve_1151, value=tensor([56], device='cuda:0'))
+  (/97/presolve_1152): BoundGather(name=/97/presolve_1152, inputs=[/82/hidden_square, /97/presolve_1151], perturbed=True)
+  (/97/presolve_1154): BoundMul(name=/97/presolve_1154, inputs=[/97/presolve_1152, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1155): BoundAdd(name=/97/presolve_1155, inputs=[/97/presolve_1150, /97/presolve_1154], perturbed=True)
+  (/97/presolve_1156): BoundConstant(name=/97/presolve_1156, value=tensor([57], device='cuda:0'))
+  (/97/presolve_1157): BoundGather(name=/97/presolve_1157, inputs=[/82/hidden_square, /97/presolve_1156], perturbed=True)
+  (/97/presolve_1159): BoundMul(name=/97/presolve_1159, inputs=[/97/presolve_1157, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1160): BoundAdd(name=/97/presolve_1160, inputs=[/97/presolve_1155, /97/presolve_1159], perturbed=True)
+  (/97/presolve_1161): BoundConstant(name=/97/presolve_1161, value=tensor([58], device='cuda:0'))
+  (/97/presolve_1162): BoundGather(name=/97/presolve_1162, inputs=[/82/hidden_square, /97/presolve_1161], perturbed=True)
+  (/97/presolve_1164): BoundMul(name=/97/presolve_1164, inputs=[/97/presolve_1162, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1165): BoundAdd(name=/97/presolve_1165, inputs=[/97/presolve_1160, /97/presolve_1164], perturbed=True)
+  (/97/presolve_1166): BoundConstant(name=/97/presolve_1166, value=tensor([59], device='cuda:0'))
+  (/97/presolve_1167): BoundGather(name=/97/presolve_1167, inputs=[/82/hidden_square, /97/presolve_1166], perturbed=True)
+  (/97/presolve_1169): BoundMul(name=/97/presolve_1169, inputs=[/97/presolve_1167, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1170): BoundAdd(name=/97/presolve_1170, inputs=[/97/presolve_1165, /97/presolve_1169], perturbed=True)
+  (/97/presolve_1171): BoundConstant(name=/97/presolve_1171, value=tensor([60], device='cuda:0'))
+  (/97/presolve_1172): BoundGather(name=/97/presolve_1172, inputs=[/82/hidden_square, /97/presolve_1171], perturbed=True)
+  (/97/presolve_1174): BoundMul(name=/97/presolve_1174, inputs=[/97/presolve_1172, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1175): BoundAdd(name=/97/presolve_1175, inputs=[/97/presolve_1170, /97/presolve_1174], perturbed=True)
+  (/97/presolve_1176): BoundConstant(name=/97/presolve_1176, value=tensor([61], device='cuda:0'))
+  (/97/presolve_1177): BoundGather(name=/97/presolve_1177, inputs=[/82/hidden_square, /97/presolve_1176], perturbed=True)
+  (/97/presolve_1179): BoundMul(name=/97/presolve_1179, inputs=[/97/presolve_1177, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1180): BoundAdd(name=/97/presolve_1180, inputs=[/97/presolve_1175, /97/presolve_1179], perturbed=True)
+  (/97/presolve_1181): BoundConstant(name=/97/presolve_1181, value=tensor([62], device='cuda:0'))
+  (/97/presolve_1182): BoundGather(name=/97/presolve_1182, inputs=[/82/hidden_square, /97/presolve_1181], perturbed=True)
+  (/97/presolve_1184): BoundMul(name=/97/presolve_1184, inputs=[/97/presolve_1182, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1185): BoundAdd(name=/97/presolve_1185, inputs=[/97/presolve_1180, /97/presolve_1184], perturbed=True)
+  (/97/presolve_1186): BoundConstant(name=/97/presolve_1186, value=tensor([63], device='cuda:0'))
+  (/97/presolve_1187): BoundGather(name=/97/presolve_1187, inputs=[/82/hidden_square, /97/presolve_1186], perturbed=True)
+  (/97/presolve_1189): BoundMul(name=/97/presolve_1189, inputs=[/97/presolve_1187, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1190): BoundAdd(name=/97/presolve_1190, inputs=[/97/presolve_1185, /97/presolve_1189], perturbed=True)
+  (/97/presolve_1191): BoundConstant(name=/97/presolve_1191, value=tensor([64], device='cuda:0'))
+  (/97/presolve_1192): BoundGather(name=/97/presolve_1192, inputs=[/82/hidden_square, /97/presolve_1191], perturbed=True)
+  (/97/presolve_1194): BoundMul(name=/97/presolve_1194, inputs=[/97/presolve_1192, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1195): BoundAdd(name=/97/presolve_1195, inputs=[/97/presolve_1190, /97/presolve_1194], perturbed=True)
+  (/97/presolve_1196): BoundConstant(name=/97/presolve_1196, value=tensor([65], device='cuda:0'))
+  (/97/presolve_1197): BoundGather(name=/97/presolve_1197, inputs=[/82/hidden_square, /97/presolve_1196], perturbed=True)
+  (/97/presolve_1199): BoundMul(name=/97/presolve_1199, inputs=[/97/presolve_1197, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1200): BoundAdd(name=/97/presolve_1200, inputs=[/97/presolve_1195, /97/presolve_1199], perturbed=True)
+  (/97/presolve_1201): BoundConstant(name=/97/presolve_1201, value=tensor([66], device='cuda:0'))
+  (/97/presolve_1202): BoundGather(name=/97/presolve_1202, inputs=[/82/hidden_square, /97/presolve_1201], perturbed=True)
+  (/97/presolve_1204): BoundMul(name=/97/presolve_1204, inputs=[/97/presolve_1202, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1205): BoundAdd(name=/97/presolve_1205, inputs=[/97/presolve_1200, /97/presolve_1204], perturbed=True)
+  (/97/presolve_1206): BoundConstant(name=/97/presolve_1206, value=tensor([67], device='cuda:0'))
+  (/97/presolve_1207): BoundGather(name=/97/presolve_1207, inputs=[/82/hidden_square, /97/presolve_1206], perturbed=True)
+  (/97/presolve_1209): BoundMul(name=/97/presolve_1209, inputs=[/97/presolve_1207, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1210): BoundAdd(name=/97/presolve_1210, inputs=[/97/presolve_1205, /97/presolve_1209], perturbed=True)
+  (/97/presolve_1211): BoundConstant(name=/97/presolve_1211, value=tensor([68], device='cuda:0'))
+  (/97/presolve_1212): BoundGather(name=/97/presolve_1212, inputs=[/82/hidden_square, /97/presolve_1211], perturbed=True)
+  (/97/presolve_1214): BoundMul(name=/97/presolve_1214, inputs=[/97/presolve_1212, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1215): BoundAdd(name=/97/presolve_1215, inputs=[/97/presolve_1210, /97/presolve_1214], perturbed=True)
+  (/97/presolve_1216): BoundConstant(name=/97/presolve_1216, value=tensor([69], device='cuda:0'))
+  (/97/presolve_1217): BoundGather(name=/97/presolve_1217, inputs=[/82/hidden_square, /97/presolve_1216], perturbed=True)
+  (/97/presolve_1219): BoundMul(name=/97/presolve_1219, inputs=[/97/presolve_1217, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1220): BoundAdd(name=/97/presolve_1220, inputs=[/97/presolve_1215, /97/presolve_1219], perturbed=True)
+  (/97/presolve_1221): BoundConstant(name=/97/presolve_1221, value=tensor([70], device='cuda:0'))
+  (/97/presolve_1222): BoundGather(name=/97/presolve_1222, inputs=[/82/hidden_square, /97/presolve_1221], perturbed=True)
+  (/97/presolve_1224): BoundMul(name=/97/presolve_1224, inputs=[/97/presolve_1222, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1225): BoundAdd(name=/97/presolve_1225, inputs=[/97/presolve_1220, /97/presolve_1224], perturbed=True)
+  (/97/presolve_1226): BoundConstant(name=/97/presolve_1226, value=tensor([71], device='cuda:0'))
+  (/97/presolve_1227): BoundGather(name=/97/presolve_1227, inputs=[/82/hidden_square, /97/presolve_1226], perturbed=True)
+  (/97/presolve_1229): BoundMul(name=/97/presolve_1229, inputs=[/97/presolve_1227, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1230): BoundAdd(name=/97/presolve_1230, inputs=[/97/presolve_1225, /97/presolve_1229], perturbed=True)
+  (/97/presolve_1231): BoundConstant(name=/97/presolve_1231, value=tensor([72], device='cuda:0'))
+  (/97/presolve_1232): BoundGather(name=/97/presolve_1232, inputs=[/82/hidden_square, /97/presolve_1231], perturbed=True)
+  (/97/presolve_1234): BoundMul(name=/97/presolve_1234, inputs=[/97/presolve_1232, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1235): BoundAdd(name=/97/presolve_1235, inputs=[/97/presolve_1230, /97/presolve_1234], perturbed=True)
+  (/97/presolve_1236): BoundConstant(name=/97/presolve_1236, value=tensor([73], device='cuda:0'))
+  (/97/presolve_1237): BoundGather(name=/97/presolve_1237, inputs=[/82/hidden_square, /97/presolve_1236], perturbed=True)
+  (/97/presolve_1239): BoundMul(name=/97/presolve_1239, inputs=[/97/presolve_1237, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1240): BoundAdd(name=/97/presolve_1240, inputs=[/97/presolve_1235, /97/presolve_1239], perturbed=True)
+  (/97/presolve_1241): BoundConstant(name=/97/presolve_1241, value=tensor([74], device='cuda:0'))
+  (/97/presolve_1242): BoundGather(name=/97/presolve_1242, inputs=[/82/hidden_square, /97/presolve_1241], perturbed=True)
+  (/97/presolve_1244): BoundMul(name=/97/presolve_1244, inputs=[/97/presolve_1242, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1245): BoundAdd(name=/97/presolve_1245, inputs=[/97/presolve_1240, /97/presolve_1244], perturbed=True)
+  (/97/presolve_1246): BoundConstant(name=/97/presolve_1246, value=tensor([75], device='cuda:0'))
+  (/97/presolve_1247): BoundGather(name=/97/presolve_1247, inputs=[/82/hidden_square, /97/presolve_1246], perturbed=True)
+  (/97/presolve_1249): BoundMul(name=/97/presolve_1249, inputs=[/97/presolve_1247, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1250): BoundAdd(name=/97/presolve_1250, inputs=[/97/presolve_1245, /97/presolve_1249], perturbed=True)
+  (/97/presolve_1251): BoundConstant(name=/97/presolve_1251, value=tensor([76], device='cuda:0'))
+  (/97/presolve_1252): BoundGather(name=/97/presolve_1252, inputs=[/82/hidden_square, /97/presolve_1251], perturbed=True)
+  (/97/presolve_1254): BoundMul(name=/97/presolve_1254, inputs=[/97/presolve_1252, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1255): BoundAdd(name=/97/presolve_1255, inputs=[/97/presolve_1250, /97/presolve_1254], perturbed=True)
+  (/97/presolve_1256): BoundConstant(name=/97/presolve_1256, value=tensor([77], device='cuda:0'))
+  (/97/presolve_1257): BoundGather(name=/97/presolve_1257, inputs=[/82/hidden_square, /97/presolve_1256], perturbed=True)
+  (/97/presolve_1259): BoundMul(name=/97/presolve_1259, inputs=[/97/presolve_1257, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1260): BoundAdd(name=/97/presolve_1260, inputs=[/97/presolve_1255, /97/presolve_1259], perturbed=True)
+  (/97/presolve_1261): BoundConstant(name=/97/presolve_1261, value=tensor([78], device='cuda:0'))
+  (/97/presolve_1262): BoundGather(name=/97/presolve_1262, inputs=[/82/hidden_square, /97/presolve_1261], perturbed=True)
+  (/97/presolve_1264): BoundMul(name=/97/presolve_1264, inputs=[/97/presolve_1262, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1265): BoundAdd(name=/97/presolve_1265, inputs=[/97/presolve_1260, /97/presolve_1264], perturbed=True)
+  (/97/presolve_1266): BoundConstant(name=/97/presolve_1266, value=tensor([79], device='cuda:0'))
+  (/97/presolve_1267): BoundGather(name=/97/presolve_1267, inputs=[/82/hidden_square, /97/presolve_1266], perturbed=True)
+  (/97/presolve_1269): BoundMul(name=/97/presolve_1269, inputs=[/97/presolve_1267, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1270): BoundAdd(name=/97/presolve_1270, inputs=[/97/presolve_1265, /97/presolve_1269], perturbed=True)
+  (/97/presolve_1271): BoundConstant(name=/97/presolve_1271, value=tensor([80], device='cuda:0'))
+  (/97/presolve_1272): BoundGather(name=/97/presolve_1272, inputs=[/82/hidden_square, /97/presolve_1271], perturbed=True)
+  (/97/presolve_1274): BoundMul(name=/97/presolve_1274, inputs=[/97/presolve_1272, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1275): BoundAdd(name=/97/presolve_1275, inputs=[/97/presolve_1270, /97/presolve_1274], perturbed=True)
+  (/97/presolve_1276): BoundConstant(name=/97/presolve_1276, value=tensor([81], device='cuda:0'))
+  (/97/presolve_1277): BoundGather(name=/97/presolve_1277, inputs=[/82/hidden_square, /97/presolve_1276], perturbed=True)
+  (/97/presolve_1279): BoundMul(name=/97/presolve_1279, inputs=[/97/presolve_1277, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1280): BoundAdd(name=/97/presolve_1280, inputs=[/97/presolve_1275, /97/presolve_1279], perturbed=True)
+  (/97/presolve_1281): BoundConstant(name=/97/presolve_1281, value=tensor([82], device='cuda:0'))
+  (/97/presolve_1282): BoundGather(name=/97/presolve_1282, inputs=[/82/hidden_square, /97/presolve_1281], perturbed=True)
+  (/97/presolve_1284): BoundMul(name=/97/presolve_1284, inputs=[/97/presolve_1282, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1285): BoundAdd(name=/97/presolve_1285, inputs=[/97/presolve_1280, /97/presolve_1284], perturbed=True)
+  (/97/presolve_1286): BoundConstant(name=/97/presolve_1286, value=tensor([83], device='cuda:0'))
+  (/97/presolve_1287): BoundGather(name=/97/presolve_1287, inputs=[/82/hidden_square, /97/presolve_1286], perturbed=True)
+  (/97/presolve_1289): BoundMul(name=/97/presolve_1289, inputs=[/97/presolve_1287, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1290): BoundAdd(name=/97/presolve_1290, inputs=[/97/presolve_1285, /97/presolve_1289], perturbed=True)
+  (/97/presolve_1291): BoundConstant(name=/97/presolve_1291, value=tensor([84], device='cuda:0'))
+  (/97/presolve_1292): BoundGather(name=/97/presolve_1292, inputs=[/82/hidden_square, /97/presolve_1291], perturbed=True)
+  (/97/presolve_1294): BoundMul(name=/97/presolve_1294, inputs=[/97/presolve_1292, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1295): BoundAdd(name=/97/presolve_1295, inputs=[/97/presolve_1290, /97/presolve_1294], perturbed=True)
+  (/97/presolve_1297): BoundGather(name=/97/presolve_1297, inputs=[/82/hidden_square, /97/presolve_1491], perturbed=True)
+  (/97/presolve_1299): BoundMul(name=/97/presolve_1299, inputs=[/97/presolve_1297, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1300): BoundAdd(name=/97/presolve_1300, inputs=[/97/presolve_1295, /97/presolve_1299], perturbed=True)
+  (/97/presolve_1301): BoundConstant(name=/97/presolve_1301, value=tensor([86], device='cuda:0'))
+  (/97/presolve_1302): BoundGather(name=/97/presolve_1302, inputs=[/82/hidden_square, /97/presolve_1301], perturbed=True)
+  (/97/presolve_1304): BoundMul(name=/97/presolve_1304, inputs=[/97/presolve_1302, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1305): BoundAdd(name=/97/presolve_1305, inputs=[/97/presolve_1300, /97/presolve_1304], perturbed=True)
+  (/97/presolve_1306): BoundConstant(name=/97/presolve_1306, value=tensor([87], device='cuda:0'))
+  (/97/presolve_1307): BoundGather(name=/97/presolve_1307, inputs=[/82/hidden_square, /97/presolve_1306], perturbed=True)
+  (/97/presolve_1309): BoundMul(name=/97/presolve_1309, inputs=[/97/presolve_1307, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1310): BoundAdd(name=/97/presolve_1310, inputs=[/97/presolve_1305, /97/presolve_1309], perturbed=True)
+  (/97/presolve_1311): BoundConstant(name=/97/presolve_1311, value=tensor([88], device='cuda:0'))
+  (/97/presolve_1312): BoundGather(name=/97/presolve_1312, inputs=[/82/hidden_square, /97/presolve_1311], perturbed=True)
+  (/97/presolve_1314): BoundMul(name=/97/presolve_1314, inputs=[/97/presolve_1312, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1315): BoundAdd(name=/97/presolve_1315, inputs=[/97/presolve_1310, /97/presolve_1314], perturbed=True)
+  (/97/presolve_1316): BoundConstant(name=/97/presolve_1316, value=tensor([89], device='cuda:0'))
+  (/97/presolve_1317): BoundGather(name=/97/presolve_1317, inputs=[/82/hidden_square, /97/presolve_1316], perturbed=True)
+  (/97/presolve_1319): BoundMul(name=/97/presolve_1319, inputs=[/97/presolve_1317, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1320): BoundAdd(name=/97/presolve_1320, inputs=[/97/presolve_1315, /97/presolve_1319], perturbed=True)
+  (/97/presolve_1321): BoundConstant(name=/97/presolve_1321, value=tensor([90], device='cuda:0'))
+  (/97/presolve_1322): BoundGather(name=/97/presolve_1322, inputs=[/82/hidden_square, /97/presolve_1321], perturbed=True)
+  (/97/presolve_1324): BoundMul(name=/97/presolve_1324, inputs=[/97/presolve_1322, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1325): BoundAdd(name=/97/presolve_1325, inputs=[/97/presolve_1320, /97/presolve_1324], perturbed=True)
+  (/97/presolve_1326): BoundConstant(name=/97/presolve_1326, value=tensor([91], device='cuda:0'))
+  (/97/presolve_1327): BoundGather(name=/97/presolve_1327, inputs=[/82/hidden_square, /97/presolve_1326], perturbed=True)
+  (/97/presolve_1329): BoundMul(name=/97/presolve_1329, inputs=[/97/presolve_1327, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1330): BoundAdd(name=/97/presolve_1330, inputs=[/97/presolve_1325, /97/presolve_1329], perturbed=True)
+  (/97/presolve_1331): BoundConstant(name=/97/presolve_1331, value=tensor([92], device='cuda:0'))
+  (/97/presolve_1332): BoundGather(name=/97/presolve_1332, inputs=[/82/hidden_square, /97/presolve_1331], perturbed=True)
+  (/97/presolve_1334): BoundMul(name=/97/presolve_1334, inputs=[/97/presolve_1332, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1335): BoundAdd(name=/97/presolve_1335, inputs=[/97/presolve_1330, /97/presolve_1334], perturbed=True)
+  (/97/presolve_1336): BoundConstant(name=/97/presolve_1336, value=tensor([93], device='cuda:0'))
+  (/97/presolve_1337): BoundGather(name=/97/presolve_1337, inputs=[/82/hidden_square, /97/presolve_1336], perturbed=True)
+  (/97/presolve_1339): BoundMul(name=/97/presolve_1339, inputs=[/97/presolve_1337, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1340): BoundAdd(name=/97/presolve_1340, inputs=[/97/presolve_1335, /97/presolve_1339], perturbed=True)
+  (/97/presolve_1341): BoundConstant(name=/97/presolve_1341, value=tensor([94], device='cuda:0'))
+  (/97/presolve_1342): BoundGather(name=/97/presolve_1342, inputs=[/82/hidden_square, /97/presolve_1341], perturbed=True)
+  (/97/presolve_1344): BoundMul(name=/97/presolve_1344, inputs=[/97/presolve_1342, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1345): BoundAdd(name=/97/presolve_1345, inputs=[/97/presolve_1340, /97/presolve_1344], perturbed=True)
+  (/97/presolve_1346): BoundConstant(name=/97/presolve_1346, value=tensor([95], device='cuda:0'))
+  (/97/presolve_1347): BoundGather(name=/97/presolve_1347, inputs=[/82/hidden_square, /97/presolve_1346], perturbed=True)
+  (/97/presolve_1349): BoundMul(name=/97/presolve_1349, inputs=[/97/presolve_1347, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1350): BoundAdd(name=/97/presolve_1350, inputs=[/97/presolve_1345, /97/presolve_1349], perturbed=True)
+  (/97/presolve_1351): BoundConstant(name=/97/presolve_1351, value=tensor([96], device='cuda:0'))
+  (/97/presolve_1352): BoundGather(name=/97/presolve_1352, inputs=[/82/hidden_square, /97/presolve_1351], perturbed=True)
+  (/97/presolve_1354): BoundMul(name=/97/presolve_1354, inputs=[/97/presolve_1352, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1355): BoundAdd(name=/97/presolve_1355, inputs=[/97/presolve_1350, /97/presolve_1354], perturbed=True)
+  (/97/presolve_1356): BoundConstant(name=/97/presolve_1356, value=tensor([97], device='cuda:0'))
+  (/97/presolve_1357): BoundGather(name=/97/presolve_1357, inputs=[/82/hidden_square, /97/presolve_1356], perturbed=True)
+  (/97/presolve_1359): BoundMul(name=/97/presolve_1359, inputs=[/97/presolve_1357, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1360): BoundAdd(name=/97/presolve_1360, inputs=[/97/presolve_1355, /97/presolve_1359], perturbed=True)
+  (/97/presolve_1361): BoundConstant(name=/97/presolve_1361, value=tensor([98], device='cuda:0'))
+  (/97/presolve_1362): BoundGather(name=/97/presolve_1362, inputs=[/82/hidden_square, /97/presolve_1361], perturbed=True)
+  (/97/presolve_1364): BoundMul(name=/97/presolve_1364, inputs=[/97/presolve_1362, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1365): BoundAdd(name=/97/presolve_1365, inputs=[/97/presolve_1360, /97/presolve_1364], perturbed=True)
+  (/97/presolve_1366): BoundConstant(name=/97/presolve_1366, value=tensor([99], device='cuda:0'))
+  (/97/presolve_1367): BoundGather(name=/97/presolve_1367, inputs=[/82/hidden_square, /97/presolve_1366], perturbed=True)
+  (/97/presolve_1369): BoundMul(name=/97/presolve_1369, inputs=[/97/presolve_1367, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1370): BoundAdd(name=/97/presolve_1370, inputs=[/97/presolve_1365, /97/presolve_1369], perturbed=True)
+  (/97/presolve_1371): BoundConstant(name=/97/presolve_1371, value=tensor([100], device='cuda:0'))
+  (/97/presolve_1372): BoundGather(name=/97/presolve_1372, inputs=[/82/hidden_square, /97/presolve_1371], perturbed=True)
+  (/97/presolve_1374): BoundMul(name=/97/presolve_1374, inputs=[/97/presolve_1372, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1375): BoundAdd(name=/97/presolve_1375, inputs=[/97/presolve_1370, /97/presolve_1374], perturbed=True)
+  (/97/presolve_1376): BoundConstant(name=/97/presolve_1376, value=tensor([101], device='cuda:0'))
+  (/97/presolve_1377): BoundGather(name=/97/presolve_1377, inputs=[/82/hidden_square, /97/presolve_1376], perturbed=True)
+  (/97/presolve_1379): BoundMul(name=/97/presolve_1379, inputs=[/97/presolve_1377, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1380): BoundAdd(name=/97/presolve_1380, inputs=[/97/presolve_1375, /97/presolve_1379], perturbed=True)
+  (/97/presolve_1381): BoundConstant(name=/97/presolve_1381, value=tensor([102], device='cuda:0'))
+  (/97/presolve_1382): BoundGather(name=/97/presolve_1382, inputs=[/82/hidden_square, /97/presolve_1381], perturbed=True)
+  (/97/presolve_1384): BoundMul(name=/97/presolve_1384, inputs=[/97/presolve_1382, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1385): BoundAdd(name=/97/presolve_1385, inputs=[/97/presolve_1380, /97/presolve_1384], perturbed=True)
+  (/97/presolve_1386): BoundConstant(name=/97/presolve_1386, value=tensor([103], device='cuda:0'))
+  (/97/presolve_1387): BoundGather(name=/97/presolve_1387, inputs=[/82/hidden_square, /97/presolve_1386], perturbed=True)
+  (/97/presolve_1389): BoundMul(name=/97/presolve_1389, inputs=[/97/presolve_1387, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1390): BoundAdd(name=/97/presolve_1390, inputs=[/97/presolve_1385, /97/presolve_1389], perturbed=True)
+  (/97/presolve_1391): BoundConstant(name=/97/presolve_1391, value=tensor([104], device='cuda:0'))
+  (/97/presolve_1392): BoundGather(name=/97/presolve_1392, inputs=[/82/hidden_square, /97/presolve_1391], perturbed=True)
+  (/97/presolve_1394): BoundMul(name=/97/presolve_1394, inputs=[/97/presolve_1392, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1395): BoundAdd(name=/97/presolve_1395, inputs=[/97/presolve_1390, /97/presolve_1394], perturbed=True)
+  (/97/presolve_1396): BoundConstant(name=/97/presolve_1396, value=tensor([105], device='cuda:0'))
+  (/97/presolve_1397): BoundGather(name=/97/presolve_1397, inputs=[/82/hidden_square, /97/presolve_1396], perturbed=True)
+  (/97/presolve_1399): BoundMul(name=/97/presolve_1399, inputs=[/97/presolve_1397, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1400): BoundAdd(name=/97/presolve_1400, inputs=[/97/presolve_1395, /97/presolve_1399], perturbed=True)
+  (/97/presolve_1401): BoundConstant(name=/97/presolve_1401, value=tensor([106], device='cuda:0'))
+  (/97/presolve_1402): BoundGather(name=/97/presolve_1402, inputs=[/82/hidden_square, /97/presolve_1401], perturbed=True)
+  (/97/presolve_1404): BoundMul(name=/97/presolve_1404, inputs=[/97/presolve_1402, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1405): BoundAdd(name=/97/presolve_1405, inputs=[/97/presolve_1400, /97/presolve_1404], perturbed=True)
+  (/97/presolve_1406): BoundConstant(name=/97/presolve_1406, value=tensor([107], device='cuda:0'))
+  (/97/presolve_1407): BoundGather(name=/97/presolve_1407, inputs=[/82/hidden_square, /97/presolve_1406], perturbed=True)
+  (/97/presolve_1409): BoundMul(name=/97/presolve_1409, inputs=[/97/presolve_1407, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1410): BoundAdd(name=/97/presolve_1410, inputs=[/97/presolve_1405, /97/presolve_1409], perturbed=True)
+  (/97/presolve_1411): BoundConstant(name=/97/presolve_1411, value=tensor([108], device='cuda:0'))
+  (/97/presolve_1412): BoundGather(name=/97/presolve_1412, inputs=[/82/hidden_square, /97/presolve_1411], perturbed=True)
+  (/97/presolve_1414): BoundMul(name=/97/presolve_1414, inputs=[/97/presolve_1412, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1415): BoundAdd(name=/97/presolve_1415, inputs=[/97/presolve_1410, /97/presolve_1414], perturbed=True)
+  (/97/presolve_1416): BoundConstant(name=/97/presolve_1416, value=tensor([109], device='cuda:0'))
+  (/97/presolve_1417): BoundGather(name=/97/presolve_1417, inputs=[/82/hidden_square, /97/presolve_1416], perturbed=True)
+  (/97/presolve_1419): BoundMul(name=/97/presolve_1419, inputs=[/97/presolve_1417, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1420): BoundAdd(name=/97/presolve_1420, inputs=[/97/presolve_1415, /97/presolve_1419], perturbed=True)
+  (/97/presolve_1421): BoundConstant(name=/97/presolve_1421, value=tensor([110], device='cuda:0'))
+  (/97/presolve_1422): BoundGather(name=/97/presolve_1422, inputs=[/82/hidden_square, /97/presolve_1421], perturbed=True)
+  (/97/presolve_1424): BoundMul(name=/97/presolve_1424, inputs=[/97/presolve_1422, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1425): BoundAdd(name=/97/presolve_1425, inputs=[/97/presolve_1420, /97/presolve_1424], perturbed=True)
+  (/97/presolve_1426): BoundConstant(name=/97/presolve_1426, value=tensor([111], device='cuda:0'))
+  (/97/presolve_1427): BoundGather(name=/97/presolve_1427, inputs=[/82/hidden_square, /97/presolve_1426], perturbed=True)
+  (/97/presolve_1429): BoundMul(name=/97/presolve_1429, inputs=[/97/presolve_1427, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1430): BoundAdd(name=/97/presolve_1430, inputs=[/97/presolve_1425, /97/presolve_1429], perturbed=True)
+  (/97/presolve_1431): BoundConstant(name=/97/presolve_1431, value=tensor([112], device='cuda:0'))
+  (/97/presolve_1432): BoundGather(name=/97/presolve_1432, inputs=[/82/hidden_square, /97/presolve_1431], perturbed=True)
+  (/97/presolve_1434): BoundMul(name=/97/presolve_1434, inputs=[/97/presolve_1432, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1435): BoundAdd(name=/97/presolve_1435, inputs=[/97/presolve_1430, /97/presolve_1434], perturbed=True)
+  (/97/presolve_1436): BoundConstant(name=/97/presolve_1436, value=tensor([113], device='cuda:0'))
+  (/97/presolve_1437): BoundGather(name=/97/presolve_1437, inputs=[/82/hidden_square, /97/presolve_1436], perturbed=True)
+  (/97/presolve_1439): BoundMul(name=/97/presolve_1439, inputs=[/97/presolve_1437, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1440): BoundAdd(name=/97/presolve_1440, inputs=[/97/presolve_1435, /97/presolve_1439], perturbed=True)
+  (/97/presolve_1441): BoundConstant(name=/97/presolve_1441, value=tensor([114], device='cuda:0'))
+  (/97/presolve_1442): BoundGather(name=/97/presolve_1442, inputs=[/82/hidden_square, /97/presolve_1441], perturbed=True)
+  (/97/presolve_1444): BoundMul(name=/97/presolve_1444, inputs=[/97/presolve_1442, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1445): BoundAdd(name=/97/presolve_1445, inputs=[/97/presolve_1440, /97/presolve_1444], perturbed=True)
+  (/97/presolve_1446): BoundConstant(name=/97/presolve_1446, value=tensor([116], device='cuda:0'))
+  (/97/presolve_1447): BoundGather(name=/97/presolve_1447, inputs=[/82/hidden_square, /97/presolve_1446], perturbed=True)
+  (/97/presolve_1449): BoundMul(name=/97/presolve_1449, inputs=[/97/presolve_1447, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1450): BoundAdd(name=/97/presolve_1450, inputs=[/97/presolve_1445, /97/presolve_1449], perturbed=True)
+  (/97/presolve_1451): BoundConstant(name=/97/presolve_1451, value=tensor([117], device='cuda:0'))
+  (/97/presolve_1452): BoundGather(name=/97/presolve_1452, inputs=[/82/hidden_square, /97/presolve_1451], perturbed=True)
+  (/97/presolve_1454): BoundMul(name=/97/presolve_1454, inputs=[/97/presolve_1452, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1455): BoundAdd(name=/97/presolve_1455, inputs=[/97/presolve_1450, /97/presolve_1454], perturbed=True)
+  (/97/presolve_1456): BoundConstant(name=/97/presolve_1456, value=tensor([118], device='cuda:0'))
+  (/97/presolve_1457): BoundGather(name=/97/presolve_1457, inputs=[/82/hidden_square, /97/presolve_1456], perturbed=True)
+  (/97/presolve_1459): BoundMul(name=/97/presolve_1459, inputs=[/97/presolve_1457, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1460): BoundAdd(name=/97/presolve_1460, inputs=[/97/presolve_1455, /97/presolve_1459], perturbed=True)
+  (/97/presolve_1461): BoundConstant(name=/97/presolve_1461, value=tensor([120], device='cuda:0'))
+  (/97/presolve_1462): BoundGather(name=/97/presolve_1462, inputs=[/82/hidden_square, /97/presolve_1461], perturbed=True)
+  (/97/presolve_1464): BoundMul(name=/97/presolve_1464, inputs=[/97/presolve_1462, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1465): BoundAdd(name=/97/presolve_1465, inputs=[/97/presolve_1460, /97/presolve_1464], perturbed=True)
+  (/97/presolve_1466): BoundConstant(name=/97/presolve_1466, value=tensor([121], device='cuda:0'))
+  (/97/presolve_1467): BoundGather(name=/97/presolve_1467, inputs=[/82/hidden_square, /97/presolve_1466], perturbed=True)
+  (/97/presolve_1469): BoundMul(name=/97/presolve_1469, inputs=[/97/presolve_1467, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1470): BoundAdd(name=/97/presolve_1470, inputs=[/97/presolve_1465, /97/presolve_1469], perturbed=True)
+  (/97/presolve_1471): BoundConstant(name=/97/presolve_1471, value=tensor([122], device='cuda:0'))
+  (/97/presolve_1472): BoundGather(name=/97/presolve_1472, inputs=[/82/hidden_square, /97/presolve_1471], perturbed=True)
+  (/97/presolve_1474): BoundMul(name=/97/presolve_1474, inputs=[/97/presolve_1472, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1475): BoundAdd(name=/97/presolve_1475, inputs=[/97/presolve_1470, /97/presolve_1474], perturbed=True)
+  (/97/presolve_1476): BoundConstant(name=/97/presolve_1476, value=tensor([124], device='cuda:0'))
+  (/97/presolve_1477): BoundGather(name=/97/presolve_1477, inputs=[/82/hidden_square, /97/presolve_1476], perturbed=True)
+  (/97/presolve_1479): BoundMul(name=/97/presolve_1479, inputs=[/97/presolve_1477, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1480): BoundAdd(name=/97/presolve_1480, inputs=[/97/presolve_1475, /97/presolve_1479], perturbed=True)
+  (/97/presolve_1481): BoundConstant(name=/97/presolve_1481, value=tensor([125], device='cuda:0'))
+  (/97/presolve_1482): BoundGather(name=/97/presolve_1482, inputs=[/82/hidden_square, /97/presolve_1481], perturbed=True)
+  (/97/presolve_1484): BoundMul(name=/97/presolve_1484, inputs=[/97/presolve_1482, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1485): BoundAdd(name=/97/presolve_1485, inputs=[/97/presolve_1480, /97/presolve_1484], perturbed=True)
+  (/97/presolve_1486): BoundConstant(name=/97/presolve_1486, value=tensor([126], device='cuda:0'))
+  (/97/presolve_1487): BoundGather(name=/97/presolve_1487, inputs=[/82/hidden_square, /97/presolve_1486], perturbed=True)
+  (/97/presolve_1488): BoundConstant(name=/97/presolve_1488, value=0.25)
+  (/97/presolve_1489): BoundMul(name=/97/presolve_1489, inputs=[/97/presolve_1487, /97/presolve_1488], perturbed=True)
+  (/97/presolve_1490): BoundAdd(name=/97/presolve_1490, inputs=[/97/presolve_1485, /97/presolve_1489], perturbed=True)
+  (/97/presolve_1491): BoundConstant(name=/97/presolve_1491, value=tensor([85], device='cuda:0'))
+  (/97/presolve_1492): BoundGather(name=/97/presolve_1492, inputs=[/0, /97/presolve_1491], perturbed=True)
+  (/97/presolve_1493): BoundConstant(name=/97/presolve_1493, value=-0.7901234567901247)
+  (/97/presolve_1494): BoundMul(name=/97/presolve_1494, inputs=[/97/presolve_1492, /97/presolve_1493], perturbed=True)
+  (/97/presolve_1495): BoundAdd(name=/97/presolve_1495, inputs=[/97/presolve_1490, /97/presolve_1494], perturbed=True)
+  (/97/presolve_1496): BoundConstant(name=/97/presolve_1496, value=-1.5363511659808005)
+  (/97/presolve_1497): BoundAdd(name=/97/presolve_1497, inputs=[/97/presolve_1495, /97/presolve_1496], perturbed=True)
+  (/97/presolve_1498): BoundConstant(name=/97/presolve_1498, value=-8.467544604823264e-17)
+  (/97/presolve_1499): BoundAdd(name=/97/presolve_1499, inputs=[/97/presolve_1497, /97/presolve_1498], perturbed=True)
+  (/97/presolve_1500): BoundConstant(name=/97/presolve_1500, value=-4.622231866529366e-33)
+  (/97/presolve_1501): BoundAdd(name=/97/presolve_1501, inputs=[/97/presolve_1499, /97/presolve_1500], perturbed=True)
+  (/97/completed_square): BoundAdd(name=/97/completed_square, inputs=[/97/presolve_566, /97/presolve_1501], perturbed=True)
+)
+Original output in the first batch: tensor([[8000871.50939625]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [-1460.301623050434]
+Global lower bound: -1460.301623050434
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 1), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 1), values=[[-1460.301623050434]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([], device='cuda:0', size=(1, 0, 1))
+RHS: tensor([], device='cuda:0', size=(1, 0))
+OR spec sizes: tensor([0], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 178.54788422584534
+Model prediction is: tensor([8000871.50939625], device='cuda:0')
+[Op] setup t=3.189 s=3.1883 work=1 dD=0 dP=0
+[Op] reference_bounds t=3.189 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 71, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=3.207 s=0.0180 work=1 dD=0 dP=0
+[Structure] objective=quad rows={} duplicates=0 opposites=0 redundant=0 aliases=0 pool={'rows': 0, 'ranged': 0, 'merged': 0, 'masked': 0, 'opaque': 0} spent=3722 time=0.073s
+[Op] struct_forms t=3.281 s=0.0738 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.005s
+[Op] struct_cert t=3.287 s=0.0060 work=1 dD=0 dP=0
+[Op] hybrid t=3.320 s=0.0337 work=1 dD=0 dP=0
+[Op] initial_verify t=3.321 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=3.323 s=0.0027 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 96 vars, 0 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+[SparseDerivatives] rows=0 merged=0 atoms=0 nnzJ=0 nnzH=240 hessian=exact reproduces=True build=0.00s
+  [IPOPT] LP-point start kept: obj=1.397899944076031 viol=0.0 (center start: obj=1.3978999442595865 viol=0.0)
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=1.397900, viol=0.00e+00
+    [ALM-SQP] it=0 running=33/33 accepted=32 feasible=33 best=1.3979 |d|=1.00e-01
+    [ALM-SQP] it=1 running=33/33 accepted=32 feasible=33 best=1.3979 |d|=5.58e-01
+    [ALM-SQP] it=2 running=32/33 accepted=32 feasible=33 best=1.3979 |d|=1.33e-01
+    [ALM-SQP] it=9 running=32/33 accepted=32 feasible=33 best=1.3979 |d|=1.84e-01
+    [ALM-SQP] it=19 running=32/33 accepted=32 feasible=33 best=1.3979 |d|=3.02e-03
+    [ALM-SQP] it=29 running=31/33 accepted=30 feasible=33 best=1.3979 |d|=1.20e-05
+    [ALM-SQP] it=39 running=12/33 accepted=11 feasible=33 best=1.3979 |d|=1.73e-07
+    [ALM-SQP] Optimality polish: candidates=1+32 iters=49 feasible=33 improved=0 best_feas_obj=1.3979->1.3979 time=0.90s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=249
+  [ALM] Verification: valid=True, obj=1.397898, viol=0.00e+00
+  [Root] Parallel done: IPOPT 0.06s, ALM 1.29s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 1.397900
+  Violation: 0.00e+00
+  Time: 0.06s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 1.397898
+  Violation: 0.00e+00
+  Time: 1.29s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: alm
+Best objective: 1.397898
+======================================================================
+NLP Comparison: Best objective = 1.397898 (not counterexample)
+  Local (IPOPT): verified=True, obj=1.397899944076031, time=0.06s
+  ALM:   verified=True, obj=1.3978975595444723, time=1.29s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=4.618 s=1.2944 work=1 dD=0 dP=0
+[Op] search_state t=4.619 s=0.0007 work=1 dD=0 dP=0
+[Op] incumbent t=4.619 s=0.0002 work=1 dD=0 dP=inf
+[QTB] objective is quadratic; tangent bound enabled (lambda_min >= 0.1666, tangent at local KKT point f=1.397899941)
+[Op] tangent t=4.735 s=0.1153 work=1 dD=0 dP=0
+[Op] consistency t=4.735 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=4.735 s=0.0001 work=1 dD=0 dP=0
+[Symmetry] 4 chains of interchangeable blocks (blocks x size: [(2, 1), (2, 1), (2, 1), (2, 1)]), 4 ordering rows, time=0.002s
+[Op] symmetry t=4.738 s=0.0032 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=4.740 s=0.0014 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=4.742 s=0.0016 work=1 dD=0 dP=0
+[Op] convex_cuts t=4.743 s=0.0009 work=1 dD=0 dP=0
+[LiftedLP] skipped: every constraint row is linear (QTB covers the convex objective)
+[LiftedLP] not applicable (0.06s)
+[Op] lifted_lp t=4.808 s=0.0654 work=1 dD=0 dP=0
+[Op] lifted_obbt t=4.808 s=0.0001 work=1 dD=0 dP=0
+[Op] lifted_bab t=4.810 s=0.0017 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+	Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=4.834 s=0.0238 work=1 dD=0 dP=0
+[M3] compiler complete=False squares=0 census={'non-affine objective': 1} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	[QTB] native CROWN eigenbasis rewrite: free=64 lambda=[0.1666, 7.719] negative=0 residual=3.46e-08 f(anchor)=1.397899941
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0010    init 0.0003    concretize 0.0008    bounding 0.9365    filtering 0.0019    decision 0.0002    split 0.0004    clip 0.0006    add_domain 0.0019    summary 0.0001    
+		Accumulated time: sort_domains 0.0000    pickout 0.0010    bounding 0.9365    init 0.0284    concretize 0.0794    filtering 0.0019    decision 0.0002    split 0.0004    clip 0.0006    add_domain 0.0019    summary 0.0001    
+		Length of domains: 2
+		3 domains visited
+		Dual Solution This Iter: 1.3978894635951755
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([1.39789756], device='cuda:0'), Dual Solution 1.3978894635951755
+	Solution gap: 8.09594929673807e-06
+	[Op] sort_domains t=5.780 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=5.780 s=0.0010 work=2 dD=0 dP=0
+	[Op] split t=5.780 s=0.0004 work=2 dD=0 dP=0
+	[Op] bounding t=5.780 s=0.9365 work=2 dD=1461.7 dP=0
+	[Op] filtering t=5.780 s=0.0019 work=2 dD=0 dP=0
+	[Op] clip t=5.780 s=0.0006 work=2 dD=0 dP=0
+	[Op] decision t=5.780 s=0.0002 work=2 dD=0 dP=0
+	[Op] add_domain t=5.780 s=0.0019 work=2 dD=0 dP=0
+	[Op] summary t=5.780 s=0.0001 work=2 dD=0 dP=0
+	[Op] lifted_bab t=5.780 s=0.0000 work=1 dD=0 dP=0
+	Found optimal object: tensor([1.39789756], device='cuda:0')
+[best-primal] objective=1.3978975595444723 x=[0.0, 0.19942921148484946, 0.2935884853023969, 0.3742704949044223, 0.41792310096312285, 0.4141349963708505, 0.3641451677984195, 0.2818171208297343, 0.19028069055252905, 0.0, 0.0, 0.0, 0.29235982448564063, 0.4415104718237963, 0.5860795205039722, 0.6619757173718881, 0.6550630394444852, 0.5662062179583245, 0.4195752333823057, 0.2766837085359855, 0.0, 0.0, 0.0, 0.36998088724995215, 0.5816696485082957, 0.7803369043292605, 0.8813890674614413, 0.8721851667860392, 0.7538765506662912, 0.5412628607239185, 0.3461921457391964, 0.0, 0.0, 0.0, 0.4085477283489922, 0.6491407105741018, 0.8708524741878136, 0.9836262335697938, 0.9733547218281728, 0.8413228385554703, 0.6040469172128269, 0.3813793831666164, 0.0, 0.0, 0.0, 0.39844660203423365, 0.6303118239113701, 0.8455926464348522, 0.955095305577288, 0.9451217279001867, 0.8169195433747518, 0.5865260149523692, 0.3722475137273868, 0.0, 0.0, 0.0, 0.34336202599474847, 0.527686193028785, 0.7079155864180393, 0.7995893249349137, 0.7912396176382117, 0.6839109588318024, 0.49417958078303426, 0.322606679848776, 0.0, 0.0, 0.0, 0.2632905305657497, 0.3885393315917765, 0.4946206537266398, 0.5511438930876038, 0.5462774694228318, 0.4813189833369133, 0.371339815744538, 0.25035861687669336, 0.0, 0.0, 0.0, 0.17727922082898975, 0.2562022544107383, 0.3185423127750074, 0.35174549918971193, 0.3490763438426341, 0.3113987187323961, 0.2471538699527751, 0.1699544972952383, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+problem_name=cute_obstclal status=verified success=True
+
+#RUNNER rc=0 elapsed=6.52 waited=0.0

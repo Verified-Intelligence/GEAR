@@ -1,0 +1,1977 @@
+#CMD <env>/bin/python nlp_example.py --problem_name arki0015 --benchmark minlplib_linear --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792648102.289536421
+INFO     00:48:24     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+[nlp_example] Loaded 968 input linear constraints from arki0015_model_state.pt
+Precompiled vnnlib file found at benchmarks/minlplib_linear/vnnlib_minlplib_linear/arki0015.vnnlib.compiled
+[W1022 00:48:24.470589512 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib/mod_files/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/minlplib_linear/py_minlplib_linear/modules.py:77: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  v = _broadcast_scalar_last_dim(v, int(self.indices.numel()))
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+torch allclose failed: norm nan
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/1): BoundBuffers(name=/1, inputs=[], perturbed=False)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/6): BoundBuffers(name=/6, inputs=[], perturbed=False)
+  (/7): BoundBuffers(name=/7, inputs=[], perturbed=False)
+  (/8): BoundBuffers(name=/8, inputs=[], perturbed=False)
+  (/9): BoundBuffers(name=/9, inputs=[], perturbed=False)
+  (/10): BoundBuffers(name=/10, inputs=[], perturbed=False)
+  (/11): BoundBuffers(name=/11, inputs=[], perturbed=False)
+  (/12): BoundBuffers(name=/12, inputs=[], perturbed=False)
+  (/13): BoundBuffers(name=/13, inputs=[], perturbed=False)
+  (/14): BoundBuffers(name=/14, inputs=[], perturbed=False)
+  (/16): BoundBuffers(name=/16, inputs=[], perturbed=False)
+  (/20): BoundBuffers(name=/20, inputs=[], perturbed=False)
+  (/21): BoundBuffers(name=/21, inputs=[], perturbed=False)
+  (/22): BoundBuffers(name=/22, inputs=[], perturbed=False)
+  (/23): BoundBuffers(name=/23, inputs=[], perturbed=False)
+  (/24): BoundBuffers(name=/24, inputs=[], perturbed=False)
+  (/25): BoundBuffers(name=/25, inputs=[], perturbed=False)
+  (/26): BoundBuffers(name=/26, inputs=[], perturbed=False)
+  (/27): BoundBuffers(name=/27, inputs=[], perturbed=False)
+  (/28): BoundBuffers(name=/28, inputs=[], perturbed=False)
+  (/31): BoundBuffers(name=/31, inputs=[], perturbed=False)
+  (/34): BoundBuffers(name=/34, inputs=[], perturbed=False)
+  (/36): BoundBuffers(name=/36, inputs=[], perturbed=False)
+  (/38): BoundBuffers(name=/38, inputs=[], perturbed=False)
+  (/40): BoundBuffers(name=/40, inputs=[], perturbed=False)
+  (/42): BoundBuffers(name=/42, inputs=[], perturbed=False)
+  (/43): BoundBuffers(name=/43, inputs=[], perturbed=False)
+  (/45): BoundBuffers(name=/45, inputs=[], perturbed=False)
+  (/47): BoundBuffers(name=/47, inputs=[], perturbed=False)
+  (/49): BoundBuffers(name=/49, inputs=[], perturbed=False)
+  (/51): BoundBuffers(name=/51, inputs=[], perturbed=False)
+  (/52): BoundBuffers(name=/52, inputs=[], perturbed=False)
+  (/54): BoundBuffers(name=/54, inputs=[], perturbed=False)
+  (/55): BoundBuffers(name=/55, inputs=[], perturbed=False)
+  (/60): BoundBuffers(name=/60, inputs=[], perturbed=False)
+  (/61): BoundBuffers(name=/61, inputs=[], perturbed=False)
+  (/62): BoundBuffers(name=/62, inputs=[], perturbed=False)
+  (/63): BoundBuffers(name=/63, inputs=[], perturbed=False)
+  (/64): BoundBuffers(name=/64, inputs=[], perturbed=False)
+  (/65): BoundBuffers(name=/65, inputs=[], perturbed=False)
+  (/66): BoundBuffers(name=/66, inputs=[], perturbed=False)
+  (/70): BoundBuffers(name=/70, inputs=[], perturbed=False)
+  (/71): BoundBuffers(name=/71, inputs=[], perturbed=False)
+  (/72): BoundBuffers(name=/72, inputs=[], perturbed=False)
+  (/73): BoundBuffers(name=/73, inputs=[], perturbed=False)
+  (/74): BoundBuffers(name=/74, inputs=[], perturbed=False)
+  (/75): BoundBuffers(name=/75, inputs=[], perturbed=False)
+  (/77): BoundBuffers(name=/77, inputs=[], perturbed=False)
+  (/78): BoundBuffers(name=/78, inputs=[], perturbed=False)
+  (/79): BoundBuffers(name=/79, inputs=[], perturbed=False)
+  (/80): BoundBuffers(name=/80, inputs=[], perturbed=False)
+  (/82): BoundBuffers(name=/82, inputs=[], perturbed=False)
+  (/83): BoundBuffers(name=/83, inputs=[], perturbed=False)
+  (/v-31): BoundBuffers(name=/v-31, inputs=[], perturbed=False)
+  (/85): BoundBuffers(name=/85, inputs=[], perturbed=False)
+  (/87): BoundBuffers(name=/87, inputs=[], perturbed=False)
+  (/88): BoundBuffers(name=/88, inputs=[], perturbed=False)
+  (/89): BoundBuffers(name=/89, inputs=[], perturbed=False)
+  (/91): BoundShape(name=/91, inputs=[/0], perturbed=False)
+  (/92): BoundConstant(name=/92, value=0)
+  (/93): BoundGather(name=/93, inputs=[/91, /92], perturbed=False)
+  (/94): BoundConstant(name=/94, value=2025)
+  (/98): BoundUnsqueeze(name=/98, inputs=[/94, /276], perturbed=False)
+  (/99): BoundConcat(name=/99, inputs=[/224, /98], perturbed=False)
+  (/100): BoundConstantOfShape(name=/100, inputs=[/99], perturbed=False)
+  (/102): BoundGather(name=/102, inputs=[/0, /13], perturbed=True)
+  (/103): BoundTranspose(name=/103, inputs=[/14], perturbed=False)
+  (/v): BoundMatMul(name=/v, inputs=[/102, /103], perturbed=True)
+  (/105): BoundConstant(name=/105, value=1)
+  (/106): BoundATenIndex_add(name=/106, inputs=[/100, /105, /12, /v, /105], perturbed=True)
+  (/107): BoundCast(name=/107, inputs=[/106], perturbed=True)
+  (/108): BoundAdd(name=/108, inputs=[/100, /107], perturbed=True)
+  (/109): BoundGather(name=/109, inputs=[/0, /21], perturbed=True)
+  (/110): BoundMul(name=/110, inputs=[/109, /20], perturbed=True)
+  (/111): BoundGather(name=/111, inputs=[/0, /23], perturbed=True)
+  (/112): BoundMul(name=/112, inputs=[/111, /22], perturbed=True)
+  (/113): BoundAdd(name=/113, inputs=[/110, /112], perturbed=True)
+  (/114): BoundGather(name=/114, inputs=[/0, /25], perturbed=True)
+  (/115): BoundMul(name=/115, inputs=[/114, /24], perturbed=True)
+  (/116): BoundAdd(name=/116, inputs=[/113, /115], perturbed=True)
+  (/117): BoundGather(name=/117, inputs=[/0, /27], perturbed=True)
+  (/118): BoundMul(name=/118, inputs=[/117, /26], perturbed=True)
+  (/119): BoundAdd(name=/119, inputs=[/116, /118], perturbed=True)
+  (/120): BoundExp(name=/120, inputs=[/119], perturbed=True)
+  (/121): BoundMul(name=/121, inputs=[/77, /120], perturbed=True)
+  (/122): BoundAdd(name=/122, inputs=[/88, /121], perturbed=True)
+  (/124): BoundConstant(name=/124, inputs=[], perturbed=False)
+  (/125): BoundReshape(name=/125, inputs=[/16, /124], perturbed=False)
+  (/126): BoundMul(name=/126, inputs=[/v-3/mul, /125], perturbed=True)
+  (/v-7): BoundCast(name=/v-7, inputs=[/126], perturbed=True)
+  (/128): BoundATenIndex_add(name=/128, inputs=[/108, /105, /3, /v-7, /105], perturbed=True)
+  (/129): BoundGather(name=/129, inputs=[/0, /31], perturbed=True)
+  (/132): BoundMul(name=/132, inputs=[/43, /166], perturbed=True)
+  (/133): BoundGather(name=/133, inputs=[/0, /34], perturbed=True)
+  (/135): BoundGather(name=/135, inputs=[/0, /36], perturbed=True)
+  (/138): BoundGather(name=/138, inputs=[/0, /38], perturbed=True)
+  (/140): BoundGather(name=/140, inputs=[/0, /40], perturbed=True)
+  (/v-11): BoundMul(name=/v-11, inputs=[/132, /162], perturbed=True)
+  (/147): BoundReshape(name=/147, inputs=[/28, /168], perturbed=False)
+  (/148): BoundMul(name=/148, inputs=[/v-11, /147], perturbed=True)
+  (/v-15): BoundCast(name=/v-15, inputs=[/148], perturbed=True)
+  (/150): BoundATenIndex_add(name=/150, inputs=[/128, /105, /4, /v-15, /105], perturbed=True)
+  (/152): BoundMul(name=/152, inputs=[/88, /133], perturbed=True)
+  (/154): BoundMul(name=/154, inputs=[/88, /135], perturbed=True)
+  (/155): BoundMul(name=/155, inputs=[/152, /154], perturbed=True)
+  (/157): BoundMul(name=/157, inputs=[/88, /138], perturbed=True)
+  (/159): BoundMul(name=/159, inputs=[/88, /140], perturbed=True)
+  (/160): BoundMul(name=/160, inputs=[/157, /159], perturbed=True)
+  (/161): BoundAdd(name=/161, inputs=[/155, /160], perturbed=True)
+  (/162): BoundPow(name=/162, inputs=[/161, /52], perturbed=True)
+  (/163): BoundMul(name=/163, inputs=[/43, /162], perturbed=True)
+  (/165): BoundMul(name=/165, inputs=[/88, /129], perturbed=True)
+  (/166): BoundPow(name=/166, inputs=[/165, /55], perturbed=True)
+  (/v-19): BoundMul(name=/v-19, inputs=[/163, /166], perturbed=True)
+  (/168): BoundConstant(name=/168, inputs=[], perturbed=False)
+  (/169): BoundReshape(name=/169, inputs=[/42, /168], perturbed=False)
+  (/170): BoundMul(name=/170, inputs=[/v-19, /169], perturbed=True)
+  (/v-23): BoundCast(name=/v-23, inputs=[/170], perturbed=True)
+  (/172): BoundATenIndex_add(name=/172, inputs=[/150, /105, /5, /v-23, /105], perturbed=True)
+  (/173): BoundGather(name=/173, inputs=[/0, /61], perturbed=True)
+  (/174): BoundMul(name=/174, inputs=[/173, /60], perturbed=True)
+  (/175): BoundGather(name=/175, inputs=[/0, /63], perturbed=True)
+  (/176): BoundMul(name=/176, inputs=[/175, /62], perturbed=True)
+  (/177): BoundAdd(name=/177, inputs=[/174, /176], perturbed=True)
+  (/178): BoundGather(name=/178, inputs=[/0, /65], perturbed=True)
+  (/179): BoundMul(name=/179, inputs=[/178, /64], perturbed=True)
+  (/180): BoundAdd(name=/180, inputs=[/177, /179], perturbed=True)
+  (/181): BoundExp(name=/181, inputs=[/180], perturbed=True)
+  (/182): BoundMul(name=/182, inputs=[/77, /181], perturbed=True)
+  (/183): BoundAdd(name=/183, inputs=[/88, /182], perturbed=True)
+  (/187): BoundMul(name=/187, inputs=[/v-27/mul, /200], perturbed=True)
+  (/v-32): BoundCast(name=/v-32, inputs=[/187], perturbed=True)
+  (/189): BoundATenIndex_add(name=/189, inputs=[/172, /105, /6, /v-32, /105], perturbed=True)
+  (/190): BoundGather(name=/190, inputs=[/0, /71], perturbed=True)
+  (/191): BoundMul(name=/191, inputs=[/190, /70], perturbed=True)
+  (/192): BoundGather(name=/192, inputs=[/0, /73], perturbed=True)
+  (/193): BoundMul(name=/193, inputs=[/192, /72], perturbed=True)
+  (/194): BoundAdd(name=/194, inputs=[/191, /193], perturbed=True)
+  (/195): BoundExp(name=/195, inputs=[/194], perturbed=True)
+  (/196): BoundMul(name=/196, inputs=[/77, /195], perturbed=True)
+  (/197): BoundAdd(name=/197, inputs=[/88, /196], perturbed=True)
+  (/199): BoundConstant(name=/199, inputs=[], perturbed=False)
+  (/200): BoundReshape(name=/200, inputs=[/66, /199], perturbed=False)
+  (/201): BoundMul(name=/201, inputs=[/v-36/mul, /200], perturbed=True)
+  (/v-40): BoundCast(name=/v-40, inputs=[/201], perturbed=True)
+  (/203): BoundATenIndex_add(name=/203, inputs=[/189, /105, /7, /v-40, /105], perturbed=True)
+  (/204): BoundGather(name=/204, inputs=[/0, /79], perturbed=True)
+  (/205): BoundMul(name=/205, inputs=[/204, /78], perturbed=True)
+  (/206): BoundExp(name=/206, inputs=[/205], perturbed=True)
+  (/207): BoundMul(name=/207, inputs=[/77, /206], perturbed=True)
+  (/208): BoundAdd(name=/208, inputs=[/88, /207], perturbed=True)
+  (/210): BoundConstant(name=/210, inputs=[], perturbed=False)
+  (/211): BoundReshape(name=/211, inputs=[/74, /210], perturbed=False)
+  (/212): BoundMul(name=/212, inputs=[/v-44/mul, /211], perturbed=True)
+  (/v-48): BoundCast(name=/v-48, inputs=[/212], perturbed=True)
+  (/214): BoundATenIndex_add(name=/214, inputs=[/203, /105, /8, /v-48, /105], perturbed=True)
+  (/215): BoundGather(name=/215, inputs=[/0, /82], perturbed=True)
+  (/v-52): BoundMul(name=/v-52, inputs=[/88, /215], perturbed=True)
+  (/218): BoundReshape(name=/218, inputs=[/80, /247], perturbed=False)
+  (/219): BoundMul(name=/219, inputs=[/v-52, /218], perturbed=True)
+  (/v-56): BoundCast(name=/v-56, inputs=[/219], perturbed=True)
+  (/221): BoundATenIndex_add(name=/221, inputs=[/214, /105, /9, /v-56, /105], perturbed=True)
+  (/222): BoundConstant(name=/222, value=1518)
+  (/224): BoundUnsqueeze(name=/224, inputs=[/93, /276], perturbed=False)
+  (/226): BoundUnsqueeze(name=/226, inputs=[/222, /276], perturbed=False)
+  (/227): BoundConcat(name=/227, inputs=[/224, /226], perturbed=False)
+  (/228): BoundConstant(name=/228, value=tensor([-1], device='cuda:0'))
+  (/229): BoundReshape(name=/229, inputs=[/227, /228], perturbed=False)
+  (/230): BoundShape(name=/230, inputs=[/229], perturbed=False)
+  (/231): BoundConstantOfShape(name=/231, inputs=[/230], perturbed=False)
+  (/232): BoundConstant(name=/232, value=-1)
+  (/233): BoundMul(name=/233, inputs=[/231, /232], perturbed=False)
+  (/234): BoundEqual(name=/234, inputs=[/229, /233], perturbed=False)
+  (/235): BoundWhere(name=/235, inputs=[/234, /231, /229], perturbed=False)
+  (/v-60): BoundExpand(name=/v-60, inputs=[/v-31, /235], perturbed=False)
+  (/238): BoundReshape(name=/238, inputs=[/83, /247], perturbed=False)
+  (/239): BoundMul(name=/239, inputs=[/v-60, /238], perturbed=False)
+  (/v-64): BoundCast(name=/v-64, inputs=[/239], perturbed=False)
+  (/241): BoundATenIndex_add(name=/241, inputs=[/221, /105, /10, /v-64, /105], perturbed=True)
+  (/242): BoundGather(name=/242, inputs=[/0, /87], perturbed=True)
+  (/243): BoundMul(name=/243, inputs=[/88, /242], perturbed=True)
+  (/244): BoundGather(name=/244, inputs=[/0, /89], perturbed=True)
+  (/245): BoundMul(name=/245, inputs=[/88, /244], perturbed=True)
+  (/v-68): BoundMul(name=/v-68, inputs=[/243, /245], perturbed=True)
+  (/247): BoundConstant(name=/247, inputs=[], perturbed=False)
+  (/248): BoundReshape(name=/248, inputs=[/85, /247], perturbed=False)
+  (/249): BoundMul(name=/249, inputs=[/v-68, /248], perturbed=True)
+  (/v-72): BoundCast(name=/v-72, inputs=[/249], perturbed=True)
+  (/251): BoundATenIndex_add(name=/251, inputs=[/241, /105, /11, /v-72, /105], perturbed=True)
+  (/255): BoundUnsqueeze(name=/255, inputs=[/232, /276], perturbed=False)
+  (/256): BoundConcat(name=/256, inputs=[/224, /255], perturbed=False)
+  (/257): BoundReshape(name=/257, inputs=[/0, /256], perturbed=True)
+  (/258): BoundNeg(name=/258, inputs=[/2], perturbed=False)
+  (/259): BoundLinear(name=/259, inputs=[/257, /1, /258], perturbed=True)
+  (/260): BoundConstant(name=/260, value=9223372036854775807)
+  (/264): BoundUnsqueeze(name=/264, inputs=[/92, /276], perturbed=False)
+  (/269): BoundSlice(name=/269, inputs=[/251, /264, /277, /277, /277], perturbed=True)
+  (/275): BoundUnsqueeze(name=/275, inputs=[/260, /276], perturbed=False)
+  (/276): BoundConstant(name=/276, value=tensor([0], device='cuda:0'))
+  (/277): BoundUnsqueeze(name=/277, inputs=[/105, /276], perturbed=False)
+  (/278): BoundSlice(name=/278, inputs=[/251, /277, /275, /277, /277], perturbed=True)
+  (/279): BoundConcat(name=/279, inputs=[/269, /259, /278], perturbed=True)
+  (/v-3/reciprocal): BoundReciprocal(name=/v-3/reciprocal, inputs=[/122], perturbed=True)
+  (/v-3/mul): BoundMul(name=/v-3/mul, inputs=[/75, /v-3/reciprocal], perturbed=True)
+  (/v-27/reciprocal): BoundReciprocal(name=/v-27/reciprocal, inputs=[/183], perturbed=True)
+  (/v-27/mul): BoundMul(name=/v-27/mul, inputs=[/75, /v-27/reciprocal], perturbed=True)
+  (/v-36/reciprocal): BoundReciprocal(name=/v-36/reciprocal, inputs=[/197], perturbed=True)
+  (/v-36/mul): BoundMul(name=/v-36/mul, inputs=[/75, /v-36/reciprocal], perturbed=True)
+  (/v-44/reciprocal): BoundReciprocal(name=/v-44/reciprocal, inputs=[/208], perturbed=True)
+  (/v-44/mul): BoundMul(name=/v-44/mul, inputs=[/75, /v-44/reciprocal], perturbed=True)
+)
+Original output in the first batch: tensor([[-38307.75069114,  -2499.98702500,   2499.98702500,  ...,
+           -726.43240000,    725.26880000,   -725.26880000]], device='cuda:0')
+build batch [1/1]
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 1518x1518 for node BoundMul(name=/243, inputs=[/88, /242], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+<gear>/complete_verifier/auto_LiRPA/bound_general.py:1096: UserWarning: Creating an identity matrix with size 1518x1518 for node BoundMul(name=/245, inputs=[/88, /244], perturbed=True). This may indicate poor performance for bound computation. If you see this message on a small network please submit a bug report.
+  sparse_C = self.get_sparse_C(node, ref_intermediate)
+initial crown bounds (first 10 items): [-77389.39533577906, -999.9942914286305, -240.117309359737, -999.9972128894532, -1146.113446618575, -999.9972128894534, -1146.113446618575, -999.9972128894534, -1146.113446618575, -999.9972128894534]
+Global lower bound: -77389.39533577906
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 2993), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 2993), values=[[-77389.39533577906, -999.9942914286305, -240.117309359737, -999.9972128894532, -1146.113446618575, -999.9972128894534, -1146.113446618575, -999.9972128894534, -1146.113446618575, -999.9972128894534, ...]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([[[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]]], device='cuda:0')
+RHS: tensor([[0., 0., 0.,  ..., 0., 0., 0.]], device='cuda:0')
+OR spec sizes: tensor([2992], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 174.53320622444153
+Model prediction is: tensor([-38307.75069114,  -2499.98702500,   2499.98702500,  ...,
+          -726.43240000,    725.26880000,   -725.26880000], device='cuda:0')
+[Op] setup t=7.478 s=7.4771 work=1 dD=0 dP=0
+[Op] reference_bounds t=7.478 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=12.456 s=4.9777 work=1 dD=0 dP=0
+[Structure] objective=affine rows={'atoms': 1518, 'quad': 506, 'affine': 968} duplicates=0 opposites=484 redundant=0 aliases=0 pool={'rows': 1496, 'ranged': 1496, 'merged': 2464, 'masked': 0, 'opaque': 0} spent=31706 time=0.182s
+[Op] struct_forms t=12.639 s=0.1828 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.073s
+[Op] struct_cert t=12.712 s=0.0738 work=1 dD=0 dP=0
+[RootHybrid] terms=1 lb=-77389.3953357 (root lb was -77389.3953358)
+[Op] hybrid t=12.862 s=0.1492 work=1 dD=1.28872e-07 dP=0
+[Op] initial_verify t=12.862 s=0.0001 work=1 dD=0 dP=0
+[Op] lp_alternation t=12.863 s=0.0008 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 2093 vars, 2992 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+[SparseDerivatives] rows=3960 merged=1496 atoms=897 nnzJ=6052 nnzH=5152 hessian=exact reproduces=True build=0.03s
+    [ALM-PGD] Output affine equality projection: pairs=990 restarts=5120/20480 sweeps=50 max_residual=9.759e+02->1.991e+02
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+    [ALM-PGD] Positive-residual RMS scale: min=1.000e+00 median=4.386e+01 max=2.403e+03
+  [IPOPT] Verification: valid=True, obj=-267.991987, viol=9.45e-07
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+    [ALM-FEAS] GN iter 1: live=8/8 accepted=8 best_viol_min=3.058e+01 feasible=0 alpha_idx_med=0 lam_rel_med=3.3e-07 radius_med=1.0e+00
+    [ALM-FEAS] GN iter 2: live=8/8 accepted=8 best_viol_min=1.595e+01 feasible=0 alpha_idx_med=0 lam_rel_med=1.1e-07 radius_med=1.0e+00
+    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=8 iters=2/50 min_viol=4.078e+01->1.595e+01 feasible=0/1 improved=1 newly_feasible=0
+    [ALM-PGD] Raw polish iter: t=0 current_min=1.595e+01 grad_med=1.026e+03 grad_max=3.307e+06 unit_box_move=1.000e-03 accepted=64/64 radius_med=1.000e-03
+    [ALM-PGD] Raw polish iter: t=249 current_min=1.584e+01 grad_med=1.030e+03 grad_max=3.306e+06 unit_box_move=4.100e-02 accepted=64/64 radius_med=1.000e-03
+    [ALM-PGD] Raw minimax polish: steps=250/250 clones=64 min_viol=1.595e+01->1.584e+01 new_feasible=0/1
+    [ALM-SQP] Optimality polish skipped: n=2093, m=2992 too large
+    [ALM-PGD] Unified root: progress exhausted after outer iteration 0: target residual=1.58389e+07, work=74 inner steps
+  [ALM] Verification: valid=False, obj=200.977027, viol=1.58e+01
+  [Root] Parallel done: IPOPT 3.50s, ALM 58.79s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: -267.991987
+  Violation: 9.45e-07
+  Time: 3.50s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: False
+  Objective: 200.977027
+  Violation: 1.58e+01
+  Time: 58.79s
+  Verified: False
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: ipopt
+Best objective: -267.991987
+======================================================================
+NLP Comparison: Best method = ipopt
+NLP Comparison: Found optimal! objective = -267.991987
+  Local (IPOPT): verified=True, obj=-267.99198676863506, time=3.50s
+  ALM:   verified=False, obj=200.97702726257478, time=58.79s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=71.687 s=58.8239 work=1 dD=0 dP=0
+[Op] search_state t=71.687 s=0.0003 work=1 dD=0 dP=0
+[Op] incumbent t=71.687 s=0.0002 work=1 dD=0 dP=inf
+[Op] tangent t=71.689 s=0.0014 work=1 dD=0 dP=0
+[Op] consistency t=71.689 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=71.689 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=71.777 s=0.0879 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=71.779 s=0.0014 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=76.363 s=4.5839 work=1 dD=0 dP=0
+[Op] convex_cuts t=76.380 s=0.0006 work=1 dD=0 dP=0
+[LiftedLP] not applicable (0.00s)
+[Op] lifted_lp t=76.382 s=0.0013 work=1 dD=0 dP=0
+[Op] lifted_obbt t=76.382 s=0.0001 work=1 dD=0 dP=0
+[Op] lifted_bab t=76.384 s=0.0019 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+<gear>/complete_verifier/auto_LiRPA/concretize_func.py:804: UserWarning: torch.searchsorted(): input value tensor is non-contiguous, this will lower the performance due to extra data copy when converting non-contiguous tensor to contiguous, please use contiguous input value tensor if possible. This message will only appear once per program. (Triggered internally at /pytorch/aten/src/ATen/native/BucketizationUtils.h:32.)
+  optimal_beta = _solve_dual_var(constr_a_solve, object_a_solve, constr_d_solve, epsilon_solve) # shape (B_act, H_act)
+	Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=76.500 s=0.1160 work=1 dD=0 dP=0
+[M3] compiler complete=False squares=0 census={'inexact/unsupported': 1518, 'unknown quadratic identity': 506, 'affine': 968} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0907    init 0.0004    concretize 0.0508    bounding 0.9077    filtering 0.0150    decision 0.0004    split 0.0004    clip 0.0028    add_domain 0.0196    summary 0.0044    
+		Accumulated time: sort_domains 0.0000    pickout 0.0907    bounding 0.9077    init 0.0105    concretize 0.3567    filtering 0.0150    decision 0.0004    split 0.0004    clip 0.0028    add_domain 0.0196    summary 0.0044    
+		Length of domains: 1
+		3 domains visited
+		Dual Solution This Iter: -526.2064051053908
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -526.2064051053908
+	Solution gap: 258.2144183367557
+	[Op] sort_domains t=77.581 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=77.581 s=0.0907 work=2 dD=0 dP=0
+	[Op] split t=77.581 s=0.0004 work=2 dD=0 dP=0
+	[Op] bounding t=77.581 s=0.9077 work=2 dD=76863.2 dP=0
+	[Op] filtering t=77.581 s=0.0150 work=2 dD=0 dP=0
+	[Op] clip t=77.581 s=0.0028 work=2 dD=0 dP=0
+	[Op] decision t=77.581 s=0.0004 work=2 dD=0 dP=0
+	[Op] add_domain t=77.581 s=0.0196 work=2 dD=0 dP=0
+	[Op] summary t=77.581 s=0.0044 work=2 dD=0 dP=0
+	[Op] lifted_bab t=77.581 s=0.0001 work=1 dD=0 dP=0
+	current_vram/total_varm: 5.0GB/33.7GB, batch_size increase to 4
+	Cumulative time: 70.10382437705994
+
+Iteration 2
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0549    init 0.0002    concretize 0.0214    bounding 0.4687    filtering 0.0085    decision 0.0004    split 0.0004    clip 0.0039    add_domain 0.0191    summary 0.0043    
+		Accumulated time: sort_domains 0.0000    pickout 0.1456    bounding 1.3764    init 0.0200    concretize 0.5795    filtering 0.0235    decision 0.0008    split 0.0008    clip 0.0067    add_domain 0.0387    summary 0.0087    
+		Length of domains: 1
+		4 domains visited
+		Dual Solution This Iter: -518.5697212630778
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -518.5697212630778
+	Solution gap: 250.57773449444272
+	[Op] sort_domains t=78.146 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=78.147 s=0.0549 work=1 dD=0 dP=0
+	[Op] split t=78.147 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=78.147 s=0.4687 work=1 dD=7.63668 dP=0
+	[Op] filtering t=78.147 s=0.0085 work=1 dD=0 dP=0
+	[Op] clip t=78.147 s=0.0039 work=1 dD=0 dP=0
+	[Op] decision t=78.147 s=0.0004 work=1 dD=0 dP=0
+	[Op] add_domain t=78.147 s=0.0191 work=1 dD=0 dP=0
+	[Op] summary t=78.147 s=0.0043 work=1 dD=0 dP=0
+	[Op] lifted_bab t=78.147 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 70.66955065727234
+
+Iteration 3
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 1, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0564    init 0.0002    concretize 0.0213    bounding 0.4693    filtering 0.0084    decision 0.0004    split 0.0003    clip 0.0039    add_domain 0.0190    summary 0.0041    
+		Accumulated time: sort_domains 0.0000    pickout 0.2020    bounding 1.8457    init 0.0294    concretize 0.8021    filtering 0.0319    decision 0.0012    split 0.0011    clip 0.0105    add_domain 0.0577    summary 0.0128    
+		Length of domains: 1
+		5 domains visited
+		Dual Solution This Iter: -511.06571493201795
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -511.06571493201795
+	Solution gap: 243.0737281633829
+	[Op] sort_domains t=78.714 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=78.714 s=0.0564 work=1 dD=0 dP=0
+	[Op] split t=78.714 s=0.0003 work=1 dD=0 dP=0
+	[Op] bounding t=78.714 s=0.4693 work=1 dD=7.50401 dP=0
+	[Op] filtering t=78.714 s=0.0084 work=1 dD=0 dP=0
+	[Op] clip t=78.714 s=0.0039 work=1 dD=0 dP=0
+	[Op] decision t=78.714 s=0.0004 work=1 dD=0 dP=0
+	[Op] add_domain t=78.714 s=0.0190 work=1 dD=0 dP=0
+	[Op] summary t=78.714 s=0.0041 work=1 dD=0 dP=0
+	[Op] lifted_bab t=78.714 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 71.23694944381714
+
+Iteration 4
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 1, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0548    init 0.0002    concretize 0.0213    bounding 0.4686    filtering 0.0085    decision 0.0004    split 0.0004    clip 0.0039    add_domain 0.0189    summary 0.0042    
+		Accumulated time: sort_domains 0.0000    pickout 0.2568    bounding 2.3143    init 0.0388    concretize 1.0246    filtering 0.0404    decision 0.0016    split 0.0015    clip 0.0144    add_domain 0.0766    summary 0.0171    
+		Length of domains: 1
+		6 domains visited
+		Dual Solution This Iter: -511.06571493201795
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -511.06571493201795
+	Solution gap: 243.0737281633829
+	[Op] sort_domains t=79.279 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=79.279 s=0.0548 work=1 dD=0 dP=0
+	[Op] split t=79.279 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=79.279 s=0.4686 work=1 dD=0 dP=0
+	[Op] filtering t=79.279 s=0.0085 work=1 dD=0 dP=0
+	[Op] clip t=79.279 s=0.0039 work=1 dD=0 dP=0
+	[Op] decision t=79.279 s=0.0004 work=1 dD=0 dP=0
+	[Op] add_domain t=79.279 s=0.0189 work=1 dD=0 dP=0
+	[Op] summary t=79.279 s=0.0042 work=1 dD=0 dP=0
+	[Op] lifted_bab t=79.279 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 71.80191135406494
+
+Iteration 5
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 1
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=3852, useful_mean=3831.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/1 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0000)
+	  [ALM-BaB] Shared budget: domains=1, restarts=1000, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=6.86e+00 local_obj_at_min_viol=-122.0862 local_domain=0 local_restart=421 rho=50 eps=1.41e-01 eta=4.37e-02 grad=1.56e+04 ||mu||=0.00e+00 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=-267.9920
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=-267.9920 unchanged since k=0, patience=1)
+	    [ALM-FEAS] Batched GN restoration: domains=1/1 seeds=2 iters=1/30 min_viol=9.447e-07->9.447e-07 feasible=1/1 improved=0 newly_feasible=0 below_level=0
+	  [ALM-BaB] Solved 1 domains: success=True, obj=-267.99198676863506, time=10.03s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=0/1, success=1/1, shifted_obj=-267.991987, raw_obj=-267.991987, rhs_obj=0.000000
+	  ALM-PGD found obj=-267.991987
+	  ALM-PGD raw obj=-267.991987
+	  Running IPOPT-in-BaB parallelly on top 1 domains (timeout=10.0s)
+	  [IPOPT-in-BaB] No improvement found. Best local obj: inf
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 1, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 1, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0539    init 0.0003    concretize 0.0215    bounding 0.4959    filtering 0.0085    decision 0.0004    split 0.0004    clip 0.0039    add_domain 0.0288    summary 0.0044    alm_attack 11.0303    
+		Accumulated time: sort_domains 0.0000    pickout 0.3106    bounding 2.8102    init 0.0501    concretize 1.2525    filtering 0.0489    decision 0.0020    split 0.0018    clip 0.0183    add_domain 0.1054    summary 0.0215    alm_attack 11.0303    
+		Length of domains: 2
+		7 domains visited
+		Dual Solution This Iter: -509.03621538704937
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -509.03621538704937
+	Solution gap: 241.0442286184143
+	[Op] sort_domains t=90.912 s=0.0000 work=1 dD=0 dP=0
+	[Op] pickout t=90.912 s=0.0539 work=1 dD=0 dP=0
+	[Op] alm_attack t=90.912 s=11.0303 work=1 dD=0 dP=0
+	[Op] split t=90.912 s=0.0004 work=1 dD=0 dP=0
+	[Op] bounding t=90.912 s=0.4959 work=1 dD=2.0295 dP=0
+	[Op] filtering t=90.912 s=0.0085 work=1 dD=0 dP=0
+	[Op] clip t=90.912 s=0.0039 work=1 dD=0 dP=0
+	[Op] decision t=90.912 s=0.0004 work=1 dD=0 dP=0
+	[Op] add_domain t=90.912 s=0.0288 work=1 dD=0 dP=0
+	[Op] summary t=90.912 s=0.0044 work=1 dD=0 dP=0
+	[Op] lifted_bab t=90.912 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 83.43488788604736
+
+Iteration 6
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 2, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 4, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 4, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 4, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0902    init 0.0003    concretize 0.0508    bounding 0.8929    filtering 0.0149    decision 0.0010    split 0.0009    clip 0.0077    add_domain 0.0603    summary 0.0045    alm_attack 11.0303    
+		Accumulated time: sort_domains 0.0000    pickout 0.4008    bounding 3.7031    init 0.0614    concretize 1.6106    filtering 0.0638    decision 0.0030    split 0.0028    clip 0.0259    add_domain 0.1658    summary 0.0259    alm_attack 11.0303    
+		Length of domains: 4
+		9 domains visited
+		Dual Solution This Iter: -509.03621538704937
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -509.03621538704937
+	Solution gap: 241.0442286184143
+	[Op] sort_domains t=91.991 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=91.991 s=0.0902 work=2 dD=0 dP=0
+	[Op] split t=91.991 s=0.0009 work=2 dD=0 dP=0
+	[Op] bounding t=91.991 s=0.8929 work=2 dD=0 dP=0
+	[Op] filtering t=91.991 s=0.0149 work=2 dD=0 dP=0
+	[Op] clip t=91.991 s=0.0077 work=2 dD=0 dP=0
+	[Op] decision t=91.991 s=0.0010 work=2 dD=0 dP=0
+	[Op] add_domain t=91.991 s=0.0603 work=2 dD=0 dP=0
+	[Op] summary t=91.991 s=0.0045 work=2 dD=0 dP=0
+	[Op] lifted_bab t=91.991 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 84.51443767547607
+
+Iteration 7
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 4
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 4, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 4, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 6, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 6, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 6, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.1615    init 0.0007    concretize 0.1026    bounding 1.3368    filtering 0.0360    decision 0.0015    split 0.0010    clip 0.0120    add_domain 0.0957    summary 0.0044    alm_attack 11.0303    
+		Accumulated time: sort_domains 0.0000    pickout 0.5624    bounding 5.0400    init 0.0760    concretize 2.2634    filtering 0.0997    decision 0.0044    split 0.0038    clip 0.0380    add_domain 0.2615    summary 0.0304    alm_attack 11.0303    
+		Length of domains: 6
+		13 domains visited
+		Dual Solution This Iter: -505.47822086883417
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.47822086883417
+	Solution gap: 237.4862341001991
+	[Op] sort_domains t=93.655 s=0.0000 work=4 dD=0 dP=0
+	[Op] pickout t=93.655 s=0.1615 work=4 dD=0 dP=0
+	[Op] split t=93.655 s=0.0010 work=4 dD=0 dP=0
+	[Op] bounding t=93.655 s=1.3368 work=4 dD=3.55799 dP=0
+	[Op] filtering t=93.655 s=0.0360 work=4 dD=0 dP=0
+	[Op] clip t=93.655 s=0.0120 work=4 dD=0 dP=0
+	[Op] decision t=93.655 s=0.0015 work=4 dD=0 dP=0
+	[Op] add_domain t=93.655 s=0.0957 work=4 dD=0 dP=0
+	[Op] summary t=93.655 s=0.0044 work=4 dD=0 dP=0
+	[Op] lifted_bab t=93.655 s=0.0002 work=1 dD=0 dP=0
+	current_vram/total_varm: 15.0GB/33.7GB, batch_size increase to 8
+	Cumulative time: 86.17822670936584
+
+Iteration 8
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 6
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 6, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 6, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 10, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 10, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 10, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.2389    init 0.0008    concretize 0.1553    bounding 1.7566    filtering 0.0582    decision 0.0023    split 0.0010    clip 0.0200    add_domain 0.1503    summary 0.0045    alm_attack 11.0303    
+		Accumulated time: sort_domains 0.0000    pickout 0.8013    bounding 6.7966    init 0.0921    concretize 3.1987    filtering 0.1579    decision 0.0067    split 0.0048    clip 0.0580    add_domain 0.4118    summary 0.0349    alm_attack 11.0303    
+		Length of domains: 10
+		19 domains visited
+		Dual Solution This Iter: -505.47822086883417
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.47822086883417
+	Solution gap: 237.4862341001991
+	[Op] sort_domains t=95.904 s=0.0000 work=6 dD=0 dP=0
+	[Op] pickout t=95.904 s=0.2389 work=6 dD=0 dP=0
+	[Op] split t=95.904 s=0.0010 work=6 dD=0 dP=0
+	[Op] bounding t=95.904 s=1.7566 work=6 dD=0 dP=0
+	[Op] filtering t=95.904 s=0.0582 work=6 dD=0 dP=0
+	[Op] clip t=95.904 s=0.0200 work=6 dD=0 dP=0
+	[Op] decision t=95.904 s=0.0023 work=6 dD=0 dP=0
+	[Op] add_domain t=95.904 s=0.1503 work=6 dD=0 dP=0
+	[Op] summary t=95.904 s=0.0045 work=6 dD=0 dP=0
+	[Op] lifted_bab t=95.904 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 88.42658019065857
+
+Iteration 9
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 14, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 14, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 14, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3262    init 0.0003    concretize 0.2056    bounding 2.1603    filtering 0.0775    decision 0.0032    split 0.0008    clip 0.0536    add_domain 0.2101    summary 0.0048    alm_attack 11.0303    
+		Accumulated time: sort_domains 0.0000    pickout 1.1275    bounding 8.9569    init 0.1028    concretize 4.4347    filtering 0.2354    decision 0.0099    split 0.0056    clip 0.1116    add_domain 0.6219    summary 0.0397    alm_attack 11.0303    
+		Length of domains: 16
+		27 domains visited
+		Dual Solution This Iter: -505.47822086883417
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.47822086883417
+	Solution gap: 237.4862341001991
+	[Op] sort_domains t=98.756 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=98.756 s=0.3262 work=8 dD=0 dP=0
+	[Op] split t=98.756 s=0.0008 work=8 dD=0 dP=0
+	[Op] bounding t=98.756 s=2.1603 work=8 dD=0 dP=0
+	[Op] filtering t=98.756 s=0.0775 work=8 dD=0 dP=0
+	[Op] clip t=98.756 s=0.0536 work=8 dD=0 dP=0
+	[Op] decision t=98.756 s=0.0032 work=8 dD=0 dP=0
+	[Op] add_domain t=98.756 s=0.2101 work=8 dD=0 dP=0
+	[Op] summary t=98.756 s=0.0048 work=8 dD=0 dP=0
+	[Op] lifted_bab t=98.756 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 91.27955532073975
+
+Iteration 10
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=3852, useful_mean=3817.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/8 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0000)
+	  [ALM-BaB] Replaced 7 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=8, restarts=125, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=3.61e+00 local_obj_at_min_viol=-106.6151 local_domain=7 local_restart=66 rho=50 eps=1.41e-01 eta=4.37e-02 grad=2.52e+03 ||mu||=0.00e+00 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=-267.9920
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=-267.9920 unchanged since k=0, patience=1)
+	    [ALM-FEAS] Batched GN restoration: domains=2/8 seeds=1 iters=1/30 min_viol=3.609e+00->3.609e+00 feasible=0/2 improved=0 newly_feasible=0
+	  [ALM-BaB] Solved 8 domains: success=tensor([False, False, False, False, False,  True, False, False],
+	       device='cuda:0'), obj=tensor([-134.09959744, -102.59210933, -107.31618770, -114.72974749,
+	        -104.39803557, -267.99198677, -114.06063292, -106.61510262],
+	       device='cuda:0'), time=10.02s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=5/8, success=1/8, shifted_obj=-267.991987, raw_obj=-267.991987, rhs_obj=0.000000
+	  ALM-PGD found obj=-267.991987
+	  ALM-PGD raw obj=-267.991987
+	  Running IPOPT-in-BaB parallelly on top 2 domains (timeout=10.0s)
+INFO     00:50:13     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'hessian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'constraints_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'objective_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     00:50:13     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'hessian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'constraints_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'objective_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     00:50:13     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'hessian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'constraints_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'objective_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'jacobian_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'Querying for jacobian'
+INFO     00:50:13     [ipopt_solver.py:428] b'intermediate_cb'
+INFO     00:50:13     [ipopt_solver.py:428] b'hessian_cb'
+	  [IPOPT-in-BaB] No improvement found. Best local obj: inf
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 14, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 14, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 14, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3748    init 0.0003    concretize 0.2055    bounding 2.1584    filtering 0.0776    decision 0.0032    split 0.0004    clip 0.0280    add_domain 0.2091    summary 0.0046    alm_attack 13.2849    
+		Accumulated time: sort_domains 0.0001    pickout 1.5023    bounding 11.1153    init 0.1140    concretize 5.6689    filtering 0.3130    decision 0.0131    split 0.0060    clip 0.1396    add_domain 0.8310    summary 0.0442    alm_attack 24.3152    
+		Length of domains: 22
+		35 domains visited
+		Dual Solution This Iter: -505.47822086883417
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.47822086883417
+	Solution gap: 237.4862341001991
+	[Op] sort_domains t=114.921 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=114.921 s=0.3748 work=8 dD=0 dP=0
+	[Op] alm_attack t=114.921 s=13.2849 work=8 dD=0 dP=0
+	[Op] split t=114.921 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=114.921 s=2.1584 work=8 dD=0 dP=0
+	[Op] filtering t=114.921 s=0.0776 work=8 dD=0 dP=0
+	[Op] clip t=114.921 s=0.0280 work=8 dD=0 dP=0
+	[Op] decision t=114.921 s=0.0032 work=8 dD=0 dP=0
+	[Op] add_domain t=114.921 s=0.2091 work=8 dD=0 dP=0
+	[Op] summary t=114.921 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=114.921 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 107.4442310333252
+
+Iteration 11
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3764    init 0.0002    concretize 0.2054    bounding 2.1602    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0306    add_domain 0.2356    summary 0.0059    alm_attack 13.2849    
+		Accumulated time: sort_domains 0.0001    pickout 1.8786    bounding 13.2755    init 0.1250    concretize 6.9032    filtering 0.3885    decision 0.0168    split 0.0064    clip 0.1702    add_domain 1.0667    summary 0.0502    alm_attack 24.3152    
+		Length of domains: 30
+		43 domains visited
+		Dual Solution This Iter: -505.2845350988086
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.2845350988086
+	Solution gap: 237.29254833017353
+	[Op] sort_domains t=117.831 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=117.831 s=0.3764 work=8 dD=0 dP=0
+	[Op] split t=117.831 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=117.831 s=2.1602 work=8 dD=0.193686 dP=0
+	[Op] filtering t=117.831 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=117.831 s=0.0306 work=8 dD=0 dP=0
+	[Op] decision t=117.831 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=117.831 s=0.2356 work=8 dD=0 dP=0
+	[Op] summary t=117.831 s=0.0059 work=8 dD=0 dP=0
+	[Op] lifted_bab t=117.831 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 110.35458254814148
+
+Iteration 12
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3857    init 0.0003    concretize 0.2054    bounding 2.1710    filtering 0.0756    decision 0.0037    split 0.0004    clip 0.0305    add_domain 0.3367    summary 0.0046    alm_attack 13.2849    
+		Accumulated time: sort_domains 0.0001    pickout 2.2643    bounding 15.4465    init 0.1385    concretize 8.1417    filtering 0.4642    decision 0.0205    split 0.0069    clip 0.2007    add_domain 1.4033    summary 0.0548    alm_attack 24.3152    
+		Length of domains: 38
+		51 domains visited
+		Dual Solution This Iter: -505.2845350988086
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.2845350988086
+	Solution gap: 237.29254833017353
+	[Op] sort_domains t=120.866 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=120.866 s=0.3857 work=8 dD=0 dP=0
+	[Op] split t=120.866 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=120.866 s=2.1710 work=8 dD=0 dP=0
+	[Op] filtering t=120.866 s=0.0756 work=8 dD=0 dP=0
+	[Op] clip t=120.866 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=120.866 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=120.866 s=0.3367 work=8 dD=0 dP=0
+	[Op] summary t=120.866 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=120.866 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 113.38872575759888
+
+Iteration 13
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3775    init 0.0002    concretize 0.2054    bounding 2.1571    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0305    add_domain 0.2375    summary 0.0046    alm_attack 13.2849    
+		Accumulated time: sort_domains 0.0001    pickout 2.6418    bounding 17.6036    init 0.1493    concretize 9.3755    filtering 0.5397    decision 0.0241    split 0.0073    clip 0.2312    add_domain 1.6409    summary 0.0594    alm_attack 24.3152    
+		Length of domains: 46
+		59 domains visited
+		Dual Solution This Iter: -505.2845350988086
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.2845350988086
+	Solution gap: 237.29254833017353
+	[Op] sort_domains t=123.776 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=123.776 s=0.3775 work=8 dD=0 dP=0
+	[Op] split t=123.776 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=123.776 s=2.1571 work=8 dD=0 dP=0
+	[Op] filtering t=123.776 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=123.776 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=123.776 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=123.776 s=0.2375 work=8 dD=0 dP=0
+	[Op] summary t=123.776 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=123.776 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 116.2991201877594
+
+Iteration 14
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3902    init 0.0003    concretize 0.2055    bounding 2.1693    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0306    add_domain 0.2359    summary 0.0045    alm_attack 13.2849    
+		Accumulated time: sort_domains 0.0001    pickout 3.0320    bounding 19.7730    init 0.1612    concretize 10.6121    filtering 0.6152    decision 0.0278    split 0.0078    clip 0.2618    add_domain 1.8768    summary 0.0639    alm_attack 24.3152    
+		Length of domains: 54
+		67 domains visited
+		Dual Solution This Iter: -505.2845350988086
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.2845350988086
+	Solution gap: 237.29254833017353
+	[Op] sort_domains t=126.710 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=126.710 s=0.3902 work=8 dD=0 dP=0
+	[Op] split t=126.710 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=126.710 s=2.1693 work=8 dD=0 dP=0
+	[Op] filtering t=126.710 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=126.710 s=0.0306 work=8 dD=0 dP=0
+	[Op] decision t=126.710 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=126.710 s=0.2359 work=8 dD=0 dP=0
+	[Op] summary t=126.710 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=126.710 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 119.23360133171082
+
+Iteration 15
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	  Running ALM-PGD attack (interval=5)
+	  [ALM-BaB] Dual cuts: candidates=3852, useful_mean=3817.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/8 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0000)
+	  [ALM-BaB] Replaced 7 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=8, restarts=125, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=3.15e+00 local_obj_at_min_viol=-130.7046 local_domain=4 local_restart=46 rho=50 eps=1.41e-01 eta=4.37e-02 grad=1.94e+03 ||mu||=0.00e+00 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=-267.9920
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=-267.9920 unchanged since k=0, patience=1)
+	    [ALM-FEAS] Batched GN restoration: domains=2/8 seeds=1 iters=1/30 min_viol=3.153e+00->3.153e+00 feasible=0/2 improved=0 newly_feasible=0
+	  [ALM-BaB] Solved 8 domains: success=tensor([False, False, False, False, False, False, False,  True],
+	       device='cuda:0'), obj=tensor([-132.24101151, -113.05261907, -110.43112157, -106.84813123,
+	        -130.70455191, -121.97078111, -109.75931203, -267.99198677],
+	       device='cuda:0'), time=10.02s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=7/8, success=1/8, shifted_obj=-267.991987, raw_obj=-267.991987, rhs_obj=0.000000
+	  ALM-PGD found obj=-267.991987
+	  ALM-PGD raw obj=-267.991987
+	  [ALM-adaptive] No improvement for 3 calls, interval 5 -> 10
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3744    init 0.0002    concretize 0.2054    bounding 2.1677    filtering 0.0757    decision 0.0037    split 0.0005    clip 0.0307    add_domain 0.2382    summary 0.0045    alm_attack 10.2978    
+		Accumulated time: sort_domains 0.0001    pickout 3.4063    bounding 21.9406    init 0.1721    concretize 11.8465    filtering 0.6909    decision 0.0315    split 0.0082    clip 0.2925    add_domain 2.1150    summary 0.0685    alm_attack 34.6130    
+		Length of domains: 62
+		75 domains visited
+		Dual Solution This Iter: -505.2845350988086
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -505.2845350988086
+	Solution gap: 237.29254833017353
+	[Op] sort_domains t=139.934 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=139.934 s=0.3744 work=8 dD=0 dP=0
+	[Op] alm_attack t=139.934 s=10.2978 work=8 dD=0 dP=0
+	[Op] split t=139.934 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=139.934 s=2.1677 work=8 dD=0 dP=0
+	[Op] filtering t=139.934 s=0.0757 work=8 dD=0 dP=0
+	[Op] clip t=139.934 s=0.0307 work=8 dD=0 dP=0
+	[Op] decision t=139.934 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=139.934 s=0.2382 work=8 dD=0 dP=0
+	[Op] summary t=139.934 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=139.934 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 132.45741415023804
+
+Iteration 16
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4196    init 0.0004    concretize 0.2056    bounding 2.1972    filtering 0.0757    decision 0.0037    split 0.0005    clip 0.0307    add_domain 0.4841    summary 0.0045    alm_attack 10.2978    
+		Accumulated time: sort_domains 0.0001    pickout 3.8259    bounding 24.1379    init 0.1874    concretize 13.0889    filtering 0.7666    decision 0.0352    split 0.0087    clip 0.3231    add_domain 2.5991    summary 0.0730    alm_attack 34.6130    
+		Length of domains: 70
+		83 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=143.172 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=143.172 s=0.4196 work=8 dD=0 dP=0
+	[Op] split t=143.172 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=143.172 s=2.1972 work=8 dD=0.794463 dP=0
+	[Op] filtering t=143.172 s=0.0757 work=8 dD=0 dP=0
+	[Op] clip t=143.172 s=0.0307 work=8 dD=0 dP=0
+	[Op] decision t=143.172 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=143.172 s=0.4841 work=8 dD=0 dP=0
+	[Op] summary t=143.172 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=143.172 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 135.69508457183838
+
+Iteration 17
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4445    init 0.0002    concretize 0.2053    bounding 2.1773    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0306    add_domain 0.2361    summary 0.0045    alm_attack 10.2978    
+		Accumulated time: sort_domains 0.0001    pickout 4.2704    bounding 26.3152    init 0.2024    concretize 14.3314    filtering 0.8421    decision 0.0389    split 0.0092    clip 0.3537    add_domain 2.8352    summary 0.0775    alm_attack 34.6130    
+		Length of domains: 78
+		91 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=146.167 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=146.167 s=0.4445 work=8 dD=0 dP=0
+	[Op] split t=146.167 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=146.167 s=2.1773 work=8 dD=0 dP=0
+	[Op] filtering t=146.167 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=146.167 s=0.0306 work=8 dD=0 dP=0
+	[Op] decision t=146.167 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=146.167 s=0.2361 work=8 dD=0 dP=0
+	[Op] summary t=146.167 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=146.167 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 138.6902334690094
+
+Iteration 18
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4045    init 0.0002    concretize 0.2054    bounding 2.1642    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0305    add_domain 0.2381    summary 0.0046    alm_attack 10.2978    
+		Accumulated time: sort_domains 0.0001    pickout 4.6749    bounding 28.4794    init 0.2134    concretize 15.5661    filtering 0.9176    decision 0.0426    split 0.0096    clip 0.3842    add_domain 3.0733    summary 0.0821    alm_attack 34.6130    
+		Length of domains: 86
+		99 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=149.114 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=149.114 s=0.4045 work=8 dD=0 dP=0
+	[Op] split t=149.114 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=149.114 s=2.1642 work=8 dD=0 dP=0
+	[Op] filtering t=149.114 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=149.114 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=149.114 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=149.114 s=0.2381 work=8 dD=0 dP=0
+	[Op] summary t=149.114 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=149.114 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 141.63742327690125
+
+Iteration 19
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4000    init 0.0004    concretize 0.2056    bounding 2.1609    filtering 0.0758    decision 0.0037    split 0.0005    clip 0.0305    add_domain 0.2382    summary 0.0045    alm_attack 10.2978    
+		Accumulated time: sort_domains 0.0001    pickout 5.0749    bounding 30.6402    init 0.2246    concretize 16.8011    filtering 0.9933    decision 0.0463    split 0.0101    clip 0.4147    add_domain 3.3115    summary 0.0867    alm_attack 34.6130    
+		Length of domains: 94
+		107 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=152.055 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=152.055 s=0.4000 work=8 dD=0 dP=0
+	[Op] split t=152.055 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=152.055 s=2.1609 work=8 dD=0 dP=0
+	[Op] filtering t=152.055 s=0.0758 work=8 dD=0 dP=0
+	[Op] clip t=152.055 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=152.055 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=152.055 s=0.2382 work=8 dD=0 dP=0
+	[Op] summary t=152.055 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=152.055 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 144.57831859588623
+
+Iteration 20
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	  Running ALM-PGD attack (interval=10)
+	  [ALM-BaB] Dual cuts: candidates=3852, useful_mean=3817.00, kept_mean=10.00, eval_domain=complete
+	  [ALM-BaB] Warm start: 1/8 domains contain x_warm
+	  [ALM-BaB] Warm-starting mu from dual lambda* (norm=0.0000)
+	  [ALM-BaB] Replaced 7 invalid x_warm with dual_x_star
+	  [ALM-BaB] Shared budget: domains=8, restarts=125, B*R=1000/20480
+	    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e+00
+	    [ALM-PGD] k=0: local_min_viol=3.10e+00 local_obj_at_min_viol=-274.2224 local_domain=6 local_restart=2 rho=50 eps=1.41e-01 eta=4.37e-02 grad=3.96e+03 ||mu||=0.00e+00 feas=0/1000 good=0 bad=1000 iter_best_feas_obj=NA global_best_feas_obj=-267.9920
+	    [ALM-PGD] First-feas fast exit at k=1 (best feas obj=-267.9920 unchanged since k=0, patience=1)
+	    [ALM-FEAS] Batched GN restoration: domains=2/8 seeds=1 iters=1/30 min_viol=3.098e+00->3.098e+00 feasible=0/2 improved=1 newly_feasible=0
+	  [ALM-BaB] Solved 8 domains: success=tensor([False, False, False, False, False, False, False,  True],
+	       device='cuda:0'), obj=tensor([-270.60825389, -266.35500962, -264.56341109, -282.96817035,
+	        -280.25671915, -284.75680503, -274.22242214, -267.99198677],
+	       device='cuda:0'), time=10.03s
+	  [ALM-BaB] Objective semantics: shifted=(raw-rhs_obj), selected_domain=7/8, success=1/8, shifted_obj=-267.991987, raw_obj=-267.991987, rhs_obj=0.000000
+	  ALM-PGD found obj=-267.991987
+	  ALM-PGD raw obj=-267.991987
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4003    init 0.0002    concretize 0.2056    bounding 2.1598    filtering 0.0756    decision 0.0037    split 0.0004    clip 0.0305    add_domain 0.2375    summary 0.0046    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 5.4753    bounding 32.8000    init 0.2352    concretize 18.0359    filtering 1.0689    decision 0.0500    split 0.0105    clip 0.4452    add_domain 3.5490    summary 0.0913    alm_attack 44.9136    
+		Length of domains: 102
+		115 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=165.301 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=165.301 s=0.4003 work=8 dD=0 dP=0
+	[Op] alm_attack t=165.301 s=10.3006 work=8 dD=0 dP=0
+	[Op] split t=165.301 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=165.301 s=2.1598 work=8 dD=0 dP=0
+	[Op] filtering t=165.301 s=0.0756 work=8 dD=0 dP=0
+	[Op] clip t=165.301 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=165.301 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=165.301 s=0.2375 work=8 dD=0 dP=0
+	[Op] summary t=165.301 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=165.301 s=0.0002 work=1 dD=0 dP=0
+	Cumulative time: 157.82396411895752
+
+Iteration 21
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3742    init 0.0004    concretize 0.2057    bounding 2.1659    filtering 0.0756    decision 0.0037    split 0.0004    clip 0.0305    add_domain 0.2360    summary 0.0046    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 5.8494    bounding 34.9660    init 0.2467    concretize 19.2715    filtering 1.1445    decision 0.0537    split 0.0110    clip 0.4757    add_domain 3.7850    summary 0.0958    alm_attack 44.9136    
+		Length of domains: 110
+		123 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=168.213 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=168.213 s=0.3742 work=8 dD=0 dP=0
+	[Op] split t=168.213 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=168.213 s=2.1659 work=8 dD=0 dP=0
+	[Op] filtering t=168.213 s=0.0756 work=8 dD=0 dP=0
+	[Op] clip t=168.213 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=168.213 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=168.213 s=0.2360 work=8 dD=0 dP=0
+	[Op] summary t=168.213 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=168.213 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 160.7362518310547
+
+Iteration 22
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3729    init 0.0002    concretize 0.2056    bounding 2.1608    filtering 0.0755    decision 0.0037    split 0.0004    clip 0.0306    add_domain 0.2368    summary 0.0047    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 6.2223    bounding 37.1268    init 0.2576    concretize 20.5069    filtering 1.2200    decision 0.0574    split 0.0114    clip 0.5063    add_domain 4.0217    summary 0.1005    alm_attack 44.9136    
+		Length of domains: 118
+		131 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=171.120 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=171.120 s=0.3729 work=8 dD=0 dP=0
+	[Op] split t=171.120 s=0.0004 work=8 dD=0 dP=0
+	[Op] bounding t=171.120 s=2.1608 work=8 dD=0 dP=0
+	[Op] filtering t=171.120 s=0.0755 work=8 dD=0 dP=0
+	[Op] clip t=171.120 s=0.0306 work=8 dD=0 dP=0
+	[Op] decision t=171.120 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=171.120 s=0.2368 work=8 dD=0 dP=0
+	[Op] summary t=171.120 s=0.0047 work=8 dD=0 dP=0
+	[Op] lifted_bab t=171.120 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 163.64310216903687
+
+Iteration 23
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3707    init 0.0003    concretize 0.2055    bounding 2.1621    filtering 0.0757    decision 0.0037    split 0.0005    clip 0.0305    add_domain 0.2373    summary 0.0045    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 6.5930    bounding 39.2889    init 0.2692    concretize 21.7425    filtering 1.2957    decision 0.0610    split 0.0119    clip 0.5369    add_domain 4.2590    summary 0.1050    alm_attack 44.9136    
+		Length of domains: 126
+		139 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=174.026 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=174.026 s=0.3707 work=8 dD=0 dP=0
+	[Op] split t=174.026 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=174.026 s=2.1621 work=8 dD=0 dP=0
+	[Op] filtering t=174.026 s=0.0757 work=8 dD=0 dP=0
+	[Op] clip t=174.026 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=174.026 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=174.026 s=0.2373 work=8 dD=0 dP=0
+	[Op] summary t=174.026 s=0.0045 work=8 dD=0 dP=0
+	[Op] lifted_bab t=174.026 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 166.54883527755737
+
+Iteration 24
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3743    init 0.0004    concretize 0.2056    bounding 2.1677    filtering 0.0757    decision 0.0037    split 0.0005    clip 0.0307    add_domain 0.7665    summary 0.0046    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 6.9674    bounding 41.4565    init 0.2805    concretize 22.9780    filtering 1.3714    decision 0.0647    split 0.0123    clip 0.5676    add_domain 5.0255    summary 0.1097    alm_attack 44.9136    
+		Length of domains: 134
+		147 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=177.468 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=177.468 s=0.3743 work=8 dD=0 dP=0
+	[Op] split t=177.468 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=177.468 s=2.1677 work=8 dD=0 dP=0
+	[Op] filtering t=177.468 s=0.0757 work=8 dD=0 dP=0
+	[Op] clip t=177.468 s=0.0307 work=8 dD=0 dP=0
+	[Op] decision t=177.468 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=177.468 s=0.7665 work=8 dD=0 dP=0
+	[Op] summary t=177.468 s=0.0046 work=8 dD=0 dP=0
+	[Op] lifted_bab t=177.468 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 169.99159979820251
+
+Iteration 25
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.3867    init 0.0003    concretize 0.2054    bounding 2.1725    filtering 0.0758    decision 0.0037    split 0.0005    clip 0.0305    add_domain 0.2365    summary 0.0049    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 7.3540    bounding 43.6290    init 0.2913    concretize 24.2124    filtering 1.4471    decision 0.0684    split 0.0128    clip 0.5981    add_domain 5.2620    summary 0.1146    alm_attack 44.9136    
+		Length of domains: 142
+		155 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=180.400 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=180.400 s=0.3867 work=8 dD=0 dP=0
+	[Op] split t=180.400 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=180.400 s=2.1725 work=8 dD=0 dP=0
+	[Op] filtering t=180.400 s=0.0758 work=8 dD=0 dP=0
+	[Op] clip t=180.400 s=0.0305 work=8 dD=0 dP=0
+	[Op] decision t=180.400 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=180.400 s=0.2365 work=8 dD=0 dP=0
+	[Op] summary t=180.400 s=0.0049 work=8 dD=0 dP=0
+	[Op] lifted_bab t=180.400 s=0.0001 work=1 dD=0 dP=0
+	Cumulative time: 172.9231674671173
+
+Iteration 26
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 8
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 8, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 8, filter from input constr: 0, non-finite input constr kept: 0
+		Check lb filtering: batch size: 16, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input constraint filtering: batch size: 16, filter from input constr: 0, non-finite input constr kept: 0
+		Check input filtering: batch size: 16, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.4069    init 0.0004    concretize 0.0004    bounding 1.5490    filtering 0.0757    decision 0.0037    split 0.0005    clip 0.0306    add_domain 0.2453    summary 0.0050    alm_attack 10.3006    
+		Accumulated time: sort_domains 0.0001    pickout 7.7609    bounding 45.1780    init 0.3025    concretize 25.2424    filtering 1.5228    decision 0.0721    split 0.0133    clip 0.6287    add_domain 5.5072    summary 0.1196    alm_attack 44.9136    
+		Length of domains: 150
+		163 domains visited
+		Dual Solution This Iter: -504.49007199021605
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([-267.99198677], device='cuda:0'), Dual Solution -504.49007199021605
+	Solution gap: 236.498085221581
+	[Op] sort_domains t=182.740 s=0.0000 work=8 dD=0 dP=0
+	[Op] pickout t=182.740 s=0.4069 work=8 dD=0 dP=0
+	[Op] split t=182.740 s=0.0005 work=8 dD=0 dP=0
+	[Op] bounding t=182.740 s=1.5490 work=8 dD=0 dP=0
+	[Op] filtering t=182.740 s=0.0757 work=8 dD=0 dP=0
+	[Op] clip t=182.740 s=0.0306 work=8 dD=0 dP=0
+	[Op] decision t=182.740 s=0.0037 work=8 dD=0 dP=0
+	[Op] add_domain t=182.740 s=0.2453 work=8 dD=0 dP=0
+	[Op] summary t=182.740 s=0.0050 work=8 dD=0 dP=0
+	[Op] lifted_bab t=182.740 s=0.0002 work=1 dD=0 dP=0
+	Time out! Current sub-optimal object: tensor([-267.99198677], device='cuda:0')
+[best-primal] objective=-267.99198676863506 x=[1.0423732166604913, 2.1183610184087467, 3.4065828565473684, 3.676835397876425, 1.011530477120632, 3.2689754874773245, 2.310421275351177, 2.5799014864841014, 2.616760773671068, 2.7423459612789465, 2.748149856741237, 2.9055692702353513, 2.443358179597257, 3.5896670572358857, 3.0033248934300802, 5.877836853089446, 8.605847818668945, 0.40868886137927624, 0.6043820401432161, 0.7237158812196974, 1.0017767972931806, 1.3984591877880992, 1.9257941326578942, 2.8529725771920393, 2.439525862796705, 3.2742878388160883, 3.930227517206668, 4.97820676307057, 5.795692683270825, 6.705348511023911, 7.937451301212439, 9.306796397150363, 11.119000243203725, 13.058540411861573, 3.3988678418957505, 15.10698076825715, 17.45328502821809, 20.007921338411386, 23.011805160525224, 26.380715297875295, 27.685550613782905, 31.763244907040892, 0.26174986137877115, 0.3194996127451121, 0.3672271889194307, 4.135478079528072, 0.4763645675664006, 0.6039494165672938, 0.7424140520623762, 0.8814729397276864, 1.0581867623761934, 1.2943159246007108, 1.5596002699298508, 1.8803043734018248, 2.7428832732925588, 3.3513424548305535, 5.094187239422286, 4.129936726796062, 5.2095166566632205, 6.577872256651238, 8.414371151595462, 10.749066556218583, 13.855133481682662, 17.724841999431533, 22.789404796782044, 29.049471835143127, 36.57688115926931, 5.832922536771887, 4.909329913103837, 4.890071602320814, 5.478659825169378, 6.0649082516964725, 6.7025293029039075, 7.355367473334091, 8.011911782285308, 8.32196703144916, 8.948504460165179, 9.578151514237966, 6.858043879302957, 10.394299976702392, 10.756842522293667, 9.684751413514306, 11.22000016648998, 10.534687808260355, 11.498432254778132, 11.828680943641114, 12.376874588599101, 12.835549727726317, 13.387247121563725, 8.043417830776976, 13.64234194071839, 17.215560972978686, 21.025790427564576, 1.1709230176378917, 1.1833720058218882, 1.171003092303679, 1.1656464355004865, 1.1632802448575812, 1.1622224005519515, 1.161740592433433, 9.426410812960686, 1.1615212857165587, 1.1614147840038758, 1.1613643421494455, 1.1613397476004932, 1.1613280426586212, 1.1613217024673883, 3.965188237606922, 5.016581406646329, 2.2245252978046537, 5.014373502844493, 1.3271768765301772, 11.761296980450187, 2.2163088318772846, 5.205378167829906, 2.336404644620486, 5.384033473526148, 2.4847088579036405, 1.4996014952509344, 1.1709230191597486, 1.1804640560293012, 1.1695850128705185, 1.1649535713300248, 13.836255993846471, 1.1629318997137394, 1.1620570733131688, 1.1616753906765576, 1.1615019740933306, 1.1614183057469771, 1.161376968468815, 1.1613556896708228, 1.1613444873268668, 3.215967595793005, 5.287254793678825, 16.631668618335706, 5.19074580428332, 3.1272275362752437, 5.098248439698072, 3.020938305026273, 5.271041006352, 3.0265885910581543, 5.090018367338474, 2.8638599034353285, 1.5664940281864876, 1.170923017631755, 19.789733871211084, 1.1833720058218835, 1.171003092303678, 1.165646435500486, 1.1632802448575814, 1.1622224005519517, 1.1617405924334316, 1.1615212857165582, 1.1614147840038758, 1.1613643421494444, 1.161339747600492, 25.171886831010863, 1.161328042658621, 1.1613217024673883, 3.9651882148414517, 5.016581385592731, 2.2245252978046537, 5.014373473222354, 2.2163088318772846, 5.205378127375527, 2.3364046446204854, 5.3840334246555335, 25.318620032513543, 2.4847088579036405, 1.4996014952509344, 1.1709230226252476, 1.183372005821863, 1.1710030923036727, 1.1656464355004723, 1.1632802448575654, 1.1622224005519695, 1.1617405924334292, 1.1615212857165222, 35.85789574052914, 1.1614147840038789, 1.1613643421494222, 1.161339747600447, 1.1613280426585966, 1.1613217024673805, 3.9651882357991965, 5.016581404790426, 2.2245252978046537, 5.014373496706141, 2.2163088318772846, 0.2976431894191515, 5.205378153374029, 2.336404644620486, 5.384033451276915, 2.4847088579036405, 1.4996014952509344, 1.1709230274986584, 1.182679373773983, 1.1707142238056352, 1.1655856685751451, 1.1632617851330813, 0.3706502207147871, 1.1622192160285822, 1.1617455960622696, 1.1615301706225152, 1.1614266137378488, 1.1613769802971805, 1.1613523090316495, 1.1613402798707495, 3.215936498239412, 5.302237833709095, 5.244261034537222, 0.4872104501494464, 3.384486337775375, 5.186884494186541, 3.259616532531383, 5.336313205859995, 3.214146475673967, 5.149956783790873, 2.898657085098494, 1.5795951877243515, 1.1709230210850465, 1.1826793737739834, 1.7001275614406237, 0.635600649703613, 1.170714223805635, 1.1655856685751462, 1.1632617851330873, 1.1622192160285918, 1.161745596062256, 1.1615301706225234, 1.1614266137378695, 1.1613769802971738, 1.1613523090316684, 1.1613402798707693, 0.8062665329979367, 3.2159364982394383, 5.302237824225714, 5.244261026903179, 3.384486337775375, 5.186884487806401, 3.259616532531383, 5.336313203598226, 3.214146475673967, 5.149956774223106, 2.898657085098494, 1.1314585450139205, 1.5795951877243515, 1.1709230904825518, 1.182028967688364, 1.1706108417160885, 1.1656052362177833, 1.1632831240447348, 1.1622379647720193, 1.1617608537029038, 1.1615422126303117, 1.1614359780188324, 1.4615995439989025, 1.1613850134396153, 1.1613596842376077, 1.1613476098742352, 4.977296404553983, 5.846563751884051, 5.729885125938523, 3.2997564082572914, 5.832898245850614, 3.4942396988098614, 5.897262702243689, 1.8152514887001585, 3.5464241716230003, 5.849418129889287, 3.3215843773160505, 1.6754787255013877, 1.1709230495252703, 1.1806953970766938, 1.1702194591702424, 1.1655640468318802, 1.163286003279748, 1.1622535304333201, 2.1796512369101104, 1.1617811174233914, 1.1615631421624537, 1.161457174721551, 1.1614056872875855, 1.1613796232544586, 1.1613672497158998, 5.989002295366714, 5.992707911412089, 5.934273946307514, 4.455103323372987, 2.7184063168918926, 5.975772251252138, 4.77518801089856, 5.9883813876567755, 4.7350703007216115, 5.965921296899003, 4.200677766492888, 1.900876944936464, 1.170923021361181, 1.1820289676853561, 1.1706108417147008, 3.3069844736714584, 1.165605236216553, 1.1632831240437338, 1.162237964771291, 1.1617608537022825, 1.1615422126299089, 1.1614359780186194, 1.1613850134394914, 1.1613596842374434, 1.1613476098739317, 4.977296354355373, 4.070650050558865, 5.846563716023186, 5.729885098648527, 3.2997564082579305, 5.832898233245506, 3.4942396988103357, 5.897262699768924, 3.5464241716233422, 5.849418134386669, 3.321584377316051, 1.6754787255013877, 4.837720333282373, 1.1709230188283783, 1.1790037367183863, 1.168665986214866, 1.1644406297762646, 1.1626686328665228, 1.1619247486080073, 1.1616106860049125, 1.1614699791878946, 1.1614021655375735, 1.1613683033237603, 2.1725876634536943, 5.778397669638144, 1.1613502920739358, 1.1613404332148065, 2.323769546036478, 4.106955825398079, 4.460760799284736, 2.924797049801669, 4.169453852407881, 2.7567834217462717, 4.343266707626892, 2.7336827988068655, 7.046628085238528, 4.105385605465984, 2.603202223967123, 1.5061836102897306, 1.1709230987286314, 1.1823340022536304, 1.1705699661284257, 1.1655552931820934, 1.163252556022789, 1.1622176237855304, 1.1617480979290924, 8.554264412180697, 1.1615346132492468, 1.1614325289160243, 1.1613832997270723, 1.1613585900993408, 1.1613463988112036, 4.977289147464315, 5.634578818540962, 5.340844403704988, 4.022524475160304, 5.26358940953586, 10.65299732147355, 3.845384129676232, 5.394645252700005, 3.6992020645470127, 5.008602965483794, 3.1215796322783507, 1.6236233968407454, 0.0053, 0.01347500038777143, 0.007240497951488662, 0.004121412920834752, 13.233075213638932, 0.002561890837771647, 0.0017822356068072519, 0.001392665086922858, 0.001198532855918298, 0.0011017374651858967, 0.0010517562450993337, 0.0010273605680154573, 0.0010176061835747202, 0.001014395008057096, 0.0010131346657731017, 16.08816763608858, 3.1171845128855207, 5.487200291066344, 2.7441095264743285, 7.976835317023765, 3.9889294637987516, 13.233115888051058, 6.617073888589671, 20.851758454303667, 10.426400911006981, 0.00948, 19.35469284221964, 0.020525000279918625, 0.010764995661579738, 0.005883415298953806, 0.003442732368157568, 0.0022225382250853866, 0.0016126182182189049, 0.0013080666168211947, 0.0011566244382315977, 0.001080332150247717, 0.0010408442652493593, 22.186294441519998, 0.0010228112927119105, 0.0010158018010671054, 0.0010378832736871709, 10.515193501770034, 17.140569674706583, 8.570800714745701, 19.886124185260567, 9.943580453188561, 25.863406710123222, 12.932227046947926, 30.988572671257394, 34.00759614663095, 17.00432144631504, 0.00592, 0.013765000380121673, 0.007385499310785323, 0.004193914065047878, 0.0025981421193494213, 0.0018003609923764857, 0.0014017224507811767, 0.0012030476486247733, 31.426733823882778, 0.0011040298958196935, 0.0010529388517066323, 0.0010278968422649988, 0.0010178204244042633, 0.0010144767869841274, 0.001013167390914101, 1.3172597124389818, 2.2309630561302978, 1.1159909089231006, 2.7077010760518814, 2.778728963943163, 3.3561613963423067, 1.3543623431472906, 3.47203210923027, 1.7365319989280763, 4.300311755933374, 2.1506775615348097, 0.0157, 0.034930000159437126, 0.017968036476034368, 0.009485196501507467, 0.005243809006746831, 3.734739250409193, 0.0031232289589977046, 0.002063069972283141, 0.0015332430647115396, 0.0012689544629846368, 0.0011375902260420893, 0.0010701919388652742, 0.001036290220425471, 0.0010218189807440058, 0.0010161441606477814, 2.974161072193414, 5.222191057128751, 5.2078636778474685, 2.6044412198641904, 6.983076256747278, 3.492049933649415, 9.964426013869438, 4.98272895147068, 13.603485556859505, 6.802264462253671, 0.0217, 0.05381500010535992, 5.986904053313796, 0.02741067246477557, 0.014206284592302077, 0.007604188202823246, 0.004303291399569635, 0.0026530028172869684, 0.0018280372191600337, 0.0014159464838060334, 0.0012108407423375154, 0.001108222169338021, 0.0010549898631000715, 6.6521541865439735, 0.0010298121647859028, 0.0010333384497964936, 6.112190914412475, 10.235962029094404, 5.118497044468465, 13.075191226249373, 6.538113280182411, 18.076579046104353, 9.038811593907615, 27.050391979471907, 7.4220157758847405, 13.525721042016714, 0.01146, 0.027790000196488352, 0.014398153405443525, 0.00770002131809161, 0.004351048777516738, 0.0026767040008587252, 0.0018396830876060105, 0.001421470928091407, 0.0012130892657261259, 8.264101348019953, 0.0011092862371567672, 0.001055559807011613, 0.001029323294637779, 0.001018477580464182, 0.0010297543407649036, 5.150014036627993, 8.86507360643993, 4.4330528331286585, 11.741494117076778, 5.871264725578535, 8.777330945429629, 17.25925505764162, 8.630149599659976, 24.173660779875686, 12.087355442169567, 0.12134, 0.3094150000332665, 0.15520908229049524, 0.07810535595165016, 0.03955361094598985, 0.02027789423935176, 9.491593388430177, 0.010640213347180483, 0.00582157588463725, 0.0034124756359658888, 0.002208174945276311, 0.0016064647535377846, 0.001306567372845773, 0.0011571387239786423, 13.378196405195384, 21.220789324774806, 27.71607142916681, 10.188586914326406, 13.858547535804586, 26.81172189263541, 13.406377835318306, 29.50178353398592, 14.751413116793026, 29.25357237472138, 14.627309180968975, 0.0656, 0.1476000001216147, 0.07430057834087264, 3.3483477437164617, 10.9968316971649, 0.03765088598222453, 0.019326133783526774, 0.010163872892352823, 0.0055828829974706885, 0.0032925571866709706, 0.002147583758234776, 0.001575395927265944, 0.0012900515678539216, 0.0011497422425226945, 23.578907402936157, 11.90489106434591, 25.9305715525898, 21.337662529014676, 12.25332942191392, 26.76245717804512, 14.629755870351604, 32.21675724811807, 16.11096986650923, 31.781449709952742, 15.891232766086585, 7.946128358457451, 12.702322040654094, 0.01312, 0.029520000221677358, 0.015261455290206763, 0.008131513152900643, 0.004566649453024262, 0.00278435513149486, 0.0018933517337693594, 0.0014480811338066387, 0.0012260332938696871, 0.0011157048989869878, 14.113763720650345, 0.0010590053147075925, 0.0010306154427008982, 0.0010185901003025824, 8.58823859342803, 13.970133209948292, 17.59405184032597, 8.797541768901356, 18.78484457338893, 9.392945417643675, 23.8768386890205, 15.184294502134398, 11.938952343834531, 29.246323795987728, 14.623684897786632, 0.00754, 0.018475000287548084, 0.009741478192901007, 0.005371793283946416, 0.0031870401594351863, 0.0020948197882616724, 0.0015489386541992656, 16.464138480676304, 0.001276522600642687, 0.0011410951567452645, 0.0010721571075726828, 0.0010369448692442904, 0.001021487055916434, 0.0010156609174005323, 0.0010207399126140027, 3.6443202099368137, 6.418569939342938, 3.209807719799576, 17.817589413257295, 9.029032336717641, 4.515036256982547, 14.482330146517729, 7.241689121830667, 23.72878294384724, 11.864919043919414, 0.14018, 0.34589500007175855, 0.17344873305154737, 0.08722514268241886, 19.360933532452872, 0.04411345316252485, 0.022557747618596958, 0.011780057565066225, 0.006391399661603972, 0.003697281232239794, 0.002350480815839319, 0.0016775193108166983, 0.001342228857897738, 0.0011774568134831909, 23.336829266788623, 21.038104717831473, 31.543409888093304, 15.772235541483285, 35.252440631888234, 17.62674208399704, 41.71947521131296, 20.860265020769468, 49.45036415270283, 24.725695543627435, 12.363362366885866, 1.2862975628888997, 22.88990408401979, 1.5590681524877132, 3.185745727148916, 3.7759179820727153, 4.090705725500679, 4.33928386448621, 4.533976130694493, 4.761130762159938, 4.81305707830231, 4.897538418798821, 4.976070787077804, 4.371935212093579, 24.913484874330848, 5.123351351297413, 5.177929294893103, 2.327196786273624, 1.4643957507206284, 4.773859105291011, 2.102370974097807, 5.09861316484875, 2.2683098743112833, 5.306871657225967, 2.4153545646552956, 27.07835505945646, 5.525089933317963, 5.573030744931092, 1.2862975780805825, 1.48184516114542, 4.433914669395592, 4.816508506619286, 4.839670290689439, 4.8931902849446605, 5.001820339487523, 5.114341179062972, 29.347323383340907, 5.189450406244101, 5.245273031157731, 5.318831742750914, 5.418865005313978, 4.284322906218877, 1.8913308288350827, 2.280722716661991, 4.89170843124753, 2.996646967285288, 5.171339226216183, 1.5489256696187597, 3.0302013495218363, 5.336912393762264, 3.3272263786282448, 5.506407132899076, 5.573995481131487, 1.286297562827605, 1.559068153624476, 3.185745723709071, 3.7759179758821095, 4.090705717638327, 1.4547252593282105, 4.339283855540692, 4.533976121225306, 4.761130752081919, 4.813057066960099, 4.897538405990018, 4.976070774359176, 5.123351337264659, 5.1779292786904545, 2.327196786273624, 1.4643957507206284, 2.6479054885993767, 4.773859079117542, 2.102370974097807, 5.098613130292299, 2.2683098743112833, 5.306871613246619, 2.4153545646552956, 5.525089880250906, 5.573030686788535, 1.2862976125752332, 1.5590681965100692, 2.5892307803469468, 3.185745738075528, 3.77591798459288, 4.090705724298198, 4.339283862828638, 4.533976128523477, 4.761130759882331, 4.81305707539344, 4.897538415450017, 4.976070783346914, 5.123351346981825, 2.82210863601405, 5.177929292247604, 2.327196786273624, 1.4643957507206284, 4.773859101252008, 2.102370974097807, 5.098613155252684, 2.2683098743112833, 5.30687163976373, 2.4153545646552956, 5.525089906044515, 3.1119457821571257, 5.573030712510067, 1.2862976607140066, 1.5398582685777877, 4.521687871953977, 5.004903662610965, 5.094165253934267, 5.176281099257572, 5.248342860593724, 5.342850469060454, 5.363638570810392, 3.4208013524039997, 5.397875963546296, 5.420990435175258, 5.486844064974673, 4.3930619044619075, 1.950281568966227, 2.330771483081076, 4.917895435916155, 3.1854918779666916, 5.230567042939381, 3.2348703807238106, 5.642733487119682, 3.5788642119413896, 5.387931377620181, 3.484863120644103, 5.534984203833725, 5.594956013952285, 1.286297597265014, 1.5398582074175147, 4.521687849735921, 5.004903642843086, 5.09416523477457, 5.176281083933899, 3.8409369651456857, 5.248342844175614, 5.342850455755884, 5.363638558556072, 5.397875952933268, 5.42099042407876, 5.486844053294393, 4.393061892246588, 1.950281568966227, 2.330771483081076, 4.917895429776427, 4.076684394234414, 3.1854918779666916, 5.230567039970014, 3.2348703807238106, 5.387931376073803, 3.484863120644103, 5.534984218425067, 5.594956004223148, 1.2862981667703859, 1.522289358843054, 5.2142111312388755, 4.394519870872192, 5.521560628018298, 5.543826540931758, 5.5900446871253635, 5.635607334484377, 5.691472279040412, 5.703510940163523, 5.726975473922966, 5.747715919820557, 5.7959807671546075, 4.6918486026636534, 1.3032162633095603, 2.0739657298252623, 3.251521401952852, 5.846966491394897, 3.7163789509236813, 5.882675939650818, 3.6166027540649934, 5.915474889611616, 3.9941061999774012, 5.946511215475563, 5.922964171106785, 4.183904493470429, 1.2862978672583458, 1.4876635887720857, 5.868533951277084, 5.931091020293068, 5.9197319457007636, 5.92106739000198, 5.926616682499267, 5.935201055262983, 5.936980068715267, 5.941717053975356, 3.0455612877464047, 5.94577138569795, 5.957801037181239, 4.052340242565212, 1.857767355464353, 5.338109517014904, 5.984706095225345, 5.167042972747944, 5.986907698240681, 4.900179804710313, 5.990830151863759, 3.574082653485516, 5.247312477320376, 5.994435458749404, 5.986921070171714, 1.2862976000125812, 1.5222888694703423, 5.214210931965542, 5.521560448260879, 5.543826378387829, 5.590044541915728, 5.63560720296449, 3.570227382139517, 5.6914721733019595, 5.703510848227067, 5.7269754003839894, 5.747715857097015, 5.795980714395278, 4.691848602662936, 2.0739657298252765, 3.25152140195358, 5.8469664725790125, 3.716378950924259, 3.814673683106485, 5.882675932634726, 3.6166027540653616, 5.9154748914079045, 3.9941061999774496, 5.946511218617012, 5.922964176564328, 1.2862975747744785, 1.446376744789958, 3.700795633031184, 4.07141824980006, 7.349580997041148, 3.8208742467467314, 4.071703180341033, 4.10873533039007, 4.274999570024444, 4.460445649971382, 4.641176557047033, 4.778394294155696, 4.886200409334103, 5.016919436297419, 3.975820918585202, 2.1154836508055044, 4.045097169324122, 2.0519936221313384, 3.7917444558954436, 2.6878790162317596, 4.1938616903501025, 2.7304336154742606, 4.419818919081559, 2.951794964627371, 4.680919719569699, 5.041342218030649, 1.28629821139558, 4.799783289086191, 1.530473042787591, 5.0332824781310075, 5.392250709643828, 5.415365652314933, 5.447560585779656, 5.482103078436567, 5.534898333344772, 5.54621113766126, 5.565156014954956, 5.5728969714358625, 4.294161455566895, 5.61304327101444, 3.88226688463032, 1.7951097057687475, 3.028409294109652, 4.985168453037762, 3.8133838472467994, 5.290392436813824, 3.774182282237976, 5.425316236989689, 4.049004421258273, 7.201717749415199, 5.539861635757037, 5.605529427605907, 0.053, 0.13475000000538548, 0.2444269341172029, 0.3252335482381005, 0.431512053803044, 0.5670867909404399, 0.7463313126914922, 0.957308501645196, 8.677110793152083, 1.2167025069106967, 1.5507765665218662, 1.9722156201865302, 2.51563655862849, 3.2039004418820003, 4.087060647645791, 2.044039601605631, 1.0225258406266218, 5.619622489920506, 2.8103211748210146, 0.30978632281815255, 9.989410912460977, 4.995219133439361, 16.43460936607085, 8.217823414207555, 26.045476029162394, 0.0948, 0.2052500340785751, 0.6194115322274274, 0.9963999166217431, 1.5244192114941657, 0.5255622425643631, 2.356159640372038, 3.5855319296325927, 4.960175245397907, 6.87786389778995, 8.876134987941018, 10.611458113044423, 12.393109547150628, 14.277973237945945, 16.11756416983245, 8.059287842987674, 0.7451490651441808, 4.03015233219101, 15.674595544710387, 7.837813765451623, 21.928392962719883, 10.964717413475347, 30.257435654846308, 15.129258208300074, 41.23060982277996, 0.0592, 0.13765000000545827, 1.0399800143824, 0.2527770339279499, 0.28500860773386244, 0.30437453535205045, 0.3348429688592378, 0.396284359451844, 0.4843100153847306, 0.5969532486749228, 0.7362269099043577, 0.8943657291900269, 1.1942367349045178, 9.576110426968311, 1.4499814036338172, 1.5172006364358959, 1.8578606927707488, 0.9294396239619339, 0.46522585162986263, 2.084622646702971, 1.0428212530421868, 2.9937609684191715, 1.4973941612107857, 3.8668714832168294, 1.9339544725678528, 1.9931417761931662, 4.742816088971205, 0.157, 0.3493000000022134, 0.6194520430465134, 0.6538211110524845, 0.6393807497057682, 0.6452210134729359, 0.7420484008048638, 0.886842189494873, 1.0948443894615092, 2.523191163558574, 1.3603966982441995, 1.7016756935464667, 2.150792515561743, 2.7058789703776576, 3.6117003011605386, 1.806359428320933, 0.9036857539623281, 5.057327626094839, 2.5291737428959524, 8.150087262735925, 3.3830570926051395, 4.075557308560269, 11.674728274558918, 5.837882868429896, 15.512380445334944, 0.217, 0.5381500000013275, 1.037122974069926, 1.3498279077573012, 1.680941540333121, 2.0592003963787007, 4.051030252860463, 2.5077565891937805, 3.1445362609863485, 3.747177898313829, 4.411649105514506, 5.226660777253609, 6.286518326142436, 7.659823880069046, 9.17656944095977, 4.588790505780649, 2.2949029131978564, 5.128222102666829, 9.643234829525294, 4.8221323084262835, 14.766755384660971, 7.383897233032134, 21.285800674613043, 10.643432534710449, 27.74034542764553, 0.1146, 0.277900000002558, 0.536197974081313, 5.98199384618976, 0.7126653953655149, 0.9275852766244607, 1.1865472444482104, 1.6051550510913695, 2.1070354464917997, 2.669302363439492, 3.2736863833203795, 4.0528800726845615, 4.963727749923304, 6.090928047328461, 6.979984277486721, 7.479819958407388, 3.7404157644947875, 1.8707155425340078, 8.645066164794509, 4.323047976053564, 13.978563259174155, 6.98980117028603, 20.70197751101105, 10.35152095296057, 32.614964976138495, 8.026346362631507, 1.2134, 3.094150132162546, 6.846660846840689, 8.952540632875385, 10.71805759253104, 12.247251054882012, 13.743879582841906, 15.267440191618565, 16.538124910073627, 17.890728260588816, 9.583529355239586, 19.27123231471721, 20.75260810087341, 22.53586000993422, 11.268469555766744, 5.63474372168807, 2.8178827505990647, 20.024506885184675, 10.012769918014097, 26.489798878836663, 13.245420529339835, 0.14605640809297754, 12.57617268470225, 11.268993965822963, 31.160579062449987, 15.580860418347376, 34.04051702529618, 0.656, 1.476000514683754, 9.349960098262953, 10.683900119671687, 11.429847113986446, 12.444467340657532, 13.52787386324823, 13.27366325628083, 14.581015187770138, 15.602390128198746, 16.71959846613472, 17.85038547484906, 19.075513624273583, 9.538274373047035, 4.769644047866524, 14.597840870569637, 26.76641666130618, 15.369113562317928, 15.347266782225645, 30.19680108901205, 15.888273165978068, 34.854700052915604, 19.455050853247734, 40.75889385484923, 39.37075128592006, 0.1312, 0.295200098660806, 0.9291927715805582, 1.3075205840176751, 17.754397416639126, 1.8178795891937873, 2.514146746952683, 3.423105179627588, 4.421425220956959, 5.787274493522105, 7.109499749686833, 8.852217428318406, 10.651646458141254, 12.885079446975816, 6.443055694808467, 20.379962617197418, 3.2220335671646985, 1.6115317691716404, 13.257549276538379, 6.629298281282725, 19.940701933796664, 9.970879264543917, 27.01238171813299, 13.506767544251097, 34.268108429399696, 0.0754, 23.44526281695679, 0.18475000000378955, 0.373877150788155, 0.510805758532166, 0.6755828480257057, 0.8705467024028446, 1.0902049156874025, 1.3227387569083424, 1.5949354941192961, 1.939388999694541, 2.3456945069595165, 26.506641831604515, 2.831824348742882, 3.8359926584287125, 4.8747726505606295, 2.437894180009969, 1.2194551674378988, 6.413344592674879, 3.2071890134973797, 11.087742502937402, 5.544392627211994, 18.41146301852075, 28.388633951312844, 9.206269848835948, 30.234748873482065, 1.4018, 3.45895016798952, 9.028620581703066, 11.47001514159687, 13.51547001338769, 15.530091834690781, 17.505711471125107, 19.50129927228052, 31.97470942709896, 21.18981640043886, 23.12238725900931, 25.209436683705754, 27.493717617661705, 29.444642217890316, 14.722825686804168, 7.361918644449357, 31.370991307181953, 15.68601298690372, 38.2325813060218, 0.19840680507751737, 19.116814693050113, 45.578132313600754, 22.789599809127825, 55.06857754419888, 59.31946999752215, 15.640839067068256, 0.26032465508658653, 0.34449376120179637, 0.4533182816861906, 0.5747363647671887, 0.7074633386231144, 0.844988524830623, 1.0208698551871667, 1.256133342217169, 1.5202211707910365, 1.838971430201229, 19.730552209985365, 2.6932333063644722, 3.1778539288732706, 3.9352511812617355, 5.025853242562493, 6.1931604537979235, 8.035900398375295, 10.274574791525026, 13.313252260543061, 17.076308759853703, 21.71385912658149, 24.767509422222624, 28.228566405941283, 35.94094339952986, 3.721264982329624, 4.348011038043832, 5.684047658076523, 6.367550338894873, 7.062685578053448, 7.771190947285214, 8.489357641158424, 8.862838339556657, 30.85456431625738, 9.559209376631907, 10.264258525246246, 11.1499498363707, 11.583573168110847, 11.042931599706012, 12.445840918585324, 11.29576983108675, 12.67523852383848, 13.08450181064752, 13.778682837050143, 0.2129785650867226, 14.365232502599106, 15.022876076516374, 15.737885901350126, 19.16666884215144, 20.99160852481244, 0.02165, 0.035410386822243116, 0.04060401623540356, 0.05377905593642303, 0.07026615280749667, 0.4354441871137872, 0.0925575834440339, 0.11682856905971715, 0.1476096512174832, 0.18848506261319498, 0.23936546738503123, 0.30590574970696993, 0.3892164325134806, 0.4970220853408797, 0.00010185555643881302, 0.00010120796464270673, 0.7062656097224392, 1.0216719139213974, 0.00010198597210522781, 1.7168500650100706, 0.00010273544174801269, 2.78739995987022, 0.0001037462344122516, 4.38731286441172, 5.458522655906285, 0.03157, 0.10335729749592998, 1.0830849624755554, 0.13733882650174362, 0.20524384818056796, 0.31879000525562307, 0.48149042066662057, 0.6334818551447176, 0.8795552542085661, 1.087440607110328, 1.2346781231810162, 1.417476097497175, 1.6162836922499102, 1.7005704648084898, 1.795715510017354, 0.00010115130532587935, 0.0001016815216058979, 2.7319038754793037, 0.00010319813201498987, 3.6018972158012783, 0.00010418602805223346, 4.955015389458789, 0.00010807584953747269, 6.733196143557508, 0.16570047513887523, 2.587320589227295, 7.325316581800435, 0.02161, 0.03679040678432441, 0.031724018153332305, 0.03237404629643764, 0.036531140236129314, 0.04577257500401764, 0.05723356713141292, 0.07095964819622766, 0.08755005711314712, 3.424060886903606, 0.10525045484737731, 0.14941077406174005, 0.18401645379657341, 0.21985207491038417, 0.00010185551506745207, 0.00010120792950563405, 0.3704019441774918, 0.00010198593800375504, 0.49447006837953456, 0.00010273540014469151, 4.775091781603824, 0.6236348805222304, 0.00010374619182535176, 0.7551677705374346, 0.8102926463013359, 0.05416, 0.08896040860877015, 0.06881901790554658, 0.062494038835613504, 0.06510612772374026, 0.08388757881344935, 5.916837199974227, 0.10316359781829847, 0.13028465894266078, 0.16259490070256424, 0.204295468884771, 0.25999093375761473, 0.32609654251927583, 0.451752163194253, 0.00010185554801031466, 0.00010120796023812753, 0.9210969498226882, 6.719478189741984, 0.0001019859696524232, 1.3771000782575606, 0.00010273543842731951, 1.9273899240557375, 0.00010374623006713188, 2.518687802223993, 2.8639126502265224, 0.08593, 0.1536095948136937, 0.16625328414434323, 7.697236010304106, 0.20120551729079345, 0.24374592524234576, 0.2956312782008186, 0.3781315932778366, 0.4349819535640842, 0.5076120312714784, 0.6041672448992363, 0.7346375875030949, 0.9033129433995348, 1.0693315001850139, 8.757584890081748, 0.00010115706010288437, 0.00010153206145051673, 1.6991566745852484, 0.0001029787326985136, 2.47113784608955, 0.00010390814031104324, 3.5187704116193848, 0.00010643948077442692, 4.483725832058058, 6.339936462446608, 9.649400922199746, 0.04412, 0.07944959481570583, 0.08891328166474338, 0.11425051578816509, 0.14455092122706067, 0.20237628577335084, 0.26089158418914365, 0.32315692803865464, 0.38780704032007407, 0.4832073762048302, 11.295091362959075, 0.5874575427161656, 0.7218128344733236, 0.8868711869485881, 0.00010115705815841604, 0.00010153205725569602, 1.5419416787054738, 0.000102978731230437, 2.363407854229458, 0.00010390813977090593, 3.4414153851735967, 12.965943527148541, 0.00010643949099793644, 5.487840899931639, 5.556471460465204, 0.49749, 1.0599171411691406, 1.1058420319791753, 1.2483574469181826, 1.3776444448140628, 1.5240508053724175, 1.6791000754012768, 0.2112381281995973, 14.737543955255907, 1.780880958843665, 1.924333157661216, 2.065173633899542, 2.223398386160927, 2.4319111895312258, 0.00010790845229869027, 0.0001017853461817121, 0.00010217599332690287, 3.7231130998479625, 0.00010329372877649568, 16.926739168188035, 4.296682782482265, 0.00010421705700357201, 4.907573758597119, 0.0001141767703352876, 5.2500173628503, 5.144661405942959, 0.2296, 1.7223919103341916, 1.2017839717421313, 1.2175793730944866, 19.550103205746165, 1.3459087237714478, 1.4611280103879114, 1.563415627325581, 1.6623764859642516, 1.7836806623637353, 1.8981172327479618, 2.030064163972542, 0.00010349962628408322, 0.00010136435595675036, 2.4426037561118457, 22.73281842631267, 3.8934992339171264, 0.3971810370185976, 4.502448853074625, 0.15797451710186602, 5.382112687615697, 0.4055401604137325, 6.2062736807238625, 3.798260868807479, 1.5186482610329037, 0.04592, 26.938758213490377, 0.15631852723727485, 0.16858482622528775, 0.23282384784520177, 0.3210413808716592, 0.43320635352668474, 0.5419745198900112, 0.7153123715034749, 0.8431724965296384, 1.0594935073287863, 1.2451075457550946, 30.71554997229359, 1.5118512403611346, 0.00010319380733782817, 0.00010114303881699583, 0.0001029952916020691, 2.4903566777922927, 0.00010472740644254951, 3.325210558191008, 0.00010565864910931186, 4.405388416824501, 0.00011533634157951003, 36.31514178436192, 5.502944931081347, 5.6052514070609005, 0.02941, 0.0563004301568246, 0.06477343662729916, 0.08403599375167972, 0.10655105567780518, 0.13098631289703963, 0.15552725981279894, 0.1867132231329177, 41.40773955185264, 0.2283842505268895, 0.27520000142237416, 0.3317954190525598, 0.4840160968113953, 0.5913552642691886, 0.00010157094583971133, 0.00010161548648261104, 1.1607234017911496, 0.00010334343194640043, 1.8968295992377215, 0.14578656068618762, 0.00010427514863461693, 3.1278533409829388, 0.00010766791510205554, 5.126322789812815, 6.454714980048617, 0.55161, 1.4598290769569737, 1.3911409531582006, 1.556092473328865, 1.7544713518699853, 0.1721442056075312, 1.9481330985898582, 2.1496886965452475, 2.2878333430636277, 2.5054958030050605, 2.729648603038494, 2.9777998483671118, 3.139556675753489, 0.00010091394364128763, 0.00010115695525849763, 5.5380063904859265, 0.2869088635801512, 0.16508266119713721, 0.00010346419344323349, 6.077914957577617, 0.00010480606682532652, 7.203944989534233, 0.00010672889252094117, 8.734755524781832, 6.357036243197261, 3.7104057941228725, 0.002165, 0.00010059941244392953, 0.1727795692120307, 0.00010023254290227282, 0.00010023644706939372, 0.00010025730526942031, 0.00010030822337380088, 0.00010043808289256884, 0.00010049127001821098, 0.0001001733147566138, 0.00010029123133914789, 0.00010077981306886836, 0.0001011137414773051, 0.19728700540183777, 0.0001011843167682708, 0.6233355891104728, 0.785721606924673, 0.00010187618818010533, 1.3209561107572907, 0.00010236105734003794, 2.2477302312303187, 0.00010318891280841046, 3.5086443020017573, 0.00010433677101972583, 0.24934424281320838, 0.00010377880293261206, 0.003157, 0.00010049900885938144, 0.00010018332472875913, 0.00010020464765957917, 0.00010023389826202482, 0.00010026896000963132, 0.00010035007264188101, 0.00010051601568966487, 0.00010040079812080786, 0.31379373236642455, 0.00010013129149654264, 0.00010047299156473577, 0.00010087514029096085, 0.000105994673058762, 2.1029349115033686, 2.376594584503845, 0.00010317495765188642, 3.120144765361553, 0.00010367167973184188, 4.178323296532138, 0.3918720416860034, 0.00010473802999489315, 5.508296524631384, 0.00010467459990487565, 0.00010384167416201375, 0.002161, 0.00010059968776392558, 0.0001002326404825769, 0.0001002365968886253, 0.00010025726750253706, 0.00010030717918239813, 0.48424566593872337, 0.00010043533580484939, 0.00010049831858136887, 0.00010018064740369589, 0.00010028026653157751, 0.00010076905192119972, 0.0001011086796624125, 0.00010118268602588765, 0.26335062574857276, 0.31446663998204893, 0.00010187617145508216, 0.5836399417379797, 0.42994112431797504, 0.00010236102416152069, 0.5589701875312558, 0.00010318886250739744, 0.6864091512938207, 0.00010433671357802146, 0.00010377883685077053, 0.005416, 0.00010060722138275389, 0.00010023554872405131, 0.8304425897912098, 0.00010024196682159921, 0.00010026456950248524, 0.00010029054886740493, 0.00010034069112615045, 0.00010046508338881957, 0.00010062035380560648, 0.00010027617065056882, 0.00010023476218604587, 0.00010073067746354829, 0.00010104401112802122, 1.0272356177496538, 0.5947306000225608, 0.7441566283501052, 0.00010187618803561522, 1.1361711293630021, 0.00010236105511468691, 1.6436802094089227, 0.00010318890716457923, 2.2224242162248187, 0.00010433676476900873, 0.00010377880857434066, 0.3793320941860851, 1.229205495682309, 0.008593, 0.00010063444406191646, 0.00010018960284109993, 0.00010020905819520442, 0.00010023924363879654, 0.00010027105206269254, 0.00010030653812883099, 0.00010038454452099052, 0.00010057190597971961, 0.00010055811533325095, 1.4148107076196466, 0.0001001727990886832, 0.00010046044268666356, 0.00010368513903390659, 1.2223348490374868, 1.4359733143776092, 0.00010320598422386046, 2.1031885408030098, 0.00010353341152319168, 2.9615044812026166, 0.00010441417107314967, 1.7498568329469164, 4.506197236503613, 0.00010501045614461195, 0.00010384642348566362, 0.004412, 0.00010063059030995247, 0.00010018879574146199, 0.00010020739888084122, 0.00010023553247811425, 0.0001002655555414817, 0.00010032477143745618, 2.045902496593448, 0.00010046899961911559, 0.00010054575155562422, 0.00010017976093590872, 0.00010030442239838009, 0.00010075949401537445, 0.00010410172958245806, 1.029899831891489, 1.258013317625159, 0.00010320598170587925, 1.9049935401024696, 2.3922714792806827, 0.00010353340800539599, 2.864724538970457, 0.00010441416781767734, 3.971717196009132, 0.00010501044633655978, 0.00010384642430700387, 0.049749, 0.0001003164447167856, 0.00010016294321677948, 0.00010018656101965926, 2.7581800317670453, 0.00010021769282645516, 0.00010025313528868452, 0.00010029364276778347, 0.00010033718152398357, 0.00010038679347236774, 0.00010047434381885198, 0.00010066508424657104, 0.00010076784195165863, 2.6755235650720586, 2.9063382225678653, 3.127641633709887, 3.421135350954287, 0.00010236269654654347, 3.9764896231999387, 0.00010337670768412614, 4.559718922101693, 0.0001042693690370727, 4.375573163264929, 0.0001045987216358874, 0.00010381655178984122, 0.02296, 3.499561239904868, 0.00010011562057556953, 0.0001001192980696811, 0.0001001380382879459, 0.00010016097292076507, 0.0001001888794950263, 0.00010022232115426303, 0.00010025948849018492, 0.00010031788911348033, 0.0001004651957968712, 0.00010093295554680741, 3.860152905717179, 4.715666488766727, 2.828223557731943, 1.6744753389371563, 0.31689962034529523, 4.127158483738319, 0.2497054479191081, 4.980375855202302, 0.0005182422977733033, 4.745192950209132, 0.00010158222164971915, 4.263320338581562, 0.00010239508264757186, 0.00010400419413231782, 0.004592, 0.0001002909655577565, 0.00010015697799582196, 0.00010017835795498559, 0.00010020570341142932, 0.0001002341907483789, 0.00010027997713128385, 0.00010039680125811227, 0.5040553353943912, 4.580343672926732, 0.00010053506524167579, 0.00010022693383483442, 0.00010021801020364801, 0.00010065219342257831, 1.7175458573848423, 1.9352027809963919, 2.1217970463735227, 0.00010316835423858761, 2.877214737280331, 0.00010462517533263942, 0.3653748891360499, 3.836073195629615, 0.0001065990446981699, 4.6553695248140645, 0.00010459995854049641, 0.00010381655121362548, 0.002941, 0.00010079550625100773, 0.00010021065321834922, 0.0001002283807085931, 0.00010025938730733488, 0.41574523503749533, 0.00010030481657910221, 0.0001004091187077861, 0.00010056443732858518, 0.00010031854373529549, 0.000100168781680554, 0.00010059810194680256, 0.00010097942630792812, 0.00010257992912278896, 0.7287619679960551, 0.9192819668748685, 0.3578908858398606, 0.00010455002557716267, 1.4848256953635448, 0.00010401772471508207, 2.4449624036052753, 0.0001048097143426124, 4.021587676586372, 0.00010551439915074584, 0.00010399901160004818, 0.055161, 0.00010024658641323897, 0.33337635877816735, 0.00010015520312394654, 0.00010017631293252328, 0.00010020411149755964, 0.00010023657006454888, 0.00010027383341642734, 0.00010031563357644901, 0.0001003668212705623, 0.00010045348310487146, 0.00010068951826531854, 0.00010126043692039653, 0.35148704303907996, 4.6672480988087885, 3.9749990450450308, 0.00010611675335571192, 5.473264566763822, 0.00010435142927741994, 6.581220829501709, 0.00010548131512198637, 7.804046325049553, 0.00010269345494163607, 0.00010291901433791824, 0.4568533543267227, 0.00010388506187021376, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5655016903700489, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.7193807164026824, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8992122650849543, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.6403892523455058, 1.132747921199874, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.4449658547218336, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.820274941910273, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.525646371347703, 0.19268586137825675, 0.2010898557475739, 0.230296580060875, 0.30492149308996025, 0.39833432180625955, 0.5246427816349004, 0.6621716049575139, 0.8365904092226274, 1.0682152575696882, 1.3565346809738872, 3.194705711510586, 1.7335938607272872, 2.2056828001451243, 2.8165770370224203, 3.532562816255008, 4.452577424197884, 5.7897264218013476, 7.485642095022405, 9.729047748394319, 12.737367194407922, 15.795496999719074, 4.1406661796207604, 19.882552091004484, 24.861682931319773, 30.931773692918384, 0.28097386137886804, 0.5235430484011727, 0.7249618382751913, 1.100656752704434, 1.7300105177446081, 2.630410017316708, 3.471218448434135, 5.087278334649614, 4.8256448349721, 5.966459545505584, 6.763322244703698, 7.725423879231076, 8.757415836897675, 10.04287884455526, 11.326464260947196, 13.080304023740126, 14.994193208755549, 17.11325227215985, 6.321499045609352, 19.717699327612088, 22.86017271546357, 27.0268800577319, 31.21399556914557, 36.18249934515372, 41.510279728606804, 0.1923298613782531, 0.20890983551014058, 0.17997657804454298, 0.18362650257905322, 7.681125353858656, 0.20716933441466953, 0.25952779111889557, 0.32446660963307644, 0.40224040519572757, 0.49625025344063567, 0.5965496996458067, 0.8467888395722354, 1.042882775039189, 1.2459470384501354, 1.4926477679222094, 9.196541957929945, 1.78213237723272, 2.09919637475268, 2.4365570611543186, 2.8022277204519357, 3.1677272080748247, 3.534162045065319, 3.8898872023656605, 4.279527980053334, 4.591803650849544, 0.4820248613794116, 0.8150248202073356, 10.81516698486636, 0.5045398261541901, 0.39018157538606363, 0.35430650467130026, 0.36909433962575516, 0.47551280393997375, 0.5847366735907189, 0.7384154276841285, 0.9215049708970742, 1.157804692637269, 1.4734092194946826, 12.497694205524658, 1.8480030704596166, 2.5600470977263226, 3.3704678044095657, 4.217042401531165, 5.21980138326089, 6.438527072109889, 7.803797728127085, 9.314417205125874, 10.922107021482613, 12.59397215803344, 14.218745439275837, 14.272807969098206, 16.2289836681376, 0.7647778613796891, 0.8708906124248332, 0.9422473732243931, 1.1402950786826644, 1.381354588020486, 1.67536914622085, 2.1428687379275884, 2.4650182397543854, 16.188475143203675, 2.8765879162795596, 3.423732662242857, 4.163062655746473, 5.118886968723634, 6.0599651363681355, 6.926764286768685, 8.137425414193501, 9.628940350528222, 11.91840869202554, 14.003458811769146, 0.5797011953734799, 16.782191786003473, 19.940025335567693, 25.535496477702658, 25.408069291350433, 35.92645983011881, 0.39266886137923984, 0.4506506159910414, 0.5039873752550285, 0.6475500778722949, 0.8192495885603166, 0.7162873205769863, 1.1469241372153594, 1.4785087204903882, 1.8313431734235077, 2.1976929260825027, 2.738292902577444, 3.3290425615406276, 4.090386770445058, 5.02602502591977, 5.836299297128393, 7.128985405399662, 0.9108805082516808, 8.738055342107724, 10.79530368786983, 13.39298880128378, 16.2337717263504, 19.501680360668853, 22.506776509856458, 31.098054237692182, 31.486824822043683, 4.42766190692372, 4.330883448706771, 1.1192520358453018, 5.131658726126141, 5.839843253662306, 6.491956178497449, 7.243549730369677, 8.068900363163138, 8.557219373389962, 9.251367063800263, 9.92392644019266, 10.709101440992587, 11.55528848420127, 1.3594628193684248, 12.596768913701721, 13.658960345111463, 14.515062791057133, 15.672284821589503, 17.00730733534637, 18.471114065884656, 20.146377061053748, 21.94972215093978, 24.795112814489162, 26.406778179933003, 1.652777268640755, 29.153234902358772, 2.043440876257994, 1.3164089117349285, 2.227516836409939, 2.160521381649674, 2.3497919666314018, 2.598172600810101, 2.8691848914991973, 2.9924239342464385, 3.2115196364860155]
+problem_name=arki0015 status=unknown success=False
+
+#RUNNER rc=0 elapsed=183.55 waited=0.0

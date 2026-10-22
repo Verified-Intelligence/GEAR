@@ -1,0 +1,2548 @@
+#CMD <env>/bin/python nlp_example.py --problem_name schitt_s332 --benchmark gams_world --benchmark_root benchmarks --device cuda --use_beta False --override_timeout 180.0 --batch_size 1 --config configs/int3p_crownmerge.yaml
+#LOCKED 1792655428.612044927
+INFO     02:50:30     [tensor_storage.py:70] Hugepage enabled for branch-and-bound domains.
+[nlp_example] --use_beta implicitly sets bound_prop_method=crown (overrides the YAML setting; pass --bound_prop_method to control it explicitly)
+Configurations:
+
+general:
+  device: cuda
+  seed: 100
+  conv_mode: patches
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: sum
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: false
+  verify_onnxruntime_output: false
+  eval_adv_example: false
+  onnx_adv_example: false
+  show_adv_example: false
+  precompile_jit: false
+  reset_seed_after_precompile: false
+  prepare_only: false
+  complete_verifier: bab
+  csv_name: null
+  results_file: out.txt
+  root_path: ''
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  buffer_has_batchdim: false
+  save_output: false
+  output_file: out.pkl
+  return_optimized_model: false
+  store_all_specs_on_cpu: false
+  adhoc_tuning: null
+model:
+  name: null
+  path: null
+  onnx_path: null
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: null
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: []
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optimized: false
+  use_ort_optimized_model: false
+  flatten_final_output: false
+  optimize_graph: null
+  with_jacobian: false
+  bound_opts: null
+data:
+  start: 0
+  end: 10000
+  select_instance: null
+  num_outputs: 10
+  mean: 0.0
+  std: 1.0
+  pkl_path: null
+  dataset: null
+  data_filter_path: null
+  data_idx_file: null
+specification:
+  type: lp
+  robustness_type: verified-acc
+  norm: .inf
+  epsilon: null
+  epsilon_min: 0.0
+  vnnlib_path: null
+  shrink_eps: null
+  rhs_offset: null
+solver:
+  batch_size: 64
+  auto_enlarge_batch_size: true
+  batched_crown_auto_enlarge_max_vram_ratio: 0.9
+  min_batch_size_ratio: 0.1
+  early_stop_patience: 10
+  start_save_best: 0.5
+  reproduce_alpha_bounds: false
+  bound_prop_method: alpha-crown
+  init_bound_prop_method: same
+  prune_after_crown: true
+  optimize_disjuncts_separately: false
+  build_batch_size: 1000000
+  skip_with_refined_bound: true
+  forward_before_compute_bounds: false
+  nlp:
+    enabled: false
+    max_iter: 1000
+    tol: 1.0e-09
+    constr_viol_tol: 0.0001
+    timeout: 60.0
+    verbose: false
+    method: ipopt
+    enable_local_solver: false
+    enable_alm: false
+    expand_input_constraints_as_outputs: false
+    root_local_solver_warmstart: true
+    root_parallel: false
+    root_budget_frac: 0.5
+    unified_root: false
+    root_hybrid_term_bound: false
+    root_hybrid_max_terms: 64
+    pre_incomplete: false
+    pre_incomplete_stop_on_verified: false
+    alm_rho0: 10
+    alm_kappa: 5
+    alm_outer_max_iter: 20
+    alm_inner_steps: 100
+    alm_inner_lr: 1
+    alm_inner_lr_outer_decay: 1.0
+    alm_inner_lr_min_factor: 1.0e-06
+    alm_obj_patience: 5
+    alm_obj_improvement_tol: 0.0001
+    alm_obj_gap_threshold: 0.1
+    alm_first_feas_patience: 1
+    alm_inner_plateau_check: 10
+    alm_inner_plateau_rtol: 0.001
+    alm_inner_plateau_patience: 2
+    alm_scale_eps_with_bias: true
+    alm_constraint_normalize: false
+    alm_constraint_scale_floor: 1.0
+    alm_constraint_scale_decay: 1.0
+    alm_update_multipliers_always: false
+    alm_output_affine_project_init: false
+    alm_output_affine_project_fraction: 1.0
+    alm_output_affine_project_sweeps: 3
+    alm_output_affine_inner_sweeps: 0
+    alm_output_affine_detection_tol: 1.0e-09
+    alm_output_affine_pair_slack_tol: 0.0001
+    alm_raw_polish_steps: 0
+    alm_raw_polish_lr: 0.001
+    alm_raw_polish_restarts: 8
+    alm_raw_polish_max_parallel: 65536
+    alm_raw_polish_jitter: 0.001
+    alm_raw_polish_max_viol: 10.0
+    alm_endgame_time_frac: 0.0
+    alm_endgame_polish_frac: 1.0
+    alm_batched_gn_steps: 0
+    alm_batched_gn_seeds: 16
+    alm_batched_gn_damping: 1.0e-06
+    alm_batched_gn_trust_radius: 1.0
+    alm_batched_gn_max_viol: 1000000000000.0
+    alm_batched_gn_max_elems: 16777216
+    alm_init_scaled_fraction: 0.0
+    alm_init_scaled_min: 0.001
+    alm_batched_gn_improve: false
+    alm_batched_gn_improve_rel: 0.0001
+    alm_batched_gn_max_time: 0.0
+    alm_batched_gn_interior: 0.0
+    alm_opt_polish_candidates: 0
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    alm_opt_polish_target_frac: 0.9
+    alm_opt_polish_near_quantile: 0.05
+    alm_opt_polish_seeds: 0
+    alm_deduplicate_expanded_input_constraints: false
+    in_bab: false
+    bab_interval: 5
+    bab_num_restarts: 1000
+    bab_timeout: 10.0
+    bab_feas_tol: 0.0001
+    bab_outer_max_iter: 20
+    bab_inner_steps: 50
+    bab_alm_opt_polish_candidates: -1
+    bab_alm_opt_polish_time: -1.0
+    bab_br_budget: 0
+    bab_cap_batch_by_br_budget: false
+    bab_budget_utilization: 0.9
+    bab_budget_min_scale: 1.0
+    bab_budget_max_scale: 4.0
+    bab_skip_outer_width: 0.0
+    bab_adaptive_interval: true
+    bab_max_interval: 20
+    bab_interval_patience: 3
+    bab_alm_max_time_share: 0.0
+    bab_alm_stop_after_failures: 0
+    bab_alm_stop_gap: 0.01
+    bab_alm_release_cache: false
+    ipopt_enabled: false
+    ipopt_max_iter: 1000
+    ipopt_tol: 1.0e-06
+    ipopt_constr_viol_tol: 0.0001
+    ipopt_timeout: 10.0
+    ipopt_verbose: false
+    vector_lr: false
+    dual_ascent_enabled: false
+    dual_ascent_steps: 20
+    dual_ascent_lr: 0.05
+    dual_ascent_verbose: false
+    dual_lp_pdhg_iters: 0
+    dual_lp_exact_max: 0
+    dual_bound_record_all: false
+    quadratic_tangent_bound: false
+    taylor2_bound: false
+    taylor2_max_vars: 40
+    taylor2_max_domains: 1024
+    convex_row_cuts: false
+    convex_tangent_objective: false
+    convex_tangent_rows: false
+    qtb_quadratic_dual: false
+    qtb_crown_rewrite: false
+    qtb_crown_rewrite_max_vars: 2000
+    qtb_accept_blend: false
+    structure_report: true
+    gp_certificate: false
+    gp_crown: false
+    gp_certificate_time: 20.0
+    exp_certificate: false
+    exp_certificate_time: 20.0
+    m3_reduce: false
+    struct_cert_diameter: false
+    struct_cert_assignment: false
+    struct_cert_eigenblock: false
+    aux_reference_bounds: false
+    input_cutoff_cuts: false
+    lp_certificate_transfer: false
+    lifted_lp_bound: false
+    lifted_lp_convex_objective: false
+    clear_denominators: false
+    lifted_lp_obbt: false
+    lifted_lp_node_cutoff: true
+    lifted_lp_node_obbt_gain: false
+    lifted_lp_rlt: false
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_rlt_max_rows: 1200
+    lifted_lp_rlt_max_columns: 7000
+    lifted_lp_branching: false
+    lifted_lp_split_at_point: false
+    lifted_lp_bab_time: 0.0
+    lifted_lp_bab_handoff: false
+    lifted_lp_leaf_ipopt: false
+    lifted_lp_leaf_ipopt_time: 5.0
+    lifted_lp_bab_workers: 1
+    lifted_lp_bab_max_nodes: 200000
+    lifted_lp_obbt_rounds: 5
+    lifted_lp_obbt_time: 10.0
+    lifted_lp_exact_max: 16
+    lifted_lp_exact_time: 0.5
+    lifted_lp_pdhg_iters: 500
+    lifted_lp_max_elems: 25000000
+    lifted_lp_max_vars: 2000
+    ipopt_constraint_slack_frac: 0.0
+    sparse_derivatives: false
+    lp_alternation: false
+    root_lp_local_start: false
+    concretize_max_constraint_rows: 0
+    concretize_fused_kernel: false
+    alm_root_mu_warmstart: false
+    dual_to_alm_mu_warmstart: true
+    alm_dual_cuts_enabled: true
+    alm_dual_cut_topk: 10
+    alm_dual_cut_inactive_tol: 1.0e-06
+    alm_dual_cut_eval_domain: complete
+    alm_dual_cut_score: ub
+    alm_dual_cut_lambda_floor: 0.0
+    dual_ascent_lam_warmstart: false
+  crown:
+    batch_size: 1000000000
+    spec_batch_size: 1000000000
+    max_crown_size: 1000000000
+    activation_bound_option: adaptive
+    compare_crown_with_ibp: false
+  multi_facet:
+    enabled: false
+  alpha-crown:
+    alpha: true
+    lr_alpha: 0.1
+    iteration: 100
+    share_alphas: false
+    lr_decay: 0.98
+    full_conv_alpha: true
+    max_coeff_mul: .inf
+    matmul_share_alphas: false
+    disable_optimization: []
+    max_time: 1.0
+    alpha_dtype: float16
+    input_split_alpha_iteration: 5
+    input_split_lr_alpha: 0.05
+    input_split_objective_iteration: 0
+  invprop:
+    apply_output_constraints_to: []
+    tighten_input_bounds: false
+    best_of_oc_and_no_oc: false
+    directly_optimize: []
+    oc_lr: 0.1
+    share_gammas: false
+  beta-crown:
+    lr_alpha: 0.01
+    lr_beta: 0.05
+    lr_decay: 0.98
+    optimizer: adam
+    iteration: 50
+    beta: true
+    beta_warmup: true
+    enable_opt_interm_bounds: false
+    all_node_split_LP: false
+  forward:
+    refine: false
+    max_dim: 10000
+    reset_threshold: 1.0
+  intermediate_refinement:
+    enabled: false
+    batch_size: 10
+    opt_coeffs: false
+    opt_bias: false
+    lr: 0.05
+    layers: [-1]
+    max_domains: 1000
+  mip:
+    unstable_neuron_threshold: 0
+    parallel_solvers: null
+    solver_threads: 1
+    refine_neuron_timeout: 15
+    refine_neuron_time_percentage: 0.8
+    early_stop: true
+    adv_warmup: true
+    mip_solver: gurobi
+    skip_unsafe: false
+    topk_filter: 1.0
+    sliding_window: -1
+    extra_constraint: false
+    refine_neuron_timeout_increasement: 0
+    timeout_neuron_percentage: 0.3
+    remaining_timeout_threshold: 1
+    remove_unstable_neurons: false
+    formulation: mip
+    output_cut: false
+bab:
+  max_domains: .inf
+  decision_thresh: 0
+  timeout: 360
+  timeout_scale: 1
+  max_iterations: -1
+  override_timeout: null
+  get_upper_bound: false
+  pruning_in_iteration: true
+  pruning_in_iteration_ratio: 0.2
+  sort_targets: false
+  batched_domain_list: true
+  optimized_interm: ''
+  interm_transfer: true
+  recompute_interm: false
+  sort_domain_interval: -1
+  lazy_sort_domains: false
+  domain_storage_gpu_mb: 0
+  tree_traversal: depth_first
+  hugetensor_allocator: true
+  mixed_precision:
+    enable_tf32_branching_decision: true
+    enable_tf32_clip_decision: true
+    check_mixed_decision_bound_soundness: false
+    enable_bab_bound_mixed_precision: false
+    bab_bound_mixed_precision_dtype: tf32
+    prune_even_under_low_precision: true
+    low_precision_prune_margin_abs: 0.01
+  cut:
+    enabled: false
+    cuts_path: null
+    bab_cut: false
+    lp_cut: false
+    lr: 0.01
+    lr_decay: 1.0
+    iteration: 100
+    bab_iteration: -1
+    early_stop_patience: -1
+    lr_beta: 0.02
+    number_cuts: 50
+    topk_cuts_in_filter: 1000
+    batch_size_primal: 100
+    max_num: 1000000000
+    patches_cut: false
+    cplex_cuts: false
+    cplex_cuts_wait: 0
+    cplex_cuts_revpickup: true
+    cut_reference_bounds: true
+    fix_intermediate_bounds: false
+    manual_cuts: null
+    record_cplex_cut_to: null
+    read_cplex_cut_from: null
+    biccos:
+      enabled: false
+      auto_param: true
+      constraint_strengthening: true
+      drop_ratio: 0.5
+      max_infer_iter: 20
+      max_domain: 10000.0
+      heuristic: neuron_influence_score
+      save_cuts: false
+      multi_tree_branching:
+        enabled: false
+        restore_best_tree: true
+        keep_n_best_domains: 50
+        target_batch_size: 200
+        iterations: 3
+  clip_n_verify:
+    rearrange_constraints: false
+    alpha_crown: false
+    prune: false
+    final_layer: false
+    clip_input_domain:
+      enabled: false
+      clip_type: relaxed
+      clip_neuron_selection_type: ratio
+      clip_neuron_selection_value: -1.0
+      clip_iterations: 1
+      clip_calculate_volume_metrics: false
+    clip_interm_domain:
+      enabled: false
+      with_input: false
+      clip_in_alpha_crown: false
+      topk_objective: 20
+  clipper_only_bab_timeout: false
+  clipper_only_K: 1
+  clipper_only_fast_Kb: 256
+  clipper_only_slope_iters: 80
+  clipper_only_shared_slope_iters: -1
+  clipper_only_shared_frontier_cap: 250000
+  branching:
+    method: kfsb
+    candidates: 3
+    reduceop: min
+    enable_intermediate_bound_opt: false
+    branching_input_and_activation: false
+    branching_input_and_activation_order: [input, relu]
+    branching_input_iterations: 30
+    branching_relu_iterations: 50
+    save_visited_domains_to: ''
+    decision_sub_batch_size: null
+    nonlinear_split:
+      method: bbps
+      disable: false
+      branching_point_method: uniform
+      num_branches: 2
+      filter: false
+      filter_beta: false
+      filter_clamp: false
+      filter_batch_size: 10000
+      filter_iterations: 25
+      relu_only: false
+      loose_tanh_threshold: null
+      branching_point:
+        db_path: branching_points.pt
+        num_iterations: 1000
+        batch_size: 1000000
+        range_l: -5.0
+        range_u: 5.0
+        log_interval: 100
+        step_size_1d: 0.01
+        step_size: 0.2
+    input_split:
+      split_hint: null
+      enable: false
+      beta: false
+      use_relaxation_warmstart: false
+      reorder_bab: false
+      input_dim_threshold: 20
+      adv_check: 0
+      split_partitions: 2
+      sb_margin_weight: 1.0
+      sb_sum: false
+      sb_primary_spec: null
+      bf_backup_thresh: -1
+      bf_rhs_offset: 0
+      bf_iters: 1000000000.0
+      bf_batch_size: 100000
+      bf_zero_crossing_score: false
+      touch_zero_score: 0
+      ibp_enhancement: true
+      compare_with_old_bounds: true
+      update_rhs_with_attack: false
+      sb_coeff_thresh: 0.001
+      sb_min_width_ratio: 0.0
+      angle_first_ratio: 0.0
+      sb_strong_candidates: 0
+      sb_strong_max_domains: -1
+      sb_strong_max_children: 65536
+      sb_strong_candidates_unconstrained: 0
+      sb_strong_max_inputs_unconstrained: 0
+      sb_strong_domain_frac: 1.0
+      sb_strong_domain_frac_unconstrained: 1.0
+      sb_strong_min_domains: 0
+      sort_index: null
+      sort_heuristic: lb_rhs
+      sort_descending: true
+      show_progress: false
+      presplit_domains: null
+      skip_getting_worst_domain: false
+  branching_decision_precompute:
+    enable: true
+  attack:
+    enabled: false
+    beam_candidates: 8
+    beam_depth: 7
+    max_dive_fix_ratio: 0.8
+    min_local_free_ratio: 0.2
+    mip_start_iteration: 5
+    mip_timeout: 30.0
+    adv_pool_threshold: null
+    refined_mip_attacker: false
+    refined_batch_size: null
+attack:
+  general_attack: true
+  pgd_order: before
+  pgd_steps: 100
+  pgd_restarts: 30
+  pgd_batch_size: 100000000
+  pgd_early_stop: true
+  pgd_lr_decay: 0.99
+  pgd_alpha: auto
+  pgd_alpha_scale: false
+  pgd_loss_mode: null
+  pgd_restart_when_stuck: false
+  enable_mip_attack: false
+  adv_saver: default_adv_saver
+  adv_verifier: default_adv_verifier
+  early_stop_condition: default_early_stop_condition
+  adv_example_finalizer: default_adv_example_finalizer
+  pgd_loss: default_pgd_loss
+  cex_path: ./test_cex.txt
+  attack_mode: PGD
+  attack_tolerance: 0.0
+  attack_func: attack_with_general_specs
+  gama_lambda: 10.0
+  gama_decay: 0.9
+  input_split:
+    pgd_steps: 100
+    pgd_restarts: 30
+    pgd_alpha: auto
+  input_split_check_adv:
+    enabled: auto
+    auto_enlarge_batch_size: auto
+    pgd_steps: 5
+    pgd_restarts: 5
+    pgd_alpha: auto
+    max_num_domains: 10
+debug:
+  view_model: false
+  lp_test: null
+  rescale_vnnlib_ptb: null
+  test_optimized_bounds: false
+  test_optimized_bounds_after_n_iterations: 0
+  print_verbose_decisions: false
+  biccos_mip_sanity_check: false
+  sanity_check: 0
+  sanity_check_delta: 0.001
+  lp_sanity_check: false
+  z_split_enabled: false
+  save_minimal_config: null
+  save_minimal_config_omit_keys: []
+solving:
+  fixed_primal_report_only: false
+  solving_mode: false
+  enable_attack_counter: false
+  enable_solution_point: false
+  solution_point: ''
+  enable_solver_res: false
+  solver_res: ''
+  obj_index: 0
+  is_maximization: false
+
+Precompiled vnnlib file found at benchmarks/gams_world/vnnlib_gams/schitt_s332.vnnlib.compiled
+[W1022 02:50:30.649897889 Context.cpp:320] Warning: torch.backends.cuda.preferred_linalg_library is an experimental feature. If you see any error or unexpected behavior when this flag is set please file an issue on GitHub. (function operator())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+benchmarks/gams_world/mod_files_gams/modules.py:401: TracerWarning: Converting a tensor to a Python number might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  has_bias = bool(self.bias.numel() > 0 and (self.bias != 0).any().item())
+<gear>/complete_verifier/auto_LiRPA/operators/leaf.py:111: UserWarning: The "has_batchdim" option for BoundBuffers is deprecated. It may be removed from the next release.
+  warnings.warn('The "has_batchdim" option for BoundBuffers is deprecated.'
+[Presolve] complete_square_rewrite=0 product_residual=0
+Model: BoundedModule(
+  (/0): BoundInput(name=/0, inputs=[], perturbed=True)
+  (/2): BoundBuffers(name=/2, inputs=[], perturbed=False)
+  (/3): BoundBuffers(name=/3, inputs=[], perturbed=False)
+  (/4): BoundBuffers(name=/4, inputs=[], perturbed=False)
+  (/5): BoundBuffers(name=/5, inputs=[], perturbed=False)
+  (/125): BoundBuffers(name=/125, inputs=[], perturbed=False)
+  (/126): BoundBuffers(name=/126, inputs=[], perturbed=False)
+  (/127): BoundBuffers(name=/127, inputs=[], perturbed=False)
+  (/130): BoundBuffers(name=/130, inputs=[], perturbed=False)
+  (/131): BoundBuffers(name=/131, inputs=[], perturbed=False)
+  (/410): BoundTranspose(name=/410, inputs=[/2], perturbed=False)
+  (/411): BoundMatMul(name=/411, inputs=[/0, /410], perturbed=True)
+  (/412): BoundConstant(name=/412, value=1)
+  (/413): BoundAdd(name=/413, inputs=[/411, /3], perturbed=True)
+  (/414): BoundConcat(name=/414, inputs=[/0, /413], perturbed=True)
+  (/415): BoundConstant(name=/415, value=199)
+  (/416): BoundConstant(name=/416, value=200)
+  (/420): BoundUnsqueeze(name=/420, inputs=[/415, /428], perturbed=False)
+  (/422): BoundUnsqueeze(name=/422, inputs=[/416, /428], perturbed=False)
+  (/424): BoundUnsqueeze(name=/424, inputs=[/412, /428], perturbed=False)
+  (/425): BoundSlice(name=/425, inputs=[/414, /420, /422, /424, /424], perturbed=True)
+  (/427): BoundConstant(name=/427, value=0)
+  (/428): BoundConstant(name=/428, value=tensor([0], device='cuda:0'))
+  (/429): BoundUnsqueeze(name=/429, inputs=[/4, /428], perturbed=False)
+  (/430): BoundMul(name=/430, inputs=[/426/sqr, /429], perturbed=True)
+  (/431): BoundShape(name=/431, inputs=[/430], perturbed=False)
+  (/432): BoundConstantOfShape(name=/432, inputs=[/431], perturbed=False)
+  (/433): BoundConstant(name=/433, value=102)
+  (/434): BoundConstant(name=/434, value=103)
+  (/438): BoundUnsqueeze(name=/438, inputs=[/433, /428], perturbed=False)
+  (/440): BoundUnsqueeze(name=/440, inputs=[/434, /428], perturbed=False)
+  (/443): BoundSlice(name=/443, inputs=[/414, /438, /440, /424, /424], perturbed=True)
+  (/447): BoundMul(name=/447, inputs=[/444/sqr, /429], perturbed=True)
+  (/448): BoundSub(name=/448, inputs=[/447, /432], perturbed=True)
+  (/449): BoundAdd(name=/449, inputs=[/430, /448], perturbed=True)
+  (/450): BoundSub(name=/450, inputs=[/449, /430], perturbed=True)
+  (/451): BoundSub(name=/451, inputs=[/450, /448], perturbed=True)
+  (/452): BoundConstant(name=/452, value=198)
+  (/456): BoundUnsqueeze(name=/456, inputs=[/452, /428], perturbed=False)
+  (/461): BoundSlice(name=/461, inputs=[/414, /456, /420, /424, /424], perturbed=True)
+  (/465): BoundMul(name=/465, inputs=[/462/sqr, /429], perturbed=True)
+  (/466): BoundSub(name=/466, inputs=[/465, /451], perturbed=True)
+  (/467): BoundAdd(name=/467, inputs=[/449, /466], perturbed=True)
+  (/468): BoundSub(name=/468, inputs=[/467, /449], perturbed=True)
+  (/469): BoundSub(name=/469, inputs=[/468, /466], perturbed=True)
+  (/470): BoundConstant(name=/470, value=104)
+  (/471): BoundConstant(name=/471, value=105)
+  (/475): BoundUnsqueeze(name=/475, inputs=[/470, /428], perturbed=False)
+  (/477): BoundUnsqueeze(name=/477, inputs=[/471, /428], perturbed=False)
+  (/480): BoundSlice(name=/480, inputs=[/414, /475, /477, /424, /424], perturbed=True)
+  (/484): BoundMul(name=/484, inputs=[/481/sqr, /429], perturbed=True)
+  (/485): BoundSub(name=/485, inputs=[/484, /469], perturbed=True)
+  (/486): BoundAdd(name=/486, inputs=[/467, /485], perturbed=True)
+  (/487): BoundSub(name=/487, inputs=[/486, /467], perturbed=True)
+  (/488): BoundSub(name=/488, inputs=[/487, /485], perturbed=True)
+  (/489): BoundConstant(name=/489, value=197)
+  (/493): BoundUnsqueeze(name=/493, inputs=[/489, /428], perturbed=False)
+  (/498): BoundSlice(name=/498, inputs=[/414, /493, /456, /424, /424], perturbed=True)
+  (/502): BoundMul(name=/502, inputs=[/499/sqr, /429], perturbed=True)
+  (/503): BoundSub(name=/503, inputs=[/502, /488], perturbed=True)
+  (/504): BoundAdd(name=/504, inputs=[/486, /503], perturbed=True)
+  (/505): BoundSub(name=/505, inputs=[/504, /486], perturbed=True)
+  (/506): BoundSub(name=/506, inputs=[/505, /503], perturbed=True)
+  (/507): BoundConstant(name=/507, value=107)
+  (/508): BoundConstant(name=/508, value=108)
+  (/512): BoundUnsqueeze(name=/512, inputs=[/507, /428], perturbed=False)
+  (/514): BoundUnsqueeze(name=/514, inputs=[/508, /428], perturbed=False)
+  (/517): BoundSlice(name=/517, inputs=[/414, /512, /514, /424, /424], perturbed=True)
+  (/521): BoundMul(name=/521, inputs=[/518/sqr, /429], perturbed=True)
+  (/522): BoundSub(name=/522, inputs=[/521, /506], perturbed=True)
+  (/523): BoundAdd(name=/523, inputs=[/504, /522], perturbed=True)
+  (/524): BoundSub(name=/524, inputs=[/523, /504], perturbed=True)
+  (/525): BoundSub(name=/525, inputs=[/524, /522], perturbed=True)
+  (/526): BoundConstant(name=/526, value=196)
+  (/530): BoundUnsqueeze(name=/530, inputs=[/526, /428], perturbed=False)
+  (/535): BoundSlice(name=/535, inputs=[/414, /530, /493, /424, /424], perturbed=True)
+  (/539): BoundMul(name=/539, inputs=[/536/sqr, /429], perturbed=True)
+  (/540): BoundSub(name=/540, inputs=[/539, /525], perturbed=True)
+  (/541): BoundAdd(name=/541, inputs=[/523, /540], perturbed=True)
+  (/542): BoundSub(name=/542, inputs=[/541, /523], perturbed=True)
+  (/543): BoundSub(name=/543, inputs=[/542, /540], perturbed=True)
+  (/544): BoundConstant(name=/544, value=111)
+  (/545): BoundConstant(name=/545, value=112)
+  (/549): BoundUnsqueeze(name=/549, inputs=[/544, /428], perturbed=False)
+  (/551): BoundUnsqueeze(name=/551, inputs=[/545, /428], perturbed=False)
+  (/554): BoundSlice(name=/554, inputs=[/414, /549, /551, /424, /424], perturbed=True)
+  (/558): BoundMul(name=/558, inputs=[/555/sqr, /429], perturbed=True)
+  (/559): BoundSub(name=/559, inputs=[/558, /543], perturbed=True)
+  (/560): BoundAdd(name=/560, inputs=[/541, /559], perturbed=True)
+  (/561): BoundSub(name=/561, inputs=[/560, /541], perturbed=True)
+  (/562): BoundSub(name=/562, inputs=[/561, /559], perturbed=True)
+  (/563): BoundConstant(name=/563, value=195)
+  (/567): BoundUnsqueeze(name=/567, inputs=[/563, /428], perturbed=False)
+  (/572): BoundSlice(name=/572, inputs=[/414, /567, /530, /424, /424], perturbed=True)
+  (/576): BoundMul(name=/576, inputs=[/573/sqr, /429], perturbed=True)
+  (/577): BoundSub(name=/577, inputs=[/576, /562], perturbed=True)
+  (/578): BoundAdd(name=/578, inputs=[/560, /577], perturbed=True)
+  (/579): BoundSub(name=/579, inputs=[/578, /560], perturbed=True)
+  (/580): BoundSub(name=/580, inputs=[/579, /577], perturbed=True)
+  (/581): BoundConstant(name=/581, value=114)
+  (/582): BoundConstant(name=/582, value=115)
+  (/586): BoundUnsqueeze(name=/586, inputs=[/581, /428], perturbed=False)
+  (/588): BoundUnsqueeze(name=/588, inputs=[/582, /428], perturbed=False)
+  (/591): BoundSlice(name=/591, inputs=[/414, /586, /588, /424, /424], perturbed=True)
+  (/595): BoundMul(name=/595, inputs=[/592/sqr, /429], perturbed=True)
+  (/596): BoundSub(name=/596, inputs=[/595, /580], perturbed=True)
+  (/597): BoundAdd(name=/597, inputs=[/578, /596], perturbed=True)
+  (/598): BoundSub(name=/598, inputs=[/597, /578], perturbed=True)
+  (/599): BoundSub(name=/599, inputs=[/598, /596], perturbed=True)
+  (/600): BoundConstant(name=/600, value=194)
+  (/604): BoundUnsqueeze(name=/604, inputs=[/600, /428], perturbed=False)
+  (/609): BoundSlice(name=/609, inputs=[/414, /604, /567, /424, /424], perturbed=True)
+  (/613): BoundMul(name=/613, inputs=[/610/sqr, /429], perturbed=True)
+  (/614): BoundSub(name=/614, inputs=[/613, /599], perturbed=True)
+  (/615): BoundAdd(name=/615, inputs=[/597, /614], perturbed=True)
+  (/616): BoundSub(name=/616, inputs=[/615, /597], perturbed=True)
+  (/617): BoundSub(name=/617, inputs=[/616, /614], perturbed=True)
+  (/618): BoundConstant(name=/618, value=116)
+  (/619): BoundConstant(name=/619, value=117)
+  (/623): BoundUnsqueeze(name=/623, inputs=[/618, /428], perturbed=False)
+  (/625): BoundUnsqueeze(name=/625, inputs=[/619, /428], perturbed=False)
+  (/628): BoundSlice(name=/628, inputs=[/414, /623, /625, /424, /424], perturbed=True)
+  (/632): BoundMul(name=/632, inputs=[/629/sqr, /429], perturbed=True)
+  (/633): BoundSub(name=/633, inputs=[/632, /617], perturbed=True)
+  (/634): BoundAdd(name=/634, inputs=[/615, /633], perturbed=True)
+  (/635): BoundSub(name=/635, inputs=[/634, /615], perturbed=True)
+  (/636): BoundSub(name=/636, inputs=[/635, /633], perturbed=True)
+  (/637): BoundConstant(name=/637, value=193)
+  (/641): BoundUnsqueeze(name=/641, inputs=[/637, /428], perturbed=False)
+  (/646): BoundSlice(name=/646, inputs=[/414, /641, /604, /424, /424], perturbed=True)
+  (/650): BoundMul(name=/650, inputs=[/647/sqr, /429], perturbed=True)
+  (/651): BoundSub(name=/651, inputs=[/650, /636], perturbed=True)
+  (/652): BoundAdd(name=/652, inputs=[/634, /651], perturbed=True)
+  (/653): BoundSub(name=/653, inputs=[/652, /634], perturbed=True)
+  (/654): BoundSub(name=/654, inputs=[/653, /651], perturbed=True)
+  (/655): BoundConstant(name=/655, value=119)
+  (/656): BoundConstant(name=/656, value=120)
+  (/660): BoundUnsqueeze(name=/660, inputs=[/655, /428], perturbed=False)
+  (/662): BoundUnsqueeze(name=/662, inputs=[/656, /428], perturbed=False)
+  (/665): BoundSlice(name=/665, inputs=[/414, /660, /662, /424, /424], perturbed=True)
+  (/669): BoundMul(name=/669, inputs=[/666/sqr, /429], perturbed=True)
+  (/670): BoundSub(name=/670, inputs=[/669, /654], perturbed=True)
+  (/671): BoundAdd(name=/671, inputs=[/652, /670], perturbed=True)
+  (/672): BoundSub(name=/672, inputs=[/671, /652], perturbed=True)
+  (/673): BoundSub(name=/673, inputs=[/672, /670], perturbed=True)
+  (/674): BoundConstant(name=/674, value=192)
+  (/678): BoundUnsqueeze(name=/678, inputs=[/674, /428], perturbed=False)
+  (/683): BoundSlice(name=/683, inputs=[/414, /678, /641, /424, /424], perturbed=True)
+  (/687): BoundMul(name=/687, inputs=[/684/sqr, /429], perturbed=True)
+  (/688): BoundSub(name=/688, inputs=[/687, /673], perturbed=True)
+  (/689): BoundAdd(name=/689, inputs=[/671, /688], perturbed=True)
+  (/690): BoundSub(name=/690, inputs=[/689, /671], perturbed=True)
+  (/691): BoundSub(name=/691, inputs=[/690, /688], perturbed=True)
+  (/692): BoundConstant(name=/692, value=122)
+  (/693): BoundConstant(name=/693, value=123)
+  (/697): BoundUnsqueeze(name=/697, inputs=[/692, /428], perturbed=False)
+  (/699): BoundUnsqueeze(name=/699, inputs=[/693, /428], perturbed=False)
+  (/702): BoundSlice(name=/702, inputs=[/414, /697, /699, /424, /424], perturbed=True)
+  (/706): BoundMul(name=/706, inputs=[/703/sqr, /429], perturbed=True)
+  (/707): BoundSub(name=/707, inputs=[/706, /691], perturbed=True)
+  (/708): BoundAdd(name=/708, inputs=[/689, /707], perturbed=True)
+  (/709): BoundSub(name=/709, inputs=[/708, /689], perturbed=True)
+  (/710): BoundSub(name=/710, inputs=[/709, /707], perturbed=True)
+  (/711): BoundConstant(name=/711, value=191)
+  (/715): BoundUnsqueeze(name=/715, inputs=[/711, /428], perturbed=False)
+  (/720): BoundSlice(name=/720, inputs=[/414, /715, /678, /424, /424], perturbed=True)
+  (/724): BoundMul(name=/724, inputs=[/721/sqr, /429], perturbed=True)
+  (/725): BoundSub(name=/725, inputs=[/724, /710], perturbed=True)
+  (/726): BoundAdd(name=/726, inputs=[/708, /725], perturbed=True)
+  (/727): BoundSub(name=/727, inputs=[/726, /708], perturbed=True)
+  (/728): BoundSub(name=/728, inputs=[/727, /725], perturbed=True)
+  (/729): BoundConstant(name=/729, value=125)
+  (/730): BoundConstant(name=/730, value=126)
+  (/734): BoundUnsqueeze(name=/734, inputs=[/729, /428], perturbed=False)
+  (/736): BoundUnsqueeze(name=/736, inputs=[/730, /428], perturbed=False)
+  (/739): BoundSlice(name=/739, inputs=[/414, /734, /736, /424, /424], perturbed=True)
+  (/743): BoundMul(name=/743, inputs=[/740/sqr, /429], perturbed=True)
+  (/744): BoundSub(name=/744, inputs=[/743, /728], perturbed=True)
+  (/745): BoundAdd(name=/745, inputs=[/726, /744], perturbed=True)
+  (/746): BoundSub(name=/746, inputs=[/745, /726], perturbed=True)
+  (/747): BoundSub(name=/747, inputs=[/746, /744], perturbed=True)
+  (/748): BoundConstant(name=/748, value=190)
+  (/752): BoundUnsqueeze(name=/752, inputs=[/748, /428], perturbed=False)
+  (/757): BoundSlice(name=/757, inputs=[/414, /752, /715, /424, /424], perturbed=True)
+  (/761): BoundMul(name=/761, inputs=[/758/sqr, /429], perturbed=True)
+  (/762): BoundSub(name=/762, inputs=[/761, /747], perturbed=True)
+  (/763): BoundAdd(name=/763, inputs=[/745, /762], perturbed=True)
+  (/764): BoundSub(name=/764, inputs=[/763, /745], perturbed=True)
+  (/765): BoundSub(name=/765, inputs=[/764, /762], perturbed=True)
+  (/766): BoundConstant(name=/766, value=128)
+  (/767): BoundConstant(name=/767, value=129)
+  (/771): BoundUnsqueeze(name=/771, inputs=[/766, /428], perturbed=False)
+  (/773): BoundUnsqueeze(name=/773, inputs=[/767, /428], perturbed=False)
+  (/776): BoundSlice(name=/776, inputs=[/414, /771, /773, /424, /424], perturbed=True)
+  (/780): BoundMul(name=/780, inputs=[/777/sqr, /429], perturbed=True)
+  (/781): BoundSub(name=/781, inputs=[/780, /765], perturbed=True)
+  (/782): BoundAdd(name=/782, inputs=[/763, /781], perturbed=True)
+  (/783): BoundSub(name=/783, inputs=[/782, /763], perturbed=True)
+  (/784): BoundSub(name=/784, inputs=[/783, /781], perturbed=True)
+  (/785): BoundConstant(name=/785, value=189)
+  (/789): BoundUnsqueeze(name=/789, inputs=[/785, /428], perturbed=False)
+  (/794): BoundSlice(name=/794, inputs=[/414, /789, /752, /424, /424], perturbed=True)
+  (/798): BoundMul(name=/798, inputs=[/795/sqr, /429], perturbed=True)
+  (/799): BoundSub(name=/799, inputs=[/798, /784], perturbed=True)
+  (/800): BoundAdd(name=/800, inputs=[/782, /799], perturbed=True)
+  (/801): BoundSub(name=/801, inputs=[/800, /782], perturbed=True)
+  (/802): BoundSub(name=/802, inputs=[/801, /799], perturbed=True)
+  (/803): BoundConstant(name=/803, value=131)
+  (/804): BoundConstant(name=/804, value=132)
+  (/808): BoundUnsqueeze(name=/808, inputs=[/803, /428], perturbed=False)
+  (/810): BoundUnsqueeze(name=/810, inputs=[/804, /428], perturbed=False)
+  (/813): BoundSlice(name=/813, inputs=[/414, /808, /810, /424, /424], perturbed=True)
+  (/817): BoundMul(name=/817, inputs=[/814/sqr, /429], perturbed=True)
+  (/818): BoundSub(name=/818, inputs=[/817, /802], perturbed=True)
+  (/819): BoundAdd(name=/819, inputs=[/800, /818], perturbed=True)
+  (/820): BoundSub(name=/820, inputs=[/819, /800], perturbed=True)
+  (/821): BoundSub(name=/821, inputs=[/820, /818], perturbed=True)
+  (/822): BoundConstant(name=/822, value=188)
+  (/826): BoundUnsqueeze(name=/826, inputs=[/822, /428], perturbed=False)
+  (/831): BoundSlice(name=/831, inputs=[/414, /826, /789, /424, /424], perturbed=True)
+  (/835): BoundMul(name=/835, inputs=[/832/sqr, /429], perturbed=True)
+  (/836): BoundSub(name=/836, inputs=[/835, /821], perturbed=True)
+  (/837): BoundAdd(name=/837, inputs=[/819, /836], perturbed=True)
+  (/838): BoundSub(name=/838, inputs=[/837, /819], perturbed=True)
+  (/839): BoundSub(name=/839, inputs=[/838, /836], perturbed=True)
+  (/840): BoundConstant(name=/840, value=133)
+  (/841): BoundConstant(name=/841, value=134)
+  (/845): BoundUnsqueeze(name=/845, inputs=[/840, /428], perturbed=False)
+  (/847): BoundUnsqueeze(name=/847, inputs=[/841, /428], perturbed=False)
+  (/850): BoundSlice(name=/850, inputs=[/414, /845, /847, /424, /424], perturbed=True)
+  (/854): BoundMul(name=/854, inputs=[/851/sqr, /429], perturbed=True)
+  (/855): BoundSub(name=/855, inputs=[/854, /839], perturbed=True)
+  (/856): BoundAdd(name=/856, inputs=[/837, /855], perturbed=True)
+  (/857): BoundSub(name=/857, inputs=[/856, /837], perturbed=True)
+  (/858): BoundSub(name=/858, inputs=[/857, /855], perturbed=True)
+  (/859): BoundConstant(name=/859, value=187)
+  (/863): BoundUnsqueeze(name=/863, inputs=[/859, /428], perturbed=False)
+  (/868): BoundSlice(name=/868, inputs=[/414, /863, /826, /424, /424], perturbed=True)
+  (/872): BoundMul(name=/872, inputs=[/869/sqr, /429], perturbed=True)
+  (/873): BoundSub(name=/873, inputs=[/872, /858], perturbed=True)
+  (/874): BoundAdd(name=/874, inputs=[/856, /873], perturbed=True)
+  (/875): BoundSub(name=/875, inputs=[/874, /856], perturbed=True)
+  (/876): BoundSub(name=/876, inputs=[/875, /873], perturbed=True)
+  (/877): BoundConstant(name=/877, value=135)
+  (/878): BoundConstant(name=/878, value=136)
+  (/882): BoundUnsqueeze(name=/882, inputs=[/877, /428], perturbed=False)
+  (/884): BoundUnsqueeze(name=/884, inputs=[/878, /428], perturbed=False)
+  (/887): BoundSlice(name=/887, inputs=[/414, /882, /884, /424, /424], perturbed=True)
+  (/891): BoundMul(name=/891, inputs=[/888/sqr, /429], perturbed=True)
+  (/892): BoundSub(name=/892, inputs=[/891, /876], perturbed=True)
+  (/893): BoundAdd(name=/893, inputs=[/874, /892], perturbed=True)
+  (/894): BoundSub(name=/894, inputs=[/893, /874], perturbed=True)
+  (/895): BoundSub(name=/895, inputs=[/894, /892], perturbed=True)
+  (/896): BoundConstant(name=/896, value=186)
+  (/900): BoundUnsqueeze(name=/900, inputs=[/896, /428], perturbed=False)
+  (/905): BoundSlice(name=/905, inputs=[/414, /900, /863, /424, /424], perturbed=True)
+  (/909): BoundMul(name=/909, inputs=[/906/sqr, /429], perturbed=True)
+  (/910): BoundSub(name=/910, inputs=[/909, /895], perturbed=True)
+  (/911): BoundAdd(name=/911, inputs=[/893, /910], perturbed=True)
+  (/912): BoundSub(name=/912, inputs=[/911, /893], perturbed=True)
+  (/913): BoundSub(name=/913, inputs=[/912, /910], perturbed=True)
+  (/914): BoundConstant(name=/914, value=137)
+  (/920): BoundUnsqueeze(name=/920, inputs=[/914, /428], perturbed=False)
+  (/923): BoundSlice(name=/923, inputs=[/414, /884, /920, /424, /424], perturbed=True)
+  (/927): BoundMul(name=/927, inputs=[/924/sqr, /429], perturbed=True)
+  (/928): BoundSub(name=/928, inputs=[/927, /913], perturbed=True)
+  (/929): BoundAdd(name=/929, inputs=[/911, /928], perturbed=True)
+  (/930): BoundSub(name=/930, inputs=[/929, /911], perturbed=True)
+  (/931): BoundSub(name=/931, inputs=[/930, /928], perturbed=True)
+  (/932): BoundConstant(name=/932, value=185)
+  (/936): BoundUnsqueeze(name=/936, inputs=[/932, /428], perturbed=False)
+  (/941): BoundSlice(name=/941, inputs=[/414, /936, /900, /424, /424], perturbed=True)
+  (/945): BoundMul(name=/945, inputs=[/942/sqr, /429], perturbed=True)
+  (/946): BoundSub(name=/946, inputs=[/945, /931], perturbed=True)
+  (/947): BoundAdd(name=/947, inputs=[/929, /946], perturbed=True)
+  (/948): BoundSub(name=/948, inputs=[/947, /929], perturbed=True)
+  (/949): BoundSub(name=/949, inputs=[/948, /946], perturbed=True)
+  (/950): BoundConstant(name=/950, value=139)
+  (/951): BoundConstant(name=/951, value=140)
+  (/955): BoundUnsqueeze(name=/955, inputs=[/950, /428], perturbed=False)
+  (/957): BoundUnsqueeze(name=/957, inputs=[/951, /428], perturbed=False)
+  (/960): BoundSlice(name=/960, inputs=[/414, /955, /957, /424, /424], perturbed=True)
+  (/964): BoundMul(name=/964, inputs=[/961/sqr, /429], perturbed=True)
+  (/965): BoundSub(name=/965, inputs=[/964, /949], perturbed=True)
+  (/966): BoundAdd(name=/966, inputs=[/947, /965], perturbed=True)
+  (/967): BoundSub(name=/967, inputs=[/966, /947], perturbed=True)
+  (/968): BoundSub(name=/968, inputs=[/967, /965], perturbed=True)
+  (/969): BoundConstant(name=/969, value=184)
+  (/973): BoundUnsqueeze(name=/973, inputs=[/969, /428], perturbed=False)
+  (/978): BoundSlice(name=/978, inputs=[/414, /973, /936, /424, /424], perturbed=True)
+  (/982): BoundMul(name=/982, inputs=[/979/sqr, /429], perturbed=True)
+  (/983): BoundSub(name=/983, inputs=[/982, /968], perturbed=True)
+  (/984): BoundAdd(name=/984, inputs=[/966, /983], perturbed=True)
+  (/985): BoundSub(name=/985, inputs=[/984, /966], perturbed=True)
+  (/986): BoundSub(name=/986, inputs=[/985, /983], perturbed=True)
+  (/987): BoundConstant(name=/987, value=141)
+  (/988): BoundConstant(name=/988, value=142)
+  (/992): BoundUnsqueeze(name=/992, inputs=[/987, /428], perturbed=False)
+  (/994): BoundUnsqueeze(name=/994, inputs=[/988, /428], perturbed=False)
+  (/997): BoundSlice(name=/997, inputs=[/414, /992, /994, /424, /424], perturbed=True)
+  (/1001): BoundMul(name=/1001, inputs=[/998/sqr, /429], perturbed=True)
+  (/1002): BoundSub(name=/1002, inputs=[/1001, /986], perturbed=True)
+  (/1003): BoundAdd(name=/1003, inputs=[/984, /1002], perturbed=True)
+  (/1004): BoundSub(name=/1004, inputs=[/1003, /984], perturbed=True)
+  (/1005): BoundSub(name=/1005, inputs=[/1004, /1002], perturbed=True)
+  (/1006): BoundConstant(name=/1006, value=183)
+  (/1010): BoundUnsqueeze(name=/1010, inputs=[/1006, /428], perturbed=False)
+  (/1015): BoundSlice(name=/1015, inputs=[/414, /1010, /973, /424, /424], perturbed=True)
+  (/1019): BoundMul(name=/1019, inputs=[/1016/sqr, /429], perturbed=True)
+  (/1020): BoundSub(name=/1020, inputs=[/1019, /1005], perturbed=True)
+  (/1021): BoundAdd(name=/1021, inputs=[/1003, /1020], perturbed=True)
+  (/1022): BoundSub(name=/1022, inputs=[/1021, /1003], perturbed=True)
+  (/1023): BoundSub(name=/1023, inputs=[/1022, /1020], perturbed=True)
+  (/1024): BoundConstant(name=/1024, value=143)
+  (/1025): BoundConstant(name=/1025, value=144)
+  (/1029): BoundUnsqueeze(name=/1029, inputs=[/1024, /428], perturbed=False)
+  (/1031): BoundUnsqueeze(name=/1031, inputs=[/1025, /428], perturbed=False)
+  (/1034): BoundSlice(name=/1034, inputs=[/414, /1029, /1031, /424, /424], perturbed=True)
+  (/1038): BoundMul(name=/1038, inputs=[/1035/sqr, /429], perturbed=True)
+  (/1039): BoundSub(name=/1039, inputs=[/1038, /1023], perturbed=True)
+  (/1040): BoundAdd(name=/1040, inputs=[/1021, /1039], perturbed=True)
+  (/1041): BoundSub(name=/1041, inputs=[/1040, /1021], perturbed=True)
+  (/1042): BoundSub(name=/1042, inputs=[/1041, /1039], perturbed=True)
+  (/1043): BoundConstant(name=/1043, value=182)
+  (/1047): BoundUnsqueeze(name=/1047, inputs=[/1043, /428], perturbed=False)
+  (/1052): BoundSlice(name=/1052, inputs=[/414, /1047, /1010, /424, /424], perturbed=True)
+  (/1056): BoundMul(name=/1056, inputs=[/1053/sqr, /429], perturbed=True)
+  (/1057): BoundSub(name=/1057, inputs=[/1056, /1042], perturbed=True)
+  (/1058): BoundAdd(name=/1058, inputs=[/1040, /1057], perturbed=True)
+  (/1059): BoundSub(name=/1059, inputs=[/1058, /1040], perturbed=True)
+  (/1060): BoundSub(name=/1060, inputs=[/1059, /1057], perturbed=True)
+  (/1061): BoundConstant(name=/1061, value=145)
+  (/1062): BoundConstant(name=/1062, value=146)
+  (/1066): BoundUnsqueeze(name=/1066, inputs=[/1061, /428], perturbed=False)
+  (/1068): BoundUnsqueeze(name=/1068, inputs=[/1062, /428], perturbed=False)
+  (/1071): BoundSlice(name=/1071, inputs=[/414, /1066, /1068, /424, /424], perturbed=True)
+  (/1075): BoundMul(name=/1075, inputs=[/1072/sqr, /429], perturbed=True)
+  (/1076): BoundSub(name=/1076, inputs=[/1075, /1060], perturbed=True)
+  (/1077): BoundAdd(name=/1077, inputs=[/1058, /1076], perturbed=True)
+  (/1078): BoundSub(name=/1078, inputs=[/1077, /1058], perturbed=True)
+  (/1079): BoundSub(name=/1079, inputs=[/1078, /1076], perturbed=True)
+  (/1080): BoundConstant(name=/1080, value=181)
+  (/1084): BoundUnsqueeze(name=/1084, inputs=[/1080, /428], perturbed=False)
+  (/1089): BoundSlice(name=/1089, inputs=[/414, /1084, /1047, /424, /424], perturbed=True)
+  (/1093): BoundMul(name=/1093, inputs=[/1090/sqr, /429], perturbed=True)
+  (/1094): BoundSub(name=/1094, inputs=[/1093, /1079], perturbed=True)
+  (/1095): BoundAdd(name=/1095, inputs=[/1077, /1094], perturbed=True)
+  (/1096): BoundSub(name=/1096, inputs=[/1095, /1077], perturbed=True)
+  (/1097): BoundSub(name=/1097, inputs=[/1096, /1094], perturbed=True)
+  (/1098): BoundConstant(name=/1098, value=147)
+  (/1099): BoundConstant(name=/1099, value=148)
+  (/1103): BoundUnsqueeze(name=/1103, inputs=[/1098, /428], perturbed=False)
+  (/1105): BoundUnsqueeze(name=/1105, inputs=[/1099, /428], perturbed=False)
+  (/1108): BoundSlice(name=/1108, inputs=[/414, /1103, /1105, /424, /424], perturbed=True)
+  (/1112): BoundMul(name=/1112, inputs=[/1109/sqr, /429], perturbed=True)
+  (/1113): BoundSub(name=/1113, inputs=[/1112, /1097], perturbed=True)
+  (/1114): BoundAdd(name=/1114, inputs=[/1095, /1113], perturbed=True)
+  (/1115): BoundSub(name=/1115, inputs=[/1114, /1095], perturbed=True)
+  (/1116): BoundSub(name=/1116, inputs=[/1115, /1113], perturbed=True)
+  (/1117): BoundConstant(name=/1117, value=180)
+  (/1121): BoundUnsqueeze(name=/1121, inputs=[/1117, /428], perturbed=False)
+  (/1126): BoundSlice(name=/1126, inputs=[/414, /1121, /1084, /424, /424], perturbed=True)
+  (/1130): BoundMul(name=/1130, inputs=[/1127/sqr, /429], perturbed=True)
+  (/1131): BoundSub(name=/1131, inputs=[/1130, /1116], perturbed=True)
+  (/1132): BoundAdd(name=/1132, inputs=[/1114, /1131], perturbed=True)
+  (/1133): BoundSub(name=/1133, inputs=[/1132, /1114], perturbed=True)
+  (/1134): BoundSub(name=/1134, inputs=[/1133, /1131], perturbed=True)
+  (/1135): BoundConstant(name=/1135, value=149)
+  (/1136): BoundConstant(name=/1136, value=150)
+  (/1140): BoundUnsqueeze(name=/1140, inputs=[/1135, /428], perturbed=False)
+  (/1142): BoundUnsqueeze(name=/1142, inputs=[/1136, /428], perturbed=False)
+  (/1145): BoundSlice(name=/1145, inputs=[/414, /1140, /1142, /424, /424], perturbed=True)
+  (/1149): BoundMul(name=/1149, inputs=[/1146/sqr, /429], perturbed=True)
+  (/1150): BoundSub(name=/1150, inputs=[/1149, /1134], perturbed=True)
+  (/1151): BoundAdd(name=/1151, inputs=[/1132, /1150], perturbed=True)
+  (/1152): BoundSub(name=/1152, inputs=[/1151, /1132], perturbed=True)
+  (/1153): BoundSub(name=/1153, inputs=[/1152, /1150], perturbed=True)
+  (/1154): BoundConstant(name=/1154, value=179)
+  (/1158): BoundUnsqueeze(name=/1158, inputs=[/1154, /428], perturbed=False)
+  (/1163): BoundSlice(name=/1163, inputs=[/414, /1158, /1121, /424, /424], perturbed=True)
+  (/1167): BoundMul(name=/1167, inputs=[/1164/sqr, /429], perturbed=True)
+  (/1168): BoundSub(name=/1168, inputs=[/1167, /1153], perturbed=True)
+  (/1169): BoundAdd(name=/1169, inputs=[/1151, /1168], perturbed=True)
+  (/1170): BoundSub(name=/1170, inputs=[/1169, /1151], perturbed=True)
+  (/1171): BoundSub(name=/1171, inputs=[/1170, /1168], perturbed=True)
+  (/1172): BoundConstant(name=/1172, value=151)
+  (/1173): BoundConstant(name=/1173, value=152)
+  (/1177): BoundUnsqueeze(name=/1177, inputs=[/1172, /428], perturbed=False)
+  (/1179): BoundUnsqueeze(name=/1179, inputs=[/1173, /428], perturbed=False)
+  (/1182): BoundSlice(name=/1182, inputs=[/414, /1177, /1179, /424, /424], perturbed=True)
+  (/1186): BoundMul(name=/1186, inputs=[/1183/sqr, /429], perturbed=True)
+  (/1187): BoundSub(name=/1187, inputs=[/1186, /1171], perturbed=True)
+  (/1188): BoundAdd(name=/1188, inputs=[/1169, /1187], perturbed=True)
+  (/1189): BoundSub(name=/1189, inputs=[/1188, /1169], perturbed=True)
+  (/1190): BoundSub(name=/1190, inputs=[/1189, /1187], perturbed=True)
+  (/1191): BoundConstant(name=/1191, value=178)
+  (/1195): BoundUnsqueeze(name=/1195, inputs=[/1191, /428], perturbed=False)
+  (/1200): BoundSlice(name=/1200, inputs=[/414, /1195, /1158, /424, /424], perturbed=True)
+  (/1204): BoundMul(name=/1204, inputs=[/1201/sqr, /429], perturbed=True)
+  (/1205): BoundSub(name=/1205, inputs=[/1204, /1190], perturbed=True)
+  (/1206): BoundAdd(name=/1206, inputs=[/1188, /1205], perturbed=True)
+  (/1207): BoundSub(name=/1207, inputs=[/1206, /1188], perturbed=True)
+  (/1208): BoundSub(name=/1208, inputs=[/1207, /1205], perturbed=True)
+  (/1209): BoundConstant(name=/1209, value=153)
+  (/1210): BoundConstant(name=/1210, value=154)
+  (/1214): BoundUnsqueeze(name=/1214, inputs=[/1209, /428], perturbed=False)
+  (/1216): BoundUnsqueeze(name=/1216, inputs=[/1210, /428], perturbed=False)
+  (/1219): BoundSlice(name=/1219, inputs=[/414, /1214, /1216, /424, /424], perturbed=True)
+  (/1223): BoundMul(name=/1223, inputs=[/1220/sqr, /429], perturbed=True)
+  (/1224): BoundSub(name=/1224, inputs=[/1223, /1208], perturbed=True)
+  (/1225): BoundAdd(name=/1225, inputs=[/1206, /1224], perturbed=True)
+  (/1226): BoundSub(name=/1226, inputs=[/1225, /1206], perturbed=True)
+  (/1227): BoundSub(name=/1227, inputs=[/1226, /1224], perturbed=True)
+  (/1228): BoundConstant(name=/1228, value=177)
+  (/1232): BoundUnsqueeze(name=/1232, inputs=[/1228, /428], perturbed=False)
+  (/1237): BoundSlice(name=/1237, inputs=[/414, /1232, /1195, /424, /424], perturbed=True)
+  (/1241): BoundMul(name=/1241, inputs=[/1238/sqr, /429], perturbed=True)
+  (/1242): BoundSub(name=/1242, inputs=[/1241, /1227], perturbed=True)
+  (/1243): BoundAdd(name=/1243, inputs=[/1225, /1242], perturbed=True)
+  (/1244): BoundSub(name=/1244, inputs=[/1243, /1225], perturbed=True)
+  (/1245): BoundSub(name=/1245, inputs=[/1244, /1242], perturbed=True)
+  (/1246): BoundConstant(name=/1246, value=155)
+  (/1247): BoundConstant(name=/1247, value=156)
+  (/1251): BoundUnsqueeze(name=/1251, inputs=[/1246, /428], perturbed=False)
+  (/1253): BoundUnsqueeze(name=/1253, inputs=[/1247, /428], perturbed=False)
+  (/1256): BoundSlice(name=/1256, inputs=[/414, /1251, /1253, /424, /424], perturbed=True)
+  (/1260): BoundMul(name=/1260, inputs=[/1257/sqr, /429], perturbed=True)
+  (/1261): BoundSub(name=/1261, inputs=[/1260, /1245], perturbed=True)
+  (/1262): BoundAdd(name=/1262, inputs=[/1243, /1261], perturbed=True)
+  (/1263): BoundSub(name=/1263, inputs=[/1262, /1243], perturbed=True)
+  (/1264): BoundSub(name=/1264, inputs=[/1263, /1261], perturbed=True)
+  (/1265): BoundConstant(name=/1265, value=176)
+  (/1269): BoundUnsqueeze(name=/1269, inputs=[/1265, /428], perturbed=False)
+  (/1274): BoundSlice(name=/1274, inputs=[/414, /1269, /1232, /424, /424], perturbed=True)
+  (/1278): BoundMul(name=/1278, inputs=[/1275/sqr, /429], perturbed=True)
+  (/1279): BoundSub(name=/1279, inputs=[/1278, /1264], perturbed=True)
+  (/1280): BoundAdd(name=/1280, inputs=[/1262, /1279], perturbed=True)
+  (/1281): BoundSub(name=/1281, inputs=[/1280, /1262], perturbed=True)
+  (/1282): BoundSub(name=/1282, inputs=[/1281, /1279], perturbed=True)
+  (/1283): BoundConstant(name=/1283, value=157)
+  (/1284): BoundConstant(name=/1284, value=158)
+  (/1288): BoundUnsqueeze(name=/1288, inputs=[/1283, /428], perturbed=False)
+  (/1290): BoundUnsqueeze(name=/1290, inputs=[/1284, /428], perturbed=False)
+  (/1293): BoundSlice(name=/1293, inputs=[/414, /1288, /1290, /424, /424], perturbed=True)
+  (/1297): BoundMul(name=/1297, inputs=[/1294/sqr, /429], perturbed=True)
+  (/1298): BoundSub(name=/1298, inputs=[/1297, /1282], perturbed=True)
+  (/1299): BoundAdd(name=/1299, inputs=[/1280, /1298], perturbed=True)
+  (/1300): BoundSub(name=/1300, inputs=[/1299, /1280], perturbed=True)
+  (/1301): BoundSub(name=/1301, inputs=[/1300, /1298], perturbed=True)
+  (/1302): BoundConstant(name=/1302, value=175)
+  (/1306): BoundUnsqueeze(name=/1306, inputs=[/1302, /428], perturbed=False)
+  (/1311): BoundSlice(name=/1311, inputs=[/414, /1306, /1269, /424, /424], perturbed=True)
+  (/1315): BoundMul(name=/1315, inputs=[/1312/sqr, /429], perturbed=True)
+  (/1316): BoundSub(name=/1316, inputs=[/1315, /1301], perturbed=True)
+  (/1317): BoundAdd(name=/1317, inputs=[/1299, /1316], perturbed=True)
+  (/1318): BoundSub(name=/1318, inputs=[/1317, /1299], perturbed=True)
+  (/1319): BoundSub(name=/1319, inputs=[/1318, /1316], perturbed=True)
+  (/1320): BoundConstant(name=/1320, value=159)
+  (/1321): BoundConstant(name=/1321, value=160)
+  (/1325): BoundUnsqueeze(name=/1325, inputs=[/1320, /428], perturbed=False)
+  (/1327): BoundUnsqueeze(name=/1327, inputs=[/1321, /428], perturbed=False)
+  (/1330): BoundSlice(name=/1330, inputs=[/414, /1325, /1327, /424, /424], perturbed=True)
+  (/1334): BoundMul(name=/1334, inputs=[/1331/sqr, /429], perturbed=True)
+  (/1335): BoundSub(name=/1335, inputs=[/1334, /1319], perturbed=True)
+  (/1336): BoundAdd(name=/1336, inputs=[/1317, /1335], perturbed=True)
+  (/1337): BoundSub(name=/1337, inputs=[/1336, /1317], perturbed=True)
+  (/1338): BoundSub(name=/1338, inputs=[/1337, /1335], perturbed=True)
+  (/1339): BoundConstant(name=/1339, value=174)
+  (/1343): BoundUnsqueeze(name=/1343, inputs=[/1339, /428], perturbed=False)
+  (/1348): BoundSlice(name=/1348, inputs=[/414, /1343, /1306, /424, /424], perturbed=True)
+  (/1352): BoundMul(name=/1352, inputs=[/1349/sqr, /429], perturbed=True)
+  (/1353): BoundSub(name=/1353, inputs=[/1352, /1338], perturbed=True)
+  (/1354): BoundAdd(name=/1354, inputs=[/1336, /1353], perturbed=True)
+  (/1355): BoundSub(name=/1355, inputs=[/1354, /1336], perturbed=True)
+  (/1356): BoundSub(name=/1356, inputs=[/1355, /1353], perturbed=True)
+  (/1357): BoundConstant(name=/1357, value=161)
+  (/1358): BoundConstant(name=/1358, value=162)
+  (/1362): BoundUnsqueeze(name=/1362, inputs=[/1357, /428], perturbed=False)
+  (/1364): BoundUnsqueeze(name=/1364, inputs=[/1358, /428], perturbed=False)
+  (/1367): BoundSlice(name=/1367, inputs=[/414, /1362, /1364, /424, /424], perturbed=True)
+  (/1371): BoundMul(name=/1371, inputs=[/1368/sqr, /429], perturbed=True)
+  (/1372): BoundSub(name=/1372, inputs=[/1371, /1356], perturbed=True)
+  (/1373): BoundAdd(name=/1373, inputs=[/1354, /1372], perturbed=True)
+  (/1374): BoundSub(name=/1374, inputs=[/1373, /1354], perturbed=True)
+  (/1375): BoundSub(name=/1375, inputs=[/1374, /1372], perturbed=True)
+  (/1376): BoundConstant(name=/1376, value=173)
+  (/1380): BoundUnsqueeze(name=/1380, inputs=[/1376, /428], perturbed=False)
+  (/1385): BoundSlice(name=/1385, inputs=[/414, /1380, /1343, /424, /424], perturbed=True)
+  (/1389): BoundMul(name=/1389, inputs=[/1386/sqr, /429], perturbed=True)
+  (/1390): BoundSub(name=/1390, inputs=[/1389, /1375], perturbed=True)
+  (/1391): BoundAdd(name=/1391, inputs=[/1373, /1390], perturbed=True)
+  (/1392): BoundSub(name=/1392, inputs=[/1391, /1373], perturbed=True)
+  (/1393): BoundSub(name=/1393, inputs=[/1392, /1390], perturbed=True)
+  (/1394): BoundConstant(name=/1394, value=163)
+  (/1395): BoundConstant(name=/1395, value=164)
+  (/1399): BoundUnsqueeze(name=/1399, inputs=[/1394, /428], perturbed=False)
+  (/1401): BoundUnsqueeze(name=/1401, inputs=[/1395, /428], perturbed=False)
+  (/1404): BoundSlice(name=/1404, inputs=[/414, /1399, /1401, /424, /424], perturbed=True)
+  (/1408): BoundMul(name=/1408, inputs=[/1405/sqr, /429], perturbed=True)
+  (/1409): BoundSub(name=/1409, inputs=[/1408, /1393], perturbed=True)
+  (/1410): BoundAdd(name=/1410, inputs=[/1391, /1409], perturbed=True)
+  (/1411): BoundSub(name=/1411, inputs=[/1410, /1391], perturbed=True)
+  (/1412): BoundSub(name=/1412, inputs=[/1411, /1409], perturbed=True)
+  (/1413): BoundConstant(name=/1413, value=172)
+  (/1417): BoundUnsqueeze(name=/1417, inputs=[/1413, /428], perturbed=False)
+  (/1422): BoundSlice(name=/1422, inputs=[/414, /1417, /1380, /424, /424], perturbed=True)
+  (/1426): BoundMul(name=/1426, inputs=[/1423/sqr, /429], perturbed=True)
+  (/1427): BoundSub(name=/1427, inputs=[/1426, /1412], perturbed=True)
+  (/1428): BoundAdd(name=/1428, inputs=[/1410, /1427], perturbed=True)
+  (/1429): BoundSub(name=/1429, inputs=[/1428, /1410], perturbed=True)
+  (/1430): BoundSub(name=/1430, inputs=[/1429, /1427], perturbed=True)
+  (/1431): BoundConstant(name=/1431, value=165)
+  (/1432): BoundConstant(name=/1432, value=166)
+  (/1436): BoundUnsqueeze(name=/1436, inputs=[/1431, /428], perturbed=False)
+  (/1438): BoundUnsqueeze(name=/1438, inputs=[/1432, /428], perturbed=False)
+  (/1441): BoundSlice(name=/1441, inputs=[/414, /1436, /1438, /424, /424], perturbed=True)
+  (/1445): BoundMul(name=/1445, inputs=[/1442/sqr, /429], perturbed=True)
+  (/1446): BoundSub(name=/1446, inputs=[/1445, /1430], perturbed=True)
+  (/1447): BoundAdd(name=/1447, inputs=[/1428, /1446], perturbed=True)
+  (/1448): BoundSub(name=/1448, inputs=[/1447, /1428], perturbed=True)
+  (/1449): BoundSub(name=/1449, inputs=[/1448, /1446], perturbed=True)
+  (/1450): BoundConstant(name=/1450, value=171)
+  (/1454): BoundUnsqueeze(name=/1454, inputs=[/1450, /428], perturbed=False)
+  (/1459): BoundSlice(name=/1459, inputs=[/414, /1454, /1417, /424, /424], perturbed=True)
+  (/1463): BoundMul(name=/1463, inputs=[/1460/sqr, /429], perturbed=True)
+  (/1464): BoundSub(name=/1464, inputs=[/1463, /1449], perturbed=True)
+  (/1465): BoundAdd(name=/1465, inputs=[/1447, /1464], perturbed=True)
+  (/1466): BoundSub(name=/1466, inputs=[/1465, /1447], perturbed=True)
+  (/1467): BoundSub(name=/1467, inputs=[/1466, /1464], perturbed=True)
+  (/1468): BoundConstant(name=/1468, value=167)
+  (/1469): BoundConstant(name=/1469, value=168)
+  (/1473): BoundUnsqueeze(name=/1473, inputs=[/1468, /428], perturbed=False)
+  (/1475): BoundUnsqueeze(name=/1475, inputs=[/1469, /428], perturbed=False)
+  (/1478): BoundSlice(name=/1478, inputs=[/414, /1473, /1475, /424, /424], perturbed=True)
+  (/1482): BoundMul(name=/1482, inputs=[/1479/sqr, /429], perturbed=True)
+  (/1483): BoundSub(name=/1483, inputs=[/1482, /1467], perturbed=True)
+  (/1484): BoundAdd(name=/1484, inputs=[/1465, /1483], perturbed=True)
+  (/1485): BoundSub(name=/1485, inputs=[/1484, /1465], perturbed=True)
+  (/1486): BoundSub(name=/1486, inputs=[/1485, /1483], perturbed=True)
+  (/1487): BoundConstant(name=/1487, value=170)
+  (/1491): BoundUnsqueeze(name=/1491, inputs=[/1487, /428], perturbed=False)
+  (/1496): BoundSlice(name=/1496, inputs=[/414, /1491, /1454, /424, /424], perturbed=True)
+  (/1500): BoundMul(name=/1500, inputs=[/1497/sqr, /429], perturbed=True)
+  (/1501): BoundSub(name=/1501, inputs=[/1500, /1486], perturbed=True)
+  (/1502): BoundAdd(name=/1502, inputs=[/1484, /1501], perturbed=True)
+  (/1503): BoundSub(name=/1503, inputs=[/1502, /1484], perturbed=True)
+  (/1504): BoundSub(name=/1504, inputs=[/1503, /1501], perturbed=True)
+  (/1505): BoundConstant(name=/1505, value=169)
+  (/1509): BoundUnsqueeze(name=/1509, inputs=[/1505, /428], perturbed=False)
+  (/1514): BoundSlice(name=/1514, inputs=[/414, /1509, /1491, /424, /424], perturbed=True)
+  (/1518): BoundMul(name=/1518, inputs=[/1515/sqr, /429], perturbed=True)
+  (/1519): BoundSub(name=/1519, inputs=[/1518, /1504], perturbed=True)
+  (/1520): BoundAdd(name=/1520, inputs=[/1502, /1519], perturbed=True)
+  (/1521): BoundSub(name=/1521, inputs=[/1520, /1502], perturbed=True)
+  (/1522): BoundSub(name=/1522, inputs=[/1521, /1519], perturbed=True)
+  (/1523): BoundGather(name=/1523, inputs=[/414, /125], perturbed=True)
+  (/1524): BoundTranspose(name=/1524, inputs=[/126], perturbed=False)
+  (/1525): BoundMatMul(name=/1525, inputs=[/1523, /1524], perturbed=True)
+  (/1526): BoundAdd(name=/1526, inputs=[/1525, /127], perturbed=True)
+  (/1530): BoundUnsqueeze(name=/1530, inputs=[/427, /428], perturbed=False)
+  (/1535): BoundSlice(name=/1535, inputs=[/1526, /1530, /424, /424, /424], perturbed=True)
+  (/1539): BoundMul(name=/1539, inputs=[/1536/sqr, /429], perturbed=True)
+  (/1540): BoundSub(name=/1540, inputs=[/1539, /1522], perturbed=True)
+  (/1541): BoundAdd(name=/1541, inputs=[/1520, /1540], perturbed=True)
+  (/1542): BoundSub(name=/1542, inputs=[/1541, /1520], perturbed=True)
+  (/1543): BoundSub(name=/1543, inputs=[/1542, /1540], perturbed=True)
+  (/1544): BoundGather(name=/1544, inputs=[/414, /130], perturbed=True)
+  (/1545): BoundTranspose(name=/1545, inputs=[/131], perturbed=False)
+  (/1546): BoundMatMul(name=/1546, inputs=[/1544, /1545], perturbed=True)
+  (/1547): BoundAdd(name=/1547, inputs=[/1546, /127], perturbed=True)
+  (/1556): BoundSlice(name=/1556, inputs=[/1547, /1530, /424, /424, /424], perturbed=True)
+  (/1560): BoundMul(name=/1560, inputs=[/1557/sqr, /429], perturbed=True)
+  (/1561): BoundSub(name=/1561, inputs=[/1560, /1543], perturbed=True)
+  (/1562): BoundAdd(name=/1562, inputs=[/1541, /1561], perturbed=True)
+  (/1563): BoundSub(name=/1563, inputs=[/1562, /1541], perturbed=True)
+  (/1564): BoundSub(name=/1564, inputs=[/1563, /1561], perturbed=True)
+  (/1565): BoundConstant(name=/1565, value=2)
+  (/1566): BoundConstant(name=/1566, value=3)
+  (/1570): BoundUnsqueeze(name=/1570, inputs=[/1565, /428], perturbed=False)
+  (/1572): BoundUnsqueeze(name=/1572, inputs=[/1566, /428], perturbed=False)
+  (/1575): BoundSlice(name=/1575, inputs=[/414, /1570, /1572, /424, /424], perturbed=True)
+  (/1579): BoundMul(name=/1579, inputs=[/1576/sqr, /429], perturbed=True)
+  (/1580): BoundSub(name=/1580, inputs=[/1579, /1564], perturbed=True)
+  (/1581): BoundAdd(name=/1581, inputs=[/1562, /1580], perturbed=True)
+  (/1582): BoundSub(name=/1582, inputs=[/1581, /1562], perturbed=True)
+  (/1583): BoundSub(name=/1583, inputs=[/1582, /1580], perturbed=True)
+  (/1592): BoundSlice(name=/1592, inputs=[/414, /1475, /1509, /424, /424], perturbed=True)
+  (/1596): BoundMul(name=/1596, inputs=[/1593/sqr, /429], perturbed=True)
+  (/1597): BoundSub(name=/1597, inputs=[/1596, /1583], perturbed=True)
+  (/1598): BoundAdd(name=/1598, inputs=[/1581, /1597], perturbed=True)
+  (/1599): BoundSub(name=/1599, inputs=[/1598, /1581], perturbed=True)
+  (/1600): BoundSub(name=/1600, inputs=[/1599, /1597], perturbed=True)
+  (/1601): BoundConstant(name=/1601, value=4)
+  (/1607): BoundUnsqueeze(name=/1607, inputs=[/1601, /428], perturbed=False)
+  (/1610): BoundSlice(name=/1610, inputs=[/414, /1572, /1607, /424, /424], perturbed=True)
+  (/1614): BoundMul(name=/1614, inputs=[/1611/sqr, /429], perturbed=True)
+  (/1615): BoundSub(name=/1615, inputs=[/1614, /1600], perturbed=True)
+  (/1616): BoundAdd(name=/1616, inputs=[/1598, /1615], perturbed=True)
+  (/1617): BoundSub(name=/1617, inputs=[/1616, /1598], perturbed=True)
+  (/1618): BoundSub(name=/1618, inputs=[/1617, /1615], perturbed=True)
+  (/1627): BoundSlice(name=/1627, inputs=[/414, /1438, /1473, /424, /424], perturbed=True)
+  (/1631): BoundMul(name=/1631, inputs=[/1628/sqr, /429], perturbed=True)
+  (/1632): BoundSub(name=/1632, inputs=[/1631, /1618], perturbed=True)
+  (/1633): BoundAdd(name=/1633, inputs=[/1616, /1632], perturbed=True)
+  (/1634): BoundSub(name=/1634, inputs=[/1633, /1616], perturbed=True)
+  (/1635): BoundSub(name=/1635, inputs=[/1634, /1632], perturbed=True)
+  (/1636): BoundConstant(name=/1636, value=5)
+  (/1642): BoundUnsqueeze(name=/1642, inputs=[/1636, /428], perturbed=False)
+  (/1645): BoundSlice(name=/1645, inputs=[/414, /1607, /1642, /424, /424], perturbed=True)
+  (/1649): BoundMul(name=/1649, inputs=[/1646/sqr, /429], perturbed=True)
+  (/1650): BoundSub(name=/1650, inputs=[/1649, /1635], perturbed=True)
+  (/1651): BoundAdd(name=/1651, inputs=[/1633, /1650], perturbed=True)
+  (/1652): BoundSub(name=/1652, inputs=[/1651, /1633], perturbed=True)
+  (/1653): BoundSub(name=/1653, inputs=[/1652, /1650], perturbed=True)
+  (/1662): BoundSlice(name=/1662, inputs=[/414, /1401, /1436, /424, /424], perturbed=True)
+  (/1666): BoundMul(name=/1666, inputs=[/1663/sqr, /429], perturbed=True)
+  (/1667): BoundSub(name=/1667, inputs=[/1666, /1653], perturbed=True)
+  (/1668): BoundAdd(name=/1668, inputs=[/1651, /1667], perturbed=True)
+  (/1669): BoundSub(name=/1669, inputs=[/1668, /1651], perturbed=True)
+  (/1670): BoundSub(name=/1670, inputs=[/1669, /1667], perturbed=True)
+  (/1671): BoundConstant(name=/1671, value=6)
+  (/1677): BoundUnsqueeze(name=/1677, inputs=[/1671, /428], perturbed=False)
+  (/1680): BoundSlice(name=/1680, inputs=[/414, /1642, /1677, /424, /424], perturbed=True)
+  (/1684): BoundMul(name=/1684, inputs=[/1681/sqr, /429], perturbed=True)
+  (/1685): BoundSub(name=/1685, inputs=[/1684, /1670], perturbed=True)
+  (/1686): BoundAdd(name=/1686, inputs=[/1668, /1685], perturbed=True)
+  (/1687): BoundSub(name=/1687, inputs=[/1686, /1668], perturbed=True)
+  (/1688): BoundSub(name=/1688, inputs=[/1687, /1685], perturbed=True)
+  (/1697): BoundSlice(name=/1697, inputs=[/414, /1364, /1399, /424, /424], perturbed=True)
+  (/1701): BoundMul(name=/1701, inputs=[/1698/sqr, /429], perturbed=True)
+  (/1702): BoundSub(name=/1702, inputs=[/1701, /1688], perturbed=True)
+  (/1703): BoundAdd(name=/1703, inputs=[/1686, /1702], perturbed=True)
+  (/1704): BoundSub(name=/1704, inputs=[/1703, /1686], perturbed=True)
+  (/1705): BoundSub(name=/1705, inputs=[/1704, /1702], perturbed=True)
+  (/1706): BoundConstant(name=/1706, value=7)
+  (/1712): BoundUnsqueeze(name=/1712, inputs=[/1706, /428], perturbed=False)
+  (/1715): BoundSlice(name=/1715, inputs=[/414, /1677, /1712, /424, /424], perturbed=True)
+  (/1719): BoundMul(name=/1719, inputs=[/1716/sqr, /429], perturbed=True)
+  (/1720): BoundSub(name=/1720, inputs=[/1719, /1705], perturbed=True)
+  (/1721): BoundAdd(name=/1721, inputs=[/1703, /1720], perturbed=True)
+  (/1722): BoundSub(name=/1722, inputs=[/1721, /1703], perturbed=True)
+  (/1723): BoundSub(name=/1723, inputs=[/1722, /1720], perturbed=True)
+  (/1732): BoundSlice(name=/1732, inputs=[/414, /1327, /1362, /424, /424], perturbed=True)
+  (/1736): BoundMul(name=/1736, inputs=[/1733/sqr, /429], perturbed=True)
+  (/1737): BoundSub(name=/1737, inputs=[/1736, /1723], perturbed=True)
+  (/1738): BoundAdd(name=/1738, inputs=[/1721, /1737], perturbed=True)
+  (/1739): BoundSub(name=/1739, inputs=[/1738, /1721], perturbed=True)
+  (/1740): BoundSub(name=/1740, inputs=[/1739, /1737], perturbed=True)
+  (/1741): BoundConstant(name=/1741, value=8)
+  (/1747): BoundUnsqueeze(name=/1747, inputs=[/1741, /428], perturbed=False)
+  (/1750): BoundSlice(name=/1750, inputs=[/414, /1712, /1747, /424, /424], perturbed=True)
+  (/1754): BoundMul(name=/1754, inputs=[/1751/sqr, /429], perturbed=True)
+  (/1755): BoundSub(name=/1755, inputs=[/1754, /1740], perturbed=True)
+  (/1756): BoundAdd(name=/1756, inputs=[/1738, /1755], perturbed=True)
+  (/1757): BoundSub(name=/1757, inputs=[/1756, /1738], perturbed=True)
+  (/1758): BoundSub(name=/1758, inputs=[/1757, /1755], perturbed=True)
+  (/1767): BoundSlice(name=/1767, inputs=[/414, /1290, /1325, /424, /424], perturbed=True)
+  (/1771): BoundMul(name=/1771, inputs=[/1768/sqr, /429], perturbed=True)
+  (/1772): BoundSub(name=/1772, inputs=[/1771, /1758], perturbed=True)
+  (/1773): BoundAdd(name=/1773, inputs=[/1756, /1772], perturbed=True)
+  (/1774): BoundSub(name=/1774, inputs=[/1773, /1756], perturbed=True)
+  (/1775): BoundSub(name=/1775, inputs=[/1774, /1772], perturbed=True)
+  (/1776): BoundConstant(name=/1776, value=9)
+  (/1782): BoundUnsqueeze(name=/1782, inputs=[/1776, /428], perturbed=False)
+  (/1785): BoundSlice(name=/1785, inputs=[/414, /1747, /1782, /424, /424], perturbed=True)
+  (/1789): BoundMul(name=/1789, inputs=[/1786/sqr, /429], perturbed=True)
+  (/1790): BoundSub(name=/1790, inputs=[/1789, /1775], perturbed=True)
+  (/1791): BoundAdd(name=/1791, inputs=[/1773, /1790], perturbed=True)
+  (/1792): BoundSub(name=/1792, inputs=[/1791, /1773], perturbed=True)
+  (/1793): BoundSub(name=/1793, inputs=[/1792, /1790], perturbed=True)
+  (/1802): BoundSlice(name=/1802, inputs=[/414, /1253, /1288, /424, /424], perturbed=True)
+  (/1806): BoundMul(name=/1806, inputs=[/1803/sqr, /429], perturbed=True)
+  (/1807): BoundSub(name=/1807, inputs=[/1806, /1793], perturbed=True)
+  (/1808): BoundAdd(name=/1808, inputs=[/1791, /1807], perturbed=True)
+  (/1809): BoundSub(name=/1809, inputs=[/1808, /1791], perturbed=True)
+  (/1810): BoundSub(name=/1810, inputs=[/1809, /1807], perturbed=True)
+  (/1811): BoundConstant(name=/1811, value=10)
+  (/1817): BoundUnsqueeze(name=/1817, inputs=[/1811, /428], perturbed=False)
+  (/1820): BoundSlice(name=/1820, inputs=[/414, /1782, /1817, /424, /424], perturbed=True)
+  (/1824): BoundMul(name=/1824, inputs=[/1821/sqr, /429], perturbed=True)
+  (/1825): BoundSub(name=/1825, inputs=[/1824, /1810], perturbed=True)
+  (/1826): BoundAdd(name=/1826, inputs=[/1808, /1825], perturbed=True)
+  (/1827): BoundSub(name=/1827, inputs=[/1826, /1808], perturbed=True)
+  (/1828): BoundSub(name=/1828, inputs=[/1827, /1825], perturbed=True)
+  (/1837): BoundSlice(name=/1837, inputs=[/414, /1216, /1251, /424, /424], perturbed=True)
+  (/1841): BoundMul(name=/1841, inputs=[/1838/sqr, /429], perturbed=True)
+  (/1842): BoundSub(name=/1842, inputs=[/1841, /1828], perturbed=True)
+  (/1843): BoundAdd(name=/1843, inputs=[/1826, /1842], perturbed=True)
+  (/1844): BoundSub(name=/1844, inputs=[/1843, /1826], perturbed=True)
+  (/1845): BoundSub(name=/1845, inputs=[/1844, /1842], perturbed=True)
+  (/1846): BoundConstant(name=/1846, value=11)
+  (/1852): BoundUnsqueeze(name=/1852, inputs=[/1846, /428], perturbed=False)
+  (/1855): BoundSlice(name=/1855, inputs=[/414, /1817, /1852, /424, /424], perturbed=True)
+  (/1859): BoundMul(name=/1859, inputs=[/1856/sqr, /429], perturbed=True)
+  (/1860): BoundSub(name=/1860, inputs=[/1859, /1845], perturbed=True)
+  (/1861): BoundAdd(name=/1861, inputs=[/1843, /1860], perturbed=True)
+  (/1862): BoundSub(name=/1862, inputs=[/1861, /1843], perturbed=True)
+  (/1863): BoundSub(name=/1863, inputs=[/1862, /1860], perturbed=True)
+  (/1872): BoundSlice(name=/1872, inputs=[/414, /1179, /1214, /424, /424], perturbed=True)
+  (/1876): BoundMul(name=/1876, inputs=[/1873/sqr, /429], perturbed=True)
+  (/1877): BoundSub(name=/1877, inputs=[/1876, /1863], perturbed=True)
+  (/1878): BoundAdd(name=/1878, inputs=[/1861, /1877], perturbed=True)
+  (/1879): BoundSub(name=/1879, inputs=[/1878, /1861], perturbed=True)
+  (/1880): BoundSub(name=/1880, inputs=[/1879, /1877], perturbed=True)
+  (/1881): BoundConstant(name=/1881, value=12)
+  (/1887): BoundUnsqueeze(name=/1887, inputs=[/1881, /428], perturbed=False)
+  (/1890): BoundSlice(name=/1890, inputs=[/414, /1852, /1887, /424, /424], perturbed=True)
+  (/1894): BoundMul(name=/1894, inputs=[/1891/sqr, /429], perturbed=True)
+  (/1895): BoundSub(name=/1895, inputs=[/1894, /1880], perturbed=True)
+  (/1896): BoundAdd(name=/1896, inputs=[/1878, /1895], perturbed=True)
+  (/1897): BoundSub(name=/1897, inputs=[/1896, /1878], perturbed=True)
+  (/1898): BoundSub(name=/1898, inputs=[/1897, /1895], perturbed=True)
+  (/1907): BoundSlice(name=/1907, inputs=[/414, /1142, /1177, /424, /424], perturbed=True)
+  (/1911): BoundMul(name=/1911, inputs=[/1908/sqr, /429], perturbed=True)
+  (/1912): BoundSub(name=/1912, inputs=[/1911, /1898], perturbed=True)
+  (/1913): BoundAdd(name=/1913, inputs=[/1896, /1912], perturbed=True)
+  (/1914): BoundSub(name=/1914, inputs=[/1913, /1896], perturbed=True)
+  (/1915): BoundSub(name=/1915, inputs=[/1914, /1912], perturbed=True)
+  (/1916): BoundConstant(name=/1916, value=13)
+  (/1922): BoundUnsqueeze(name=/1922, inputs=[/1916, /428], perturbed=False)
+  (/1925): BoundSlice(name=/1925, inputs=[/414, /1887, /1922, /424, /424], perturbed=True)
+  (/1929): BoundMul(name=/1929, inputs=[/1926/sqr, /429], perturbed=True)
+  (/1930): BoundSub(name=/1930, inputs=[/1929, /1915], perturbed=True)
+  (/1931): BoundAdd(name=/1931, inputs=[/1913, /1930], perturbed=True)
+  (/1932): BoundSub(name=/1932, inputs=[/1931, /1913], perturbed=True)
+  (/1933): BoundSub(name=/1933, inputs=[/1932, /1930], perturbed=True)
+  (/1942): BoundSlice(name=/1942, inputs=[/414, /1105, /1140, /424, /424], perturbed=True)
+  (/1946): BoundMul(name=/1946, inputs=[/1943/sqr, /429], perturbed=True)
+  (/1947): BoundSub(name=/1947, inputs=[/1946, /1933], perturbed=True)
+  (/1948): BoundAdd(name=/1948, inputs=[/1931, /1947], perturbed=True)
+  (/1949): BoundSub(name=/1949, inputs=[/1948, /1931], perturbed=True)
+  (/1950): BoundSub(name=/1950, inputs=[/1949, /1947], perturbed=True)
+  (/1951): BoundConstant(name=/1951, value=14)
+  (/1957): BoundUnsqueeze(name=/1957, inputs=[/1951, /428], perturbed=False)
+  (/1960): BoundSlice(name=/1960, inputs=[/414, /1922, /1957, /424, /424], perturbed=True)
+  (/1964): BoundMul(name=/1964, inputs=[/1961/sqr, /429], perturbed=True)
+  (/1965): BoundSub(name=/1965, inputs=[/1964, /1950], perturbed=True)
+  (/1966): BoundAdd(name=/1966, inputs=[/1948, /1965], perturbed=True)
+  (/1967): BoundSub(name=/1967, inputs=[/1966, /1948], perturbed=True)
+  (/1968): BoundSub(name=/1968, inputs=[/1967, /1965], perturbed=True)
+  (/1977): BoundSlice(name=/1977, inputs=[/414, /1068, /1103, /424, /424], perturbed=True)
+  (/1981): BoundMul(name=/1981, inputs=[/1978/sqr, /429], perturbed=True)
+  (/1982): BoundSub(name=/1982, inputs=[/1981, /1968], perturbed=True)
+  (/1983): BoundAdd(name=/1983, inputs=[/1966, /1982], perturbed=True)
+  (/1984): BoundSub(name=/1984, inputs=[/1983, /1966], perturbed=True)
+  (/1985): BoundSub(name=/1985, inputs=[/1984, /1982], perturbed=True)
+  (/1986): BoundConstant(name=/1986, value=15)
+  (/1992): BoundUnsqueeze(name=/1992, inputs=[/1986, /428], perturbed=False)
+  (/1995): BoundSlice(name=/1995, inputs=[/414, /1957, /1992, /424, /424], perturbed=True)
+  (/1999): BoundMul(name=/1999, inputs=[/1996/sqr, /429], perturbed=True)
+  (/2000): BoundSub(name=/2000, inputs=[/1999, /1985], perturbed=True)
+  (/2001): BoundAdd(name=/2001, inputs=[/1983, /2000], perturbed=True)
+  (/2002): BoundSub(name=/2002, inputs=[/2001, /1983], perturbed=True)
+  (/2003): BoundSub(name=/2003, inputs=[/2002, /2000], perturbed=True)
+  (/2012): BoundSlice(name=/2012, inputs=[/414, /1031, /1066, /424, /424], perturbed=True)
+  (/2016): BoundMul(name=/2016, inputs=[/2013/sqr, /429], perturbed=True)
+  (/2017): BoundSub(name=/2017, inputs=[/2016, /2003], perturbed=True)
+  (/2018): BoundAdd(name=/2018, inputs=[/2001, /2017], perturbed=True)
+  (/2019): BoundSub(name=/2019, inputs=[/2018, /2001], perturbed=True)
+  (/2020): BoundSub(name=/2020, inputs=[/2019, /2017], perturbed=True)
+  (/2021): BoundConstant(name=/2021, value=16)
+  (/2027): BoundUnsqueeze(name=/2027, inputs=[/2021, /428], perturbed=False)
+  (/2030): BoundSlice(name=/2030, inputs=[/414, /1992, /2027, /424, /424], perturbed=True)
+  (/2034): BoundMul(name=/2034, inputs=[/2031/sqr, /429], perturbed=True)
+  (/2035): BoundSub(name=/2035, inputs=[/2034, /2020], perturbed=True)
+  (/2036): BoundAdd(name=/2036, inputs=[/2018, /2035], perturbed=True)
+  (/2037): BoundSub(name=/2037, inputs=[/2036, /2018], perturbed=True)
+  (/2038): BoundSub(name=/2038, inputs=[/2037, /2035], perturbed=True)
+  (/2047): BoundSlice(name=/2047, inputs=[/414, /994, /1029, /424, /424], perturbed=True)
+  (/2051): BoundMul(name=/2051, inputs=[/2048/sqr, /429], perturbed=True)
+  (/2052): BoundSub(name=/2052, inputs=[/2051, /2038], perturbed=True)
+  (/2053): BoundAdd(name=/2053, inputs=[/2036, /2052], perturbed=True)
+  (/2054): BoundSub(name=/2054, inputs=[/2053, /2036], perturbed=True)
+  (/2055): BoundSub(name=/2055, inputs=[/2054, /2052], perturbed=True)
+  (/2056): BoundConstant(name=/2056, value=17)
+  (/2062): BoundUnsqueeze(name=/2062, inputs=[/2056, /428], perturbed=False)
+  (/2065): BoundSlice(name=/2065, inputs=[/414, /2027, /2062, /424, /424], perturbed=True)
+  (/2069): BoundMul(name=/2069, inputs=[/2066/sqr, /429], perturbed=True)
+  (/2070): BoundSub(name=/2070, inputs=[/2069, /2055], perturbed=True)
+  (/2071): BoundAdd(name=/2071, inputs=[/2053, /2070], perturbed=True)
+  (/2072): BoundSub(name=/2072, inputs=[/2071, /2053], perturbed=True)
+  (/2073): BoundSub(name=/2073, inputs=[/2072, /2070], perturbed=True)
+  (/2082): BoundSlice(name=/2082, inputs=[/414, /957, /992, /424, /424], perturbed=True)
+  (/2086): BoundMul(name=/2086, inputs=[/2083/sqr, /429], perturbed=True)
+  (/2087): BoundSub(name=/2087, inputs=[/2086, /2073], perturbed=True)
+  (/2088): BoundAdd(name=/2088, inputs=[/2071, /2087], perturbed=True)
+  (/2089): BoundSub(name=/2089, inputs=[/2088, /2071], perturbed=True)
+  (/2090): BoundSub(name=/2090, inputs=[/2089, /2087], perturbed=True)
+  (/2091): BoundConstant(name=/2091, value=18)
+  (/2097): BoundUnsqueeze(name=/2097, inputs=[/2091, /428], perturbed=False)
+  (/2100): BoundSlice(name=/2100, inputs=[/414, /2062, /2097, /424, /424], perturbed=True)
+  (/2104): BoundMul(name=/2104, inputs=[/2101/sqr, /429], perturbed=True)
+  (/2105): BoundSub(name=/2105, inputs=[/2104, /2090], perturbed=True)
+  (/2106): BoundAdd(name=/2106, inputs=[/2088, /2105], perturbed=True)
+  (/2107): BoundSub(name=/2107, inputs=[/2106, /2088], perturbed=True)
+  (/2108): BoundSub(name=/2108, inputs=[/2107, /2105], perturbed=True)
+  (/2109): BoundConstant(name=/2109, value=138)
+  (/2113): BoundUnsqueeze(name=/2113, inputs=[/2109, /428], perturbed=False)
+  (/2118): BoundSlice(name=/2118, inputs=[/414, /2113, /955, /424, /424], perturbed=True)
+  (/2122): BoundMul(name=/2122, inputs=[/2119/sqr, /429], perturbed=True)
+  (/2123): BoundSub(name=/2123, inputs=[/2122, /2108], perturbed=True)
+  (/2124): BoundAdd(name=/2124, inputs=[/2106, /2123], perturbed=True)
+  (/2125): BoundSub(name=/2125, inputs=[/2124, /2106], perturbed=True)
+  (/2126): BoundSub(name=/2126, inputs=[/2125, /2123], perturbed=True)
+  (/2127): BoundConstant(name=/2127, value=19)
+  (/2133): BoundUnsqueeze(name=/2133, inputs=[/2127, /428], perturbed=False)
+  (/2136): BoundSlice(name=/2136, inputs=[/414, /2097, /2133, /424, /424], perturbed=True)
+  (/2140): BoundMul(name=/2140, inputs=[/2137/sqr, /429], perturbed=True)
+  (/2141): BoundSub(name=/2141, inputs=[/2140, /2126], perturbed=True)
+  (/2142): BoundAdd(name=/2142, inputs=[/2124, /2141], perturbed=True)
+  (/2143): BoundSub(name=/2143, inputs=[/2142, /2124], perturbed=True)
+  (/2144): BoundSub(name=/2144, inputs=[/2143, /2141], perturbed=True)
+  (/2153): BoundSlice(name=/2153, inputs=[/414, /920, /2113, /424, /424], perturbed=True)
+  (/2157): BoundMul(name=/2157, inputs=[/2154/sqr, /429], perturbed=True)
+  (/2158): BoundSub(name=/2158, inputs=[/2157, /2144], perturbed=True)
+  (/2159): BoundAdd(name=/2159, inputs=[/2142, /2158], perturbed=True)
+  (/2160): BoundSub(name=/2160, inputs=[/2159, /2142], perturbed=True)
+  (/2161): BoundSub(name=/2161, inputs=[/2160, /2158], perturbed=True)
+  (/2162): BoundConstant(name=/2162, value=20)
+  (/2168): BoundUnsqueeze(name=/2168, inputs=[/2162, /428], perturbed=False)
+  (/2171): BoundSlice(name=/2171, inputs=[/414, /2133, /2168, /424, /424], perturbed=True)
+  (/2175): BoundMul(name=/2175, inputs=[/2172/sqr, /429], perturbed=True)
+  (/2176): BoundSub(name=/2176, inputs=[/2175, /2161], perturbed=True)
+  (/2177): BoundAdd(name=/2177, inputs=[/2159, /2176], perturbed=True)
+  (/2178): BoundSub(name=/2178, inputs=[/2177, /2159], perturbed=True)
+  (/2179): BoundSub(name=/2179, inputs=[/2178, /2176], perturbed=True)
+  (/2188): BoundSlice(name=/2188, inputs=[/414, /847, /882, /424, /424], perturbed=True)
+  (/2192): BoundMul(name=/2192, inputs=[/2189/sqr, /429], perturbed=True)
+  (/2193): BoundSub(name=/2193, inputs=[/2192, /2179], perturbed=True)
+  (/2194): BoundAdd(name=/2194, inputs=[/2177, /2193], perturbed=True)
+  (/2195): BoundSub(name=/2195, inputs=[/2194, /2177], perturbed=True)
+  (/2196): BoundSub(name=/2196, inputs=[/2195, /2193], perturbed=True)
+  (/2197): BoundConstant(name=/2197, value=21)
+  (/2203): BoundUnsqueeze(name=/2203, inputs=[/2197, /428], perturbed=False)
+  (/2206): BoundSlice(name=/2206, inputs=[/414, /2168, /2203, /424, /424], perturbed=True)
+  (/2210): BoundMul(name=/2210, inputs=[/2207/sqr, /429], perturbed=True)
+  (/2211): BoundSub(name=/2211, inputs=[/2210, /2196], perturbed=True)
+  (/2212): BoundAdd(name=/2212, inputs=[/2194, /2211], perturbed=True)
+  (/2213): BoundSub(name=/2213, inputs=[/2212, /2194], perturbed=True)
+  (/2214): BoundSub(name=/2214, inputs=[/2213, /2211], perturbed=True)
+  (/2223): BoundSlice(name=/2223, inputs=[/414, /810, /845, /424, /424], perturbed=True)
+  (/2227): BoundMul(name=/2227, inputs=[/2224/sqr, /429], perturbed=True)
+  (/2228): BoundSub(name=/2228, inputs=[/2227, /2214], perturbed=True)
+  (/2229): BoundAdd(name=/2229, inputs=[/2212, /2228], perturbed=True)
+  (/2230): BoundSub(name=/2230, inputs=[/2229, /2212], perturbed=True)
+  (/2231): BoundSub(name=/2231, inputs=[/2230, /2228], perturbed=True)
+  (/2232): BoundConstant(name=/2232, value=22)
+  (/2238): BoundUnsqueeze(name=/2238, inputs=[/2232, /428], perturbed=False)
+  (/2241): BoundSlice(name=/2241, inputs=[/414, /2203, /2238, /424, /424], perturbed=True)
+  (/2245): BoundMul(name=/2245, inputs=[/2242/sqr, /429], perturbed=True)
+  (/2246): BoundSub(name=/2246, inputs=[/2245, /2231], perturbed=True)
+  (/2247): BoundAdd(name=/2247, inputs=[/2229, /2246], perturbed=True)
+  (/2248): BoundSub(name=/2248, inputs=[/2247, /2229], perturbed=True)
+  (/2249): BoundSub(name=/2249, inputs=[/2248, /2246], perturbed=True)
+  (/2250): BoundConstant(name=/2250, value=130)
+  (/2254): BoundUnsqueeze(name=/2254, inputs=[/2250, /428], perturbed=False)
+  (/2259): BoundSlice(name=/2259, inputs=[/414, /2254, /808, /424, /424], perturbed=True)
+  (/2263): BoundMul(name=/2263, inputs=[/2260/sqr, /429], perturbed=True)
+  (/2264): BoundSub(name=/2264, inputs=[/2263, /2249], perturbed=True)
+  (/2265): BoundAdd(name=/2265, inputs=[/2247, /2264], perturbed=True)
+  (/2266): BoundSub(name=/2266, inputs=[/2265, /2247], perturbed=True)
+  (/2267): BoundSub(name=/2267, inputs=[/2266, /2264], perturbed=True)
+  (/2268): BoundConstant(name=/2268, value=23)
+  (/2274): BoundUnsqueeze(name=/2274, inputs=[/2268, /428], perturbed=False)
+  (/2277): BoundSlice(name=/2277, inputs=[/414, /2238, /2274, /424, /424], perturbed=True)
+  (/2281): BoundMul(name=/2281, inputs=[/2278/sqr, /429], perturbed=True)
+  (/2282): BoundSub(name=/2282, inputs=[/2281, /2267], perturbed=True)
+  (/2283): BoundAdd(name=/2283, inputs=[/2265, /2282], perturbed=True)
+  (/2284): BoundSub(name=/2284, inputs=[/2283, /2265], perturbed=True)
+  (/2285): BoundSub(name=/2285, inputs=[/2284, /2282], perturbed=True)
+  (/2286): BoundConstant(name=/2286, value=127)
+  (/2290): BoundUnsqueeze(name=/2290, inputs=[/2286, /428], perturbed=False)
+  (/2295): BoundSlice(name=/2295, inputs=[/414, /2290, /771, /424, /424], perturbed=True)
+  (/2299): BoundMul(name=/2299, inputs=[/2296/sqr, /429], perturbed=True)
+  (/2300): BoundSub(name=/2300, inputs=[/2299, /2285], perturbed=True)
+  (/2301): BoundAdd(name=/2301, inputs=[/2283, /2300], perturbed=True)
+  (/2302): BoundSub(name=/2302, inputs=[/2301, /2283], perturbed=True)
+  (/2303): BoundSub(name=/2303, inputs=[/2302, /2300], perturbed=True)
+  (/2304): BoundConstant(name=/2304, value=25)
+  (/2305): BoundConstant(name=/2305, value=26)
+  (/2309): BoundUnsqueeze(name=/2309, inputs=[/2304, /428], perturbed=False)
+  (/2311): BoundUnsqueeze(name=/2311, inputs=[/2305, /428], perturbed=False)
+  (/2314): BoundSlice(name=/2314, inputs=[/414, /2309, /2311, /424, /424], perturbed=True)
+  (/2318): BoundMul(name=/2318, inputs=[/2315/sqr, /429], perturbed=True)
+  (/2319): BoundSub(name=/2319, inputs=[/2318, /2303], perturbed=True)
+  (/2320): BoundAdd(name=/2320, inputs=[/2301, /2319], perturbed=True)
+  (/2321): BoundSub(name=/2321, inputs=[/2320, /2301], perturbed=True)
+  (/2322): BoundSub(name=/2322, inputs=[/2321, /2319], perturbed=True)
+  (/2323): BoundConstant(name=/2323, value=124)
+  (/2327): BoundUnsqueeze(name=/2327, inputs=[/2323, /428], perturbed=False)
+  (/2332): BoundSlice(name=/2332, inputs=[/414, /2327, /734, /424, /424], perturbed=True)
+  (/2336): BoundMul(name=/2336, inputs=[/2333/sqr, /429], perturbed=True)
+  (/2337): BoundSub(name=/2337, inputs=[/2336, /2322], perturbed=True)
+  (/2338): BoundAdd(name=/2338, inputs=[/2320, /2337], perturbed=True)
+  (/2339): BoundSub(name=/2339, inputs=[/2338, /2320], perturbed=True)
+  (/2340): BoundSub(name=/2340, inputs=[/2339, /2337], perturbed=True)
+  (/2341): BoundConstant(name=/2341, value=27)
+  (/2342): BoundConstant(name=/2342, value=28)
+  (/2346): BoundUnsqueeze(name=/2346, inputs=[/2341, /428], perturbed=False)
+  (/2348): BoundUnsqueeze(name=/2348, inputs=[/2342, /428], perturbed=False)
+  (/2351): BoundSlice(name=/2351, inputs=[/414, /2346, /2348, /424, /424], perturbed=True)
+  (/2355): BoundMul(name=/2355, inputs=[/2352/sqr, /429], perturbed=True)
+  (/2356): BoundSub(name=/2356, inputs=[/2355, /2340], perturbed=True)
+  (/2357): BoundAdd(name=/2357, inputs=[/2338, /2356], perturbed=True)
+  (/2358): BoundSub(name=/2358, inputs=[/2357, /2338], perturbed=True)
+  (/2359): BoundSub(name=/2359, inputs=[/2358, /2356], perturbed=True)
+  (/2360): BoundConstant(name=/2360, value=121)
+  (/2364): BoundUnsqueeze(name=/2364, inputs=[/2360, /428], perturbed=False)
+  (/2369): BoundSlice(name=/2369, inputs=[/414, /2364, /697, /424, /424], perturbed=True)
+  (/2373): BoundMul(name=/2373, inputs=[/2370/sqr, /429], perturbed=True)
+  (/2374): BoundSub(name=/2374, inputs=[/2373, /2359], perturbed=True)
+  (/2375): BoundAdd(name=/2375, inputs=[/2357, /2374], perturbed=True)
+  (/2376): BoundSub(name=/2376, inputs=[/2375, /2357], perturbed=True)
+  (/2377): BoundSub(name=/2377, inputs=[/2376, /2374], perturbed=True)
+  (/2378): BoundConstant(name=/2378, value=29)
+  (/2379): BoundConstant(name=/2379, value=30)
+  (/2383): BoundUnsqueeze(name=/2383, inputs=[/2378, /428], perturbed=False)
+  (/2385): BoundUnsqueeze(name=/2385, inputs=[/2379, /428], perturbed=False)
+  (/2388): BoundSlice(name=/2388, inputs=[/414, /2383, /2385, /424, /424], perturbed=True)
+  (/2392): BoundMul(name=/2392, inputs=[/2389/sqr, /429], perturbed=True)
+  (/2393): BoundSub(name=/2393, inputs=[/2392, /2377], perturbed=True)
+  (/2394): BoundAdd(name=/2394, inputs=[/2375, /2393], perturbed=True)
+  (/2395): BoundSub(name=/2395, inputs=[/2394, /2375], perturbed=True)
+  (/2396): BoundSub(name=/2396, inputs=[/2395, /2393], perturbed=True)
+  (/2397): BoundConstant(name=/2397, value=118)
+  (/2401): BoundUnsqueeze(name=/2401, inputs=[/2397, /428], perturbed=False)
+  (/2406): BoundSlice(name=/2406, inputs=[/414, /2401, /660, /424, /424], perturbed=True)
+  (/2410): BoundMul(name=/2410, inputs=[/2407/sqr, /429], perturbed=True)
+  (/2411): BoundSub(name=/2411, inputs=[/2410, /2396], perturbed=True)
+  (/2412): BoundAdd(name=/2412, inputs=[/2394, /2411], perturbed=True)
+  (/2413): BoundSub(name=/2413, inputs=[/2412, /2394], perturbed=True)
+  (/2414): BoundSub(name=/2414, inputs=[/2413, /2411], perturbed=True)
+  (/2415): BoundConstant(name=/2415, value=31)
+  (/2416): BoundConstant(name=/2416, value=32)
+  (/2420): BoundUnsqueeze(name=/2420, inputs=[/2415, /428], perturbed=False)
+  (/2422): BoundUnsqueeze(name=/2422, inputs=[/2416, /428], perturbed=False)
+  (/2425): BoundSlice(name=/2425, inputs=[/414, /2420, /2422, /424, /424], perturbed=True)
+  (/2429): BoundMul(name=/2429, inputs=[/2426/sqr, /429], perturbed=True)
+  (/2430): BoundSub(name=/2430, inputs=[/2429, /2414], perturbed=True)
+  (/2431): BoundAdd(name=/2431, inputs=[/2412, /2430], perturbed=True)
+  (/2432): BoundSub(name=/2432, inputs=[/2431, /2412], perturbed=True)
+  (/2433): BoundSub(name=/2433, inputs=[/2432, /2430], perturbed=True)
+  (/2442): BoundSlice(name=/2442, inputs=[/414, /588, /623, /424, /424], perturbed=True)
+  (/2446): BoundMul(name=/2446, inputs=[/2443/sqr, /429], perturbed=True)
+  (/2447): BoundSub(name=/2447, inputs=[/2446, /2433], perturbed=True)
+  (/2448): BoundAdd(name=/2448, inputs=[/2431, /2447], perturbed=True)
+  (/2449): BoundSub(name=/2449, inputs=[/2448, /2431], perturbed=True)
+  (/2450): BoundSub(name=/2450, inputs=[/2449, /2447], perturbed=True)
+  (/2451): BoundConstant(name=/2451, value=33)
+  (/2452): BoundConstant(name=/2452, value=34)
+  (/2456): BoundUnsqueeze(name=/2456, inputs=[/2451, /428], perturbed=False)
+  (/2458): BoundUnsqueeze(name=/2458, inputs=[/2452, /428], perturbed=False)
+  (/2461): BoundSlice(name=/2461, inputs=[/414, /2456, /2458, /424, /424], perturbed=True)
+  (/2465): BoundMul(name=/2465, inputs=[/2462/sqr, /429], perturbed=True)
+  (/2466): BoundSub(name=/2466, inputs=[/2465, /2450], perturbed=True)
+  (/2467): BoundAdd(name=/2467, inputs=[/2448, /2466], perturbed=True)
+  (/2468): BoundSub(name=/2468, inputs=[/2467, /2448], perturbed=True)
+  (/2469): BoundSub(name=/2469, inputs=[/2468, /2466], perturbed=True)
+  (/2470): BoundConstant(name=/2470, value=113)
+  (/2476): BoundUnsqueeze(name=/2476, inputs=[/2470, /428], perturbed=False)
+  (/2479): BoundSlice(name=/2479, inputs=[/414, /551, /2476, /424, /424], perturbed=True)
+  (/2483): BoundMul(name=/2483, inputs=[/2480/sqr, /429], perturbed=True)
+  (/2484): BoundSub(name=/2484, inputs=[/2483, /2469], perturbed=True)
+  (/2485): BoundAdd(name=/2485, inputs=[/2467, /2484], perturbed=True)
+  (/2486): BoundSub(name=/2486, inputs=[/2485, /2467], perturbed=True)
+  (/2487): BoundSub(name=/2487, inputs=[/2486, /2484], perturbed=True)
+  (/2488): BoundConstant(name=/2488, value=35)
+  (/2489): BoundConstant(name=/2489, value=36)
+  (/2493): BoundUnsqueeze(name=/2493, inputs=[/2488, /428], perturbed=False)
+  (/2495): BoundUnsqueeze(name=/2495, inputs=[/2489, /428], perturbed=False)
+  (/2498): BoundSlice(name=/2498, inputs=[/414, /2493, /2495, /424, /424], perturbed=True)
+  (/2502): BoundMul(name=/2502, inputs=[/2499/sqr, /429], perturbed=True)
+  (/2503): BoundSub(name=/2503, inputs=[/2502, /2487], perturbed=True)
+  (/2504): BoundAdd(name=/2504, inputs=[/2485, /2503], perturbed=True)
+  (/2505): BoundSub(name=/2505, inputs=[/2504, /2485], perturbed=True)
+  (/2506): BoundSub(name=/2506, inputs=[/2505, /2503], perturbed=True)
+  (/2507): BoundConstant(name=/2507, value=109)
+  (/2508): BoundConstant(name=/2508, value=110)
+  (/2512): BoundUnsqueeze(name=/2512, inputs=[/2507, /428], perturbed=False)
+  (/2514): BoundUnsqueeze(name=/2514, inputs=[/2508, /428], perturbed=False)
+  (/2517): BoundSlice(name=/2517, inputs=[/414, /2512, /2514, /424, /424], perturbed=True)
+  (/2521): BoundMul(name=/2521, inputs=[/2518/sqr, /429], perturbed=True)
+  (/2522): BoundSub(name=/2522, inputs=[/2521, /2506], perturbed=True)
+  (/2523): BoundAdd(name=/2523, inputs=[/2504, /2522], perturbed=True)
+  (/2524): BoundSub(name=/2524, inputs=[/2523, /2504], perturbed=True)
+  (/2525): BoundSub(name=/2525, inputs=[/2524, /2522], perturbed=True)
+  (/2526): BoundConstant(name=/2526, value=37)
+  (/2527): BoundConstant(name=/2527, value=38)
+  (/2531): BoundUnsqueeze(name=/2531, inputs=[/2526, /428], perturbed=False)
+  (/2533): BoundUnsqueeze(name=/2533, inputs=[/2527, /428], perturbed=False)
+  (/2536): BoundSlice(name=/2536, inputs=[/414, /2531, /2533, /424, /424], perturbed=True)
+  (/2540): BoundMul(name=/2540, inputs=[/2537/sqr, /429], perturbed=True)
+  (/2541): BoundSub(name=/2541, inputs=[/2540, /2525], perturbed=True)
+  (/2542): BoundAdd(name=/2542, inputs=[/2523, /2541], perturbed=True)
+  (/2543): BoundSub(name=/2543, inputs=[/2542, /2523], perturbed=True)
+  (/2544): BoundSub(name=/2544, inputs=[/2543, /2541], perturbed=True)
+  (/2545): BoundConstant(name=/2545, value=106)
+  (/2549): BoundUnsqueeze(name=/2549, inputs=[/2545, /428], perturbed=False)
+  (/2554): BoundSlice(name=/2554, inputs=[/414, /2549, /512, /424, /424], perturbed=True)
+  (/2558): BoundMul(name=/2558, inputs=[/2555/sqr, /429], perturbed=True)
+  (/2559): BoundSub(name=/2559, inputs=[/2558, /2544], perturbed=True)
+  (/2560): BoundAdd(name=/2560, inputs=[/2542, /2559], perturbed=True)
+  (/2561): BoundSub(name=/2561, inputs=[/2560, /2542], perturbed=True)
+  (/2562): BoundSub(name=/2562, inputs=[/2561, /2559], perturbed=True)
+  (/2563): BoundConstant(name=/2563, value=39)
+  (/2569): BoundUnsqueeze(name=/2569, inputs=[/2563, /428], perturbed=False)
+  (/2572): BoundSlice(name=/2572, inputs=[/414, /2533, /2569, /424, /424], perturbed=True)
+  (/2576): BoundMul(name=/2576, inputs=[/2573/sqr, /429], perturbed=True)
+  (/2577): BoundSub(name=/2577, inputs=[/2576, /2562], perturbed=True)
+  (/2578): BoundAdd(name=/2578, inputs=[/2560, /2577], perturbed=True)
+  (/2579): BoundSub(name=/2579, inputs=[/2578, /2560], perturbed=True)
+  (/2580): BoundSub(name=/2580, inputs=[/2579, /2577], perturbed=True)
+  (/2589): BoundSlice(name=/2589, inputs=[/414, /440, /475, /424, /424], perturbed=True)
+  (/2593): BoundMul(name=/2593, inputs=[/2590/sqr, /429], perturbed=True)
+  (/2594): BoundSub(name=/2594, inputs=[/2593, /2580], perturbed=True)
+  (/2595): BoundAdd(name=/2595, inputs=[/2578, /2594], perturbed=True)
+  (/2596): BoundSub(name=/2596, inputs=[/2595, /2578], perturbed=True)
+  (/2597): BoundSub(name=/2597, inputs=[/2596, /2594], perturbed=True)
+  (/2598): BoundConstant(name=/2598, value=41)
+  (/2599): BoundConstant(name=/2599, value=42)
+  (/2603): BoundUnsqueeze(name=/2603, inputs=[/2598, /428], perturbed=False)
+  (/2605): BoundUnsqueeze(name=/2605, inputs=[/2599, /428], perturbed=False)
+  (/2608): BoundSlice(name=/2608, inputs=[/414, /2603, /2605, /424, /424], perturbed=True)
+  (/2612): BoundMul(name=/2612, inputs=[/2609/sqr, /429], perturbed=True)
+  (/2613): BoundSub(name=/2613, inputs=[/2612, /2597], perturbed=True)
+  (/2614): BoundAdd(name=/2614, inputs=[/2595, /2613], perturbed=True)
+  (/2615): BoundSub(name=/2615, inputs=[/2614, /2595], perturbed=True)
+  (/2616): BoundSub(name=/2616, inputs=[/2615, /2613], perturbed=True)
+  (/2617): BoundConstant(name=/2617, value=101)
+  (/2621): BoundUnsqueeze(name=/2621, inputs=[/2617, /428], perturbed=False)
+  (/2626): BoundSlice(name=/2626, inputs=[/414, /2621, /438, /424, /424], perturbed=True)
+  (/2630): BoundMul(name=/2630, inputs=[/2627/sqr, /429], perturbed=True)
+  (/2631): BoundSub(name=/2631, inputs=[/2630, /2616], perturbed=True)
+  (/2632): BoundAdd(name=/2632, inputs=[/2614, /2631], perturbed=True)
+  (/2633): BoundSub(name=/2633, inputs=[/2632, /2614], perturbed=True)
+  (/2634): BoundSub(name=/2634, inputs=[/2633, /2631], perturbed=True)
+  (/2635): BoundConstant(name=/2635, value=43)
+  (/2636): BoundConstant(name=/2636, value=44)
+  (/2640): BoundUnsqueeze(name=/2640, inputs=[/2635, /428], perturbed=False)
+  (/2642): BoundUnsqueeze(name=/2642, inputs=[/2636, /428], perturbed=False)
+  (/2645): BoundSlice(name=/2645, inputs=[/414, /2640, /2642, /424, /424], perturbed=True)
+  (/2649): BoundMul(name=/2649, inputs=[/2646/sqr, /429], perturbed=True)
+  (/2650): BoundSub(name=/2650, inputs=[/2649, /2634], perturbed=True)
+  (/2651): BoundAdd(name=/2651, inputs=[/2632, /2650], perturbed=True)
+  (/2652): BoundSub(name=/2652, inputs=[/2651, /2632], perturbed=True)
+  (/2653): BoundSub(name=/2653, inputs=[/2652, /2650], perturbed=True)
+  (/2654): BoundConstant(name=/2654, value=98)
+  (/2655): BoundConstant(name=/2655, value=99)
+  (/2659): BoundUnsqueeze(name=/2659, inputs=[/2654, /428], perturbed=False)
+  (/2661): BoundUnsqueeze(name=/2661, inputs=[/2655, /428], perturbed=False)
+  (/2664): BoundSlice(name=/2664, inputs=[/414, /2659, /2661, /424, /424], perturbed=True)
+  (/2668): BoundMul(name=/2668, inputs=[/2665/sqr, /429], perturbed=True)
+  (/2669): BoundSub(name=/2669, inputs=[/2668, /2653], perturbed=True)
+  (/2670): BoundAdd(name=/2670, inputs=[/2651, /2669], perturbed=True)
+  (/2671): BoundSub(name=/2671, inputs=[/2670, /2651], perturbed=True)
+  (/2672): BoundSub(name=/2672, inputs=[/2671, /2669], perturbed=True)
+  (/2673): BoundConstant(name=/2673, value=45)
+  (/2674): BoundConstant(name=/2674, value=46)
+  (/2678): BoundUnsqueeze(name=/2678, inputs=[/2673, /428], perturbed=False)
+  (/2680): BoundUnsqueeze(name=/2680, inputs=[/2674, /428], perturbed=False)
+  (/2683): BoundSlice(name=/2683, inputs=[/414, /2678, /2680, /424, /424], perturbed=True)
+  (/2687): BoundMul(name=/2687, inputs=[/2684/sqr, /429], perturbed=True)
+  (/2688): BoundSub(name=/2688, inputs=[/2687, /2672], perturbed=True)
+  (/2689): BoundAdd(name=/2689, inputs=[/2670, /2688], perturbed=True)
+  (/2690): BoundSub(name=/2690, inputs=[/2689, /2670], perturbed=True)
+  (/2691): BoundSub(name=/2691, inputs=[/2690, /2688], perturbed=True)
+  (/2692): BoundConstant(name=/2692, value=96)
+  (/2693): BoundConstant(name=/2693, value=97)
+  (/2697): BoundUnsqueeze(name=/2697, inputs=[/2692, /428], perturbed=False)
+  (/2699): BoundUnsqueeze(name=/2699, inputs=[/2693, /428], perturbed=False)
+  (/2702): BoundSlice(name=/2702, inputs=[/414, /2697, /2699, /424, /424], perturbed=True)
+  (/2706): BoundMul(name=/2706, inputs=[/2703/sqr, /429], perturbed=True)
+  (/2707): BoundSub(name=/2707, inputs=[/2706, /2691], perturbed=True)
+  (/2708): BoundAdd(name=/2708, inputs=[/2689, /2707], perturbed=True)
+  (/2709): BoundSub(name=/2709, inputs=[/2708, /2689], perturbed=True)
+  (/2710): BoundSub(name=/2710, inputs=[/2709, /2707], perturbed=True)
+  (/2711): BoundConstant(name=/2711, value=47)
+  (/2712): BoundConstant(name=/2712, value=48)
+  (/2716): BoundUnsqueeze(name=/2716, inputs=[/2711, /428], perturbed=False)
+  (/2718): BoundUnsqueeze(name=/2718, inputs=[/2712, /428], perturbed=False)
+  (/2721): BoundSlice(name=/2721, inputs=[/414, /2716, /2718, /424, /424], perturbed=True)
+  (/2725): BoundMul(name=/2725, inputs=[/2722/sqr, /429], perturbed=True)
+  (/2726): BoundSub(name=/2726, inputs=[/2725, /2710], perturbed=True)
+  (/2727): BoundAdd(name=/2727, inputs=[/2708, /2726], perturbed=True)
+  (/2728): BoundSub(name=/2728, inputs=[/2727, /2708], perturbed=True)
+  (/2729): BoundSub(name=/2729, inputs=[/2728, /2726], perturbed=True)
+  (/2730): BoundConstant(name=/2730, value=94)
+  (/2731): BoundConstant(name=/2731, value=95)
+  (/2735): BoundUnsqueeze(name=/2735, inputs=[/2730, /428], perturbed=False)
+  (/2737): BoundUnsqueeze(name=/2737, inputs=[/2731, /428], perturbed=False)
+  (/2740): BoundSlice(name=/2740, inputs=[/414, /2735, /2737, /424, /424], perturbed=True)
+  (/2744): BoundMul(name=/2744, inputs=[/2741/sqr, /429], perturbed=True)
+  (/2745): BoundSub(name=/2745, inputs=[/2744, /2729], perturbed=True)
+  (/2746): BoundAdd(name=/2746, inputs=[/2727, /2745], perturbed=True)
+  (/2747): BoundSub(name=/2747, inputs=[/2746, /2727], perturbed=True)
+  (/2748): BoundSub(name=/2748, inputs=[/2747, /2745], perturbed=True)
+  (/2749): BoundConstant(name=/2749, value=49)
+  (/2750): BoundConstant(name=/2750, value=50)
+  (/2754): BoundUnsqueeze(name=/2754, inputs=[/2749, /428], perturbed=False)
+  (/2756): BoundUnsqueeze(name=/2756, inputs=[/2750, /428], perturbed=False)
+  (/2759): BoundSlice(name=/2759, inputs=[/414, /2754, /2756, /424, /424], perturbed=True)
+  (/2763): BoundMul(name=/2763, inputs=[/2760/sqr, /429], perturbed=True)
+  (/2764): BoundSub(name=/2764, inputs=[/2763, /2748], perturbed=True)
+  (/2765): BoundAdd(name=/2765, inputs=[/2746, /2764], perturbed=True)
+  (/2766): BoundSub(name=/2766, inputs=[/2765, /2746], perturbed=True)
+  (/2767): BoundSub(name=/2767, inputs=[/2766, /2764], perturbed=True)
+  (/2768): BoundConstant(name=/2768, value=92)
+  (/2769): BoundConstant(name=/2769, value=93)
+  (/2773): BoundUnsqueeze(name=/2773, inputs=[/2768, /428], perturbed=False)
+  (/2775): BoundUnsqueeze(name=/2775, inputs=[/2769, /428], perturbed=False)
+  (/2778): BoundSlice(name=/2778, inputs=[/414, /2773, /2775, /424, /424], perturbed=True)
+  (/2782): BoundMul(name=/2782, inputs=[/2779/sqr, /429], perturbed=True)
+  (/2783): BoundSub(name=/2783, inputs=[/2782, /2767], perturbed=True)
+  (/2784): BoundAdd(name=/2784, inputs=[/2765, /2783], perturbed=True)
+  (/2785): BoundSub(name=/2785, inputs=[/2784, /2765], perturbed=True)
+  (/2786): BoundSub(name=/2786, inputs=[/2785, /2783], perturbed=True)
+  (/2787): BoundConstant(name=/2787, value=51)
+  (/2788): BoundConstant(name=/2788, value=52)
+  (/2792): BoundUnsqueeze(name=/2792, inputs=[/2787, /428], perturbed=False)
+  (/2794): BoundUnsqueeze(name=/2794, inputs=[/2788, /428], perturbed=False)
+  (/2797): BoundSlice(name=/2797, inputs=[/414, /2792, /2794, /424, /424], perturbed=True)
+  (/2801): BoundMul(name=/2801, inputs=[/2798/sqr, /429], perturbed=True)
+  (/2802): BoundSub(name=/2802, inputs=[/2801, /2786], perturbed=True)
+  (/2803): BoundAdd(name=/2803, inputs=[/2784, /2802], perturbed=True)
+  (/2804): BoundSub(name=/2804, inputs=[/2803, /2784], perturbed=True)
+  (/2805): BoundSub(name=/2805, inputs=[/2804, /2802], perturbed=True)
+  (/2806): BoundConstant(name=/2806, value=90)
+  (/2807): BoundConstant(name=/2807, value=91)
+  (/2811): BoundUnsqueeze(name=/2811, inputs=[/2806, /428], perturbed=False)
+  (/2813): BoundUnsqueeze(name=/2813, inputs=[/2807, /428], perturbed=False)
+  (/2816): BoundSlice(name=/2816, inputs=[/414, /2811, /2813, /424, /424], perturbed=True)
+  (/2820): BoundMul(name=/2820, inputs=[/2817/sqr, /429], perturbed=True)
+  (/2821): BoundSub(name=/2821, inputs=[/2820, /2805], perturbed=True)
+  (/2822): BoundAdd(name=/2822, inputs=[/2803, /2821], perturbed=True)
+  (/2823): BoundSub(name=/2823, inputs=[/2822, /2803], perturbed=True)
+  (/2824): BoundSub(name=/2824, inputs=[/2823, /2821], perturbed=True)
+  (/2825): BoundConstant(name=/2825, value=53)
+  (/2826): BoundConstant(name=/2826, value=54)
+  (/2830): BoundUnsqueeze(name=/2830, inputs=[/2825, /428], perturbed=False)
+  (/2832): BoundUnsqueeze(name=/2832, inputs=[/2826, /428], perturbed=False)
+  (/2835): BoundSlice(name=/2835, inputs=[/414, /2830, /2832, /424, /424], perturbed=True)
+  (/2839): BoundMul(name=/2839, inputs=[/2836/sqr, /429], perturbed=True)
+  (/2840): BoundSub(name=/2840, inputs=[/2839, /2824], perturbed=True)
+  (/2841): BoundAdd(name=/2841, inputs=[/2822, /2840], perturbed=True)
+  (/2842): BoundSub(name=/2842, inputs=[/2841, /2822], perturbed=True)
+  (/2843): BoundSub(name=/2843, inputs=[/2842, /2840], perturbed=True)
+  (/2844): BoundConstant(name=/2844, value=88)
+  (/2845): BoundConstant(name=/2845, value=89)
+  (/2849): BoundUnsqueeze(name=/2849, inputs=[/2844, /428], perturbed=False)
+  (/2851): BoundUnsqueeze(name=/2851, inputs=[/2845, /428], perturbed=False)
+  (/2854): BoundSlice(name=/2854, inputs=[/414, /2849, /2851, /424, /424], perturbed=True)
+  (/2858): BoundMul(name=/2858, inputs=[/2855/sqr, /429], perturbed=True)
+  (/2859): BoundSub(name=/2859, inputs=[/2858, /2843], perturbed=True)
+  (/2860): BoundAdd(name=/2860, inputs=[/2841, /2859], perturbed=True)
+  (/2861): BoundSub(name=/2861, inputs=[/2860, /2841], perturbed=True)
+  (/2862): BoundSub(name=/2862, inputs=[/2861, /2859], perturbed=True)
+  (/2863): BoundConstant(name=/2863, value=55)
+  (/2864): BoundConstant(name=/2864, value=56)
+  (/2868): BoundUnsqueeze(name=/2868, inputs=[/2863, /428], perturbed=False)
+  (/2870): BoundUnsqueeze(name=/2870, inputs=[/2864, /428], perturbed=False)
+  (/2873): BoundSlice(name=/2873, inputs=[/414, /2868, /2870, /424, /424], perturbed=True)
+  (/2877): BoundMul(name=/2877, inputs=[/2874/sqr, /429], perturbed=True)
+  (/2878): BoundSub(name=/2878, inputs=[/2877, /2862], perturbed=True)
+  (/2879): BoundAdd(name=/2879, inputs=[/2860, /2878], perturbed=True)
+  (/2880): BoundSub(name=/2880, inputs=[/2879, /2860], perturbed=True)
+  (/2881): BoundSub(name=/2881, inputs=[/2880, /2878], perturbed=True)
+  (/2882): BoundConstant(name=/2882, value=86)
+  (/2883): BoundConstant(name=/2883, value=87)
+  (/2887): BoundUnsqueeze(name=/2887, inputs=[/2882, /428], perturbed=False)
+  (/2889): BoundUnsqueeze(name=/2889, inputs=[/2883, /428], perturbed=False)
+  (/2892): BoundSlice(name=/2892, inputs=[/414, /2887, /2889, /424, /424], perturbed=True)
+  (/2896): BoundMul(name=/2896, inputs=[/2893/sqr, /429], perturbed=True)
+  (/2897): BoundSub(name=/2897, inputs=[/2896, /2881], perturbed=True)
+  (/2898): BoundAdd(name=/2898, inputs=[/2879, /2897], perturbed=True)
+  (/2899): BoundSub(name=/2899, inputs=[/2898, /2879], perturbed=True)
+  (/2900): BoundSub(name=/2900, inputs=[/2899, /2897], perturbed=True)
+  (/2901): BoundConstant(name=/2901, value=57)
+  (/2902): BoundConstant(name=/2902, value=58)
+  (/2906): BoundUnsqueeze(name=/2906, inputs=[/2901, /428], perturbed=False)
+  (/2908): BoundUnsqueeze(name=/2908, inputs=[/2902, /428], perturbed=False)
+  (/2911): BoundSlice(name=/2911, inputs=[/414, /2906, /2908, /424, /424], perturbed=True)
+  (/2915): BoundMul(name=/2915, inputs=[/2912/sqr, /429], perturbed=True)
+  (/2916): BoundSub(name=/2916, inputs=[/2915, /2900], perturbed=True)
+  (/2917): BoundAdd(name=/2917, inputs=[/2898, /2916], perturbed=True)
+  (/2918): BoundSub(name=/2918, inputs=[/2917, /2898], perturbed=True)
+  (/2919): BoundSub(name=/2919, inputs=[/2918, /2916], perturbed=True)
+  (/2920): BoundConstant(name=/2920, value=84)
+  (/2921): BoundConstant(name=/2921, value=85)
+  (/2925): BoundUnsqueeze(name=/2925, inputs=[/2920, /428], perturbed=False)
+  (/2927): BoundUnsqueeze(name=/2927, inputs=[/2921, /428], perturbed=False)
+  (/2930): BoundSlice(name=/2930, inputs=[/414, /2925, /2927, /424, /424], perturbed=True)
+  (/2934): BoundMul(name=/2934, inputs=[/2931/sqr, /429], perturbed=True)
+  (/2935): BoundSub(name=/2935, inputs=[/2934, /2919], perturbed=True)
+  (/2936): BoundAdd(name=/2936, inputs=[/2917, /2935], perturbed=True)
+  (/2937): BoundSub(name=/2937, inputs=[/2936, /2917], perturbed=True)
+  (/2938): BoundSub(name=/2938, inputs=[/2937, /2935], perturbed=True)
+  (/2939): BoundConstant(name=/2939, value=59)
+  (/2940): BoundConstant(name=/2940, value=60)
+  (/2944): BoundUnsqueeze(name=/2944, inputs=[/2939, /428], perturbed=False)
+  (/2946): BoundUnsqueeze(name=/2946, inputs=[/2940, /428], perturbed=False)
+  (/2949): BoundSlice(name=/2949, inputs=[/414, /2944, /2946, /424, /424], perturbed=True)
+  (/2953): BoundMul(name=/2953, inputs=[/2950/sqr, /429], perturbed=True)
+  (/2954): BoundSub(name=/2954, inputs=[/2953, /2938], perturbed=True)
+  (/2955): BoundAdd(name=/2955, inputs=[/2936, /2954], perturbed=True)
+  (/2956): BoundSub(name=/2956, inputs=[/2955, /2936], perturbed=True)
+  (/2957): BoundSub(name=/2957, inputs=[/2956, /2954], perturbed=True)
+  (/2958): BoundConstant(name=/2958, value=82)
+  (/2959): BoundConstant(name=/2959, value=83)
+  (/2963): BoundUnsqueeze(name=/2963, inputs=[/2958, /428], perturbed=False)
+  (/2965): BoundUnsqueeze(name=/2965, inputs=[/2959, /428], perturbed=False)
+  (/2968): BoundSlice(name=/2968, inputs=[/414, /2963, /2965, /424, /424], perturbed=True)
+  (/2972): BoundMul(name=/2972, inputs=[/2969/sqr, /429], perturbed=True)
+  (/2973): BoundSub(name=/2973, inputs=[/2972, /2957], perturbed=True)
+  (/2974): BoundAdd(name=/2974, inputs=[/2955, /2973], perturbed=True)
+  (/2975): BoundSub(name=/2975, inputs=[/2974, /2955], perturbed=True)
+  (/2976): BoundSub(name=/2976, inputs=[/2975, /2973], perturbed=True)
+  (/2977): BoundConstant(name=/2977, value=61)
+  (/2978): BoundConstant(name=/2978, value=62)
+  (/2982): BoundUnsqueeze(name=/2982, inputs=[/2977, /428], perturbed=False)
+  (/2984): BoundUnsqueeze(name=/2984, inputs=[/2978, /428], perturbed=False)
+  (/2987): BoundSlice(name=/2987, inputs=[/414, /2982, /2984, /424, /424], perturbed=True)
+  (/2991): BoundMul(name=/2991, inputs=[/2988/sqr, /429], perturbed=True)
+  (/2992): BoundSub(name=/2992, inputs=[/2991, /2976], perturbed=True)
+  (/2993): BoundAdd(name=/2993, inputs=[/2974, /2992], perturbed=True)
+  (/2994): BoundSub(name=/2994, inputs=[/2993, /2974], perturbed=True)
+  (/2995): BoundSub(name=/2995, inputs=[/2994, /2992], perturbed=True)
+  (/2996): BoundConstant(name=/2996, value=80)
+  (/2997): BoundConstant(name=/2997, value=81)
+  (/3001): BoundUnsqueeze(name=/3001, inputs=[/2996, /428], perturbed=False)
+  (/3003): BoundUnsqueeze(name=/3003, inputs=[/2997, /428], perturbed=False)
+  (/3006): BoundSlice(name=/3006, inputs=[/414, /3001, /3003, /424, /424], perturbed=True)
+  (/3010): BoundMul(name=/3010, inputs=[/3007/sqr, /429], perturbed=True)
+  (/3011): BoundSub(name=/3011, inputs=[/3010, /2995], perturbed=True)
+  (/3012): BoundAdd(name=/3012, inputs=[/2993, /3011], perturbed=True)
+  (/3013): BoundSub(name=/3013, inputs=[/3012, /2993], perturbed=True)
+  (/3014): BoundSub(name=/3014, inputs=[/3013, /3011], perturbed=True)
+  (/3015): BoundConstant(name=/3015, value=63)
+  (/3021): BoundUnsqueeze(name=/3021, inputs=[/3015, /428], perturbed=False)
+  (/3024): BoundSlice(name=/3024, inputs=[/414, /2984, /3021, /424, /424], perturbed=True)
+  (/3028): BoundMul(name=/3028, inputs=[/3025/sqr, /429], perturbed=True)
+  (/3029): BoundSub(name=/3029, inputs=[/3028, /3014], perturbed=True)
+  (/3030): BoundAdd(name=/3030, inputs=[/3012, /3029], perturbed=True)
+  (/3031): BoundSub(name=/3031, inputs=[/3030, /3012], perturbed=True)
+  (/3032): BoundSub(name=/3032, inputs=[/3031, /3029], perturbed=True)
+  (/3033): BoundConstant(name=/3033, value=78)
+  (/3034): BoundConstant(name=/3034, value=79)
+  (/3038): BoundUnsqueeze(name=/3038, inputs=[/3033, /428], perturbed=False)
+  (/3040): BoundUnsqueeze(name=/3040, inputs=[/3034, /428], perturbed=False)
+  (/3043): BoundSlice(name=/3043, inputs=[/414, /3038, /3040, /424, /424], perturbed=True)
+  (/3047): BoundMul(name=/3047, inputs=[/3044/sqr, /429], perturbed=True)
+  (/3048): BoundSub(name=/3048, inputs=[/3047, /3032], perturbed=True)
+  (/3049): BoundAdd(name=/3049, inputs=[/3030, /3048], perturbed=True)
+  (/3050): BoundSub(name=/3050, inputs=[/3049, /3030], perturbed=True)
+  (/3051): BoundSub(name=/3051, inputs=[/3050, /3048], perturbed=True)
+  (/3052): BoundConstant(name=/3052, value=65)
+  (/3053): BoundConstant(name=/3053, value=66)
+  (/3057): BoundUnsqueeze(name=/3057, inputs=[/3052, /428], perturbed=False)
+  (/3059): BoundUnsqueeze(name=/3059, inputs=[/3053, /428], perturbed=False)
+  (/3062): BoundSlice(name=/3062, inputs=[/414, /3057, /3059, /424, /424], perturbed=True)
+  (/3066): BoundMul(name=/3066, inputs=[/3063/sqr, /429], perturbed=True)
+  (/3067): BoundSub(name=/3067, inputs=[/3066, /3051], perturbed=True)
+  (/3068): BoundAdd(name=/3068, inputs=[/3049, /3067], perturbed=True)
+  (/3069): BoundSub(name=/3069, inputs=[/3068, /3049], perturbed=True)
+  (/3070): BoundSub(name=/3070, inputs=[/3069, /3067], perturbed=True)
+  (/3071): BoundConstant(name=/3071, value=76)
+  (/3072): BoundConstant(name=/3072, value=77)
+  (/3076): BoundUnsqueeze(name=/3076, inputs=[/3071, /428], perturbed=False)
+  (/3078): BoundUnsqueeze(name=/3078, inputs=[/3072, /428], perturbed=False)
+  (/3081): BoundSlice(name=/3081, inputs=[/414, /3076, /3078, /424, /424], perturbed=True)
+  (/3085): BoundMul(name=/3085, inputs=[/3082/sqr, /429], perturbed=True)
+  (/3086): BoundSub(name=/3086, inputs=[/3085, /3070], perturbed=True)
+  (/3087): BoundAdd(name=/3087, inputs=[/3068, /3086], perturbed=True)
+  (/3088): BoundSub(name=/3088, inputs=[/3087, /3068], perturbed=True)
+  (/3089): BoundSub(name=/3089, inputs=[/3088, /3086], perturbed=True)
+  (/3090): BoundConstant(name=/3090, value=67)
+  (/3096): BoundUnsqueeze(name=/3096, inputs=[/3090, /428], perturbed=False)
+  (/3099): BoundSlice(name=/3099, inputs=[/414, /3059, /3096, /424, /424], perturbed=True)
+  (/3103): BoundMul(name=/3103, inputs=[/3100/sqr, /429], perturbed=True)
+  (/3104): BoundSub(name=/3104, inputs=[/3103, /3089], perturbed=True)
+  (/3105): BoundAdd(name=/3105, inputs=[/3087, /3104], perturbed=True)
+  (/3106): BoundSub(name=/3106, inputs=[/3105, /3087], perturbed=True)
+  (/3107): BoundSub(name=/3107, inputs=[/3106, /3104], perturbed=True)
+  (/3108): BoundConstant(name=/3108, value=75)
+  (/3112): BoundUnsqueeze(name=/3112, inputs=[/3108, /428], perturbed=False)
+  (/3117): BoundSlice(name=/3117, inputs=[/414, /3112, /3076, /424, /424], perturbed=True)
+  (/3121): BoundMul(name=/3121, inputs=[/3118/sqr, /429], perturbed=True)
+  (/3122): BoundSub(name=/3122, inputs=[/3121, /3107], perturbed=True)
+  (/3123): BoundAdd(name=/3123, inputs=[/3105, /3122], perturbed=True)
+  (/3124): BoundSub(name=/3124, inputs=[/3123, /3105], perturbed=True)
+  (/3125): BoundSub(name=/3125, inputs=[/3124, /3122], perturbed=True)
+  (/3126): BoundConstant(name=/3126, value=69)
+  (/3127): BoundConstant(name=/3127, value=70)
+  (/3131): BoundUnsqueeze(name=/3131, inputs=[/3126, /428], perturbed=False)
+  (/3133): BoundUnsqueeze(name=/3133, inputs=[/3127, /428], perturbed=False)
+  (/3136): BoundSlice(name=/3136, inputs=[/414, /3131, /3133, /424, /424], perturbed=True)
+  (/3140): BoundMul(name=/3140, inputs=[/3137/sqr, /429], perturbed=True)
+  (/3141): BoundSub(name=/3141, inputs=[/3140, /3125], perturbed=True)
+  (/3142): BoundAdd(name=/3142, inputs=[/3123, /3141], perturbed=True)
+  (/3143): BoundSub(name=/3143, inputs=[/3142, /3123], perturbed=True)
+  (/3144): BoundSub(name=/3144, inputs=[/3143, /3141], perturbed=True)
+  (/3145): BoundConstant(name=/3145, value=72)
+  (/3146): BoundConstant(name=/3146, value=73)
+  (/3150): BoundUnsqueeze(name=/3150, inputs=[/3145, /428], perturbed=False)
+  (/3152): BoundUnsqueeze(name=/3152, inputs=[/3146, /428], perturbed=False)
+  (/3155): BoundSlice(name=/3155, inputs=[/414, /3150, /3152, /424, /424], perturbed=True)
+  (/3159): BoundMul(name=/3159, inputs=[/3156/sqr, /429], perturbed=True)
+  (/3160): BoundSub(name=/3160, inputs=[/3159, /3144], perturbed=True)
+  (/3161): BoundAdd(name=/3161, inputs=[/3142, /3160], perturbed=True)
+  (/3162): BoundSub(name=/3162, inputs=[/3161, /3142], perturbed=True)
+  (/3163): BoundSub(name=/3163, inputs=[/3162, /3160], perturbed=True)
+  (/3164): BoundConstant(name=/3164, value=71)
+  (/3170): BoundUnsqueeze(name=/3170, inputs=[/3164, /428], perturbed=False)
+  (/3173): BoundSlice(name=/3173, inputs=[/414, /3133, /3170, /424, /424], perturbed=True)
+  (/3177): BoundMul(name=/3177, inputs=[/3174/sqr, /429], perturbed=True)
+  (/3178): BoundSub(name=/3178, inputs=[/3177, /3163], perturbed=True)
+  (/3179): BoundAdd(name=/3179, inputs=[/3161, /3178], perturbed=True)
+  (/3180): BoundSub(name=/3180, inputs=[/3179, /3161], perturbed=True)
+  (/3181): BoundSub(name=/3181, inputs=[/3180, /3178], perturbed=True)
+  (/3190): BoundSlice(name=/3190, inputs=[/414, /3170, /3150, /424, /424], perturbed=True)
+  (/3194): BoundMul(name=/3194, inputs=[/3191/sqr, /429], perturbed=True)
+  (/3195): BoundSub(name=/3195, inputs=[/3194, /3181], perturbed=True)
+  (/3196): BoundAdd(name=/3196, inputs=[/3179, /3195], perturbed=True)
+  (/3197): BoundSub(name=/3197, inputs=[/3196, /3179], perturbed=True)
+  (/3198): BoundSub(name=/3198, inputs=[/3197, /3195], perturbed=True)
+  (/3199): BoundConstant(name=/3199, value=74)
+  (/3205): BoundUnsqueeze(name=/3205, inputs=[/3199, /428], perturbed=False)
+  (/3208): BoundSlice(name=/3208, inputs=[/414, /3152, /3205, /424, /424], perturbed=True)
+  (/3212): BoundMul(name=/3212, inputs=[/3209/sqr, /429], perturbed=True)
+  (/3213): BoundSub(name=/3213, inputs=[/3212, /3198], perturbed=True)
+  (/3214): BoundAdd(name=/3214, inputs=[/3196, /3213], perturbed=True)
+  (/3215): BoundSub(name=/3215, inputs=[/3214, /3196], perturbed=True)
+  (/3216): BoundSub(name=/3216, inputs=[/3215, /3213], perturbed=True)
+  (/3217): BoundConstant(name=/3217, value=68)
+  (/3221): BoundUnsqueeze(name=/3221, inputs=[/3217, /428], perturbed=False)
+  (/3226): BoundSlice(name=/3226, inputs=[/414, /3221, /3131, /424, /424], perturbed=True)
+  (/3230): BoundMul(name=/3230, inputs=[/3227/sqr, /429], perturbed=True)
+  (/3231): BoundSub(name=/3231, inputs=[/3230, /3216], perturbed=True)
+  (/3232): BoundAdd(name=/3232, inputs=[/3214, /3231], perturbed=True)
+  (/3233): BoundSub(name=/3233, inputs=[/3232, /3214], perturbed=True)
+  (/3234): BoundSub(name=/3234, inputs=[/3233, /3231], perturbed=True)
+  (/3243): BoundSlice(name=/3243, inputs=[/414, /3205, /3112, /424, /424], perturbed=True)
+  (/3247): BoundMul(name=/3247, inputs=[/3244/sqr, /429], perturbed=True)
+  (/3248): BoundSub(name=/3248, inputs=[/3247, /3234], perturbed=True)
+  (/3249): BoundAdd(name=/3249, inputs=[/3232, /3248], perturbed=True)
+  (/3250): BoundSub(name=/3250, inputs=[/3249, /3232], perturbed=True)
+  (/3251): BoundSub(name=/3251, inputs=[/3250, /3248], perturbed=True)
+  (/3260): BoundSlice(name=/3260, inputs=[/414, /3096, /3221, /424, /424], perturbed=True)
+  (/3264): BoundMul(name=/3264, inputs=[/3261/sqr, /429], perturbed=True)
+  (/3265): BoundSub(name=/3265, inputs=[/3264, /3251], perturbed=True)
+  (/3266): BoundAdd(name=/3266, inputs=[/3249, /3265], perturbed=True)
+  (/3267): BoundSub(name=/3267, inputs=[/3266, /3249], perturbed=True)
+  (/3268): BoundSub(name=/3268, inputs=[/3267, /3265], perturbed=True)
+  (/3277): BoundSlice(name=/3277, inputs=[/414, /3078, /3038, /424, /424], perturbed=True)
+  (/3281): BoundMul(name=/3281, inputs=[/3278/sqr, /429], perturbed=True)
+  (/3282): BoundSub(name=/3282, inputs=[/3281, /3268], perturbed=True)
+  (/3283): BoundAdd(name=/3283, inputs=[/3266, /3282], perturbed=True)
+  (/3284): BoundSub(name=/3284, inputs=[/3283, /3266], perturbed=True)
+  (/3285): BoundSub(name=/3285, inputs=[/3284, /3282], perturbed=True)
+  (/3286): BoundConstant(name=/3286, value=64)
+  (/3290): BoundUnsqueeze(name=/3290, inputs=[/3286, /428], perturbed=False)
+  (/3295): BoundSlice(name=/3295, inputs=[/414, /3290, /3057, /424, /424], perturbed=True)
+  (/3299): BoundMul(name=/3299, inputs=[/3296/sqr, /429], perturbed=True)
+  (/3300): BoundSub(name=/3300, inputs=[/3299, /3285], perturbed=True)
+  (/3301): BoundAdd(name=/3301, inputs=[/3283, /3300], perturbed=True)
+  (/3302): BoundSub(name=/3302, inputs=[/3301, /3283], perturbed=True)
+  (/3303): BoundSub(name=/3303, inputs=[/3302, /3300], perturbed=True)
+  (/3312): BoundSlice(name=/3312, inputs=[/414, /3040, /3001, /424, /424], perturbed=True)
+  (/3316): BoundMul(name=/3316, inputs=[/3313/sqr, /429], perturbed=True)
+  (/3317): BoundSub(name=/3317, inputs=[/3316, /3303], perturbed=True)
+  (/3318): BoundAdd(name=/3318, inputs=[/3301, /3317], perturbed=True)
+  (/3319): BoundSub(name=/3319, inputs=[/3318, /3301], perturbed=True)
+  (/3320): BoundSub(name=/3320, inputs=[/3319, /3317], perturbed=True)
+  (/3329): BoundSlice(name=/3329, inputs=[/414, /3021, /3290, /424, /424], perturbed=True)
+  (/3333): BoundMul(name=/3333, inputs=[/3330/sqr, /429], perturbed=True)
+  (/3334): BoundSub(name=/3334, inputs=[/3333, /3320], perturbed=True)
+  (/3335): BoundAdd(name=/3335, inputs=[/3318, /3334], perturbed=True)
+  (/3336): BoundSub(name=/3336, inputs=[/3335, /3318], perturbed=True)
+  (/3337): BoundSub(name=/3337, inputs=[/3336, /3334], perturbed=True)
+  (/3346): BoundSlice(name=/3346, inputs=[/414, /3003, /2963, /424, /424], perturbed=True)
+  (/3350): BoundMul(name=/3350, inputs=[/3347/sqr, /429], perturbed=True)
+  (/3351): BoundSub(name=/3351, inputs=[/3350, /3337], perturbed=True)
+  (/3352): BoundAdd(name=/3352, inputs=[/3335, /3351], perturbed=True)
+  (/3353): BoundSub(name=/3353, inputs=[/3352, /3335], perturbed=True)
+  (/3354): BoundSub(name=/3354, inputs=[/3353, /3351], perturbed=True)
+  (/3363): BoundSlice(name=/3363, inputs=[/414, /2946, /2982, /424, /424], perturbed=True)
+  (/3367): BoundMul(name=/3367, inputs=[/3364/sqr, /429], perturbed=True)
+  (/3368): BoundSub(name=/3368, inputs=[/3367, /3354], perturbed=True)
+  (/3369): BoundAdd(name=/3369, inputs=[/3352, /3368], perturbed=True)
+  (/3370): BoundSub(name=/3370, inputs=[/3369, /3352], perturbed=True)
+  (/3371): BoundSub(name=/3371, inputs=[/3370, /3368], perturbed=True)
+  (/3380): BoundSlice(name=/3380, inputs=[/414, /2965, /2925, /424, /424], perturbed=True)
+  (/3384): BoundMul(name=/3384, inputs=[/3381/sqr, /429], perturbed=True)
+  (/3385): BoundSub(name=/3385, inputs=[/3384, /3371], perturbed=True)
+  (/3386): BoundAdd(name=/3386, inputs=[/3369, /3385], perturbed=True)
+  (/3387): BoundSub(name=/3387, inputs=[/3386, /3369], perturbed=True)
+  (/3388): BoundSub(name=/3388, inputs=[/3387, /3385], perturbed=True)
+  (/3397): BoundSlice(name=/3397, inputs=[/414, /2908, /2944, /424, /424], perturbed=True)
+  (/3401): BoundMul(name=/3401, inputs=[/3398/sqr, /429], perturbed=True)
+  (/3402): BoundSub(name=/3402, inputs=[/3401, /3388], perturbed=True)
+  (/3403): BoundAdd(name=/3403, inputs=[/3386, /3402], perturbed=True)
+  (/3404): BoundSub(name=/3404, inputs=[/3403, /3386], perturbed=True)
+  (/3405): BoundSub(name=/3405, inputs=[/3404, /3402], perturbed=True)
+  (/3414): BoundSlice(name=/3414, inputs=[/414, /2927, /2887, /424, /424], perturbed=True)
+  (/3418): BoundMul(name=/3418, inputs=[/3415/sqr, /429], perturbed=True)
+  (/3419): BoundSub(name=/3419, inputs=[/3418, /3405], perturbed=True)
+  (/3420): BoundAdd(name=/3420, inputs=[/3403, /3419], perturbed=True)
+  (/3421): BoundSub(name=/3421, inputs=[/3420, /3403], perturbed=True)
+  (/3422): BoundSub(name=/3422, inputs=[/3421, /3419], perturbed=True)
+  (/3431): BoundSlice(name=/3431, inputs=[/414, /2870, /2906, /424, /424], perturbed=True)
+  (/3435): BoundMul(name=/3435, inputs=[/3432/sqr, /429], perturbed=True)
+  (/3436): BoundSub(name=/3436, inputs=[/3435, /3422], perturbed=True)
+  (/3437): BoundAdd(name=/3437, inputs=[/3420, /3436], perturbed=True)
+  (/3438): BoundSub(name=/3438, inputs=[/3437, /3420], perturbed=True)
+  (/3439): BoundSub(name=/3439, inputs=[/3438, /3436], perturbed=True)
+  (/3448): BoundSlice(name=/3448, inputs=[/414, /2889, /2849, /424, /424], perturbed=True)
+  (/3452): BoundMul(name=/3452, inputs=[/3449/sqr, /429], perturbed=True)
+  (/3453): BoundSub(name=/3453, inputs=[/3452, /3439], perturbed=True)
+  (/3454): BoundAdd(name=/3454, inputs=[/3437, /3453], perturbed=True)
+  (/3455): BoundSub(name=/3455, inputs=[/3454, /3437], perturbed=True)
+  (/3456): BoundSub(name=/3456, inputs=[/3455, /3453], perturbed=True)
+  (/3465): BoundSlice(name=/3465, inputs=[/414, /2832, /2868, /424, /424], perturbed=True)
+  (/3469): BoundMul(name=/3469, inputs=[/3466/sqr, /429], perturbed=True)
+  (/3470): BoundSub(name=/3470, inputs=[/3469, /3456], perturbed=True)
+  (/3471): BoundAdd(name=/3471, inputs=[/3454, /3470], perturbed=True)
+  (/3472): BoundSub(name=/3472, inputs=[/3471, /3454], perturbed=True)
+  (/3473): BoundSub(name=/3473, inputs=[/3472, /3470], perturbed=True)
+  (/3482): BoundSlice(name=/3482, inputs=[/414, /2851, /2811, /424, /424], perturbed=True)
+  (/3486): BoundMul(name=/3486, inputs=[/3483/sqr, /429], perturbed=True)
+  (/3487): BoundSub(name=/3487, inputs=[/3486, /3473], perturbed=True)
+  (/3488): BoundAdd(name=/3488, inputs=[/3471, /3487], perturbed=True)
+  (/3489): BoundSub(name=/3489, inputs=[/3488, /3471], perturbed=True)
+  (/3490): BoundSub(name=/3490, inputs=[/3489, /3487], perturbed=True)
+  (/3499): BoundSlice(name=/3499, inputs=[/414, /2794, /2830, /424, /424], perturbed=True)
+  (/3503): BoundMul(name=/3503, inputs=[/3500/sqr, /429], perturbed=True)
+  (/3504): BoundSub(name=/3504, inputs=[/3503, /3490], perturbed=True)
+  (/3505): BoundAdd(name=/3505, inputs=[/3488, /3504], perturbed=True)
+  (/3506): BoundSub(name=/3506, inputs=[/3505, /3488], perturbed=True)
+  (/3507): BoundSub(name=/3507, inputs=[/3506, /3504], perturbed=True)
+  (/3516): BoundSlice(name=/3516, inputs=[/414, /2813, /2773, /424, /424], perturbed=True)
+  (/3520): BoundMul(name=/3520, inputs=[/3517/sqr, /429], perturbed=True)
+  (/3521): BoundSub(name=/3521, inputs=[/3520, /3507], perturbed=True)
+  (/3522): BoundAdd(name=/3522, inputs=[/3505, /3521], perturbed=True)
+  (/3523): BoundSub(name=/3523, inputs=[/3522, /3505], perturbed=True)
+  (/3524): BoundSub(name=/3524, inputs=[/3523, /3521], perturbed=True)
+  (/3533): BoundSlice(name=/3533, inputs=[/414, /2756, /2792, /424, /424], perturbed=True)
+  (/3537): BoundMul(name=/3537, inputs=[/3534/sqr, /429], perturbed=True)
+  (/3538): BoundSub(name=/3538, inputs=[/3537, /3524], perturbed=True)
+  (/3539): BoundAdd(name=/3539, inputs=[/3522, /3538], perturbed=True)
+  (/3540): BoundSub(name=/3540, inputs=[/3539, /3522], perturbed=True)
+  (/3541): BoundSub(name=/3541, inputs=[/3540, /3538], perturbed=True)
+  (/3550): BoundSlice(name=/3550, inputs=[/414, /2775, /2735, /424, /424], perturbed=True)
+  (/3554): BoundMul(name=/3554, inputs=[/3551/sqr, /429], perturbed=True)
+  (/3555): BoundSub(name=/3555, inputs=[/3554, /3541], perturbed=True)
+  (/3556): BoundAdd(name=/3556, inputs=[/3539, /3555], perturbed=True)
+  (/3557): BoundSub(name=/3557, inputs=[/3556, /3539], perturbed=True)
+  (/3558): BoundSub(name=/3558, inputs=[/3557, /3555], perturbed=True)
+  (/3567): BoundSlice(name=/3567, inputs=[/414, /2718, /2754, /424, /424], perturbed=True)
+  (/3571): BoundMul(name=/3571, inputs=[/3568/sqr, /429], perturbed=True)
+  (/3572): BoundSub(name=/3572, inputs=[/3571, /3558], perturbed=True)
+  (/3573): BoundAdd(name=/3573, inputs=[/3556, /3572], perturbed=True)
+  (/3574): BoundSub(name=/3574, inputs=[/3573, /3556], perturbed=True)
+  (/3575): BoundSub(name=/3575, inputs=[/3574, /3572], perturbed=True)
+  (/3584): BoundSlice(name=/3584, inputs=[/414, /2737, /2697, /424, /424], perturbed=True)
+  (/3588): BoundMul(name=/3588, inputs=[/3585/sqr, /429], perturbed=True)
+  (/3589): BoundSub(name=/3589, inputs=[/3588, /3575], perturbed=True)
+  (/3590): BoundAdd(name=/3590, inputs=[/3573, /3589], perturbed=True)
+  (/3591): BoundSub(name=/3591, inputs=[/3590, /3573], perturbed=True)
+  (/3592): BoundSub(name=/3592, inputs=[/3591, /3589], perturbed=True)
+  (/3601): BoundSlice(name=/3601, inputs=[/414, /2680, /2716, /424, /424], perturbed=True)
+  (/3605): BoundMul(name=/3605, inputs=[/3602/sqr, /429], perturbed=True)
+  (/3606): BoundSub(name=/3606, inputs=[/3605, /3592], perturbed=True)
+  (/3607): BoundAdd(name=/3607, inputs=[/3590, /3606], perturbed=True)
+  (/3608): BoundSub(name=/3608, inputs=[/3607, /3590], perturbed=True)
+  (/3609): BoundSub(name=/3609, inputs=[/3608, /3606], perturbed=True)
+  (/3618): BoundSlice(name=/3618, inputs=[/414, /2699, /2659, /424, /424], perturbed=True)
+  (/3622): BoundMul(name=/3622, inputs=[/3619/sqr, /429], perturbed=True)
+  (/3623): BoundSub(name=/3623, inputs=[/3622, /3609], perturbed=True)
+  (/3624): BoundAdd(name=/3624, inputs=[/3607, /3623], perturbed=True)
+  (/3625): BoundSub(name=/3625, inputs=[/3624, /3607], perturbed=True)
+  (/3626): BoundSub(name=/3626, inputs=[/3625, /3623], perturbed=True)
+  (/3635): BoundSlice(name=/3635, inputs=[/414, /2642, /2678, /424, /424], perturbed=True)
+  (/3639): BoundMul(name=/3639, inputs=[/3636/sqr, /429], perturbed=True)
+  (/3640): BoundSub(name=/3640, inputs=[/3639, /3626], perturbed=True)
+  (/3641): BoundAdd(name=/3641, inputs=[/3624, /3640], perturbed=True)
+  (/3642): BoundSub(name=/3642, inputs=[/3641, /3624], perturbed=True)
+  (/3643): BoundSub(name=/3643, inputs=[/3642, /3640], perturbed=True)
+  (/3644): BoundConstant(name=/3644, value=100)
+  (/3650): BoundUnsqueeze(name=/3650, inputs=[/3644, /428], perturbed=False)
+  (/3653): BoundSlice(name=/3653, inputs=[/414, /2661, /3650, /424, /424], perturbed=True)
+  (/3657): BoundMul(name=/3657, inputs=[/3654/sqr, /429], perturbed=True)
+  (/3658): BoundSub(name=/3658, inputs=[/3657, /3643], perturbed=True)
+  (/3659): BoundAdd(name=/3659, inputs=[/3641, /3658], perturbed=True)
+  (/3660): BoundSub(name=/3660, inputs=[/3659, /3641], perturbed=True)
+  (/3661): BoundSub(name=/3661, inputs=[/3660, /3658], perturbed=True)
+  (/3670): BoundSlice(name=/3670, inputs=[/414, /2605, /2640, /424, /424], perturbed=True)
+  (/3674): BoundMul(name=/3674, inputs=[/3671/sqr, /429], perturbed=True)
+  (/3675): BoundSub(name=/3675, inputs=[/3674, /3661], perturbed=True)
+  (/3676): BoundAdd(name=/3676, inputs=[/3659, /3675], perturbed=True)
+  (/3677): BoundSub(name=/3677, inputs=[/3676, /3659], perturbed=True)
+  (/3678): BoundSub(name=/3678, inputs=[/3677, /3675], perturbed=True)
+  (/3687): BoundSlice(name=/3687, inputs=[/414, /3650, /2621, /424, /424], perturbed=True)
+  (/3691): BoundMul(name=/3691, inputs=[/3688/sqr, /429], perturbed=True)
+  (/3692): BoundSub(name=/3692, inputs=[/3691, /3678], perturbed=True)
+  (/3693): BoundAdd(name=/3693, inputs=[/3676, /3692], perturbed=True)
+  (/3694): BoundSub(name=/3694, inputs=[/3693, /3676], perturbed=True)
+  (/3695): BoundSub(name=/3695, inputs=[/3694, /3692], perturbed=True)
+  (/3696): BoundConstant(name=/3696, value=40)
+  (/3700): BoundUnsqueeze(name=/3700, inputs=[/3696, /428], perturbed=False)
+  (/3705): BoundSlice(name=/3705, inputs=[/414, /3700, /2603, /424, /424], perturbed=True)
+  (/3709): BoundMul(name=/3709, inputs=[/3706/sqr, /429], perturbed=True)
+  (/3710): BoundSub(name=/3710, inputs=[/3709, /3695], perturbed=True)
+  (/3711): BoundAdd(name=/3711, inputs=[/3693, /3710], perturbed=True)
+  (/3712): BoundSub(name=/3712, inputs=[/3711, /3693], perturbed=True)
+  (/3713): BoundSub(name=/3713, inputs=[/3712, /3710], perturbed=True)
+  (/3722): BoundSlice(name=/3722, inputs=[/414, /477, /2549, /424, /424], perturbed=True)
+  (/3726): BoundMul(name=/3726, inputs=[/3723/sqr, /429], perturbed=True)
+  (/3727): BoundSub(name=/3727, inputs=[/3726, /3713], perturbed=True)
+  (/3728): BoundAdd(name=/3728, inputs=[/3711, /3727], perturbed=True)
+  (/3729): BoundSub(name=/3729, inputs=[/3728, /3711], perturbed=True)
+  (/3730): BoundSub(name=/3730, inputs=[/3729, /3727], perturbed=True)
+  (/3739): BoundSlice(name=/3739, inputs=[/414, /2569, /3700, /424, /424], perturbed=True)
+  (/3743): BoundMul(name=/3743, inputs=[/3740/sqr, /429], perturbed=True)
+  (/3744): BoundSub(name=/3744, inputs=[/3743, /3730], perturbed=True)
+  (/3745): BoundAdd(name=/3745, inputs=[/3728, /3744], perturbed=True)
+  (/3746): BoundSub(name=/3746, inputs=[/3745, /3728], perturbed=True)
+  (/3747): BoundSub(name=/3747, inputs=[/3746, /3744], perturbed=True)
+  (/3756): BoundSlice(name=/3756, inputs=[/414, /514, /2512, /424, /424], perturbed=True)
+  (/3760): BoundMul(name=/3760, inputs=[/3757/sqr, /429], perturbed=True)
+  (/3761): BoundSub(name=/3761, inputs=[/3760, /3747], perturbed=True)
+  (/3762): BoundAdd(name=/3762, inputs=[/3745, /3761], perturbed=True)
+  (/3763): BoundSub(name=/3763, inputs=[/3762, /3745], perturbed=True)
+  (/3764): BoundSub(name=/3764, inputs=[/3763, /3761], perturbed=True)
+  (/3773): BoundSlice(name=/3773, inputs=[/414, /2495, /2531, /424, /424], perturbed=True)
+  (/3777): BoundMul(name=/3777, inputs=[/3774/sqr, /429], perturbed=True)
+  (/3778): BoundSub(name=/3778, inputs=[/3777, /3764], perturbed=True)
+  (/3779): BoundAdd(name=/3779, inputs=[/3762, /3778], perturbed=True)
+  (/3780): BoundSub(name=/3780, inputs=[/3779, /3762], perturbed=True)
+  (/3781): BoundSub(name=/3781, inputs=[/3780, /3778], perturbed=True)
+  (/3790): BoundSlice(name=/3790, inputs=[/414, /2514, /549, /424, /424], perturbed=True)
+  (/3794): BoundMul(name=/3794, inputs=[/3791/sqr, /429], perturbed=True)
+  (/3795): BoundSub(name=/3795, inputs=[/3794, /3781], perturbed=True)
+  (/3796): BoundAdd(name=/3796, inputs=[/3779, /3795], perturbed=True)
+  (/3797): BoundSub(name=/3797, inputs=[/3796, /3779], perturbed=True)
+  (/3798): BoundSub(name=/3798, inputs=[/3797, /3795], perturbed=True)
+  (/3807): BoundSlice(name=/3807, inputs=[/414, /2458, /2493, /424, /424], perturbed=True)
+  (/3811): BoundMul(name=/3811, inputs=[/3808/sqr, /429], perturbed=True)
+  (/3812): BoundSub(name=/3812, inputs=[/3811, /3798], perturbed=True)
+  (/3813): BoundAdd(name=/3813, inputs=[/3796, /3812], perturbed=True)
+  (/3814): BoundSub(name=/3814, inputs=[/3813, /3796], perturbed=True)
+  (/3815): BoundSub(name=/3815, inputs=[/3814, /3812], perturbed=True)
+  (/3824): BoundSlice(name=/3824, inputs=[/414, /2476, /586, /424, /424], perturbed=True)
+  (/3828): BoundMul(name=/3828, inputs=[/3825/sqr, /429], perturbed=True)
+  (/3829): BoundSub(name=/3829, inputs=[/3828, /3815], perturbed=True)
+  (/3830): BoundAdd(name=/3830, inputs=[/3813, /3829], perturbed=True)
+  (/3831): BoundSub(name=/3831, inputs=[/3830, /3813], perturbed=True)
+  (/3832): BoundSub(name=/3832, inputs=[/3831, /3829], perturbed=True)
+  (/3841): BoundSlice(name=/3841, inputs=[/414, /2422, /2456, /424, /424], perturbed=True)
+  (/3845): BoundMul(name=/3845, inputs=[/3842/sqr, /429], perturbed=True)
+  (/3846): BoundSub(name=/3846, inputs=[/3845, /3832], perturbed=True)
+  (/3847): BoundAdd(name=/3847, inputs=[/3830, /3846], perturbed=True)
+  (/3848): BoundSub(name=/3848, inputs=[/3847, /3830], perturbed=True)
+  (/3849): BoundSub(name=/3849, inputs=[/3848, /3846], perturbed=True)
+  (/3858): BoundSlice(name=/3858, inputs=[/414, /625, /2401, /424, /424], perturbed=True)
+  (/3862): BoundMul(name=/3862, inputs=[/3859/sqr, /429], perturbed=True)
+  (/3863): BoundSub(name=/3863, inputs=[/3862, /3849], perturbed=True)
+  (/3864): BoundAdd(name=/3864, inputs=[/3847, /3863], perturbed=True)
+  (/3865): BoundSub(name=/3865, inputs=[/3864, /3847], perturbed=True)
+  (/3866): BoundSub(name=/3866, inputs=[/3865, /3863], perturbed=True)
+  (/3875): BoundSlice(name=/3875, inputs=[/414, /2385, /2420, /424, /424], perturbed=True)
+  (/3879): BoundMul(name=/3879, inputs=[/3876/sqr, /429], perturbed=True)
+  (/3880): BoundSub(name=/3880, inputs=[/3879, /3866], perturbed=True)
+  (/3881): BoundAdd(name=/3881, inputs=[/3864, /3880], perturbed=True)
+  (/3882): BoundSub(name=/3882, inputs=[/3881, /3864], perturbed=True)
+  (/3883): BoundSub(name=/3883, inputs=[/3882, /3880], perturbed=True)
+  (/3892): BoundSlice(name=/3892, inputs=[/414, /662, /2364, /424, /424], perturbed=True)
+  (/3896): BoundMul(name=/3896, inputs=[/3893/sqr, /429], perturbed=True)
+  (/3897): BoundSub(name=/3897, inputs=[/3896, /3883], perturbed=True)
+  (/3898): BoundAdd(name=/3898, inputs=[/3881, /3897], perturbed=True)
+  (/3899): BoundSub(name=/3899, inputs=[/3898, /3881], perturbed=True)
+  (/3900): BoundSub(name=/3900, inputs=[/3899, /3897], perturbed=True)
+  (/3909): BoundSlice(name=/3909, inputs=[/414, /2348, /2383, /424, /424], perturbed=True)
+  (/3913): BoundMul(name=/3913, inputs=[/3910/sqr, /429], perturbed=True)
+  (/3914): BoundSub(name=/3914, inputs=[/3913, /3900], perturbed=True)
+  (/3915): BoundAdd(name=/3915, inputs=[/3898, /3914], perturbed=True)
+  (/3916): BoundSub(name=/3916, inputs=[/3915, /3898], perturbed=True)
+  (/3917): BoundSub(name=/3917, inputs=[/3916, /3914], perturbed=True)
+  (/3926): BoundSlice(name=/3926, inputs=[/414, /699, /2327, /424, /424], perturbed=True)
+  (/3930): BoundMul(name=/3930, inputs=[/3927/sqr, /429], perturbed=True)
+  (/3931): BoundSub(name=/3931, inputs=[/3930, /3917], perturbed=True)
+  (/3932): BoundAdd(name=/3932, inputs=[/3915, /3931], perturbed=True)
+  (/3933): BoundSub(name=/3933, inputs=[/3932, /3915], perturbed=True)
+  (/3934): BoundSub(name=/3934, inputs=[/3933, /3931], perturbed=True)
+  (/3943): BoundSlice(name=/3943, inputs=[/414, /2311, /2346, /424, /424], perturbed=True)
+  (/3947): BoundMul(name=/3947, inputs=[/3944/sqr, /429], perturbed=True)
+  (/3948): BoundSub(name=/3948, inputs=[/3947, /3934], perturbed=True)
+  (/3949): BoundAdd(name=/3949, inputs=[/3932, /3948], perturbed=True)
+  (/3950): BoundSub(name=/3950, inputs=[/3949, /3932], perturbed=True)
+  (/3951): BoundSub(name=/3951, inputs=[/3950, /3948], perturbed=True)
+  (/3960): BoundSlice(name=/3960, inputs=[/414, /736, /2290, /424, /424], perturbed=True)
+  (/3964): BoundMul(name=/3964, inputs=[/3961/sqr, /429], perturbed=True)
+  (/3965): BoundSub(name=/3965, inputs=[/3964, /3951], perturbed=True)
+  (/3966): BoundAdd(name=/3966, inputs=[/3949, /3965], perturbed=True)
+  (/3967): BoundSub(name=/3967, inputs=[/3966, /3949], perturbed=True)
+  (/3968): BoundSub(name=/3968, inputs=[/3967, /3965], perturbed=True)
+  (/3969): BoundConstant(name=/3969, value=24)
+  (/3973): BoundUnsqueeze(name=/3973, inputs=[/3969, /428], perturbed=False)
+  (/3978): BoundSlice(name=/3978, inputs=[/414, /3973, /2309, /424, /424], perturbed=True)
+  (/3982): BoundMul(name=/3982, inputs=[/3979/sqr, /429], perturbed=True)
+  (/3983): BoundSub(name=/3983, inputs=[/3982, /3968], perturbed=True)
+  (/3984): BoundAdd(name=/3984, inputs=[/3966, /3983], perturbed=True)
+  (/3985): BoundSub(name=/3985, inputs=[/3984, /3966], perturbed=True)
+  (/3986): BoundSub(name=/3986, inputs=[/3985, /3983], perturbed=True)
+  (/3995): BoundSlice(name=/3995, inputs=[/414, /773, /2254, /424, /424], perturbed=True)
+  (/3999): BoundMul(name=/3999, inputs=[/3996/sqr, /429], perturbed=True)
+  (/4000): BoundSub(name=/4000, inputs=[/3999, /3986], perturbed=True)
+  (/4001): BoundAdd(name=/4001, inputs=[/3984, /4000], perturbed=True)
+  (/4002): BoundSub(name=/4002, inputs=[/4001, /3984], perturbed=True)
+  (/4003): BoundSub(name=/4003, inputs=[/4002, /4000], perturbed=True)
+  (/4012): BoundSlice(name=/4012, inputs=[/414, /2274, /3973, /424, /424], perturbed=True)
+  (/4016): BoundMul(name=/4016, inputs=[/4013/sqr, /429], perturbed=True)
+  (/4017): BoundSub(name=/4017, inputs=[/4016, /4003], perturbed=True)
+  (/4018): BoundAdd(name=/4018, inputs=[/4001, /4017], perturbed=True)
+  (/426/sqr): BoundSqr(name=/426/sqr, inputs=[/425], perturbed=True)
+  (/444/sqr): BoundSqr(name=/444/sqr, inputs=[/443], perturbed=True)
+  (/462/sqr): BoundSqr(name=/462/sqr, inputs=[/461], perturbed=True)
+  (/481/sqr): BoundSqr(name=/481/sqr, inputs=[/480], perturbed=True)
+  (/499/sqr): BoundSqr(name=/499/sqr, inputs=[/498], perturbed=True)
+  (/518/sqr): BoundSqr(name=/518/sqr, inputs=[/517], perturbed=True)
+  (/536/sqr): BoundSqr(name=/536/sqr, inputs=[/535], perturbed=True)
+  (/555/sqr): BoundSqr(name=/555/sqr, inputs=[/554], perturbed=True)
+  (/573/sqr): BoundSqr(name=/573/sqr, inputs=[/572], perturbed=True)
+  (/592/sqr): BoundSqr(name=/592/sqr, inputs=[/591], perturbed=True)
+  (/610/sqr): BoundSqr(name=/610/sqr, inputs=[/609], perturbed=True)
+  (/629/sqr): BoundSqr(name=/629/sqr, inputs=[/628], perturbed=True)
+  (/647/sqr): BoundSqr(name=/647/sqr, inputs=[/646], perturbed=True)
+  (/666/sqr): BoundSqr(name=/666/sqr, inputs=[/665], perturbed=True)
+  (/684/sqr): BoundSqr(name=/684/sqr, inputs=[/683], perturbed=True)
+  (/703/sqr): BoundSqr(name=/703/sqr, inputs=[/702], perturbed=True)
+  (/721/sqr): BoundSqr(name=/721/sqr, inputs=[/720], perturbed=True)
+  (/740/sqr): BoundSqr(name=/740/sqr, inputs=[/739], perturbed=True)
+  (/758/sqr): BoundSqr(name=/758/sqr, inputs=[/757], perturbed=True)
+  (/777/sqr): BoundSqr(name=/777/sqr, inputs=[/776], perturbed=True)
+  (/795/sqr): BoundSqr(name=/795/sqr, inputs=[/794], perturbed=True)
+  (/814/sqr): BoundSqr(name=/814/sqr, inputs=[/813], perturbed=True)
+  (/832/sqr): BoundSqr(name=/832/sqr, inputs=[/831], perturbed=True)
+  (/851/sqr): BoundSqr(name=/851/sqr, inputs=[/850], perturbed=True)
+  (/869/sqr): BoundSqr(name=/869/sqr, inputs=[/868], perturbed=True)
+  (/888/sqr): BoundSqr(name=/888/sqr, inputs=[/887], perturbed=True)
+  (/906/sqr): BoundSqr(name=/906/sqr, inputs=[/905], perturbed=True)
+  (/924/sqr): BoundSqr(name=/924/sqr, inputs=[/923], perturbed=True)
+  (/942/sqr): BoundSqr(name=/942/sqr, inputs=[/941], perturbed=True)
+  (/961/sqr): BoundSqr(name=/961/sqr, inputs=[/960], perturbed=True)
+  (/979/sqr): BoundSqr(name=/979/sqr, inputs=[/978], perturbed=True)
+  (/998/sqr): BoundSqr(name=/998/sqr, inputs=[/997], perturbed=True)
+  (/1016/sqr): BoundSqr(name=/1016/sqr, inputs=[/1015], perturbed=True)
+  (/1035/sqr): BoundSqr(name=/1035/sqr, inputs=[/1034], perturbed=True)
+  (/1053/sqr): BoundSqr(name=/1053/sqr, inputs=[/1052], perturbed=True)
+  (/1072/sqr): BoundSqr(name=/1072/sqr, inputs=[/1071], perturbed=True)
+  (/1090/sqr): BoundSqr(name=/1090/sqr, inputs=[/1089], perturbed=True)
+  (/1109/sqr): BoundSqr(name=/1109/sqr, inputs=[/1108], perturbed=True)
+  (/1127/sqr): BoundSqr(name=/1127/sqr, inputs=[/1126], perturbed=True)
+  (/1146/sqr): BoundSqr(name=/1146/sqr, inputs=[/1145], perturbed=True)
+  (/1164/sqr): BoundSqr(name=/1164/sqr, inputs=[/1163], perturbed=True)
+  (/1183/sqr): BoundSqr(name=/1183/sqr, inputs=[/1182], perturbed=True)
+  (/1201/sqr): BoundSqr(name=/1201/sqr, inputs=[/1200], perturbed=True)
+  (/1220/sqr): BoundSqr(name=/1220/sqr, inputs=[/1219], perturbed=True)
+  (/1238/sqr): BoundSqr(name=/1238/sqr, inputs=[/1237], perturbed=True)
+  (/1257/sqr): BoundSqr(name=/1257/sqr, inputs=[/1256], perturbed=True)
+  (/1275/sqr): BoundSqr(name=/1275/sqr, inputs=[/1274], perturbed=True)
+  (/1294/sqr): BoundSqr(name=/1294/sqr, inputs=[/1293], perturbed=True)
+  (/1312/sqr): BoundSqr(name=/1312/sqr, inputs=[/1311], perturbed=True)
+  (/1331/sqr): BoundSqr(name=/1331/sqr, inputs=[/1330], perturbed=True)
+  (/1349/sqr): BoundSqr(name=/1349/sqr, inputs=[/1348], perturbed=True)
+  (/1368/sqr): BoundSqr(name=/1368/sqr, inputs=[/1367], perturbed=True)
+  (/1386/sqr): BoundSqr(name=/1386/sqr, inputs=[/1385], perturbed=True)
+  (/1405/sqr): BoundSqr(name=/1405/sqr, inputs=[/1404], perturbed=True)
+  (/1423/sqr): BoundSqr(name=/1423/sqr, inputs=[/1422], perturbed=True)
+  (/1442/sqr): BoundSqr(name=/1442/sqr, inputs=[/1441], perturbed=True)
+  (/1460/sqr): BoundSqr(name=/1460/sqr, inputs=[/1459], perturbed=True)
+  (/1479/sqr): BoundSqr(name=/1479/sqr, inputs=[/1478], perturbed=True)
+  (/1497/sqr): BoundSqr(name=/1497/sqr, inputs=[/1496], perturbed=True)
+  (/1515/sqr): BoundSqr(name=/1515/sqr, inputs=[/1514], perturbed=True)
+  (/1536/sqr): BoundSqr(name=/1536/sqr, inputs=[/1535], perturbed=True)
+  (/1557/sqr): BoundSqr(name=/1557/sqr, inputs=[/1556], perturbed=True)
+  (/1576/sqr): BoundSqr(name=/1576/sqr, inputs=[/1575], perturbed=True)
+  (/1593/sqr): BoundSqr(name=/1593/sqr, inputs=[/1592], perturbed=True)
+  (/1611/sqr): BoundSqr(name=/1611/sqr, inputs=[/1610], perturbed=True)
+  (/1628/sqr): BoundSqr(name=/1628/sqr, inputs=[/1627], perturbed=True)
+  (/1646/sqr): BoundSqr(name=/1646/sqr, inputs=[/1645], perturbed=True)
+  (/1663/sqr): BoundSqr(name=/1663/sqr, inputs=[/1662], perturbed=True)
+  (/1681/sqr): BoundSqr(name=/1681/sqr, inputs=[/1680], perturbed=True)
+  (/1698/sqr): BoundSqr(name=/1698/sqr, inputs=[/1697], perturbed=True)
+  (/1716/sqr): BoundSqr(name=/1716/sqr, inputs=[/1715], perturbed=True)
+  (/1733/sqr): BoundSqr(name=/1733/sqr, inputs=[/1732], perturbed=True)
+  (/1751/sqr): BoundSqr(name=/1751/sqr, inputs=[/1750], perturbed=True)
+  (/1768/sqr): BoundSqr(name=/1768/sqr, inputs=[/1767], perturbed=True)
+  (/1786/sqr): BoundSqr(name=/1786/sqr, inputs=[/1785], perturbed=True)
+  (/1803/sqr): BoundSqr(name=/1803/sqr, inputs=[/1802], perturbed=True)
+  (/1821/sqr): BoundSqr(name=/1821/sqr, inputs=[/1820], perturbed=True)
+  (/1838/sqr): BoundSqr(name=/1838/sqr, inputs=[/1837], perturbed=True)
+  (/1856/sqr): BoundSqr(name=/1856/sqr, inputs=[/1855], perturbed=True)
+  (/1873/sqr): BoundSqr(name=/1873/sqr, inputs=[/1872], perturbed=True)
+  (/1891/sqr): BoundSqr(name=/1891/sqr, inputs=[/1890], perturbed=True)
+  (/1908/sqr): BoundSqr(name=/1908/sqr, inputs=[/1907], perturbed=True)
+  (/1926/sqr): BoundSqr(name=/1926/sqr, inputs=[/1925], perturbed=True)
+  (/1943/sqr): BoundSqr(name=/1943/sqr, inputs=[/1942], perturbed=True)
+  (/1961/sqr): BoundSqr(name=/1961/sqr, inputs=[/1960], perturbed=True)
+  (/1978/sqr): BoundSqr(name=/1978/sqr, inputs=[/1977], perturbed=True)
+  (/1996/sqr): BoundSqr(name=/1996/sqr, inputs=[/1995], perturbed=True)
+  (/2013/sqr): BoundSqr(name=/2013/sqr, inputs=[/2012], perturbed=True)
+  (/2031/sqr): BoundSqr(name=/2031/sqr, inputs=[/2030], perturbed=True)
+  (/2048/sqr): BoundSqr(name=/2048/sqr, inputs=[/2047], perturbed=True)
+  (/2066/sqr): BoundSqr(name=/2066/sqr, inputs=[/2065], perturbed=True)
+  (/2083/sqr): BoundSqr(name=/2083/sqr, inputs=[/2082], perturbed=True)
+  (/2101/sqr): BoundSqr(name=/2101/sqr, inputs=[/2100], perturbed=True)
+  (/2119/sqr): BoundSqr(name=/2119/sqr, inputs=[/2118], perturbed=True)
+  (/2137/sqr): BoundSqr(name=/2137/sqr, inputs=[/2136], perturbed=True)
+  (/2154/sqr): BoundSqr(name=/2154/sqr, inputs=[/2153], perturbed=True)
+  (/2172/sqr): BoundSqr(name=/2172/sqr, inputs=[/2171], perturbed=True)
+  (/2189/sqr): BoundSqr(name=/2189/sqr, inputs=[/2188], perturbed=True)
+  (/2207/sqr): BoundSqr(name=/2207/sqr, inputs=[/2206], perturbed=True)
+  (/2224/sqr): BoundSqr(name=/2224/sqr, inputs=[/2223], perturbed=True)
+  (/2242/sqr): BoundSqr(name=/2242/sqr, inputs=[/2241], perturbed=True)
+  (/2260/sqr): BoundSqr(name=/2260/sqr, inputs=[/2259], perturbed=True)
+  (/2278/sqr): BoundSqr(name=/2278/sqr, inputs=[/2277], perturbed=True)
+  (/2296/sqr): BoundSqr(name=/2296/sqr, inputs=[/2295], perturbed=True)
+  (/2315/sqr): BoundSqr(name=/2315/sqr, inputs=[/2314], perturbed=True)
+  (/2333/sqr): BoundSqr(name=/2333/sqr, inputs=[/2332], perturbed=True)
+  (/2352/sqr): BoundSqr(name=/2352/sqr, inputs=[/2351], perturbed=True)
+  (/2370/sqr): BoundSqr(name=/2370/sqr, inputs=[/2369], perturbed=True)
+  (/2389/sqr): BoundSqr(name=/2389/sqr, inputs=[/2388], perturbed=True)
+  (/2407/sqr): BoundSqr(name=/2407/sqr, inputs=[/2406], perturbed=True)
+  (/2426/sqr): BoundSqr(name=/2426/sqr, inputs=[/2425], perturbed=True)
+  (/2443/sqr): BoundSqr(name=/2443/sqr, inputs=[/2442], perturbed=True)
+  (/2462/sqr): BoundSqr(name=/2462/sqr, inputs=[/2461], perturbed=True)
+  (/2480/sqr): BoundSqr(name=/2480/sqr, inputs=[/2479], perturbed=True)
+  (/2499/sqr): BoundSqr(name=/2499/sqr, inputs=[/2498], perturbed=True)
+  (/2518/sqr): BoundSqr(name=/2518/sqr, inputs=[/2517], perturbed=True)
+  (/2537/sqr): BoundSqr(name=/2537/sqr, inputs=[/2536], perturbed=True)
+  (/2555/sqr): BoundSqr(name=/2555/sqr, inputs=[/2554], perturbed=True)
+  (/2573/sqr): BoundSqr(name=/2573/sqr, inputs=[/2572], perturbed=True)
+  (/2590/sqr): BoundSqr(name=/2590/sqr, inputs=[/2589], perturbed=True)
+  (/2609/sqr): BoundSqr(name=/2609/sqr, inputs=[/2608], perturbed=True)
+  (/2627/sqr): BoundSqr(name=/2627/sqr, inputs=[/2626], perturbed=True)
+  (/2646/sqr): BoundSqr(name=/2646/sqr, inputs=[/2645], perturbed=True)
+  (/2665/sqr): BoundSqr(name=/2665/sqr, inputs=[/2664], perturbed=True)
+  (/2684/sqr): BoundSqr(name=/2684/sqr, inputs=[/2683], perturbed=True)
+  (/2703/sqr): BoundSqr(name=/2703/sqr, inputs=[/2702], perturbed=True)
+  (/2722/sqr): BoundSqr(name=/2722/sqr, inputs=[/2721], perturbed=True)
+  (/2741/sqr): BoundSqr(name=/2741/sqr, inputs=[/2740], perturbed=True)
+  (/2760/sqr): BoundSqr(name=/2760/sqr, inputs=[/2759], perturbed=True)
+  (/2779/sqr): BoundSqr(name=/2779/sqr, inputs=[/2778], perturbed=True)
+  (/2798/sqr): BoundSqr(name=/2798/sqr, inputs=[/2797], perturbed=True)
+  (/2817/sqr): BoundSqr(name=/2817/sqr, inputs=[/2816], perturbed=True)
+  (/2836/sqr): BoundSqr(name=/2836/sqr, inputs=[/2835], perturbed=True)
+  (/2855/sqr): BoundSqr(name=/2855/sqr, inputs=[/2854], perturbed=True)
+  (/2874/sqr): BoundSqr(name=/2874/sqr, inputs=[/2873], perturbed=True)
+  (/2893/sqr): BoundSqr(name=/2893/sqr, inputs=[/2892], perturbed=True)
+  (/2912/sqr): BoundSqr(name=/2912/sqr, inputs=[/2911], perturbed=True)
+  (/2931/sqr): BoundSqr(name=/2931/sqr, inputs=[/2930], perturbed=True)
+  (/2950/sqr): BoundSqr(name=/2950/sqr, inputs=[/2949], perturbed=True)
+  (/2969/sqr): BoundSqr(name=/2969/sqr, inputs=[/2968], perturbed=True)
+  (/2988/sqr): BoundSqr(name=/2988/sqr, inputs=[/2987], perturbed=True)
+  (/3007/sqr): BoundSqr(name=/3007/sqr, inputs=[/3006], perturbed=True)
+  (/3025/sqr): BoundSqr(name=/3025/sqr, inputs=[/3024], perturbed=True)
+  (/3044/sqr): BoundSqr(name=/3044/sqr, inputs=[/3043], perturbed=True)
+  (/3063/sqr): BoundSqr(name=/3063/sqr, inputs=[/3062], perturbed=True)
+  (/3082/sqr): BoundSqr(name=/3082/sqr, inputs=[/3081], perturbed=True)
+  (/3100/sqr): BoundSqr(name=/3100/sqr, inputs=[/3099], perturbed=True)
+  (/3118/sqr): BoundSqr(name=/3118/sqr, inputs=[/3117], perturbed=True)
+  (/3137/sqr): BoundSqr(name=/3137/sqr, inputs=[/3136], perturbed=True)
+  (/3156/sqr): BoundSqr(name=/3156/sqr, inputs=[/3155], perturbed=True)
+  (/3174/sqr): BoundSqr(name=/3174/sqr, inputs=[/3173], perturbed=True)
+  (/3191/sqr): BoundSqr(name=/3191/sqr, inputs=[/3190], perturbed=True)
+  (/3209/sqr): BoundSqr(name=/3209/sqr, inputs=[/3208], perturbed=True)
+  (/3227/sqr): BoundSqr(name=/3227/sqr, inputs=[/3226], perturbed=True)
+  (/3244/sqr): BoundSqr(name=/3244/sqr, inputs=[/3243], perturbed=True)
+  (/3261/sqr): BoundSqr(name=/3261/sqr, inputs=[/3260], perturbed=True)
+  (/3278/sqr): BoundSqr(name=/3278/sqr, inputs=[/3277], perturbed=True)
+  (/3296/sqr): BoundSqr(name=/3296/sqr, inputs=[/3295], perturbed=True)
+  (/3313/sqr): BoundSqr(name=/3313/sqr, inputs=[/3312], perturbed=True)
+  (/3330/sqr): BoundSqr(name=/3330/sqr, inputs=[/3329], perturbed=True)
+  (/3347/sqr): BoundSqr(name=/3347/sqr, inputs=[/3346], perturbed=True)
+  (/3364/sqr): BoundSqr(name=/3364/sqr, inputs=[/3363], perturbed=True)
+  (/3381/sqr): BoundSqr(name=/3381/sqr, inputs=[/3380], perturbed=True)
+  (/3398/sqr): BoundSqr(name=/3398/sqr, inputs=[/3397], perturbed=True)
+  (/3415/sqr): BoundSqr(name=/3415/sqr, inputs=[/3414], perturbed=True)
+  (/3432/sqr): BoundSqr(name=/3432/sqr, inputs=[/3431], perturbed=True)
+  (/3449/sqr): BoundSqr(name=/3449/sqr, inputs=[/3448], perturbed=True)
+  (/3466/sqr): BoundSqr(name=/3466/sqr, inputs=[/3465], perturbed=True)
+  (/3483/sqr): BoundSqr(name=/3483/sqr, inputs=[/3482], perturbed=True)
+  (/3500/sqr): BoundSqr(name=/3500/sqr, inputs=[/3499], perturbed=True)
+  (/3517/sqr): BoundSqr(name=/3517/sqr, inputs=[/3516], perturbed=True)
+  (/3534/sqr): BoundSqr(name=/3534/sqr, inputs=[/3533], perturbed=True)
+  (/3551/sqr): BoundSqr(name=/3551/sqr, inputs=[/3550], perturbed=True)
+  (/3568/sqr): BoundSqr(name=/3568/sqr, inputs=[/3567], perturbed=True)
+  (/3585/sqr): BoundSqr(name=/3585/sqr, inputs=[/3584], perturbed=True)
+  (/3602/sqr): BoundSqr(name=/3602/sqr, inputs=[/3601], perturbed=True)
+  (/3619/sqr): BoundSqr(name=/3619/sqr, inputs=[/3618], perturbed=True)
+  (/3636/sqr): BoundSqr(name=/3636/sqr, inputs=[/3635], perturbed=True)
+  (/3654/sqr): BoundSqr(name=/3654/sqr, inputs=[/3653], perturbed=True)
+  (/3671/sqr): BoundSqr(name=/3671/sqr, inputs=[/3670], perturbed=True)
+  (/3688/sqr): BoundSqr(name=/3688/sqr, inputs=[/3687], perturbed=True)
+  (/3706/sqr): BoundSqr(name=/3706/sqr, inputs=[/3705], perturbed=True)
+  (/3723/sqr): BoundSqr(name=/3723/sqr, inputs=[/3722], perturbed=True)
+  (/3740/sqr): BoundSqr(name=/3740/sqr, inputs=[/3739], perturbed=True)
+  (/3757/sqr): BoundSqr(name=/3757/sqr, inputs=[/3756], perturbed=True)
+  (/3774/sqr): BoundSqr(name=/3774/sqr, inputs=[/3773], perturbed=True)
+  (/3791/sqr): BoundSqr(name=/3791/sqr, inputs=[/3790], perturbed=True)
+  (/3808/sqr): BoundSqr(name=/3808/sqr, inputs=[/3807], perturbed=True)
+  (/3825/sqr): BoundSqr(name=/3825/sqr, inputs=[/3824], perturbed=True)
+  (/3842/sqr): BoundSqr(name=/3842/sqr, inputs=[/3841], perturbed=True)
+  (/3859/sqr): BoundSqr(name=/3859/sqr, inputs=[/3858], perturbed=True)
+  (/3876/sqr): BoundSqr(name=/3876/sqr, inputs=[/3875], perturbed=True)
+  (/3893/sqr): BoundSqr(name=/3893/sqr, inputs=[/3892], perturbed=True)
+  (/3910/sqr): BoundSqr(name=/3910/sqr, inputs=[/3909], perturbed=True)
+  (/3927/sqr): BoundSqr(name=/3927/sqr, inputs=[/3926], perturbed=True)
+  (/3944/sqr): BoundSqr(name=/3944/sqr, inputs=[/3943], perturbed=True)
+  (/3961/sqr): BoundSqr(name=/3961/sqr, inputs=[/3960], perturbed=True)
+  (/3979/sqr): BoundSqr(name=/3979/sqr, inputs=[/3978], perturbed=True)
+  (/3996/sqr): BoundSqr(name=/3996/sqr, inputs=[/3995], perturbed=True)
+  (/4013/sqr): BoundSqr(name=/4013/sqr, inputs=[/4012], perturbed=True)
+)
+Original output in the first batch: tensor([[97.83377608]], device='cuda:0')
+build batch [1/1]
+initial crown bounds (first 10 items): [-5.894299223905641e+81]
+Global lower bound: -5.894299223905641e+81
+0 / 1 OR specs are verified.
+Verified OR indices (first 10 items): []
+Verified OR lbs (first 10 items): shape=(0, 1), values=[]
+Unverified OR indices (first 10 items): [0]
+Unverified OR lbs (first 10 items): shape=(1, 1), values=[[-5.894299223905641e+81]]
+###### Verifying property Instance 0 ######
+Batch size: 1
+First 10 spec matrices
+C: tensor([], device='cuda:0', size=(1, 0, 1))
+RHS: tensor([], device='cuda:0', size=(1, 0))
+OR spec sizes: tensor([0], device='cuda:0', dtype=torch.int32)
+Remaining timeout: 176.32239270210266
+Model prediction is: tensor([97.83377608], device='cuda:0')
+[Op] setup t=5.780 s=5.7789 work=1 dD=0 dP=0
+[Op] reference_bounds t=5.780 s=0.0001 work=1 dD=inf dP=0
+[Presolve] rows/identities={'complete_square_rewrite': 0, 'product_residual': 0, 'square_row_to_abs': 0, 'objective_row_alias': 0}
+[Op] rows t=5.856 s=0.0768 work=1 dD=0 dP=0
+[Structure] objective=quad rows={} duplicates=0 opposites=0 redundant=0 aliases=0 pool={'rows': 0, 'ranged': 0, 'merged': 0, 'masked': 0, 'opaque': 0} spent=5655 time=0.202s
+[Op] struct_forms t=6.059 s=0.2028 work=1 dD=0 dP=0
+[StructCert] certificates=[] skip={'assignment': 'no almost-binary rows', 'diameter': 'not adjacent polar area', 'eigenblock': 'objective is not a positive affine eigenvalue variable'} time=0.001s
+[Op] struct_cert t=6.061 s=0.0019 work=1 dD=0 dP=0
+[Op] hybrid t=6.095 s=0.0335 work=1 dD=0 dP=0
+[Op] initial_verify t=6.095 s=0.0002 work=1 dD=0 dP=0
+[Op] lp_alternation t=6.098 s=0.0028 work=1 dD=0 dP=0
+Running NLP falsification at root node...
+  [Root] Wall budget cap: ALM/NLP 60.0s, IPOPT 30.0s (remaining-global-based)
+  [Root] Auto-enabled IPOPT warm-start for ALM
+======================================================================
+Running NLP Solver Comparison (IPOPT + ALM-PGD)
+======================================================================
+======================================================================
+Running NLP Solver Comparison
+Problem: 2 vars, 0 constraints
+Local solver: IPOPT
+======================================================================
+
+[Root] Running IPOPT + ALM-PGD in parallel...
+    [ALM-PGD] Shared B*R budget: domains=1, restarts=20480, B*R=20480/20480
+    [ALM-PGD] Inner LR continuation: k=0 lr=1.000e-02
+[SparseDerivatives] rows=0 merged=0 atoms=0 nnzJ=0 nnzH=2 hessian=exact reproduces=True build=0.01s
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: divide by zero encountered in power
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+<gear>/complete_verifier/nlp_solver/sparse_derivatives.py:144: RuntimeWarning: invalid value encountered in multiply
+  d2 = b.ex * (b.ex - 1) * np.power(x, b.ex - 2)
+  [IPOPT] Solver status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+  [IPOPT] Verification: valid=True, obj=27.190653, viol=0.00e+00
+    [ALM-SQP] it=0 running=33/33 accepted=32 feasible=33 best=27.1907 |d|=1.00e-01
+    [ALM-SQP] it=1 running=33/33 accepted=32 feasible=33 best=27.1907 |d|=8.09e-01
+    [ALM-SQP] it=2 running=22/33 accepted=24 feasible=33 best=27.1907 |d|=3.98e-08
+    [ALM-SQP] Optimality polish: candidates=1+32 iters=4 feasible=33 improved=1 best_feas_obj=27.1907->27.1907 time=0.44s
+    [ALM-PGD] Unified root: restored basin matches the certificate after outer iteration 0; inner work=204
+  [ALM] Verification: valid=True, obj=27.190653, viol=0.00e+00
+  [Root] Parallel done: IPOPT 2.12s, ALM 6.54s
+
+======================================================================
+NLP Solver Comparison Results
+======================================================================
+
+Local Solver (IPOPT):
+  Success: True
+  Objective: 27.190653
+  Violation: 0.00e+00
+  Time: 2.12s
+  Verified: True
+  Status: cyipopt: Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).
+
+ALM-PGD:
+  Success: True
+  Objective: 27.190653
+  Violation: 0.00e+00
+  Time: 6.54s
+  Verified: True
+  Outer iterations: 1
+  Final rho: 1.0
+  Warm-start source: None
+
+Best method: alm
+Best objective: 27.190653
+======================================================================
+NLP Comparison: Best objective = 27.190653 (not counterexample)
+  Local (IPOPT): verified=True, obj=27.190652909663015, time=2.12s
+  ALM:   verified=True, obj=27.19065290966301, time=6.54s
+======================================================================
+[ALM-BaB] Shared B*R budget overridden by user: budget=20480
+[Op] nlp t=12.665 s=6.5662 work=1 dD=0 dP=0
+[Op] search_state t=12.666 s=0.0011 work=1 dD=0 dP=0
+[Op] incumbent t=12.666 s=0.0001 work=1 dD=0 dP=inf
+[QTB] objective is quadratic; tangent bound enabled (lambda_min >= 174.5, tangent at local KKT point f=27.19065291)
+[Op] tangent t=12.971 s=0.3054 work=1 dD=0 dP=0
+[Op] consistency t=12.972 s=0.0001 work=1 dD=0 dP=0
+[Op] domain_list t=12.972 s=0.0001 work=1 dD=0 dP=0
+[Op] symmetry t=12.972 s=0.0006 work=1 dD=0 dP=0
+[GP certificate] {'reason': 'root box is not finite and strictly positive'}
+[Op] gp_certificate t=12.974 s=0.0012 work=1 dD=0 dP=0
+[exp certificate] {'reason': 'no exp substitution'}
+[Op] exp_certificate t=12.976 s=0.0018 work=1 dD=0 dP=0
+[Op] convex_cuts t=12.977 s=0.0011 work=1 dD=0 dP=0
+[LiftedLP] skipped: every constraint row is linear (QTB covers the convex objective)
+[LiftedLP] not applicable (0.14s)
+[Op] lifted_lp t=13.120 s=0.1435 work=1 dD=0 dP=0
+[Op] lifted_obbt t=13.121 s=0.0001 work=1 dD=0 dP=0
+[Op] lifted_bab t=13.155 s=0.0342 work=1 dD=0 dP=0
+	Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+	Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+[Op] initial_domains t=13.165 s=0.0103 work=1 dD=0 dP=0
+[M3] compiler complete=False squares=0 census={'non-affine objective': 1} declined: needs complete rows and signed squares
+Iteration 1
+####################################################################################
+##                                  Primal Solving                                ##
+####################################################################################
+####################################################################################
+##                                   Dual Solving                                 ##
+####################################################################################
+	Current pickout batch: 2
+	All the added constraints fully cover the input space. No need to apply constraints .
+	All the added constraints fully cover the input space. No need to apply constraints .
+	[QTB] native CROWN eigenbasis rewrite: free=2 lambda=[174.5, 174.5] negative=0 residual=2.48e-07 f(anchor)=27.19065291
+	================= Dual Filter Report ================= 
+		Check lb filtering: batch size: 2, filter from obj: 1, filter from constr: 0, non-finite lbs kept: 0
+	All the added constraints fully cover the input space. No need to apply constraints .
+	All the added constraints fully cover the input space. No need to apply constraints .
+		Check lb filtering: batch size: 2, filter from obj: 0, filter from constr: 0, non-finite lbs kept: 0
+		Check input filtering: batch size: 2, filter from input: 0, non-finite boxes kept: 0
+	================== Dual Veri Report ================== 
+		Time: sort_domains 0.0000    pickout 0.0107    init 0.0002    concretize 0.0002    bounding 0.9975    filtering 0.0005    decision 0.0002    strong_branch 1.0162    split 0.0004    clip 0.0006    add_domain 0.0007    summary 0.0002    
+		Accumulated time: sort_domains 0.0000    pickout 0.0107    bounding 0.9975    init 0.0012    concretize 0.0012    filtering 0.0005    decision 0.0002    strong_branch 1.0162    split 0.0004    clip 0.0006    add_domain 0.0007    summary 0.0002    
+		Length of domains: 2
+		3 domains visited
+		Dual Solution This Iter: 27.190652859941935
+####################################################################################
+##                                 Solving Results                                ##
+####################################################################################
+	Primal Solution tensor([27.19065291], device='cuda:0'), Dual Solution 27.190652859941935
+	Solution gap: 4.9721077033382244e-08
+	[Op] sort_domains t=15.195 s=0.0000 work=2 dD=0 dP=0
+	[Op] pickout t=15.195 s=0.0107 work=2 dD=0 dP=0
+	[Op] split t=15.195 s=0.0004 work=2 dD=0 dP=0
+	[Op] bounding t=15.195 s=0.9975 work=2 dD=5.8943e+81 dP=0
+	[Op] filtering t=15.195 s=0.0005 work=2 dD=0 dP=0
+	[Op] clip t=15.195 s=0.0006 work=2 dD=0 dP=0
+	[Op] decision t=15.195 s=0.0002 work=2 dD=0 dP=0
+	[Op] strong_branch t=15.195 s=1.0162 work=2 dD=0 dP=0
+	[Op] add_domain t=15.195 s=0.0007 work=2 dD=0 dP=0
+	[Op] summary t=15.195 s=0.0002 work=2 dD=0 dP=0
+	[Op] lifted_bab t=15.195 s=0.0000 work=1 dD=0 dP=0
+	Found optimal object: tensor([27.19065291], device='cuda:0')
+[best-primal] objective=27.19065290966301 x=[0.7670499538981224, 0.0]
+problem_name=schitt_s332 status=verified success=True
+
+#RUNNER rc=0 elapsed=16.00 waited=0.0

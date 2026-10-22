@@ -1,0 +1,104 @@
+
+=== ATTEMPT 1 ===
+RUN_METADATA solver=gurobi version='gurobi (AMPL module); cfg=g0_std:2294f863052a' family=minlplib_linear instance=kriging_peaks-full010 model=benchmarks/minlplib/minlplib_mods/kriging_peaks-full010.mod model_sha256=02817c396c358959dc7b91d904ff4e501a027e595c0a6fccc58ae29c0439f2e6 time_limit=180 solver_threads=16 process_threads=16 jobs=1 initialization=model_default options='lim:time=180 tech:threads=16 tech:outlev=1 mip:gap=1e-4 mip:gapabs=1e-5 alg:feastol=1e-6' config_hash=5c081d0b6a685cccdfe39b8c60c93e910382ed7099deb7954cd2fc73c37a4e07
+Gurobi 13.0.3:   lim:time = 180
+  tech:threads = 16
+Set parameter LogToConsole to value 1
+  tech:outlev = 1
+Set parameter MIPGap to value 0.0001
+  mip:gap = 0.0001
+Set parameter MIPGapAbs to value 1e-05
+  mip:gapabs = 1.0000000000000001e-05
+Set parameter FeasibilityTol to value 1e-06
+  alg:feastol = 9.9999999999999995e-07
+
+AMPL MP initial flat model has 26 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  14 linear; 20 quadratic;
+Algebraic expressions:  10 exp; 10 powc;
+
+AMPL MP final model has 56 variables (0 integer, 0 binary);
+Objectives: 1 linear; 
+Constraints:  14 linear; 20 quadratic;
+Algebraic expressions:  10 exp; 10 powc;
+
+
+Set parameter InfUnbdInfo to value 1
+Gurobi Optimizer version 13.0.3 build v13.0.3rc0 (linux64 - "Ubuntu 24.04.3 LTS")
+
+CPU model: AMD Ryzen 7 9700X 8-Core Processor, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Non-default parameters:
+TimeLimit  180
+MIPGapAbs  1e-05
+InfUnbdInfo  1
+Threads  16
+
+Optimize a model with 4 rows, 56 columns and 17 nonzeros (Min)
+Model fingerprint: 0x3276ff08
+Model has 1 linear objective coefficients
+Model has 20 quadratic constraints
+Model has 20 general nonlinear constraints (20 nonlinear terms)
+Variable types: 56 continuous, 0 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e-01, 2e+00]
+  QMatrix range    [4e-01, 6e+01]
+  QLMatrix range   [9e-02, 1e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+07]
+  RHS range        [5e-01, 7e-01]
+  QRHS range       [5e-01, 5e+01]
+  NLCon coe range  [2e+00, 2e+00]
+
+Added 10 variables to disaggregate expressions
+Presolve added 5 rows and 0 columns
+Presolve removed 0 rows and 24 columns
+Presolve time: 0.00s
+Presolved: 167 rows, 66 columns, 382 nonzeros
+Presolved model has 22 bilinear constraint(s)
+Presolved model has 20 nonlinear constraint(s)
+
+Solving non-convex NLP to global optimality
+
+Variable types: 66 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 0.3839761
+
+Root relaxation: objective -5.793855e+01, 63 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  -57.93855    0   37    0.38398  -57.93855      -     -    0s
+     0     0  -55.75233    0   35    0.38398  -55.75233      -     -    0s
+     0     0  -55.42194    0   37    0.38398  -55.42194      -     -    0s
+     0     0  -55.26603    0   37    0.38398  -55.26603      -     -    0s
+     0     0  -55.20965    0   37    0.38398  -55.20965      -     -    0s
+     0     0  -47.84756    0   39    0.38398  -47.84756      -     -    0s
+     0     2  -47.84756    0   39    0.38398  -47.84756      -     -    0s
+H    1     4                       0.2911208  -47.84756      -   0.0    0s
+H  270    75                       0.2911206   -3.30066  1234%   9.0    0s
+H  280    75                       0.2911205   -1.98516   782%   9.1    0s
+H 3575   107                       0.2911204    0.29065  0.16%   6.4    0s
+* 4187   258              76       0.2911199    0.29109  0.01%   6.3    0s
+* 4246   258              55       0.2911199    0.29109  0.01%   6.3    0s
+* 4622   258              60       0.2911193    0.29110  0.01%   6.0    0s
+
+Cutting planes:
+  RLT: 5
+
+Explored 5007 nodes (28923 simplex iterations) in 0.19 seconds (0.15 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 6: 0.291119 0.29112 0.29112 ... 0.383976
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.911205639611e-01, best bound 2.911039867914e-01, gap 0.0057%
+Gurobi 13.0.3: optimal solution; objective 0.291120564
+28923 simplex iterations
+5007 branching nodes
+absmipgap=1.65772e-05, relmipgap=5.69426e-05
+HARNESS_RESULT solver=gurobi family=minlplib_linear instance=kriging_peaks-full010 solve_result=solved solve_result_num=0 objective=0.29112056396112218 constraint_violation=4.7684477011422643e-07 variable_violation=0 nvars=26 ncons=24 elapsed=0.194686
+RESOURCE_USAGE wall=0.20 user=2.43 sys=0.14 maxrss_kb=59316 cpu_pct=1274% exit=0
+ATTEMPT_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.214209093 initialization=model_default config_hash=5c081d0b6a685cccdfe39b8c60c93e910382ed7099deb7954cd2fc73c37a4e07
+RUNNER_RESULT status=completed exit_code=0 timed_out=0 wall_time=0.214304922 config_hash=5c081d0b6a685cccdfe39b8c60c93e910382ed7099deb7954cd2fc73c37a4e07
