@@ -8,7 +8,8 @@ Criteria (per solver run, per instance)
       'solved' and closed solver bounds (gap <= 1e-6) consistent with the AMPL
       objective.
   (b) uniform standard: AMPL-audited violation <= 1e-6 and the solver's own final
-      primal P_s and dual D_s with |P_s - D_s| <= max(1e-5, 1e-4*max(1,|P_s|,|D_s|)),
+      primal P_s and dual D_s with relative gap |P_s - D_s| / max(1,|P_s|,|D_s|) <= 1e-4 (tol_b's 1e-5 floor
+      never binds, since 1e-4*max(1,...) >= 1e-4),
       and the AMPL objective within the same tolerance of P_s (the returned point
       is the one the solver priced).  AMPL status 'solved?' (the solver warns that
       the result may be wrong, e.g. BARON "Globality is therefore not guaranteed")
@@ -38,6 +39,15 @@ NUM = r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"
 GLOBAL = ["baron", "couenne", "scip", "lindoglobal", "gurobi", "xpress"]
 LOCAL = ["lgo", "knitro", "ipopt", "snopt", "minos", "conopt"]
 INF = 1e19
+# Final run of each solver. SCIP's final configuration (s2_obbt_pow1: s2_obbt with powers of sums kept unexpanded,
+# expr/pow/expandmaxexponent = 1) was found on the full benchmark after tuning; it certifies 8 more instances and loses
+# none. The replaced final run stays in the pool of points that can contradict a certificate.
+FINAL_RUN = {"scip": "final_scip_pow1"}
+REPLACED = [(f"final_{s}", s) for s in FINAL_RUN]
+
+
+def final_run(solver: str) -> str:
+    return FINAL_RUN.get(solver, f"final_{solver}")
 
 
 def tol_b(p: float, d: float) -> float:

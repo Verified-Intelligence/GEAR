@@ -2,12 +2,14 @@
 and the global union. Writes results/final_table.json."""
 import bl_eval as ev, collections, json
 from collections import defaultdict
-final = {s: ev.eval_run(f"final_{s}", s) for s in ev.GLOBAL + ev.LOCAL if (ev.RUNS / f"final_{s}" / "logs" / s).exists()}
+final = {s: ev.eval_run(ev.final_run(s), s) for s in ev.GLOBAL + ev.LOCAL if (ev.RUNS / ev.final_run(s) / "logs" / s).exists()}
 pool = []
 for run in ev.RUNS.glob("tune_*"):
     sv = next(iter((run / "logs").glob("*")), None)
     if sv: pool += ev.eval_run(run.name, sv.name)
 for rows in final.values(): pool += rows
+for run, s in ev.REPLACED:
+    if (ev.RUNS / run / "logs" / s).exists(): pool += ev.eval_run(run, s)
 best = ev.best_known(pool)
 for s in ev.GLOBAL: ev.mark_sound(final[s], best)
 INFEAS = ev.credit_infeasible(final, pool)

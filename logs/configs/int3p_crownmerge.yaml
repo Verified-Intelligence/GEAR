@@ -1,6 +1,10 @@
-# GEAR r7 configuration (v406 release, commit 7b2e88ea0); the configuration of every run in gear.tar.xz
+# int3: int2 + lp_certificate_transfer (dcert) + aux_reference_bounds (daux), controller off
 model:
-  bound_opts: '{''domain_aware_ops'': True, ''compare_crown_with_ibp_intermediate'': True, ''undefined_relaxation_rows'': True, ''pow_negative_exponent'': True, ''pow_variable_exponent_exp_log'': True, ''hidden_square_rewrite'': True, ''undefined_relaxation_interval'': True, ''complete_square_rewrite'': True, ''square_row_to_abs'': True, ''objective_row_alias'': True}'
+  bound_opts: '{''domain_aware_ops'': True, ''compare_crown_with_ibp_intermediate'':
+    True, ''undefined_relaxation_rows'': True, ''pow_negative_exponent'': True, ''pow_variable_exponent_exp_log'':
+    True, ''hidden_square_rewrite'': True, ''undefined_relaxation_interval'': True,
+    ''complete_square_rewrite'': True, ''square_row_to_abs'': True, ''objective_row_alias'':
+    True}'
 general:
   root_path: ../../nlp_benchmarks/nlplib
   csv_name: instances_new.csv
@@ -14,6 +18,15 @@ solver:
   crown:
     compare_crown_with_ibp: false
   nlp:
+    sparse_derivatives: true
+    lp_alternation: true
+    lp_certificate_transfer: true
+    aux_reference_bounds: true
+    unified_root: true
+    struct_cert_diameter: true
+    struct_cert_assignment: true
+    struct_cert_eigenblock: true
+    m3_reduce: true
     enabled: true
     method: ipopt
     enable_alm: true
@@ -28,6 +41,7 @@ solver:
     dual_lp_exact_max: 16
     dual_bound_record_all: true
     quadratic_tangent_bound: true
+    qtb_crown_rewrite: true
     ipopt_constraint_slack_frac: 0.99
     root_lp_local_start: true
     concretize_max_constraint_rows: 16
@@ -38,6 +52,7 @@ solver:
     convex_tangent_objective: true
     convex_tangent_rows: true
     gp_certificate: true
+    gp_crown: true
     clear_denominators: true
     lifted_lp_rlt: true
     bab_alm_stop_after_failures: 4
@@ -100,6 +115,9 @@ solver:
     root_parallel: true
     alm_outer_max_iter: 20
     alm_inner_steps: 200
+    lifted_lp_node_cutoff: true
+    lifted_lp_rlt_full_budget: false
+    lifted_lp_node_obbt_gain: false
 bab:
   sort_domain_interval: 1
   lazy_sort_domains: true

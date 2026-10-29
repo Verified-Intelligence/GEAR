@@ -20,8 +20,8 @@ NFAM = {"gams_world": 265, "minlplib_linear": 240}
 def main():
     all_rows, final = [], {}
     for s in ev.GLOBAL + ev.LOCAL:
-        if (ev.RUNS / f"final_{s}" / "logs" / s).exists():
-            final[s] = ev.eval_run(f"final_{s}", s)
+        if (ev.RUNS / ev.final_run(s) / "logs" / s).exists():
+            final[s] = ev.eval_run(ev.final_run(s), s)
     pool = []
     for run in ev.RUNS.glob("*"):
         if run.name.startswith(("tune_",)):
@@ -30,6 +30,9 @@ def main():
                 pool += ev.eval_run(run.name, sv.name)
     for rows in final.values():
         pool += rows
+    for run, s in ev.REPLACED:
+        if (ev.RUNS / run / "logs" / s).exists():
+            pool += ev.eval_run(run, s)
     best = ev.best_known(pool)
     for s in ev.GLOBAL:
         if s in final:
@@ -113,8 +116,8 @@ def main():
     out = []
     P = out.append
     P("# Baseline campaign: competitor solvers on the 505-instance set (180 s, 16 logical CPUs)\n")
-    P("Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <= "
-      "max(1e-5, 1e-4*max(1,|P|,|D|)). Counts are *sound* (certificates contradicted by any "
+    P("Single credited standard: 1e-6 audited feasibility + solver's own P/D with relative gap "
+      "(P-D)/max(1,|P|,|D|) <= 1e-4. Counts are *sound* (certificates contradicted by any "
       "run's point at the same feasibility level are removed). Local solvers and LGO are never "
       "credited with proofs.\n")
     for lvl, name in (("b", "uniform standard (1e-6 feasibility, gap rule)"),):
@@ -153,6 +156,10 @@ def main():
         c = json.loads(f.read_text())
         P(f"\n### {c['solver']}: **{c['name']}** (layout {c['jobs']} jobs x {c['threads']} threads)\n")
         P(f"options: `{c['options']}`  native: `{c['native'].strip()!r}`  notes: {c['notes']}\n")
+        if c["solver"] in ev.FINAL_RUN:
+            fc = json.loads((ROOT / "configs" / "chosen" / f"{c['solver']}_cfg.json").read_text())
+            P(f"final run `{ev.FINAL_RUN[c['solver']]}` uses **{fc['name']}** (`configs/chosen/{c['solver']}_cfg.json`): {fc['notes']}; "
+              "found on the full benchmark after tuning (harness/bl_eval.py, FINAL_RUN)\n")
         t = c.get("tuned", {})
         if "all" in t:
             P("| config | a_sound | b_sound | a_raw | b_raw | contra_a | contra_b |\n|---|---|---|---|---|---|---|")

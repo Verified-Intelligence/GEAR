@@ -22,12 +22,14 @@
   - Gurobi, Xpress and SCIP solve one instance at a time with 16 threads; SCIP runs in concurrent mode.
   - All other solvers run 16 instances in parallel with one thread each.
 - Solver tolerances: feasibility 1e-6, relative gap 1e-4, absolute gap 1e-5.
-- One configuration per solver, chosen on `configs/subset40.txt`.
+- One configuration per solver, chosen on `configs/subset40.txt`. SCIP's final runs use `s2_obbt_pow1`, the tuned `s2_obbt` with powers of sums kept
+  unexpanded (`expr/pow/expandmaxexponent = 1`): this setting was found on the full benchmark after tuning, certifies 8 more instances and
+  loses none, so it favours SCIP (`harness/bl_eval.py`, `FINAL_RUN`; the earlier `s2_obbt` run stays in the pool of contradicting points).
 
 ## Solved
 
 - Feasibility is checked by re-evaluating the returned point in AMPL. The maximum violation over all constraints and variable bounds must be at most 1e-6.
-- **Global solvers** (BARON, Couenne, SCIP, LindoGlobal, Gurobi, Xpress): solved if the point is feasible and the solver's primal and dual bounds satisfy P - D <= max(1e-5, 1e-4 * max(1, |P|, |D|)).
+- **Global solvers** (BARON, Couenne, SCIP, LindoGlobal, Gurobi, Xpress): solved if the point is feasible and the solver's primal and dual bounds have relative gap (P - D) / max(1, |P|, |D|) <= 1e-4.
   - Convex runs that finish without a branch-and-bound log are certified by their final objective: Gurobi `Optimal objective` (no `Solving non-convex`), Xpress `Final objective` or `Final MIQP objective (global optimum)`, and BARON problems solved during preprocessing (objective from the driver line).
   - A global solver's `infeasible` verdict is credited as solved when the instance is confirmed infeasible: no run of any solver returned a point feasible at 1e-6, and at least two global solvers report infeasible within 180 s (only `gams_world/mosel_start_folioqpgraph`). Local solvers get no credit for infeasibility.
   - The certificate is not counted if the solver returns AMPL status `solved?` (for example BARON's "Globality is therefore not guaranteed"), or if any run found a feasible point better than the certified bound.
@@ -37,20 +39,20 @@
 
 | Solver | gams_world | minlplib_linear | Total | % |
 |---|---|---|---|---|
-| SCIP | 201 | 155 | 356 | 70.5 |
+| SCIP | 209 | 155 | 364 | 72.1 |
 | Gurobi | 227 | 174 | 401 | 79.4 |
 | BARON | 168 | 129 | 297 | 58.8 |
 | Couenne | 182 | 100 | 282 | 55.8 |
 | LindoGlobal | 164 | 110 | 274 | 54.3 |
 | Xpress | 176 | 120 | 296 | 58.6 |
-| Knitro | 230 | 170 | 400 | 79.2 |
+| Knitro | 231 | 170 | 401 | 79.4 |
 | IPOPT | 203 | 117 | 320 | 63.4 |
-| CONOPT | 204 | 91 | 295 | 58.4 |
+| CONOPT | 205 | 91 | 296 | 58.6 |
 | LGO | 206 | 78 | 284 | 56.2 |
 | MINOS | 193 | 53 | 246 | 48.7 |
 | SNOPT | 182 | 51 | 233 | 46.1 |
 
-426 instances (242 gams_world, 184 minlplib_linear) are solved by at least one global solver.
+427 instances (243 gams_world, 184 minlplib_linear) are solved by at least one global solver.
 
 ## Versions
 
@@ -78,7 +80,7 @@ python -m amplpy.modules activate <license-uuid>
 
 cd baselines
 bash harness/run_campaign.sh          # tuning on subset40, then final runs for all solvers
-python harness/bl.py drive --config configs/chosen/scip_cfg.json --run final_scip --time-limit 180   # one solver
+python harness/bl.py drive --config configs/candidates/scip/s2_obbt_pow1.json --run final_scip_pow1 --time-limit 180   # SCIP's final run
 python harness/final_table.py         # results/final_table.json
 python harness/report.py              # results/per_instance_*.tsv, results/report.md
 ```

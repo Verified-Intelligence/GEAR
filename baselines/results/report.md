@@ -1,6 +1,6 @@
 # Baseline campaign: competitor solvers on the 505-instance set (180 s, 16 logical CPUs)
 
-Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <= max(1e-5, 1e-4*max(1,|P|,|D|)). Counts are *sound* (certificates contradicted by any run's point at the same feasibility level are removed). Local solvers and LGO are never credited with proofs.
+Single credited standard: 1e-6 audited feasibility + solver's own P/D with relative gap (P-D)/max(1,|P|,|D|) <= 1e-4. Counts are *sound* (certificates contradicted by any run's point at the same feasibility level are removed). Local solvers and LGO are never credited with proofs.
 
 
 ## Solved@180s, global solvers, criterion uniform standard (1e-6 feasibility, gap rule)
@@ -9,7 +9,7 @@ Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <
 |---|---|---|---|---|
 | baron | 168 | 129 | 297 | 58.8 |
 | couenne | 182 | 100 | 282 | 55.8 |
-| scip | 201 | 155 | 356 | 70.5 |
+| scip | 209 | 155 | 364 | 72.1 |
 | lindoglobal | 164 | 110 | 274 | 54.3 |
 | gurobi | 227 | 174 | 401 | 79.4 |
 | xpress | 176 | 120 | 296 | 58.6 |
@@ -19,20 +19,20 @@ Single credited standard: 1e-6 audited feasibility + solver's own P/D with P-D <
 | Solver | gams_world | minlplib | Matched@180s | Matched % |
 |---|---|---|---|---|
 | lgo | 206 | 78 | 284 | 56.2 |
-| knitro | 230 | 170 | 400 | 79.2 |
+| knitro | 231 | 170 | 401 | 79.4 |
 | ipopt | 203 | 117 | 320 | 63.4 |
 | snopt | 182 | 51 | 233 | 46.1 |
 | minos | 193 | 53 | 246 | 48.7 |
-| conopt | 204 | 91 | 295 | 58.4 |
+| conopt | 205 | 91 | 296 | 58.6 |
 
 ## Union sizes
 
 | Set | size | gams_world | minlplib |
 |---|---|---|---|
-| all global solvers | 426 | 242 | 184 |
-| all global + local-matched | 426 | 242 | 184 |
+| all global solvers | 427 | 243 | 184 |
+| all global + local-matched | 427 | 243 | 184 |
 | (extra, not credited) strict 1e-8/1e-6-gap global | 349 | | |
-| (diagnostic) raw unfiltered global union | 432 | | |
+| (diagnostic) raw unfiltered global union | 433 | | |
 
 ## Chosen configurations and tuning evidence
 
@@ -94,6 +94,8 @@ options: `maxtime={time} threads={threads} outlev=1 epsr=1e-4 epsa=1e-5`  native
 ### scip: **s2_obbt** (layout 1 jobs x 16 threads)
 
 options: `lim:time={time} lp:threads=1 tech:outlev=1 tech:timing=2 alg:concurrent=1 par:minnthreads={threads} par:maxnthreads={threads} par:mode=0`  native: `'numerics/feastol = 1e-6\nlimits/gap = 1e-4\nlimits/absgap = 1e-5\nseparating/rlt/freq = 10\nseparating/rlt/detecthidden = TRUE\nseparating/rlt/onlyoriginal = FALSE\npropagating/obbt/onlynonconvexvars = FALSE\npropagating/obbt/freq = 10'`  notes: s1 + OBBT in the tree (bound tightening up)
+
+final run `final_scip_pow1` uses **s2_obbt_pow1** (`configs/chosen/scip_cfg.json`): s2_obbt + expr/pow/expandmaxexponent = 1 (default 2): squared sums are not expanded; found on the full benchmark after tuning (harness/bl_eval.py, FINAL_RUN)
 
 | config | a_sound | b_sound | a_raw | b_raw | contra_a | contra_b |
 |---|---|---|---|---|---|---|

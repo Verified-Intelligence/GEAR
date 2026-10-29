@@ -33,7 +33,7 @@ bonmin.allowable_gap 1e-5
 
 ## scip
 
-- config: `s2_obbt`; layout: 1 instance at a time, 16 threads, concurrent mode (`alg:concurrent=1`, 16-way opportunistic solve) (jobs=1, threads=16)
+- config: `s2_obbt_pow1` (the tuned `s2_obbt` plus `expr/pow/expandmaxexponent = 1`, found on the full benchmark; see README); layout: 1 instance at a time, 16 threads, concurrent mode (`alg:concurrent=1`, 16-way opportunistic solve) (jobs=1, threads=16)
 - AMPL option string (`option scip_options`): `lim:time={time} lp:threads=1 tech:outlev=1 tech:timing=2 alg:concurrent=1 par:minnthreads={threads} par:maxnthreads={threads} par:mode=0`
 - native settings file (read through `tech:param:read=<run>/config/native.txt`):
 ```
@@ -45,9 +45,10 @@ separating/rlt/detecthidden = TRUE
 separating/rlt/onlyoriginal = FALSE
 propagating/obbt/onlynonconvexvars = FALSE
 propagating/obbt/freq = 10
+expr/pow/expandmaxexponent = 1
 ```
 - process environment: `{"OMP_NUM_THREADS": "16", "OPENBLAS_NUM_THREADS": "16", "MKL_NUM_THREADS": "16", "BLIS_NUM_THREADS": "16", "NUMEXPR_NUM_THREADS": "16"}`
-- command: `python harness/bl.py drive --config configs/chosen/scip_cfg.json --run final_scip --time-limit 180`
+- command: `python harness/bl.py drive --config configs/candidates/scip/s2_obbt_pow1.json --run final_scip_pow1 --time-limit 180` (`harness/run_campaign.sh` runs the tuned `s2_obbt` as `final_scip`)
 
 ## lindoglobal
 
