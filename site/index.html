@@ -299,7 +299,7 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
     <div class="tblwrap"><table class="res" id="restab" aria-label="Instances solved per solver"></table></div>
     <p class="tnote" id="modeNote"></p>
     <div class="fig"><p class="ft">Certified instances over time</p>
-      <p class="fs">Instances certified within <i>t</i> seconds, on a log time axis; hover to read every solver at one time.</p>
+      <p class="fs">Instances certified within <i>t</i> seconds; hover to read every solver at one time.</p>
       <div class="chart" id="cactus"></div></div>
     <div class="fig"><p class="ft">Who certifies what the other misses</p>
       <p class="fs">Instances certified by GEAR but not by the solver (right), and by the solver but not by GEAR (left).</p>
@@ -707,17 +707,17 @@ every number on this page is computed from the released results.</footer>
   function cactus() {
     const host = document.getElementById('cactus');
     const W = Math.max(300, host.clientWidth), H = Math.round(Math.min(460, Math.max(300, W * 0.5)));
-    const ids = members(), labW = W < 420 ? 98 : 110, ml = 40, mr = labW + 8, mt = 12, mb = 40, t0 = 0.01, T = D.limit, ymax = 450;
-    const X = t => ml + (Math.log10(Math.max(t, t0)) - Math.log10(t0)) / (Math.log10(T) - Math.log10(t0)) * (W - ml - mr);
+    const ids = members(), labW = W < 420 ? 98 : 110, ml = 40, mr = labW + 8, mt = 12, mb = 40, T = D.limit, ymax = 450;
+    const X = t => ml + Math.min(Math.max(t, 0), T) / T * (W - ml - mr);
     const Y = v => mt + (1 - v / ymax) * (H - mt - mb);
     let g = '';
     [0, 100, 200, 300, 400].forEach(v => { g += '<line class="gl" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/><text class="tk" x="' + (ml - 6) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>'; });
-    [[0.01, '0.01'], [0.1, '0.1'], [1, '1'], [10, '10'], [60, '60'], [180, '180 s']].forEach(([t, l]) => {
+    [0, 30, 60, 90, 120, 150, 180].map(t => [t, t === 180 ? '180 s' : String(t)]).forEach(([t, l]) => {
       g += '<line class="gl" x1="' + X(t) + '" x2="' + X(t) + '" y1="' + mt + '" y2="' + (H - mb) + '"/><text class="tk" x="' + X(t) + '" y="' + (H - mb + 16) + '" text-anchor="middle">' + l + '</text>'; });
     g += '<text class="axl" x="' + ((ml + W - mr) / 2) + '" y="' + (H - 6) + '" text-anchor="middle">time limit per instance (s)</text>';
     g += '<line class="ax" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + Y(0) + '" y2="' + Y(0) + '"/>';
     ids.slice().sort((a, b) => (a in HI) - (b in HI) || (a === 'gear') - (b === 'gear')).forEach(id => {
-      let d = 'M' + X(t0).toFixed(1) + ' ' + Y(0).toFixed(1), n = 0;
+      let d = 'M' + X(0).toFixed(1) + ' ' + Y(0).toFixed(1), n = 0;
       D.cactus[id].forEach(t => { n++; d += 'H' + X(t).toFixed(1) + 'V' + Y(n).toFixed(1); });
       d += 'H' + X(T).toFixed(1);
       g += '<path d="' + d + '" fill="none" stroke="' + col(id) + '" stroke-width="' + (id === 'gear' ? 3 : id in HI ? 2 : 1.5) + '" stroke-linejoin="round"/>';
@@ -741,7 +741,7 @@ every number on this page is computed from the released results.</footer>
     const move = e => {
       const r = host.getBoundingClientRect(), px = (e.touches ? e.touches[0].clientX : e.clientX) - r.left, py = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
       if (px < ml || px > W - mr) { cx.setAttribute('visibility', 'hidden'); tip.hide(); return; }
-      const t = Math.pow(10, Math.log10(t0) + (px - ml) / (W - ml - mr) * (Math.log10(T) - Math.log10(t0)));
+      const t = (px - ml) / (W - ml - mr) * T;
       cx.setAttribute('x1', px); cx.setAttribute('x2', px); cx.setAttribute('visibility', 'visible');
       const rows = ids.map(id => [id, at(id, t)]).sort((a, b) => b[1] - a[1]);
       tip.show('<b>within ' + (t < 1 ? t.toFixed(2) : t < 10 ? t.toFixed(1) : t.toFixed(0)) + ' s</b>' + rows.map(([id, v]) =>
