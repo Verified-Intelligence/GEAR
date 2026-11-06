@@ -223,6 +223,12 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
 .cause p small { color:var(--muted); font-weight:400; margin-left:6px; }
 .cause .chips { margin-top:8px; }
 @media (max-width:720px) { .two-find { grid-template-columns:minmax(0, 1fr); } }
+.thesis{font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-weight:600;color:var(--strong);margin:0 0 14px}
+.usebox{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center;margin:14px auto}
+.usebox img{max-width:min(100%,430px);height:auto;flex:1 1 280px}
+.fig-md img{max-width:min(100%,560px);display:block;margin:0 auto}
+.fig-lg img{max-width:min(100%,840px);display:block;margin:0 auto}
+.envlabels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center;font-size:13px;color:var(--strong);margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -249,26 +255,16 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
 <main>
 <section class="s" id="overview" aria-label="Overview">
   <div class="narrow">
-    <p class="intro">Given a bounded nonlinear program, <b>GEAR</b> returns a feasible point and a lower bound within a relative gap of 10<sup>&minus;4</sup>,
-    which certifies the global optimum. It builds on the linear bound propagation that verifies neural networks: the same linear bounds give a constraint-aware lower
-    bound, clip the boxes, prove infeasibility, start the primal search and pick where to branch, for one box or for many in a GPU step. On 505 problems from GAMS and MINLPLib, GEAR certifies 421 within 180&nbsp;s, more than each of six global solvers, including Gurobi.</p>
+    <p class="thesis">Bound propagation already computes an LP relaxation of every box. Its dual is closed form, so a valid bound needs no LP solve.</p>
+    <p class="intro"><b>GEAR</b> builds a global solver for bounded nonlinear programs on that observation. All boxes form one tensor of linear bounds, and the same tensor gives the lower bound, tests infeasibility, clips the boxes, starts the primal search and picks where to branch. A run returns a feasible point and a lower bound within a relative gap of 10<sup>&minus;4</sup>. On 505 problems from GAMS and MINLPLib, GEAR certifies 421 within 180&nbsp;s, more than each of six global solvers, including Gurobi.</p>
   </div>
   <div class="wrap stats">
     <div class="stat lead-stat"><b>421<small> / 505</small></b><span>certified in 180&nbsp;s, the most of the 13 solvers</span></div>
     <div class="stat"><b>+20</b><span>over Gurobi (401); SCIP certifies 364</span></div>
     <div class="stat"><b>16</b><span>certified by GEAR and by none of six global solvers</span></div>
-    <div class="stat"><b>1 GPU</b><span>one RTX&nbsp;5090, one configuration for all instances</span></div>
+    <div class="stat"><b>1 machine</b><span>16 CPU threads, one RTX&nbsp;5090, one configuration for all instances</span></div>
   </div>
 
-  <h3>Certified only by GEAR</h3>
-  <p class="cap">Relative gap between the best known optimum and each solver&rsquo;s certified lower bound, over time. GEAR closes it within seconds;
-  the six global solvers end their 180&nbsp;s with the gap still open.</p>
-  <div class="car" id="car">
-    <button class="arrow l" type="button" aria-label="Previous instance">&#8249;</button>
-    <div class="track" id="track"></div>
-    <button class="arrow r" type="button" aria-label="Next instance">&#8250;</button>
-    <div class="dots" id="dots" role="tablist" aria-label="Instances"></div>
-  </div>
 </section>
 
 <section class="s" id="method" aria-labelledby="h-method">
@@ -277,31 +273,49 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
     <p>A neural network verifier bounds the outputs of a computation graph over a box of inputs. Linear bound propagation does this with a linear
     lower and upper bound for every output, and it runs on GPUs for thousands of boxes at once. A nonlinear program over a box is a computation
     graph too: its objective and constraints are the outputs.</p>
-    <p>Verification alone is not a solver. It bounds each output separately, so a box keeps a low objective bound that comes from infeasible
-    points, and it keeps no feasible point to prune against. The linear bounds relax every constraint, and their Lagrangian combination is a
-    lower bound that GEAR evaluates in closed form for every box. The price is a looser bound per box than an LP with all McCormick planes. Where
-    that is not enough, root certificates and a lifted linear relaxation tighten the bound, and a GPU branch-and-bound splits the boxes that stay open.</p>
+    <p>Verification alone is not a solver. Its bound minimizes over the whole box, so a box keeps a low bound that comes from infeasible points however far it is split, and it keeps no feasible point to prune against. The step that changes this is to read the linear bounds of the constraints as what they are.</p>
   </div>
+
+  <h3>The linear bounds are already an LP</h3>
+  <p class="cap">On one box, each constraint has a linear lower bound, so every feasible point satisfies <i>Ax</i>&nbsp;+&nbsp;<i>c</i>&nbsp;&le;&nbsp;0. With the objective&rsquo;s linear bound, that is an LP relaxation of the box, on every box, from one propagation over all outputs.</p>
+  <figure class="figure fig-md"><img src="figures/lp_3.svg" alt="One box with two nonlinear constraints, the true feasible set, and the polyhedron from their two linear bounds, which contains it. The LP optimum is 1.2 and the true optimum 1.6." loading="lazy">
+    <figcaption>Curves: two nonlinear constraints. Green lines: their linear bounds. An illustration on one 2-D box.</figcaption></figure>
+  <div class="eq"><div class="tex" data-tex="p_{\mathrm{LP}}(B)=\min\{\underline f_0(x):\ x\in B,\ Ax+c\le 0\}\ \le\ p^\star(B)">p<sub>LP</sub>(B) = min { f<sub>0</sub>(x) : x &isin; B, Ax + c &le; 0 } &le; p*(B)</div></div>
+
+  <h3>Its dual is closed form, so a valid bound needs no LP solve</h3>
+  <p class="cap">The smallest example: minimize <i>x</i> on [0,&nbsp;1] subject to <i>x</i>&nbsp;&ge;&nbsp;1/2. Without the constraint the bound stays 0 however far the box is split. Move the slider to add the constraint with a multiplier: the line flattens and its minimum over the box rises to the optimum.</p>
+  <div class="toy"><div class="ex-ctl"><label for="lamSlider" id="lamLabel">&lambda; = 0</label><input id="lamSlider" type="range" min="0" max="5" step="1" value="0"></div>
+    <figure class="figure"><img id="lamImg" src="figures/lam_0.svg" alt="The line x plus lambda times one half minus x over the unit interval, and the bound as a function of lambda, which reaches one half at lambda equal to one."></figure></div>
+  <div class="eq"><div class="tex" data-tex="d_B(\lambda)=\min_{x\in B}\bigl[\underline f_0(x)+\lambda^{\top}(Ax+c)\bigr]=c_0+c^{\top}\lambda+\sum_{j=1}^{n}\min\{a_j(\lambda)\underline x_j,\;a_j(\lambda)\overline x_j\}">d<sub>B</sub>(&lambda;) = min<sub>x&isin;B</sub> [ f<sub>0</sub>(x) + &lambda;<sup>T</sup>(Ax + c) ]</div></div>
+  <p class="eqcap">Every &lambda;&nbsp;&ge;&nbsp;0 gives a valid bound in closed form, at <i>O</i>(<i>mn</i>) per evaluation, with <i>a</i>(&lambda;)&nbsp;=&nbsp;<i>a</i><sub>0</sub>&nbsp;+&nbsp;<i>A</i><sup>T</sup>&lambda;, and the best &lambda; reaches the LP. LP solvers only propose multipliers. These multipliers act on the linear bounds and are distinct from the ALM multipliers of the primal search.</p>
+
+  <h3>One tensor, five uses</h3>
+  <p class="cap">All boxes form one tensor: <i>K</i> boxes &times; (<i>m</i>+1) functions &times; <i>n</i> variables. Each use is a sum or a min along its axes, which is why it batches. Pick a use to see the part of the tensor it reads and what it does on one box.</p>
+  <div class="pills" id="usePills" role="group" aria-label="Uses of the linear bounds"></div>
+  <div class="usebox"><img id="useBlock" src="figures/block_0.svg" alt="The tensor of linear bounds with the entries this use reads highlighted."><img id="useGeom" src="figures/use_0.svg" alt="What this use does on one two-dimensional box."></div>
+  <div class="use" id="usePanel" aria-live="polite"></div>
   <figure class="figure">
     <img src="figures/walkthrough.svg" alt="Each of f0 to fm is nonlinear or linear. Nonlinear functions become computation graphs and then linear relaxations; linear functions need no relaxation. Both give linear bounds, which are used for the lower bound, the infeasibility test, clipping, the primal search and branching. Smaller boxes give tighter linear bounds." width="1374" height="450" loading="lazy">
     <figcaption>Figure 1 of the paper. Presolve, root certificates and the lifted linear relaxation complete the solver; Appendix&nbsp;B describes every component.</figcaption>
   </figure>
-  <div class="eq"><div class="tex" data-tex="d_B(\lambda)=\min_{x\in B}\bigl[\underline f_0(x)+\lambda^{\top}(Ax+c)\bigr]=c_0+c^{\top}\lambda+\sum_{j=1}^{n}\min\{a_j(\lambda)\underline x_j,\;a_j(\lambda)\overline x_j\}">d<sub>B</sub>(&lambda;) = min<sub>x&isin;B</sub> [ f<sub>0</sub>(x) + &lambda;<sup>T</sup>(Ax + c) ]</div></div>
-  <p class="eqcap">The Lagrangian bound of a box <i>B</i>: the linear lower bound of the objective plus a nonnegative combination of the linear lower bounds
-  <i>Ax</i>&nbsp;+&nbsp;<i>c</i>&nbsp;&le;&nbsp;0 of the constraints, minimized over the box in closed form, with <i>a</i>(&lambda;)&nbsp;=&nbsp;<i>a</i><sub>0</sub>&nbsp;+&nbsp;<i>A</i><sup>T</sup>&lambda;.
-  Every &lambda;&nbsp;&ge;&nbsp;0 gives a valid bound; GEAR raises it by a few batched steps per box. These multipliers act on the linear bounds and are
-  distinct from the ALM multipliers of the primal search.</p>
+
+  <h3>Primal and dual share the bounds</h3>
+  <p class="cap">The minimizer of the bound and its multipliers start a projected augmented Lagrangian, which needs only graph evaluations, autodiff and projection, so it batches like the bounds. Its incumbent removes every box whose bound reaches it. On Modlangerman (10 variables), <i>P</i> stays at &minus;0.517 for nine iterations while <i>D</i> rises from &minus;2.46 to &minus;0.972; then the search inside the tree finds &minus;0.965 and the gap closes. <i>P</i> improves in the tree on 21 of 420 certified runs: most optimal points are found at the root, and the tree supplies the proof.</p>
+  <div class="usebox"><img src="figures/coupling_1.svg" alt="The dual gives the primal its start point and multipliers; the primal incumbent removes boxes whose bound reaches it." loading="lazy"><img src="figures/pd_1.svg" alt="Modlangerman: the lower bound rises over nine iterations while the incumbent stays flat, then the incumbent drops at iteration ten and the gap closes." loading="lazy"></div>
 
   <h3>A real run, box by box</h3>
-  <p class="cap">HS059 has two variables on [0,&nbsp;75]&nbsp;&times;&nbsp;[0,&nbsp;65] and three nonconvex constraints. Shaded: the feasible set. Rectangles: the boxes still open in GEAR&rsquo;s run. Move the slider to follow the run.</p>
+  <p class="cap">HS059 has two variables on [0,&nbsp;75]&nbsp;&times;&nbsp;[0,&nbsp;65], three nonlinear constraints and a nonconvex feasible set (shaded). Rectangles: the boxes still open in GEAR&rsquo;s run. Move the slider to follow the run.</p>
   <div class="toy" id="exBox">
     <div class="ex-ctl"><label for="exSlider" id="exIter">Root</label><input id="exSlider" type="range" min="0" max="18" step="1" value="0"></div>
     <div class="chart" id="exPlot"></div><p class="use" id="exNote" aria-live="polite"></p>
   </div>
 
-  <h3>One set of linear bounds, five uses</h3>
-  <div class="pills" id="usePills" role="group" aria-label="Uses of the linear bounds"></div>
-  <div class="use" id="usePanel" aria-live="polite"></div>
+  <h3>The price, and what the GPU gives</h3>
+  <p class="cap">One linear bound per output is looser than an LP with all McCormick planes. Tighter operator relaxations narrow that: for a product, the best plane on the box moves the bound from &minus;10 to 2; for a quotient, planes built for <i>x</i>/<i>y</i> directly move it from 0.32 to 0.50.</p>
+  <figure class="figure"><div class="envlabels"><span><i>xy</i>, fixed plane: &minus;10</span><span><b><i>xy</i>, best plane: 2</b></span><span><i>x</i>/<i>y</i>, via reciprocal: 0.32</span><span><b><i>x</i>/<i>y</i>, direct: 0.50</b></span></div><img src="figures/envelopes.png" alt="Linear lower bounds of a product and a quotient on one box, with the fixed and the best plane." loading="lazy"></figure>
+  <p class="cap">On the GPU, throughput grows with the batch: up to 1,048,576 boxes in one step, and on 6 to 20 variables from 17 boxes per second in small steps to 284,000 in the largest.</p>
+  <figure class="figure fig-lg"><img src="figures/batch_page.svg" alt="Boxes per second against boxes in one GPU step, by number of variables, measured from the logs. Throughput grows with the batch." loading="lazy">
+    <figcaption>Median over the steps of the logged runs, by problem size; each step includes all its operations.</figcaption></figure>
 
   <h3>What each part of the solver adds</h3>
   <p class="cap">Components are added one group per row, up to the full solver (Table&nbsp;2 of the paper). Feasible: the returned point satisfies every constraint to 10<sup>&minus;6</sup>.
@@ -309,10 +323,10 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
   <div class="wrap">
     <div class="chart" id="ladder"></div>
     <div class="find two-find">
-      <div><span class="big">471 &rarr; 478</span><h4>Optimal points arrive early; the rest is proof.</h4>
+      <div><span class="big">471 &rarr; 478</span><h4>The bottleneck is the proof, not the point.</h4>
         <p>With the ALM search, GEAR already holds an optimal point on 471 instances. The later rows raise solved from 269 to 421 and add only 7 optimal points.</p></div>
-      <div><span class="big">+89 vs +8</span><h4>Constraint-aware bounds pay off on constraints.</h4>
-        <p>Dual bounds with clipping add 89 solved instances that have constraints and 8 that have none. On the 95 instances without constraints, the ALM search already finds every optimal point.</p></div>
+      <div><span class="big">+97, +1</span><h4>Dual bounds turn points into proofs.</h4>
+        <p>Dual bounds with clipping add 97 solved instances and one optimal point, the largest step after presolve and the CPU components.</p></div>
     </div>
     <div class="tblwrap" style="margin-top:26px"><table class="res" id="ladderTab" aria-label="Instances per configuration"></table></div>
     <p class="tnote">The first row is the usual setting of neural network verifiers.</p>
@@ -352,9 +366,9 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
         <p>GEAR certifies 322 of the 330 instances with at most 20 constraints (SCIP 278, Gurobi 298) and 131 of 147 with exponential, logarithmic,
         square-root or trigonometric terms (SCIP 100, Gurobi 110). Relaxations of such compositions are loose. Of those 131, 75 close at the root
         and 56 in the GPU tree.</p></div>
-      <div><span class="big">20 / 22</span><h4>Cutting planes still win on large structured models.</h4>
+      <div><span class="big">20 / 22</span><h4>On large structured models, the tree decides.</h4>
         <p>Above 20 constraints GEAR certifies 99 of 175 against Gurobi&rsquo;s 103; 20 of the 22 instances only the global union certifies are pooling,
-        wastewater, water-network and circle-packing models, whose certificates rely on LP-based branch-and-bound with RLT and cutting planes.
+        wastewater, water-network and circle-packing models. Their root relaxations match, the batched GPU bounds are weaker than the exact LP, and Gurobi&rsquo;s tree runs at 2.9&middot;10<sup>3</sup> to 4.0&middot;10<sup>4</sup> nodes per second.
         GEAR certifies none above 1,000 variables.</p></div>
       <div><span class="big" id="f3n"></span><h4>The gain is coverage, not latency.</h4><p id="f3p"></p></div>
     </div>
@@ -369,6 +383,14 @@ footer { margin:80px auto 0; padding:28px 16px 48px; border-top:1px solid var(--
   </div>
   <h3>The 16 instances only GEAR certifies</h3>
   <p class="cap">Grouped by cause, read from the Gurobi and SCIP logs (Appendix&nbsp;D.2 of the paper). Twelve close at the root; on three, a baseline&rsquo;s point fails the 10<sup>&minus;6</sup> re-check. All contain transcendental terms. Each opens in the gap atlas with its formulation, every solver&rsquo;s gap over time, the commands and the logs.</p>
+  <p class="cap">Relative gap between the best known optimum and each solver&rsquo;s certified lower bound, over time. GEAR closes it within seconds;
+  the six global solvers end their 180&nbsp;s with the gap still open.</p>
+  <div class="car" id="car">
+    <button class="arrow l" type="button" aria-label="Previous instance">&#8249;</button>
+    <div class="track" id="track"></div>
+    <button class="arrow r" type="button" aria-label="Next instance">&#8250;</button>
+    <div class="dots" id="dots" role="tablist" aria-label="Instances"></div>
+  </div>
   <div class="wrap causes" id="only"></div>
 </section>
 
@@ -686,16 +708,20 @@ bash harness/run_campaign.sh     <span class="c"># all solvers: tuning, then the
 
   // ================================================================== uses of the linear bounds
   const USES = [
-    ['Lower bound', 'The Lagrangian bound uses the constraints, so a box whose low objective comes only from infeasible points no longer survives.'],
-    ['Clipping', 'The linear bounds of the constraints cut the box and the intermediate domains before the next pass, which tightens every later bound.'],
-    ['Infeasibility', 'A box is removed when a nonnegative combination of the relaxations is violated everywhere on it.'],
-    ['Primal search', 'A projected augmented Lagrangian starts in batch from the minimizers of the Lagrangian bound; a candidate counts only after a check on the original model at 10<sup>&minus;6</sup>.'],
-    ['λ-SB branching', 'λ-weighted smart branching scores each coordinate from the same coefficients and multipliers, and splits the box at its midpoint.'],
+    ['Lower bound', 'The rows combined with &lambda; give a bound that respects the constraints: a box whose low objective comes only from infeasible points no longer survives.'],
+    ['Infeasibility', 'A nonnegative combination of the rows that is positive on the whole box proves it holds no feasible point, and the box is removed.'],
+    ['Clipping', 'One row tightens one bound, on the box and on the intermediate domains, which tightens every later bound.'],
+    ['Primal start', 'The signs of the combined row pick the minimizer of the bound, where a projected augmented Lagrangian starts. A point counts only after a check on the original model at 10<sup>&minus;6</sup>.'],
+    ['&lambda;-SB branching', 'One column, weighted by &lambda;, scores a variable from the same coefficients and multipliers, and the box splits at its midpoint.'],
   ];
+  function lamSlider() {
+    const s = document.getElementById('lamSlider'), im = document.getElementById('lamImg'), lab = document.getElementById('lamLabel');
+    s.addEventListener('input', () => { im.src = 'figures/lam_' + s.value + '.svg'; lab.innerHTML = '&lambda; = ' + (s.value / 5).toFixed(1).replace('.0', ''); });
+  }
   function uses() {
     const pills = document.getElementById('usePills'), panel = document.getElementById('usePanel');
     pills.innerHTML = USES.map((u, k) => '<button type="button" data-k="' + k + '" aria-pressed="' + (k === 0) + '">' + u[0] + '</button>').join('');
-    const show = k => { panel.innerHTML = '<p>' + USES[k][1] + '</p>'; pills.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-pressed', String(i === k))); };
+    const show = k => { panel.innerHTML = '<p>' + USES[k][1] + '</p>'; document.getElementById('useBlock').src = 'figures/block_' + k + '.svg'; document.getElementById('useGeom').src = 'figures/use_' + k + '.svg'; pills.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-pressed', String(i === k))); };
     pills.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.k); });
     show(0);
   }
@@ -992,7 +1018,7 @@ bash harness/run_campaign.sh     <span class="c"># all solvers: tuning, then the
     const select = () => { const rg = document.createRange(); rg.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); done(false); };
     try { navigator.clipboard.writeText(code.textContent).then(() => done(true), select); } catch (err) { select(); }
   });
-  texts(); uses(); gallery(); charts();
+  texts(); uses(); lamSlider(); gallery(); charts();
   const widths = new Map(); let rz;
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(es => {
