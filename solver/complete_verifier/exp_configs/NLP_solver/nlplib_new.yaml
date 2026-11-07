@@ -1,0 +1,126 @@
+model:
+  # sqrt / non-integer pow: intersect an input interval with the operator's real
+  # domain instead of aborting (only acts where bound propagation would raise).
+  # undefined_relaxation_rows: a pole or an infinite endpoint in one domain's
+  # interval makes only the bound rows that use it -inf, instead of aborting.
+  bound_opts: "{'fp_enclosure': {'affine_backward': True}, 'domain_aware_ops': True, 'compare_crown_with_ibp_intermediate': True, 'undefined_relaxation_rows': True, 'pow_negative_exponent': True, 'pow_variable_exponent_exp_log': True, 'hidden_square_rewrite': True, 'undefined_relaxation_interval': True}"
+general:
+  root_path: ../../nlp_benchmarks/nlplib
+  csv_name: instances_new.csv
+  double_fp: True
+  complete_verifier: bab
+solver:
+  batch_size: 1  # Number of parallel domains to compute on GPU.
+  bound_prop_method: crown
+  auto_enlarge_batch_size: true
+  min_batch_size_ratio: 1.
+  crown:
+    compare_crown_with_ibp: false
+  nlp:
+    enabled: True
+    method: ipopt
+    enable_alm: True
+    bab_br_budget: 20480
+    expand_input_constraints_as_outputs: True
+    verbose: True
+    in_bab: True
+    bab_outer_max_iter: 20
+    bab_inner_steps: 200
+    dual_ascent_enabled: True
+    # Constraint-aware objective bound solved as an LP over the node rows: batched PDHG,
+    # exact HiGHS re-solve for the 16 lowest-bound domains, recorded on every domain.
+    dual_lp_pdhg_iters: 500
+    dual_lp_exact_max: 16
+    dual_bound_record_all: True
+    # Tangent-plane bound when the objective is provably quadratic.
+    quadratic_tangent_bound: True
+    # Root IPOPT: aim inside the feasibility tolerance, and also start from the root
+    # LP relaxation's minimizer.
+    ipopt_constraint_slack_frac: 0.99
+    root_lp_local_start: True
+    concretize_max_constraint_rows: 16
+    root_local_solver_warmstart: True
+    # Per-term IBP/CROWN objective bound at the root (Griewank).
+    root_hybrid_term_bound: True
+    # QTB keeps positive curvature and minimizes its Lagrangian over the box in closed form.
+    qtb_quadratic_dual: True
+    # --- Integrated components ---
+    # Throughput (exact): fused Triton kernel for the constrained dual sweep.
+    concretize_fused_kernel: True
+    # Dual: lifted McCormick LP bound + OBBT for quadratic rows, lifted-LP branching,
+    # root lifted-LP B&B for fully quadratic problems (leaf incumbents via local solves).
+    lifted_lp_bound: True
+    lifted_lp_obbt: True
+    lifted_lp_branching: True
+    lifted_lp_bab_time: 30.0
+    lifted_lp_bab_handoff: True
+    lifted_lp_leaf_ipopt: True
+    qtb_accept_blend: True
+    # Root ALM: T-style dynamics + batched Gauss-Newton restoration (pure GPU).
+    root_alm_inner_lr: 0.01
+    root_alm_inner_lr_outer_decay: 0.6
+    root_alm_scale_eps_with_bias: False
+    root_alm_rho0: 1.0
+    root_alm_kappa: 2.0
+    root_alm_update_multipliers_always: True
+    root_alm_deduplicate_expanded_input_constraints: True
+    root_alm_constraint_normalize: True
+    root_alm_constraint_scale_floor: 1.0
+    root_alm_constraint_scale_decay: 0.5
+    root_alm_first_feas_patience: 5
+    root_alm_output_affine_project_init: True
+    root_alm_output_affine_project_fraction: 0.25
+    root_alm_output_affine_project_sweeps: 50
+    root_alm_output_affine_inner_sweeps: 1
+    root_alm_raw_polish_steps: 250
+    root_alm_raw_polish_lr: 1.0e-3
+    root_alm_raw_polish_restarts: 64
+    root_alm_raw_polish_jitter: 0.0
+    root_alm_raw_polish_max_viol: 1.0e+12
+    root_alm_batched_gn_steps: 50
+    root_alm_batched_gn_seeds: 256
+    root_alm_batched_gn_interior: 1.0e-12
+    root_alm_batched_gn_max_elems: 67108864
+    root_alm_endgame_time_frac: 0.15
+    root_alm_batched_gn_max_time: 0.0
+    root_alm_init_scaled_fraction: 0.25
+    # In-BaB ALM: batched GN restoration + objective-level phase.
+    alm_batched_gn_steps: 30
+    alm_batched_gn_seeds: 8
+    alm_batched_gn_interior: 1.0e-12
+    alm_batched_gn_max_time: 2.0
+    alm_endgame_time_frac: 0.2
+    alm_batched_gn_improve: True
+    # ALM optimality: batched SQP polish (pure GPU) at the root and in BaB.
+    alm_opt_polish_candidates: 32
+    alm_opt_polish_seeds: 32
+    alm_opt_polish_iters: 50
+    alm_opt_polish_time: 5.0
+    bab_alm_opt_polish_candidates: 8
+    bab_alm_opt_polish_time: 1.0
+bab:
+  sort_domain_interval: 5
+  # Throughput (exact): lazy domain sort, GPU-resident domain storage.
+  lazy_sort_domains: True
+  domain_storage_gpu_mb: 2048
+  # override_timeout: 60
+  branching:
+    method: sb  # LGB: gradient of Lagrangian at ALM x*; falls back to naive if x* unavailable
+    input_split:
+      enable: True
+      reorder_bab: True
+      sb_min_width_ratio: 1.0e-3
+      # Objective-only problems with <= 6 inputs: strong branching over every input.
+      sb_strong_candidates_unconstrained: -1
+      sb_strong_max_inputs_unconstrained: 6
+      sb_strong_max_domains: 10000
+      # beta: True
+  clip_n_verify:
+    clip_input_domain:
+      enabled: True
+      clip_type: complete
+attack:
+  pgd_order: skip
+solving:
+  solving_mode: True
+  obj_index: 0

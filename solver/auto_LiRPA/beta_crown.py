@@ -1,0 +1,612 @@
+#########################################################################
+##   This file is part of the auto_LiRPA library, a core part of the   ##
+##   α,β-CROWN (alpha-beta-CROWN) neural network verifier developed    ##
+##   by the α,β-CROWN Team                                             ##
+##                                                                     ##
+##   Copyright (C) 2020-2026 The α,β-CROWN Team                        ##
+##   Team leaders:                                                     ##
+##          Faculty:   Huan Zhang <huan@huan-zhang.com> (UIUC)         ##
+##          Student:   Xiangru Zhong <xiangru4@illinois.edu> (UIUC)    ##
+##                                                                     ##
+##   See CONTRIBUTORS for all current and past developers in the team. ##
+##                                                                     ##
+##     This program is licensed under the BSD 3-Clause License,        ##
+##        contained in the LICENCE file in this directory.             ##
+##                                                                     ##
+#########################################################################
+from collections import OrderedDict
+import numpy as np
+import torch
+from torch import Tensor
+from .patches import Patches, inplace_unfold
+from .utils import transfer
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .bound_general import BoundedModule
+
+
+class SparseBeta:
+    def __init__(self, shape, bias=False, betas=None, device='cpu', dtype=None):
+        # Keep the historical constructor behavior for external callers. Graph-owned
+        # creation paths pass the node computation dtype explicitly.
+        if dtype is None:
+            dtype = torch.get_default_dtype()
+        self.device = device
+        self.val = torch.zeros(shape, dtype=dtype, device=device)
+        self.loc = torch.zeros(shape, dtype=torch.long, device=device)
+        self.sign = torch.zeros(shape, dtype=dtype, device=device)
+        self.bias = (torch.zeros(shape, dtype=dtype, device=device)
+                     if bias else None)
+        self.spec = None       # (batch, m, d_out)
+        self.spec_bias = None  # (batch, m)
+        if betas:
+            for bi in range(len(betas)):
+                if betas[bi] is not None:
+                    self.val[bi, :len(betas[bi])] = betas[bi]
+        self.val = self.val.detach().requires_grad_()
+
+    @staticmethod
+    def new_empty(*, device, dtype):
+        return SparseBeta((0, 0), device=device, dtype=dtype)
+
+    def apply_splits(self, history, key):
+        loc_numpy = np.zeros(self.loc.shape, dtype=np.int32)
+        sign_numpy = np.zeros(self.sign.shape)
+        if self.bias is not None:
+            bias_numpy = np.zeros(self.bias.shape)
+        for bi in range(len(history)):
+            # Add history splits. (layer, neuron) is the current decision.
+            split_locs, split_coeffs = history[bi][key][:2]
+            split_len = len(split_locs)
+            if split_len > 0:
+                sign_numpy[bi, :split_len] = split_coeffs
+                loc_numpy[bi, :split_len] = split_locs
+                if self.bias is not None:
+                    split_bias = history[bi][key][2]
+                    bias_numpy[bi, :split_len] = split_bias
+        self.loc.copy_(torch.from_numpy(loc_numpy), non_blocking=True)
+        self.sign.copy_(torch.from_numpy(sign_numpy), non_blocking=True)
+        if self.bias is not None:
+            self.bias.copy_(torch.from_numpy(bias_numpy), non_blocking=True)
+
+    def to(self, *, device=None, dtype=None, non_blocking=False):
+        target_device = device if device is not None else self.device
+        target_dtype = dtype if dtype is not None else self.val.dtype
+        new_sparse_beta = SparseBeta.new_empty(
+            device=target_device, dtype=target_dtype)
+
+        new_sparse_beta.device = target_device
+        new_sparse_beta.val = self.val.to(
+            device=new_sparse_beta.device,
+            dtype=target_dtype,
+            non_blocking=non_blocking,
+        ).detach().requires_grad_(self.val.requires_grad)
+        new_sparse_beta.loc = self.loc.to(
+            device=new_sparse_beta.device,
+            dtype=self.loc.dtype,
+            non_blocking=non_blocking,
+        )
+        new_sparse_beta.sign = self.sign.to(
+            device=new_sparse_beta.device,
+            dtype=target_dtype,
+            non_blocking=non_blocking,
+        )
+        if self.bias is not None:
+            new_sparse_beta.bias = self.bias.to(
+                device=new_sparse_beta.device,
+                dtype=target_dtype,
+                non_blocking=non_blocking,
+            )
+
+        return new_sparse_beta
+
+    def mask_batch_dim_inplace(self, mask: torch.Tensor):
+        self.val = self.val[mask, :].detach().requires_grad_(
+            self.val.requires_grad)
+        self.loc = self.loc[mask, :]
+        self.sign = self.sign[mask, :]
+        if self.bias is not None:
+            self.bias = self.bias[mask, :]
+
+def get_split_nodes(self: 'BoundedModule'):
+    self.split_nodes = []
+    self.split_activations = {}
+    self._update_bound_ancestors(self[self.final_name])
+    splittable_activations = self.get_splittable_activations()
+    split_activations_by_layer = {}
+    for activation in splittable_activations:
+        for input_index, layer in enumerate(activation.inputs):
+            if not layer.perturbed:
+                continue
+            split_activations_by_layer.setdefault(layer.name, []).append(
+                (activation, input_index))
+    for layer in self.layers_requiring_bounds:
+        if (layer.name in split_activations_by_layer
+                and not (layer.lower is None and layer.upper is None)):
+            self.split_nodes.append(layer)
+            self.split_activations[layer.name] = (
+                split_activations_by_layer[layer.name])
+    return self.split_nodes, self.split_activations
+
+def get_output_nodes(self: 'BoundedModule'):
+    final_node = self[self.final_name]
+    if not hasattr(self, 'split_nodes') or self.split_nodes is None:
+        self.split_nodes = [final_node]
+        self.split_activations = {final_node.name: []}
+    else:
+        if final_node not in self.split_nodes:
+            self.split_nodes.append(final_node)
+            self.split_activations[final_node.name] = []
+    return self.split_nodes, self.split_activations
+
+def set_output_beta(self: 'BoundedModule',
+                    batch: int,
+                    spec: Tensor,
+                    bias: Tensor,
+                    warm_betas=None,
+                    sign_value=-1.0,
+                    target_idx: int = 0,
+                    append=False):
+    """
+    Set up output beta for Lagrangian relaxation of output constraints.
+
+    This uses a simplified (batch, m) beta formulation where we bound a single
+    target spec using the other m-1 specs as Lagrangian relaxations:
+
+        L = C_target * f(x) - sum_{k != target} beta[k] * (C_k * f(x) - t_k)
+          = (C_target - sum_k beta[k] * C_k) * f(x) + sum_k beta[k] * t_k
+
+    Args:
+        batch: Number of examples in the batch
+        spec: Full specification matrix (batch, m, d_out) containing all m constraints
+        bias: Thresholds for all constraints (batch, m)
+        warm_betas: Previous beta values for warm start
+        sign_value: Sign for beta (typically -1.0 for lower bound)
+        target_idx: Index of the target spec to bound (default: 0)
+        append: Whether to append to existing split nodes
+
+    Returns:
+        splits_per_example: List of dicts mapping node names to number of splits
+    """
+    final_node = self[self.final_name]
+    # do not clean split_nodes / split_activations
+    if append:
+        if not hasattr(self, 'split_nodes') or self.split_nodes is None:
+            self.get_split_nodes()
+        if not hasattr(self, 'split_activations') or self.split_activations is None:
+            self.split_activations = {}
+        if final_node not in self.split_nodes:
+            self.split_nodes.append(final_node)
+        self.split_activations.setdefault(final_node.name, [])
+    else:
+        self.split_nodes = [final_node]
+        self.split_activations = {final_node.name: []}
+
+    # (batch, m, d_out)
+    if spec.dim() == 2:
+        m, d_out = spec.size()
+        spec = spec.unsqueeze(0).expand(batch, m, d_out).contiguous()
+    else:
+        assert spec.dim() == 3, f'Invalid spec shape: {spec.shape}'
+        assert spec.size(0) == batch, 'spec batch mismatch'
+        m, d_out = spec.size(1), spec.size(2)
+
+    # Simplified formulation: (batch, m) betas
+    # beta[b, k] = Lagrangian multiplier for using constraint k to help bound target spec
+    # beta[:, target_idx] should remain 0 (can't use target as relaxation for itself)
+    shape = (batch, m)
+
+    # Create SparseBeta with (batch, m) shape
+    sb = SparseBeta(shape, bias=False, betas=None, device=self.device)
+
+    # Warm start from previous iteration
+    if warm_betas is not None and len(warm_betas) == batch:
+        for bi in range(batch):
+            wb = warm_betas[bi].get(self.final_name) if warm_betas[bi] is not None else None
+            if wb is not None:
+                if wb.dim() == 1 and wb.size(0) == m:
+                    # Direct (m,) format
+                    sb.val.data[bi] = wb
+                elif wb.dim() == 1:
+                    # Shorter warm beta, pad with zeros
+                    sb.val.data[bi, :len(wb)] = wb
+
+    sb.sign = torch.full(shape, float(sign_value), device=self.device)
+    sb.spec = spec.to(self.device)      # Full spec (batch, m, d_out) for beta computation
+    sb.bias = bias.to(self.device)      # Full thresholds (batch, m)
+    sb.target_idx = target_idx          # Which spec we're bounding
+    sb.loc = torch.zeros(shape, dtype=torch.long, device=self.device)
+
+    final_node.sparse_betas = [sb]
+    splits_per_example = [{final_node.name: m} for _ in range(batch)]
+
+    return splits_per_example
+
+def set_beta(self: 'BoundedModule', enable_opt_interm_bounds, parameters,
+             lr_beta, lr_cut_beta, cutter, dense_coeffs_mask):
+    """
+    Set betas, best_betas, coeffs, dense_coeffs_mask, best_coeffs, biases
+    and best_biases.
+    """
+    coeffs = None
+    betas = []
+    best_betas = OrderedDict()
+
+    # TODO compute only once
+    self.nodes_with_beta = []
+    for node in self.split_nodes:
+        if not hasattr(node, 'sparse_betas'):
+            continue
+        self.nodes_with_beta.append(node)
+        if enable_opt_interm_bounds:
+            for sparse_beta in node.sparse_betas.values():
+                if sparse_beta is not None:
+                    betas.append(sparse_beta.val)
+            best_betas[node.name] = {
+                beta_m: sparse_beta.val.detach().clone()
+                for beta_m, sparse_beta in node.sparse_betas.items()
+            }
+        else:
+            betas.append(node.sparse_betas[0].val)
+            best_betas[node.name] = node.sparse_betas[0].val.detach().clone()
+
+    # Beta has shape (batch, max_splits_per_layer)
+    parameters.append({
+        'params': [item for item in betas if item.numel() > 0],
+        'lr': lr_beta, 'batch_dim': 0})
+
+    if self.cut_used:
+        self.set_beta_cuts(parameters, lr_cut_beta, betas, best_betas, cutter)
+
+    return betas, best_betas, coeffs, dense_coeffs_mask
+
+
+def set_beta_cuts(self: 'BoundedModule', parameters, lr_cut_beta, betas,
+                  best_betas, cutter):
+    # also need to optimize cut betas
+    parameters.append({'params': self.cut_beta_params,
+                        'lr': lr_cut_beta, 'batch_dim': 0})
+    betas += self.cut_beta_params
+    best_betas['cut'] = [beta.detach().clone() for beta in self.cut_beta_params]
+    if getattr(cutter, 'opt', False):
+        parameters.append(cutter.get_parameters())
+
+def reset_beta(self: 'BoundedModule', node, shape, betas, bias=False,
+               start_nodes=None):
+    # Create only the non-zero beta. For each layer, it is padded to maximal length.
+    # Create sparse beta state directly with the requested dtype and device.
+    if self.bound_opts.get('enable_opt_interm_bounds', False):
+        node.sparse_betas = {
+            key: SparseBeta(
+                shape,
+                betas=[(betas[j][i] if betas[j] is not None else None)
+                        for j in range(len(betas))],
+                device=self.device, bias=bias,
+                dtype=self.get_output_dtype(node),
+            ) for i, key in enumerate(start_nodes)
+        }
+    else:
+        node.sparse_betas = [SparseBeta(
+            shape, betas=betas, device=self.device, bias=bias,
+            dtype=self.get_output_dtype(node))]
+
+def set_beta_bab(self: 'BoundedModule', history, betas, bias=True, enable_opt_interm_bounds=False):
+    # count how many split nodes in each batch example (batch, num of layers)
+    splits_per_example = []
+    max_splits_per_layer = {}
+    batch = len(history)
+    for bi in range(batch):
+        splits_per_example.append({})
+        for k, v in history[bi].items():
+            # First element of layer_splits is a list of split neuron IDs.
+            splits_per_example[bi][k] = len(v[0])
+            max_splits_per_layer[k] = max(
+                max_splits_per_layer.get(k, 0), splits_per_example[bi][k])
+
+    # Create and load warmup beta.
+    self.reset_beta_bab(batch, max_splits_per_layer, betas=betas, bias=bias,
+                        enable_opt_interm_bounds=enable_opt_interm_bounds)
+
+    for node in self.split_nodes:
+        if node.sparse_betas is None:
+            continue
+        sparse_betas = (node.sparse_betas
+                        if isinstance(node.sparse_betas, list)
+                        else node.sparse_betas.values())
+        for sparse_beta in sparse_betas:
+            sparse_beta.apply_splits(history, node.name)
+
+    return splits_per_example
+
+
+def reset_beta_bab(self: 'BoundedModule', batch, max_splits_per_layer, betas=None,
+               bias=False, enable_opt_interm_bounds=False):
+    for layer_name in max_splits_per_layer:
+        layer = self[layer_name]
+        if enable_opt_interm_bounds:
+            start_nodes = []
+            for act in self.split_activations[layer_name]:
+                start_nodes.extend(list(act[0].alpha.keys()))
+            start_nodes = list(set(start_nodes))
+        else:
+            start_nodes = None
+        shape = (batch, max_splits_per_layer[layer_name])
+        if betas is not None and betas[0] is not None and layer_name in betas[0]:
+            betas_ = [(betas[bi][layer_name] if betas[bi] is not None else None)
+                      for bi in range(batch)]
+        else:
+            betas_ = [None for _ in range(batch)]
+        self.reset_beta(layer, shape, betas_, bias=bias,
+                            start_nodes=start_nodes)
+
+
+def get_beta(self: 'BoundedModule', splits_per_example, device=None, enable_opt_interm_bounds=False):
+    # split_per_example only has half of the examples.
+    ret = []
+    betas_cpu = {}
+    # Setting non_blocking to False ensures that data is fully transferred from the GPU to the CPU before proceeding. 
+    for k in splits_per_example[0]:
+        if not enable_opt_interm_bounds:
+            betas_cpu[k] = transfer(
+                self[k].sparse_betas[0].val, device, non_blocking=False)
+        else:
+            betas_cpu[k] = []
+            for sparse_beta in self[k].sparse_betas.values():
+                betas_cpu[k].append(transfer(
+                    sparse_beta.val, device, non_blocking=False))
+    for i in range(len(splits_per_example)):
+        betas = {}
+        for k in splits_per_example[i]:
+            if not enable_opt_interm_bounds:
+                betas[k] = betas_cpu[k][i, :splits_per_example[i][k]]
+            else:
+                betas[k] = []
+                for item in betas_cpu[k]:
+                    betas[k].append(item[i, :splits_per_example[i][k]])
+        ret.append(betas)
+    return ret
+
+
+def build_beta(
+    self: "BoundedModule",
+    shape,
+    betas,
+    device,
+    dtype=None,
+    bias=False,
+    start_nodes=None,
+):
+    """
+    Build SparseBeta object from betas info from Domain, without assigning it to any node.
+
+    A.K.A. Do everything in reset_beta but do not assign the built SparseBeta to node.
+    """
+    if self.bound_opts.get("enable_opt_interm_bounds", False):
+        assert start_nodes is not None
+        sparse_betas = {
+            key: SparseBeta(
+                shape,
+                betas=[
+                    (betas[j][i] if betas[j] is not None else None)
+                    for j in range(len(betas))
+                ],
+                device=device,
+                bias=bias,
+                dtype=dtype,
+            )
+            for i, key in enumerate(start_nodes)
+        }
+    else:
+        sparse_betas = [
+            SparseBeta(
+                shape, betas=betas, device=device, bias=bias, dtype=dtype)
+        ]
+    return sparse_betas
+
+
+def accept_beta(self: "BoundedModule", sparse_beta_by_layer):
+    for layer_name, sparse_betas in sparse_beta_by_layer.items():
+        self[layer_name].sparse_betas = sparse_betas
+
+
+def beta_crown_backward_bound(self: 'BoundedModule', node, lA, uA, start_node=None):
+    """Update A and bias with Beta-CROWN.
+
+    Must be explicitly called at the end of "bound_backward".
+    """
+    # Regular Beta CROWN with single neuron split
+    # Each split constraint only has single neuron (e.g., second ReLU neuron > 0).
+    A = lA if lA is not None else uA
+    lbias = ubias = 0
+
+    def _bias_unsupported():
+        raise NotImplementedError('Bias for beta not supported in this case.')
+
+    if type(A) is Patches:
+        if not self.bound_opts.get('enable_opt_interm_bounds', False):
+            raise NotImplementedError('Sparse beta not supported in the patches mode')
+        if node.sparse_betas[start_node.name].bias is not None:
+            _bias_unsupported()
+        # expand sparse_beta to full beta
+        beta_values = (node.sparse_betas[start_node.name].val
+                       * node.sparse_betas[start_node.name].sign)
+        beta_indices = node.sparse_betas[start_node.name].loc
+        node.masked_beta = torch.zeros(
+            2, *node.shape, dtype=A.patches.dtype,
+            device=A.patches.device).reshape(2, -1)
+        node.non_deter_scatter_add(
+            node.masked_beta, dim=1, index=beta_indices,
+            src=beta_values.to(node.masked_beta.dtype))
+        node.masked_beta = node.masked_beta.reshape(2, *node.shape)
+        # unfold the beta as patches, size (batch, out_h, out_w, in_c, H, W)
+        A_patches = A.patches
+        masked_beta_unfolded = inplace_unfold(
+            node.masked_beta, kernel_size=A_patches.shape[-2:],
+            padding=A.padding, stride=A.stride,
+            inserted_zeros=A.inserted_zeros, output_padding=A.output_padding)
+        if A.unstable_idx is not None:
+            masked_beta_unfolded = masked_beta_unfolded.permute(1, 2, 0, 3, 4, 5)
+            # After selection, the shape is (unstable_size, batch, in_c, H, W).
+            masked_beta_unfolded = masked_beta_unfolded[A.unstable_idx[1], A.unstable_idx[2]]
+        else:
+            # Add the spec (out_c) dimension.
+            masked_beta_unfolded = masked_beta_unfolded.unsqueeze(0)
+        if node.alpha_beta_update_mask is not None:
+            masked_beta_unfolded = masked_beta_unfolded[node.alpha_beta_update_mask]
+        if uA is not None:
+            uA = uA.create_similar(uA.patches + masked_beta_unfolded)
+        if lA is not None:
+            lA = lA.create_similar(lA.patches - masked_beta_unfolded)
+    elif type(A) is Tensor:
+        # Check for output constraint coupling first (spec-based beta)
+        if (hasattr(node.sparse_betas[0], 'spec') and node.sparse_betas[0].spec is not None):
+            # Simplified single-spec output beta formulation:
+            # We bound only the target spec using other specs as Lagrangian relaxations.
+            #
+            # A shape: (1, batch, d_out) - only target spec was propagated
+            # spec shape: (batch, m, d_out) - the full C matrix for all output constraints
+            # beta shape: (batch, m) - Lagrangian multipliers for each constraint
+            #
+            # Lagrangian relaxation:
+            #   L = C_target * f(x) - sum_{k != target} beta[k] * (C_k * f(x) - t_k)
+            #     = (C_target - sum_k beta[k] * C_k) * f(x) + sum_k beta[k] * t_k
+            #
+            # Since we only propagated C_target, A = C_target propagated.
+            # We adjust: A_effective = A - sum_k beta[k] * C_k
+            # And add bias: bias = sum_k beta[k] * t_k
+            spec = node.sparse_betas[0].spec           # (batch, m, d_out)
+            beta_bias = node.sparse_betas[0].bias      # (batch, m)
+            target_idx = getattr(node.sparse_betas[0], 'target_idx', 0)
+
+            # beta: (batch, m)
+            raw_beta = node.sparse_betas[0].val * node.sparse_betas[0].sign
+
+            # Zero out target constraint (can't use target as relaxation for itself)
+            raw_beta = raw_beta.clone()
+            raw_beta[:, target_idx] = 0
+
+            # Compute: sum_k beta[b, k] * C[b, k, d] -> (batch, d_out)
+            beta_weighted_spec = torch.einsum('bk,bkd->bd', raw_beta, spec)
+
+            # Apply to A: A has shape (m, batch, d_out) where m is number of specs
+            # We only adjust the target spec's A matrix; other specs remain unchanged
+            # This is because the Lagrangian relaxation only applies to the target spec
+            if A.size(0) > 1:
+                # Multiple specs: only adjust the target spec
+                if uA is not None:
+                    uA = uA.clone()
+                    uA[target_idx] = uA[target_idx] + beta_weighted_spec
+                if lA is not None:
+                    lA = lA.clone()
+                    lA[target_idx] = lA[target_idx] - beta_weighted_spec
+            else:
+                # Single spec (target only): adjust directly
+                beta_expanded = beta_weighted_spec.unsqueeze(0)  # (1, batch, d_out)
+                if uA is not None:
+                    uA = uA + beta_expanded
+                if lA is not None:
+                    lA = lA - beta_expanded
+
+            if beta_bias is not None:
+                # Compute bias: sum_k beta[b, k] * t[b, k] -> (batch,)
+                if torch.isinf(beta_bias).any():
+                    # Handle inf in beta_bias to avoid 0 * inf = NaN
+                    bias_is_inf = torch.isinf(beta_bias)
+                    bias_finite = torch.where(bias_is_inf, torch.zeros_like(beta_bias), beta_bias)
+
+                    # Compute contribution from finite parts
+                    bias = torch.einsum('bk,bk->b', raw_beta, bias_finite)
+
+                    # Handle +inf
+                    mask_pos = (beta_bias == float('inf')).to(raw_beta.dtype)
+                    if mask_pos.any():
+                        sum_beta_pos = torch.einsum('bk,bk->b', raw_beta, mask_pos)
+                        term_pos = sum_beta_pos * float('inf')
+                        bias = bias + torch.where(torch.isnan(term_pos), torch.zeros_like(term_pos), term_pos)
+
+                    # Handle -inf
+                    mask_neg = (beta_bias == float('-inf')).to(raw_beta.dtype)
+                    if mask_neg.any():
+                        sum_beta_neg = torch.einsum('bk,bk->b', raw_beta, mask_neg)
+                        term_neg = sum_beta_neg * float('-inf')
+                        bias = bias + torch.where(torch.isnan(term_neg), torch.zeros_like(term_neg), term_neg)
+                else:
+                    # Result shape: (batch,)
+                    bias = torch.einsum('bk,bk->b', raw_beta, beta_bias)
+
+                # Bias only applies to the target spec
+                # Create bias tensor with zeros for non-target specs
+                if A.size(0) > 1:
+                    # Multiple specs: bias only for target spec
+                    lbias = torch.zeros(A.size(0), A.size(1), device=raw_beta.device, dtype=raw_beta.dtype)
+                    ubias = torch.zeros(A.size(0), A.size(1), device=raw_beta.device, dtype=raw_beta.dtype)
+                    lbias[target_idx] = bias
+                    ubias[target_idx] = -bias
+                else:
+                    # Single spec: bias directly
+                    lbias = bias.unsqueeze(0)
+                    ubias = -lbias
+            else:
+                lbias = torch.zeros(A.size(0), A.size(1), device=raw_beta.device, dtype=raw_beta.dtype)
+                ubias = torch.zeros(A.size(0), A.size(1), device=raw_beta.device, dtype=raw_beta.dtype)
+        else:
+            # Standard neuron-split beta (not output constraint coupling)
+            if self.bound_opts.get('enable_opt_interm_bounds', False):
+                if node.sparse_betas[start_node.name].bias is not None:
+                    _bias_unsupported()
+                # For matrix mode, beta is sparse.
+                beta_values = (
+                    node.sparse_betas[start_node.name].val
+                    * node.sparse_betas[start_node.name].sign
+                ).expand(A.size(0), -1, -1)
+                # node.single_beta_loc has shape [batch, max_single_split].
+                # Need to expand at the specs dimension.
+                beta_indices = (node.sparse_betas[start_node.name].loc
+                                .unsqueeze(0).expand(A.size(0), -1, -1))
+                beta_bias = node.sparse_betas[start_node.name].bias
+            else:
+                # For matrix mode, beta is sparse.
+                beta_values = (
+                    node.sparse_betas[0].val * node.sparse_betas[0].sign
+                ).expand(A.size(0), -1, -1)
+                # self.single_beta_loc has shape [batch, max_single_split].
+                # Need to expand at the specs dimension.
+                beta_indices = node.sparse_betas[0].loc.unsqueeze(0).expand(A.size(0), -1, -1)
+                beta_bias = node.sparse_betas[0].bias
+            # For conv layer, the last dimension is flattened in indices.
+            beta_values = beta_values.to(A.dtype)
+            if beta_bias is not None:
+                beta_bias = beta_bias.expand(A.size(0), -1, -1)
+            if node.alpha_beta_update_mask is not None:
+                beta_indices = beta_indices[:, node.alpha_beta_update_mask]
+                beta_values = beta_values[:, node.alpha_beta_update_mask]
+                if beta_bias is not None:
+                    beta_bias = beta_bias[:, node.alpha_beta_update_mask]
+            if uA is not None:
+                uA = node.non_deter_scatter_add(
+                    uA.reshape(uA.size(0), uA.size(1), -1), dim=2,
+                    index=beta_indices, src=beta_values).view(uA.size())
+            if lA is not None:
+                lA = node.non_deter_scatter_add(
+                    lA.reshape(lA.size(0), lA.size(1), -1), dim=2,
+                    index=beta_indices, src=beta_values.neg()).view(lA.size())
+            if beta_bias is not None:
+                bias = (beta_values * beta_bias).sum(dim=-1)
+                lbias = bias
+                ubias = -bias
+    else:
+        raise RuntimeError(f"Unknown type {type(A)} for A")
+
+    return lA, uA, lbias, ubias
+
+
+def print_optimized_beta(acts):
+    masked_betas = []
+    for model in acts:
+        masked_betas.append(model.masked_beta)
+        if model.history_beta_used:
+            print(f'{model.name} history beta', model.new_history_beta.squeeze())
+        if model.split_beta_used:
+            print(f'{model.name} split beta:', model.split_beta.view(-1))
+            print(f'{model.name} bias:', model.split_bias)

@@ -1,11 +1,22 @@
 # GEAR
-Repo for GEAR: A GPU-Accelerated Global Solver for Nonlinear Programs via Linear Bound Propagation
+Repo for GEAR: A GPU-Accelerated Global Solver for Bounded Continuous Nonlinear Programs via Linear Bound Propagation
 
 Project page: https://verified-intelligence.github.io/GEAR/ (results, analysis and how to reproduce every number), with the gap atlas at
 https://verified-intelligence.github.io/GEAR/atlas.html (all 505 instances for GEAR and the 12 AMPL solvers, any subset selectable:
 certification under the paper's scoring, gap-vs-time curves, formulations, commands and logs). Source of both in `site/`.
 
-The GEAR solver code will be released in this repository.
+## Contents
+
+| Path | Content |
+|---|---|
+| `solver/` | the GEAR solver: command line (`complete_verifier/nlp_example.py`) and Python API (`complete_verifier/gear/`); BSD 3-Clause, see `solver/NOTICE` |
+| `benchmarks/` | the 505 benchmark instances in the format GEAR reads, with manifest and checksums; see `benchmarks/README.md` |
+| `logs/` | solver logs and per-instance results behind the paper's tables |
+| `baselines/` | the 12 AMPL baseline solvers: models, configurations, harness and results |
+| `site/` | source of the project page |
+
+Installation, a quick start, the Python API and how to reproduce the paper's run are in the
+[wiki](https://github.com/Verified-Intelligence/GEAR/wiki) and in `solver/README.md`.
 
 ## Logs
 
