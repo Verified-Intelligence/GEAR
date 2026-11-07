@@ -315,19 +315,6 @@ def test_root_integration_certificate_and_fallback(config, enabled, proposed):
     assert torch.equal(ref['global_lb'], torch.tensor([[10., -1.]]))
 
 
-@pytest.mark.parametrize('crown', [False, True])
-def test_cert_crown_dual_replaces_linprog_and_matches_highs(config, crown):
-    from nlp_solver.structure import cert_kernels
-    gp, *_ = setup(Supported())
-    gp.crown = crown
-    ref = gp.solve(time_budget=5.)[0]
-    config['solver']['nlp']['cert_crown_dual'] = True
-    with patch('scipy.optimize.linprog', side_effect=AssertionError('HiGHS called')), \
-            patch.object(cert_kernels, 'halpern_lp', wraps=cert_kernels.halpern_lp) as kernel:
-        bound = gp.solve(time_budget=20.)[0]
-    assert kernel.call_count > 0
-    assert 7 < bound <= ref + 1e-6 * max(1., abs(ref)) and ref - bound <= 1e-4 * max(1., abs(ref))
-
 
 def test_cert_crown_dual_flag_off_still_uses_linprog_only():
     from nlp_solver.structure import cert_kernels
@@ -335,17 +322,3 @@ def test_cert_crown_dual_flag_off_still_uses_linprog_only():
     with patch.object(cert_kernels, 'halpern_lp', side_effect=AssertionError('kernel called')):
         assert gp.solve(time_budget=2.)[0] > 7
 
-
-def test_cert_crown_dual_caps_the_epigraph_and_returns_min_of_dual_and_cutoff(config):
-    from nlp_solver.gp_certificate import _cutoff_box
-    lower, upper = np.array([0., 0., -1.]), np.array([1., 1., 1e20])
-    capped, stop = _cutoff_box(lower, upper, 12., 0.5, Fraction(7), True)
-    assert capped[-1] == pytest.approx(np.log(5.), rel=1e-8) and upper[-1] == 1e20      # copy, not in place
-    assert stop == pytest.approx(np.log(4.5), rel=1e-8)
-    capped, stop = _cutoff_box(lower, upper, 12., 0., Fraction(7), False)
-    assert capped[-1] == pytest.approx(5., rel=1e-8)
-    assert _cutoff_box(lower, upper, None, 0., Fraction(7), False)[1] is None
-    gp, *_ = setup(Supported())
-    config['solver']['nlp']['cert_crown_dual'] = True
-    bound = gp.solve(time_budget=20., target=9., tolerance=1e-6)[0]
-    assert 7 < bound <= 9.

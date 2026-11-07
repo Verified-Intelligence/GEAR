@@ -279,18 +279,3 @@ def test_root_finish_and_fallback(enabled, proposed):
         assert build.call_count == int(enabled)
     assert torch.equal(ref['global_lb'], torch.tensor([[10., -1.]]))
 
-
-def test_cert_crown_dual_replaces_linprog_and_matches_highs(config):
-    from nlp_solver.structure import cert_kernels
-    cert, diag, *_ = setup(Gibbs(1e-4, 1))
-    assert cert is not None, diag
-    ref = cert.solve(time_budget=5.)[0]
-    config['solver']['nlp']['cert_crown_dual'] = True
-    with patch('scipy.optimize.linprog', side_effect=AssertionError('HiGHS called')), \
-            patch.object(cert_kernels, 'halpern_lp', wraps=cert_kernels.halpern_lp) as kernel:
-        bound = cert.solve(time_budget=20.)[0]
-    assert kernel.call_count > 0
-    assert np.isfinite(bound) and bound <= ref + 1e-6 * max(1., abs(ref)) and ref - bound <= 1e-4 * max(1., abs(ref))
-    with patch.object(cert_kernels, 'halpern_lp', side_effect=AssertionError('kernel called')):
-        config['solver']['nlp']['cert_crown_dual'] = False
-        assert cert.solve(time_budget=2.)[0] == pytest.approx(ref, abs=1e-6)

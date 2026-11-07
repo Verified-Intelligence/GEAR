@@ -96,22 +96,6 @@ class Rows:
             self._slots = list(torch.split(order[by_rank], sizes))
         return self._slots
 
-    def prepare_segmented(self):
-        """Opt-in O(nnz) segmented pricing for immutable first-order tables.
-
-        Avoid atomic contention in both certificate channels. k is the
-        number of nonzero stored entries per column, an upper bound on the
-        active products for every multiplier. Baseline Rows are unchanged.
-        Call after masking rows and before proposing any multipliers.
-        """
-        if not self.row.numel():
-            return
-        from auto_LiRPA.compiled_crown import Mat
-        self._pricing = (Mat(coo=(self.row, self.col, self.val), shape=(self.m, self.n), sparse=True),
-                         Mat(coo=(self.row, self.col, self.val.abs()), shape=(self.m, self.n), sparse=True))
-        self._pricing_k = self.val.new_zeros(self.val.shape[0], self.n).index_add(
-            1, self.col, (self.val != 0).to(self.val.dtype))
-
 
 # ------------------------------------------------------------------------------------------------ error-free transforms
 def _two_sum(a, b):
@@ -133,9 +117,6 @@ def _two_prod(a, b):                              # Dekker/Veltkamp: p + e = a b
 
 def _reduced_float(rows, c, y):
     """r = c + G^T y in fp64, rho = |c| + |G|^T y, k = number of nonzero products per column. Rows with y == 0 add 0."""
-    if hasattr(rows, '_pricing'):
-        mat, magnitude = rows._pricing
-        return mat.left(y)+c, magnitude.left(y)+c.abs(), rows._pricing_k.expand_as(c)
     ya = y[:, rows.row]
     act = (ya != 0) & (rows.val != 0)
     p = torch.where(act, rows.val * ya, 0.0)

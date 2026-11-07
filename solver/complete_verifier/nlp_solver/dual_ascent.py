@@ -437,48 +437,8 @@ def lp_bound_halpern(
     accuracy: float = 1e-6,
     deadline: Optional[float] = None,
 ) -> Tuple[Tensor, Tensor]:
-    """Plane LP of every box as one restarted-Halpern lane (auto_LiRPA.node_lanes.solve_pool).
-
-    Same contract as lp_bound_pdhg: min c^T x + c0 s.t. G x <= h, l <= x <= u, rows with a
-    non-finite rhs inactive. Each lane runs on its own COO table (values per box, the
-    union pattern of the batch) and stops at KKT error <= `accuracy`, at the cutoff `stop`
-    (default +inf: never), or after `budget` steps. The bound is the rigorous outward-rounded
-    dual value d_B of the lane's best multipliers, so it is valid whatever the stopping
-    point; the zero multiplier and the warm start y0 are also scored and the maximum is
-    returned. A lane whose Farkas ray certifies the box empty returns +inf.
-    """
-    from auto_LiRPA.node_lanes import solve_pool
-    B, m, n = G.shape
-    active = torch.isfinite(h) & torch.isfinite(G).all(-1)
-    Gz = torch.where(active.unsqueeze(-1), G, torch.zeros_like(G))
-    hz = torch.where(active, h, torch.ones_like(h))
-    y = torch.zeros_like(hz)
-    best = _lp_dual_value(c, c0, Gz, hz, l, u, y)
-    best_y = y
-    if y0 is not None:
-        y = torch.where(torch.isfinite(y0), y0, torch.zeros_like(y0)).clamp(min=0.0).to(hz)
-        y = torch.where(active, y, torch.zeros_like(y))
-        d = _lp_dual_value(c, c0, Gz, hz, l, u, y)
-        better = torch.isfinite(d) & (~torch.isfinite(best) | (d > best))
-        best = torch.where(better, d, best)
-        best_y = torch.where(better.unsqueeze(-1), y, best_y)
-    if budget <= 0 or m == 0 or (deadline is not None and time.time() >= deadline):
-        return best, best_y
-    f64 = torch.float64
-    rows = Rows.from_dense(Gz.to(f64))
-    cd = c.to(f64).contiguous()
-    data = (rows, cd, c0.to(f64).contiguous(), hz.to(f64).contiguous(), l.to(f64).contiguous(),
-            u.to(f64).contiguous(), torch.zeros_like(cd))
-    cutoff = torch.full((B,), torch.inf, dtype=f64, device=c.device) if stop is None else stop.to(f64)
-    warm = None if y0 is None else ((l.to(f64) + u.to(f64)) / 2, best_y.to(f64))
-    out = solve_pool(data, capacity=B, budget=int(budget), stop=cutoff, warm=warm, accuracy=accuracy,
-                     capture=False, deadline=deadline, iteration_scheme='halpern', implied_box=True)
-    lane = round_down(out.lower, c.dtype)
-    better = torch.isfinite(lane) & (~torch.isfinite(best) | (lane > best))
-    best = torch.where(better, lane, best)
-    best_y = torch.where(better.unsqueeze(-1), out.best_y.to(best_y), best_y)
-    best = torch.where(out.empty, torch.full_like(best, torch.inf), best)
-    return best, best_y
+    from auto_LiRPA.not_in_release import not_in_release
+    not_in_release("solver.nlp.dual_lp_halpern (Halpern lane LP bound)")
 
 
 _HIGHS_POOL = None

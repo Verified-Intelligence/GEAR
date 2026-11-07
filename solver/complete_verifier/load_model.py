@@ -29,7 +29,6 @@ import onnxoptimizer
 from skl2onnx.helpers.onnx_helper import select_model_inputs_outputs
 from skl2onnx.helpers.onnx_helper import save_onnx_model
 from skl2onnx.helpers.onnx_helper import enumerate_model_node_outputs
-from onnx_opt import compress_onnx
 
 import warnings
 import importlib
@@ -92,22 +91,8 @@ def unzip_and_optimize_onnx(path, onnx_optimization_flags: Optional[List[str]] =
             onnx_model = onnx.load(path)
         return onnx_model
     else:
-        print(f'Onnx optimization with flags: {onnx_optimization_flags}')
-        npath = path + '.optimized'
-        if os.path.exists(npath):
-            print(f'Found existed optimized onnx model at {npath}')
-            return onnx.load(npath)
-        else:
-            print(f'Generate optimized onnx model to {npath}')
-            if path.endswith('.gz'):
-                onnx_model = onnx.load(gzip.GzipFile(path))
-            else:
-                onnx_model = onnx.load(path)
-            try:   # Capture errors during ONNX optimization, skip errors, and display warnings when failures occur.
-                return compress_onnx(onnx_model, path, npath, onnx_optimization_flags, debug=True)
-            except Exception as e:
-                warnings.warn(f"ONNX optimization failed with flags {onnx_optimization_flags}. Skipping optimization.\nError: {e}")
-                return onnx_model  # Fallback to unoptimized model
+        from auto_LiRPA.not_in_release import not_in_release
+        not_in_release('model.onnx_optimization_flags (ONNX graph optimization)')
 
 
 def _run_onnx_outputs(path, inputs):

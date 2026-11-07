@@ -19,15 +19,9 @@ import gc
 import torch
 
 import arguments
-from domain_utils import DomainDB
-from attack import check_and_save_cex
-from utils import Logger, take_batch
+from utils import Logger
 from specifications import BatchedSpecs
-from activation_split.bab_bootstrap import general_bab
 from input_split.batch_branch_and_bound import input_bab_parallel
-from cuts.cut_utils import terminate_mip_processes_by_c_matching, clean_net_mps_process
-from cuts.cplex_cut_recorder import CplexCutRecorder
-from input_constraints import take_input_constraints_batch
 
 from typing import TYPE_CHECKING
 
@@ -90,11 +84,6 @@ def bab(self: 'ABCROWN',
 
     vnnlib = self.vnnlib_handler.vnnlib
 
-    enable_cuts = arguments.Config['bab']['cut']['enabled']
-    cplex_cuts = (enable_cuts and arguments.Config['bab']['cut']['cplex_cuts'])
-    all_node_split_LP = arguments.Config['solver']['beta-crown']['all_node_split_LP']
-    bab_attack_enabled = arguments.Config['bab']['attack']['enabled']
-
     # initialize the model.
     # Reuse the model produced by incomplete verification.
     assert reference_dict
@@ -122,82 +111,8 @@ def bab(self: 'ABCROWN',
         if return_domains:
             return result
     else:
-        assert not return_domains, 'return_domains is only for input split for now'
-        total_num_or_spec = c.shape[0]
-        if enable_cuts or all_node_split_LP or bab_attack_enabled:
-            # these features only support batch size 1
-            bab_batch_size = 1
-            if cplex_cuts:
-                solved_c_list = []
-        else:
-            # otherwise, we can use the whole batch
-            bab_batch_size = total_num_or_spec
-        num_batches = (total_num_or_spec + bab_batch_size - 1) // bab_batch_size
-
-        result = [float("inf"), 0, "safe"]
-
-        total_visited_domain = DomainDB.new_db()
-        save_visited_domains_to = arguments.Config['bab']['branching']['save_visited_domains_to']
-
-        # this for loop will only execute once or total_num_or_spec times
-        for batch_idx in range(num_batches):
-            print(f'Activation BaB batch {batch_idx + 1}/{num_batches} ')
-
-            # Create recorder instance for this iteration
-            record_dir = arguments.Config["bab"]["cut"]["record_cplex_cut_to"]
-            replay_dir = arguments.Config["bab"]["cut"]["read_cplex_cut_from"]
-            recorder = None
-            if record_dir is not None or replay_dir is not None:
-                recorder = CplexCutRecorder(
-                    batch_id=batch_idx, record_csv_basepath=record_dir, replay_csv_basepath=replay_dir
-                )
-            lirpa_model.recorder = recorder
-
-            batch_x, batch_c, batch_rhs, batch_reference_dict = prepare_for_act_bab(
-                x, c, rhs, reference_dict, bab_batch_size, batch_idx)
-
-            batch_result = general_bab(
-                lirpa_model,
-                batch_x,
-                batch_c,
-                batch_rhs,
-                reference_dict=batch_reference_dict,
-                timeout=timeout,
-                max_iterations=max_iterations,
-            )
-
-            if cplex_cuts:
-                solved_c_list.append(batch_c)
-                terminate_mip_processes_by_c_matching(lirpa_model.processes, solved_c_list)
-
-            if save_visited_domains_to != '':
-                assert len(batch_result) == 4, "Please check the return value of general_bab."
-                stats = batch_result[3]
-                stats.domainDB.dump(save_visited_domains_to, batch_idx if num_batches > 1 else None)
-                print(f'DomainDB saved to {save_visited_domains_to}')
-                total_visited_domain.merge(stats.domainDB)
-
-            batch_result = _format_result_act_bab(batch_result, lirpa_model, vnnlib)
-
-            # record the worst lb
-            result[0] = min(result[0], batch_result[0])
-            # account for the number of domains visited
-            result[1] += batch_result[1]
-
-            if batch_result[2] != 'safe':
-                # can be 'unsafe_bab' or 'unknown'
-                result[2] = batch_result[2]
-                break
-
-            if lirpa_model.recorder is not None:
-                lirpa_model.recorder.report()
-
-        if enable_cuts:
-            clean_net_mps_process(lirpa_model)
-
-        if save_visited_domains_to != '':
-            total_visited_domain.dump(save_visited_domains_to)
-            print(f'(Union of all) DomainDB saved to {save_visited_domains_to}')
+        from auto_LiRPA.not_in_release import not_in_release
+        not_in_release("activation-space BaB (only input-space splitting is part of this release)")
 
     # return global lb, number of domains visited, and status
     return result
@@ -242,87 +157,3 @@ def complete_verifier(
     elif ret != 'safe':
         raise ValueError(f'Unknown return value of bab: {ret}')
     return 'safe'
-
-def prepare_for_act_bab(x, c, rhs, reference_dict, batch_size, batch_idx):
-    batch_x = take_batch(x, batch_size, batch_idx)
-    batch_c = take_batch(c, batch_size, batch_idx)
-    batch_rhs = take_batch(rhs, batch_size, batch_idx)
-    batch_reference_dict = {"global_lb": None, "global_ub": None,
-                            "lower_bounds": None, "upper_bounds": None,
-                            "lA": None, "alphas": None, "mask": None,
-                            "refined_betas": None, "history": None,
-                            "attack_examples": None, "attack_margins": None,
-                            "base_input_linear_constraints": None,
-                            "base_input_constraints": None}
-
-    if reference_dict.get('global_lb', None) is not None:
-        batch_reference_dict['global_lb'] = take_batch(reference_dict['global_lb'], batch_size, batch_idx)
-    if reference_dict.get('global_ub', None) is not None:
-        batch_reference_dict['global_ub'] = take_batch(reference_dict['global_ub'], batch_size, batch_idx)
-    if reference_dict.get('lower_bounds', None) is not None:
-        batch_reference_dict['lower_bounds'] = {k: take_batch(v, batch_size, batch_idx)
-                                                for k, v in reference_dict['lower_bounds'].items()}
-    if reference_dict.get('upper_bounds', None) is not None:
-        batch_reference_dict['upper_bounds'] = {k: take_batch(v, batch_size, batch_idx)
-                                                for k, v in reference_dict['upper_bounds'].items()}
-    if reference_dict.get('lA', None) is not None:
-        batch_reference_dict['lA'] = {k: take_batch(v, batch_size, batch_idx)
-                                                for k, v in reference_dict['lA'].items()}
-    if reference_dict.get('alphas', None) is not None:
-        batch_reference_dict['alphas'] = {}
-        for k, v in reference_dict['alphas'].items():
-            batch_reference_dict['alphas'][k] = {}
-            batch_reference_dict['alphas'][k]['alpha'] = {kk: take_batch(vv, batch_size, batch_idx, batch_dim=2)
-                                                          for kk, vv in v['alpha'].items()}
-            for item in v.keys():
-                if item != 'alpha':
-                    # item can be 'alpha_lookup_idx', 'alpha_indices', 'init'.
-                    batch_reference_dict['alphas'][k][item] = reference_dict['alphas'][k][item]
-    if reference_dict.get('mask', None) is not None:
-        batch_reference_dict['mask'] = {}
-        for k, v in reference_dict['mask'].items():
-            batch_reference_dict['mask'][k] = []
-            for vv in v:
-                # mask can be None if the corresponding input node is not perturbed.
-                if vv is None or vv.shape[0] == 1:
-                    batch_reference_dict['mask'][k].append(vv)
-                else:
-                    batch_reference_dict['mask'][k].append(take_batch(vv, batch_size, batch_idx, batch_dim=0))
-
-    if reference_dict.get('refined_betas', None) is not None:
-        batch_reference_dict['refined_betas'] = reference_dict['refined_betas']
-    if reference_dict.get('attack_examples', None) is not None:
-        batch_reference_dict['attack_examples'] = take_batch(reference_dict['attack_examples'], batch_size, batch_idx)
-    if reference_dict.get('attack_margins', None) is not None:
-        batch_reference_dict['attack_margins'] = take_batch(reference_dict['attack_margins'], batch_size, batch_idx)
-    if reference_dict.get('history', None) is not None:
-        batch_reference_dict['history'] = reference_dict['history']
-    if reference_dict.get('base_input_linear_constraints', None) is not None:
-        batch_reference_dict['base_input_linear_constraints'] = take_input_constraints_batch(
-            reference_dict['base_input_linear_constraints'],
-            batch_size,
-            batch_idx,
-        )
-    if reference_dict.get('base_input_constraints', None) is not None:
-        batch_reference_dict['base_input_constraints'] = take_input_constraints_batch(
-            reference_dict['base_input_constraints'],
-            batch_size,
-            batch_idx,
-        )
-
-    return batch_x, batch_c, batch_rhs, batch_reference_dict
-
-
-def _format_result_act_bab(result, lirpa_model, vnnlib):
-    # If a counterexample is found in any node split LP, check and save it
-    if result[2] == 'unsafe_bab':
-        stats = result[3]
-        adv_example = stats.counterexample.detach().to(lirpa_model.device)
-        verified_status, _ = check_and_save_cex(
-            adv_example, lirpa_model.net(adv_example), vnnlib,
-            arguments.Config['attack']['cex_path'], 'unsafe')
-        result = (*result[:2], verified_status)
-    else:
-        result = result[:3]
-    # return the result in the format of (global_lb, num_domains, result)
-    return result

@@ -621,19 +621,8 @@ def build_quadratic_tangent(bounded_module, model_ori, x_input: Tensor, obj_inde
     if obj_index >= degs.numel() or not math.isfinite(float(degs[obj_index])) \
             or float(degs[obj_index]) > 2:
         if taylor2_bound and n <= taylor2_max_vars and obj_index < degs.numel():
-            import copy
-            from .taylor2_tangent import Taylor2Tangent
-            # Autograd must run in float64 even for a float32 solver/model.
-            model_double = copy.deepcopy(model_ori).double()
-
-            def objective_double(z):
-                return model_double(z.reshape(x_input.shape)).reshape(-1)[obj_index]
-
-            tangent = Taylor2Tangent(
-                bounded_module, x_input, obj_index, objective_double, x_hat,
-                root_lower, root_upper, max_domains=taylor2_max_domains)
-            tangent.objective_degree = float(degs[obj_index])
-            return tangent
+            from auto_LiRPA.not_in_release import not_in_release
+            not_in_release('solver.nlp.taylor2_bound (second-order Taylor tangent)')
         return None
     if not quadratic_bound:
         return None

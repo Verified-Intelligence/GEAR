@@ -23,21 +23,19 @@ import arguments
 import warnings
 
 from auto_LiRPA import BoundedModule, BoundedTensor
-from auto_LiRPA.bound_ops import BoundRelu, BoundInput
+from auto_LiRPA.bound_ops import BoundRelu
 from auto_LiRPA.perturbations import PerturbationLpNorm
 from auto_LiRPA.utils import (
-        stop_criterion_placeholder, stop_criterion_all,
+        stop_criterion_all,
         stop_criterion_batch_any, stop_criterion_general,
-        reduction_str2func, transfer)
+        reduction_str2func)
 
 from attack import attack
-from input_split.input_split_on_relu_domains import input_branching_decisions
 from utils import (
     Timer,
     take_batch,
     expand_batch,
     transfer_obj,
-    assert_allowed_caller,
     merge_splits_per_example
 )
 from load_model import Customized
@@ -51,10 +49,6 @@ from state import (
 )
 from state.alpha import resolve_alpha_storage_dtype
 from prune import PruneAfterCROWN
-from beta_CROWN_solver_utils import build_history_and_set_bounds_static
-from heuristics.nonlinear import precompute_A
-from domain_clipper import DomainClipper
-from cuts.cplex_cut_recorder import CplexCutRecorder
 from crown_spec_batching import compute_bounds_in_spec_batches
 from state import WorkingIntermBoundsInfo
 
@@ -163,7 +157,6 @@ class LiRPANet:
         self.cutter = None # class for generating and optimizing cuts
         self.biccos = None # class for BICCOS
         self.timer = Timer()
-        self.recorder: CplexCutRecorder | None = None
 
         # for fetching cplex in parallel
         self.mip_building_proc: None | multiprocessing.Process = None
@@ -207,87 +200,7 @@ class LiRPANet:
         self.tot_ambi_nodes = 0  # total number of ambiguous nodes, predefined here.
         self.solver_model_initialized = False
 
-    @property
-    def split_nodes(self):
-        return self.net.split_nodes
-
-    def get_split_node_dtype_map(self):
-        """Return the computation dtype owned by each split node."""
-        return {
-            node.name: self.net.get_output_dtype(node)
-            for node in self.net.split_nodes
-        }
-
-    @torch.no_grad()
-    def get_primal_upper_bound(self, A):
-        assert self.x.ptb.norm == torch.inf, (
-            'We only support to get primals for Linf norm perturbation so far')
-        input_A_lower = A[self.net.output_name[0]][self.net.input_name[0]]['lA']
-        batch = input_A_lower.shape[0]
-
-        x_lb, x_ub = self.x.ptb.x_L, self.x.ptb.x_U
-        input_primal = x_lb.clone().detach()
-        input_primal[input_A_lower.squeeze(1) < 0] = x_ub[input_A_lower.squeeze(1) < 0]
-
-        assert self.c.size(0) == 1
-        return input_primal, self.model_ori(input_primal).matmul(self.c[0].transpose(-1, -2))
-
     # FIXME: should not pass lb and ub into function, they should be from self.net
-    def get_interm_bounds(self, lb, ub=None, init=True, device=None):
-        """Get the intermediate bounds.
-
-        By default, we also add final layer bound after applying C
-        (lb and lb+inf).
-        """
-
-        lower_bounds, upper_bounds = {}, {}
-        unstable_bounds = {}
-
-        # If input split is enabled, we do not need to get intermediate bounds
-        # just return the bounds for the final layer.
-        if arguments.Config['bab']['branching']['input_split']['enable']:
-            lower_bounds[self.final_name] = lb.detach()
-            if ub is None:
-                ub = lb + torch.inf
-            upper_bounds[self.final_name] = ub.detach()
-            # input bab does not need to fetch intermediate bounds.
-            return lower_bounds, upper_bounds, None
-
-        if init:
-            self.get_split_nodes()
-            for layer in self.net.layers_requiring_bounds + self.net.split_nodes:
-                if layer.lower is None and layer.upper is None:
-                    continue
-                if layer.name != self.final_name:
-                    lower_bounds[layer.name] = layer.lower.detach()
-                    upper_bounds[layer.name] = layer.upper.detach()
-        elif self.interm_transfer:
-            for layer in self.net.layers_requiring_bounds:
-                if layer.lower is None and layer.upper is None:
-                    continue
-                # sometimes the layer may be all stable and
-                # removed from the self.net.split_nodes
-                # or its next node can not be split at all
-                # see self.net.get_split_nodes()
-                if layer not in self.net.split_nodes:
-                    continue
-                mask = self.unstable_mask[layer.name]
-                if mask is not None:
-                    unstable_bounds[layer.name] = [
-                        transfer(layer.lower.detach()[:, mask[0]], device),
-                        transfer(layer.upper.detach()[:, mask[0]], device)
-                    ]
-
-        # We have to set lower and upper bounds for the final layer here,
-        # otherwise, the beta-crown test may fail.
-        lower_bounds[self.final_name] = lb.detach()
-        print(lower_bounds[self.final_name].shape)
-        if ub is None:
-            ub = lb + torch.inf
-        upper_bounds[self.final_name] = ub.detach()
-
-        return lower_bounds, upper_bounds, unstable_bounds
-
     def get_mask(self):
         masks = {}
         if arguments.Config['bab']['branching']['input_split']['enable']:
@@ -306,300 +219,6 @@ class LiRPANet:
             masks[node.name] = mask
         return masks
 
-    def prune_setting(self, d, beta, beta_bias, lb_last, ub_last,
-                        batch_mask, enable_opt_interm_bounds):
-        """Prune the setting after clipping the input domain."""
-        c = d['cs']
-        decision_thresh = d['thresholds']
-        batch = c.shape[0]
-        lb_last, ub_last = lb_last[batch_mask], ub_last[batch_mask]
-        if beta:
-            splits_per_example = self.net.set_beta_bab(d['history'], d['betas'], bias=beta_bias,
-                        enable_opt_interm_bounds=enable_opt_interm_bounds)
-            self.net.set_alpha(d, set_all=enable_opt_interm_bounds)
-            self.net.set_bound_opts({
-                'optimize_bound_args': {
-                    'stop_criterion_func': self.domain_clipper.stop_func(decision_thresh),
-            }})
-            self.set_crown_bound_opts('beta')
-        return c, decision_thresh, batch, lb_last, ub_last, nums_effective_beta_per_domain
-
-    @torch.no_grad()
-    def _expand_tensors(self, d, batch):
-        lb, ub = d['lower_bounds'], d['upper_bounds']
-        cs, x_Ls, x_Us = d.get('cs', None), d.get('x_Ls', None), d.get('x_Us', None)
-        # Only the last element is used later.
-        lb_last, ub_last = lb[self.final_name], ub[self.final_name]
-        interm_bounds = {k: [lb[k], ub[k]] for k in lb if k != self.final_name}
-        # create new_x here since batch may change
-        new_x = expand_batch(self.x, batch, x_L=x_Ls, x_U=x_Us)
-        if cs is None:
-            assert self.c.size(0) == 1
-            cs = None if self.c is None else self.c.expand(new_x.shape[0], -1, -1)
-        return interm_bounds, lb_last, ub_last, cs, new_x, x_Ls, x_Us
-
-    def update_bounds(self, d, beta=None, fix_interm_bounds=True,
-                      shortcut=False, stop_criterion_func=stop_criterion_placeholder(),
-                      multi_spec_keep_func=None, beta_bias=True, enable_clip_domains=False):
-        """[deprecated] Main function for computing bounds after branch and bound in Beta-CROWN.
-
-        Consider use activation_split.update_bounds_phases.py: update_bounds_pre, update_bounds_core, update_bounds_post
-
-        This legacy function is only allowed for existing calls in:
-        * bab.py:multi_tree_bab shortcut=False
-        * heuristics/fsb.py:compute_branching_decisions shortcut=True
-        * heuristics/nonlinear/bbps.py:_compute_actual_bounds shortcut=True
-
-        """
-
-        assert shortcut or assert_allowed_caller(["multi_tree_bab"]), (
-            "Misuse of legacy update_bounds() function."
-            "=========================================="
-            f"{self.update_bounds.__doc__}"
-            "=========================================="
-        )
-
-        assert (not shortcut) or assert_allowed_caller(
-            ["compute_branching_decisions", "_compute_actual_bounds",
-             "_run_update_bounds_reference"]
-        ), (
-            "Misuse of legacy update_bounds() function with shortcut=True."
-            "=========================================="
-            f"{self.update_bounds.__doc__}"
-            "=========================================="
-        )
-
-        solver_args = arguments.Config['solver']
-        reproduce_alpha_bounds = solver_args['reproduce_alpha_bounds']
-        beta_args = solver_args['beta-crown']
-        bab_args = arguments.Config['bab']
-        if beta is None:
-            # might need to set beta False in FSB node selection
-            beta = beta_args['beta']
-        alpha = True
-
-        iteration = beta_args['iteration']
-        get_upper_bound = bab_args['get_upper_bound']
-        enable_opt_interm_bounds = beta_args['enable_opt_interm_bounds']
-        branching_input_and_activation = bab_args['branching']['branching_input_and_activation']
-        batch = d['upper_bounds'][self.final_name].shape[0]
-        decision_thresh = d.get('thresholds', None)
-        # The `vanilla_crown_bab` option was removed by commit 3747d912b
-        # ("remove vanilla_crown_bab option"); a later merge (9bb4469b0) re-
-        # introduced the dangling `vanilla_crown` usages without its definition,
-        # breaking this path with a NameError. The feature is gone, so the flag
-        # is permanently False here (equivalent to the refactor's `if beta:`).
-        vanilla_crown = False
-
-        if shortcut:
-            self.timer.start("shortcut=>func")
-            self.timer.start("shortcut=>prepare")
-        else:
-            self.timer.start("func")
-            self.timer.start("prepare")
-
-        if self.net.cut_used:
-            self.disable_cut_for_branching()
-        if beta and not vanilla_crown:
-            splits_per_example = self.net.set_beta_bab(d['history'], d['betas'], bias=beta_bias,
-                        enable_opt_interm_bounds=enable_opt_interm_bounds)
-            # s2 = self.net.set_output_beta(batch=batch, )
-            # splits_per_example = merge_splits_per_example(splits_per_example, s2)
-            self.net.cut_used = (
-                    arguments.Config['bab']['cut']['enabled']
-                    and arguments.Config['bab']['cut']['bab_cut']
-                    and getattr(self.net, 'cut_module', None) is not None)
-            # even we need to use cut, maybe the cut is not fetched yet
-            if self.net.cut_used:
-                iteration = self.set_cut_params(
-                    batch, batch, d.get('split_history', None))
-            # here to handle the case where the split node happen to be in the
-            # cut constraint !!!
-        else:
-            nums_effective_beta_per_domain = ValueError("beta flag is not on")
-
-        ret = self._expand_tensors(d, batch)
-        interm_bounds, lb_last, ub_last, c, new_x, x_Ls, x_Us = ret
-        new_x_Ls, new_x_Us = None, None
-
-        if alpha:
-            self.net.set_alpha(d['alphas'], set_all=enable_opt_interm_bounds)
-        if shortcut:
-            self.timer.add('shortcut=>prepare')
-            self.timer.start('shortcut=>bound')
-        else:
-            self.timer.add('prepare')
-            self.timer.start('bound')
-        self.net.set_bound_opts({
-            'optimize_bound_args': {
-                'enable_beta_crown': beta,
-                'fix_interm_bounds': fix_interm_bounds,
-                'stop_criterion_func': stop_criterion_func,
-                'multi_spec_keep_func': multi_spec_keep_func,
-                'iteration': iteration,
-            },
-            'enable_opt_interm_bounds': enable_opt_interm_bounds,
-        })
-        self.set_crown_bound_opts('beta')
-
-        if shortcut:
-            self.timer.start('shortcut=>compute_bounds')
-            args_compute_bounds = dict(x=(new_x,), C=c, reuse_alpha=True,
-                interm_bounds=interm_bounds, bound_upper=False,
-                decision_thresh=decision_thresh)
-            with (torch.enable_grad() if beta else torch.no_grad()):
-                lb, _, = self.net.compute_bounds(
-                    method='CROWN-optimized' if beta else 'backward',
-                    **args_compute_bounds)
-            self.timer.add('shortcut=>compute_bounds')
-            self.timer.add("shortcut=>bound")
-            self.timer.add("shortcut=>func")
-            return lb
-
-        # we need A matrix to construct adv example
-        temp_return_A = get_upper_bound or branching_input_and_activation
-        temp_needed_A_dict = self.needed_A_dict
-        if enable_clip_domains and self.domain_clipper.using_final_layer:
-            temp_return_A, temp_needed_A_dict = self._set_tmp_A(True, 'alpha-crown')
-
-        original_size = new_x.shape[0]
-
-        if fix_interm_bounds:
-            reference_bounds = {}
-            for name in self.alpha_start_nodes:
-                if name in interm_bounds:
-                    reference_bounds[name] = interm_bounds[name]
-                    interm_bounds.pop(name)
-        else:
-            reference_bounds = interm_bounds
-            interm_bounds = {}
-        if len(reference_bounds):
-            print('Recompute intermediate bounds for nodes:',
-                ', '.join(list(reference_bounds.keys())))
-
-        ######### Clip and Verify Domains Start ########
-        if enable_clip_domains and self.domain_clipper is not None:
-            if self.domain_clipper.clip_input_domain:
-                new_x, interm_bounds, d, batch_mask = (
-                    self.domain_clipper.domain_clip_ReLU(
-                        d, new_x, interm_bounds))
-                if self.domain_clipper.prune and batch_mask is not None:
-                    ret_prune = self.prune_setting(d, beta, beta_bias, lb_last, ub_last,
-                                                batch_mask, enable_opt_interm_bounds)
-                    (c, decision_thresh, batch,
-                        lb_last, ub_last, nums_effective_beta_per_domain) = ret_prune
-
-            if self.domain_clipper.clip_interm_domain:
-                interm_bounds = self.domain_clipper.optimize_interm_bounds(
-                    d, new_x.ptb.x_L, new_x.ptb.x_U, interm_bounds,
-                    self.split_activations)
-        ######### Clip and Verify Domains End ##########
-
-        self.timer.start('update_bounds.compute_bounds')
-        tmp_ret = self.net.compute_bounds(
-            x=(new_x,), C=c, method='CROWN-optimized',
-            interm_bounds=interm_bounds, reference_bounds=reference_bounds,
-            return_A=temp_return_A, needed_A_dict=temp_needed_A_dict,
-            cutter=self.cutter, bound_upper=False,
-            decision_thresh=decision_thresh)
-        self.timer.add('update_bounds.compute_bounds')
-
-        self.timer.add('bound')
-
-        A = tmp_ret[2] if temp_return_A else None
-        lb, _ = tmp_ret[0], tmp_ret[1]
-
-        # Using output constraints to clip input region.
-        # TODO: clean up implementation, and make it more general.
-        if enable_clip_domains and self.domain_clipper.using_final_layer:
-            new_x_Ls, new_x_Us, interm_bounds = self.domain_clipper.domain_clip_outputs(A, new_x, interm_bounds)
-
-        if get_upper_bound:
-            primal_x, ub = self.get_primal_upper_bound(A)
-        else:
-            ub = torch.full_like(lb, fill_value=torch.inf)  # dummy upper bound
-            primal_x = None
-        # Use A matrix of the input, the find best neuron to branch in input space.
-
-        input_split_idx = input_branching_decisions(
-            self.net, lb,
-            A[self.net.output_name[0]][self.net.input_name[0]]['lA'],
-            x_Ls, x_Us, decision_thresh
-        ) if branching_input_and_activation else None
-
-        with torch.no_grad():
-            # Move tensors to CPU for all elements in this batch.
-            self.timer.start('transfer')
-            lb, ub = lb.to(device='cpu'), ub.to(device='cpu')
-            lAs = BatchedlA.from_net(
-                self,
-                preserve_mask=self.net.last_update_preserve_mask,
-                tot_cells=original_size,
-                device="cpu",
-            )
-            self.timer.add('transfer')
-            self.timer.start('finalize')
-            if alpha:
-                alpha_storage_dtype = resolve_alpha_storage_dtype(
-                    arguments.Config["solver"]["alpha-crown"]["alpha_dtype"],
-                    reproduce_alpha_bounds=reproduce_alpha_bounds,
-                )
-                ret_s = self.net.get_alpha(
-                    device='cpu', half=alpha_storage_dtype is torch.float16)
-            else:
-                ret_alphas = {}
-            if beta:
-                ret_b = self.net.get_beta(splits_per_example, device='cpu',
-                                        enable_opt_interm_bounds=enable_opt_interm_bounds)
-            else:
-                ret_betas = [{} for _ in range(batch)]
-            # Reorganize tensors.
-            working_interm_bounds = WorkingIntermBoundsInfo.from_net(self, move=False)
-            unstable_bounds = working_interm_bounds.to_unstable_bounds(
-                unstable_mask=self.unstable_mask,
-                layers_requiring_bounds_names=[n.name for n in self.net.layers_requiring_bounds],
-                split_nodes_names=[n.name for n in self.net.split_nodes],
-                device='cpu',
-            )
-            if ub is None:
-                ub = lb + torch.inf
-            ret_l = {self.final_name: lb.detach().to('cpu')}
-            ret_u = {self.final_name: ub.detach().to('cpu')}
-            if not reproduce_alpha_bounds:
-                ret_l[self.final_name] = torch.max(
-                    ret_l[self.final_name], lb_last.cpu())
-                if not get_upper_bound:
-                    # Do not set to min so the primal is always corresponding
-                    # to the upper bound.
-                    ret_u[self.final_name] = torch.min(
-                        ret_u[self.final_name], ub_last.cpu())
-            self.timer.add('finalize')
-
-        if self.net.cut_used:
-            new_split_history = self.get_cut_new_split_history(batch)
-        else:
-            new_split_history = [{} for _ in range(batch)]
-
-        self.timer.add('func')
-        self.timer.print()
-
-        lbs_final = ret_l[self.final_name]
-        verified_elements = lbs_final > decision_thresh.to('cpu')
-        v_idx = torch.where(torch.any(verified_elements, dim=1))[0]
-        print("max lb", lbs_final.max(), "min lb", lbs_final.min())
-        print(f'Number of Verified Splits: {len(v_idx)} of {len(lbs_final)}')
-
-        return {
-            'lower_bounds': ret_l, 'upper_bounds': ret_u,
-            'lAs': lAs, 'alphas': ret_alphas,
-            'betas': ret_betas, 'split_history': new_split_history,
-            'unstable_bounds': unstable_bounds,
-            'primals': primal_x,
-            'c': c, 'x_Ls': x_Ls if new_x_Ls is None else new_x_Ls,
-            'x_Us': x_Us if new_x_Us is None else new_x_Us,
-            'input_split_idx': input_split_idx
-        }
-    
     def get_split_nodes(self, verbose=False):
         if arguments.Config['bab']['branching']['nonlinear_split']['relu_only']:
             self.net.disabled_split_nodes.update(
@@ -740,10 +359,6 @@ class LiRPANet:
                     assert total_batches == 1
                     arguments.Globals['out']['init_crown_bounds'] = lb.cpu()
 
-                if bab_args['cut']['enabled']:
-                    assert total_batches == 1
-                    self.enable_cuts()
-
                 if stop_criterion_func(lb).all().item():
                     # Fast path. Initial CROWN bound can verify the network.
                     print('Verified with initial CROWN!')
@@ -826,10 +441,8 @@ class LiRPANet:
             if branching_input_and_activation:
                 assert total_batches == 1
                 # Use A matrix of the input, the find best neuron to branch in input space.
-                batch_input_split_idx = input_branching_decisions(
-                    self.net, lb,
-                    A[self.net.output_name[0]][self.net.input_name[0]]['lA'],
-                    self.x.ptb.x_L, self.x.ptb.x_U, rhs)
+                from auto_LiRPA.not_in_release import not_in_release
+                not_in_release("bab.branching.branching_input_and_activation")
             else:
                 batch_input_split_idx = {}
 
@@ -873,13 +486,6 @@ class LiRPANet:
             batch_handler.add_batch_result(batch_lb, batch_ub, batch_lA, batch_alpha,
                 batch_mask, batch_input_split_idx, A)
 
-        if self.nonlinear_split and global_lb < 0 and self.return_A:
-            assert total_batches == 1
-            precompute_A(self.net, A, batch_x,
-                         interm_bounds={k: (batch_lb[k], batch_ub[k]) for k in batch_lb})
-        if bab_args['cut']['enabled']:
-            assert total_batches == 1
-            self.create_cutter(A, batch_x)
 
         # FIXME There is not only A here. There are also biases.
         # Need to rename.
@@ -887,194 +493,13 @@ class LiRPANet:
 
         ####### Clip and Verify Domains Initialization #######
         if enable_clip_domains:
-            self.domain_clipper = DomainClipper(batch_handler.batch_A[-1],
-                    batch_x, self.final_name, self.net.input_name,
-                    lb, ub, batch_mask)
+            from auto_LiRPA.not_in_release import not_in_release
+            not_in_release("bab.clip_n_verify (domain clipping)")
         ###### Clip and Verify Domains Initialization END #######
 
         result = batch_handler.get_results(self.empty_history())
 
         return result['global_lb'], result
-
-    def build_with_refined_bounds(
-            self, x, c, rhs,
-            stop_criterion,
-            refined_lower_bounds, refined_upper_bounds,
-            reference_lA,
-            reference_alphas, refined_betas,
-            or_spec_size=None,
-            full_alpha_info=False
-            ):
-        solver_args = arguments.Config['solver']
-        bab_args = arguments.Config['bab']
-        branch_args = bab_args['branching']
-        share_alphas = solver_args['alpha-crown']['share_alphas']
-        batch_size_target = solver_args['build_batch_size']
-        branching_input_and_activation = branch_args['branching_input_and_activation']
-        enable_opt_interm_bounds = arguments.Config["solver"]["beta-crown"]["enable_opt_interm_bounds"]
-        need_alphas = True
-        # See update_bounds(): the removed `vanilla_crown_bab` option was left
-        # dangling by the bad merge 9bb4469b0. The refactor 3747d912b dropped
-        # the `if vanilla_crown: batch_alpha = None` guard entirely (alphas are
-        # always extracted; init_alpha ran above even when the backward pass is
-        # skipped), so the flag is permanently False here.
-        vanilla_crown = False
-        assert refined_lower_bounds is not None and refined_upper_bounds is not None
-        interm_bounds = {k: [refined_lower_bounds[k], refined_upper_bounds[k]]
-                         for k in refined_lower_bounds if k != self.final_name}
-
-        batch_handler = BatchHandler(
-            x, c, rhs, stop_criterion, or_spec_size,
-            interm_bounds, batch_size_target, self.final_name, 
-            need_alphas, full_alpha_info, reference_alphas, reference_lA,
-        )
-
-        # FIXME: BaB-Attack requires refined_lower_bounds and refined_upper_bounds
-        # Here we save them together into interm_bounds.
-        # We need to update BaB-Attack in the future.
-        self.interm_bounds = batch_handler.interm_bounds
-
-        # reset the A options since they are set in the previous build() and then set it again
-        self.needed_A_dict = None
-        self.return_A = False
-        self._set_A_options(bab=True)
-
-        total_batches = batch_handler.total_batches
-        # We assume that this function is only called in activation bab with not large instances.
-
-        for now_batch in range(total_batches):
-            print(f'build_with_refined_bounds batch [{now_batch+1}/{total_batches}]')
-            torch.cuda.empty_cache()
-
-            # Get batch input.
-            batch_x, batch_c, batch_rhs, stop_criterion_func, batch_interm_bounds, batch_alphas, _ = (
-                batch_handler.get_batch_input(now_batch, self.device)
-            )
-            self.net.set_bound_opts({'optimize_bound_args': {'stop_criterion_func': stop_criterion_func}})
-            self.x = batch_x
-            self.c = batch_c
-
-            # ---------- Compute bounds with different methods START ----------
-            skip_backward_pass = False
-            self.net.init_alpha(
-                (batch_x,), share_alphas=share_alphas, c=batch_c,
-                interm_bounds=batch_interm_bounds,
-                reference_alphas=batch_alphas,
-                skip_bound_compute=True)
-
-            self.set_crown_bound_opts('alpha')
-
-            if solver_args['skip_with_refined_bound']:
-                print('all alpha initialized')
-                if not self.return_A:
-                    # FIXME "A" is incorrect later when calling get_lA
-                    skip_backward_pass = True
-                    print('directly get lb and ub from refined bounds')
-                    # Make sure the shape of reference_lA looks good so that we
-                    # can recover the batch_lA
-                    print('c shape:', batch_c.shape)
-                    assert reference_lA is not None
-                    batch_reference_lA = {k: batch_handler.take_batch(A, now_batch)
-                                          for k, A in reference_lA.items()}
-                    print('lA shapes:', [A.shape for A in batch_reference_lA.values()])
-                    # A shape: [batch, num_output, *output_shape]
-                    assert all([A.shape[0] == batch_c.shape[0] for A in batch_reference_lA.values()])
-                    # Try to directly recover l and u from refined_lower_bounds
-                    # and refined_upper_bounds without a backward crown pass
-                    lb = batch_handler.take_batch(refined_lower_bounds[self.final_name], now_batch)
-                    ub = batch_handler.take_batch(refined_upper_bounds[self.final_name], now_batch)
-                    ret = (lb, ub)
-                    # restore bounds back to the model only for all_node_split_LP
-                    if solver_args['beta-crown']['all_node_split_LP']:
-                        for node in batch_interm_bounds:
-                            self.net[node].lower = batch_interm_bounds[node][0]
-                            self.net[node].upper = batch_interm_bounds[node][1]
-                        self.net[self.final_name].lower = lb
-                        self.net[self.final_name].upper = ub
-                else:
-                    # do a backward crown pass
-                    print('true A is required, we do a full backward CROWN pass to obtain it')
-                    ret = self.net.compute_bounds(
-                        x=(batch_x,), method='backward', C=batch_c,
-                        return_A=self.return_A, reuse_alpha=True,
-                        interm_bounds=batch_interm_bounds,
-                        needed_A_dict=self.needed_A_dict)
-            else:
-                print('Restore to original setting since some alphas are not '
-                    'initialized yet or being asked not to skip')
-                ret = self.net.compute_bounds(
-                    x=(batch_x,), method='crown-optimized',
-                    return_A=self.return_A, C=batch_c,
-                    interm_bounds=batch_interm_bounds,
-                    needed_A_dict=self.needed_A_dict)
-            # ----------- Compute bounds with different methods END -----------
-
-            lb, ub = ret[0], ret[1]
-            A = ret[-1]
-
-            if branching_input_and_activation:
-                assert total_batches == 1
-                # Use A matrix of the input, the find best neuron to branch in input space.
-                batch_input_split_idx = input_branching_decisions(
-                    self.net, lb,
-                    A[self.net.output_name[0]][self.net.input_name[0]]['lA'],
-                    batch_x.ptb.x_L, batch_x.ptb.x_U, rhs)
-            else:
-                batch_input_split_idx = {}
-
-            batch_lb, batch_ub = WorkingIntermBoundsInfo.from_net(self, move=False).to_complete_init_bounds(
-                self, lb, None
-            )  # primals are better upper bounds
-
-            print('(alpha-)CROWN with fixed intermediate bounds:', lb, ub)
-            print('Intermediate layers:', ','.join(list(batch_interm_bounds.keys())))
-            if vanilla_crown:
-                batch_alpha = None
-            else:
-                if arguments.Config['bab']['attack']['enabled']:
-                    assert total_batches == 1
-                    # Save all alphas, which will be further refined in bab-attack.
-                    self.refined_alpha = reference_alphas
-                batch_alpha = self.net.get_alpha(get_all=enable_opt_interm_bounds,
-                        half=resolve_alpha_storage_dtype(
-                            arguments.Config["solver"]["alpha-crown"]["alpha_dtype"],
-                            reproduce_alpha_bounds=arguments.Config[
-                                "solver"]["reproduce_alpha_bounds"],
-                        ) is torch.float16,
-                        full_info=full_alpha_info, drop_unused=True
-                    )
-
-            batch_mask = self.get_mask()
-            if skip_backward_pass:
-                # If we skip the backward pass, we use the reference lA.
-                batch_lA = None
-            else:
-                batch_lA = BatchedlA.from_net(self)
-
-            batch_handler.add_batch_result(batch_lb, batch_ub, batch_lA, batch_alpha, batch_mask, batch_input_split_idx, A)
-        if refined_betas is not None:
-            assert total_batches == 1
-            # only has batch size 1 for refined betas
-            assert len(refined_betas[0]) == 1
-            history, ret_betas = refined_betas[0][0], refined_betas[1][0]
-        else:
-            history, ret_betas = self.empty_history(), None
-
-        result = batch_handler.get_results(history, ret_betas)
-
-        return result
-
-    def build_history_and_set_bounds(self, d, split, mode="depth"):
-        """
-        Create new domains as the result of split decisions. Inplace d_inout
-        """
-        return build_history_and_set_bounds_static(
-            d_inout=d,
-            split=split,
-            mode=mode,
-            final_name=self.final_name,
-            split_nodes_names=[n.name for n in self.net.split_nodes],
-        )
 
     def _set_A_options(self, bab=False, return_A=False):
         branching_args = arguments.Config['bab']['branching']
@@ -1094,20 +519,6 @@ class LiRPANet:
             self.return_A = True
         else:
             self.return_A = False
-
-    def _set_tmp_A(self, enable_clip_domains, bounding_method):
-        temp_return_A = self.return_A
-        temp_needed_A_dict = defaultdict(set)
-        if enable_clip_domains and bounding_method != 'alpha-forward':
-            if not self.return_A:
-                # clip domains needs lA and lbias
-                temp_needed_A_dict[self.net.output_name[0]].add(self.net.input_name[0])
-                temp_return_A = True
-            else:
-                # if A_dict was already required, also get lA and lbias of the whole network
-                temp_needed_A_dict[self.net.output_name[0]].add(self.net.input_name[0])
-                temp_needed_A_dict.update(self.needed_A_dict)
-        return temp_return_A, temp_needed_A_dict
 
     def empty_history(self):
         '''
@@ -1160,6 +571,11 @@ class LiRPANet:
             })
         self.net.set_bound_opts({'optimize_bound_args': opt_bound_args})
 
+    def alpha_drop_unused(self):
+        optimizable_activations = self.net.get_enabled_opt_act()
+        keep_nodes = self.alpha_start_nodes
+        for m in optimizable_activations:
+            m.drop_unused_alpha(keep_nodes)
     def _print_interm_bounds(self, lb=None, ub=None):
         if lb is not None:
             for k in lb:
@@ -1183,51 +599,7 @@ class LiRPANet:
                         print('  upper:', node.upper.reshape(-1)[:10])
                         print(' Average gap:', (node.upper-node.lower).mean())
 
-    def initialize_lp_solver_for_bab(self: "LiRPANet"):
-        # Initialize the LP solver model and pre-store the names of the layers
-        timeout = arguments.Config["bab"]["timeout"]
-        self.build_solver_model(timeout, model_type="lp")
-        self.pre_relu_layer_names = [
-            relu_layer.inputs[0].name for relu_layer in self.net.relus
-        ]
-        self.relu_layer_names = [relu_layer.name for relu_layer in self.net.relus]
-        input_name = [
-            name for name in self.net.input_name if type(self.net[name]) == BoundInput
-        ]
-        assert len(input_name) == 1, "there should be only 1 BoundInput!"
-        input_name = input_name[0]
-
-        def extract_var_names(solver_vars):
-            if isinstance(solver_vars, list):
-                return [
-                    extract_var_names(sub_solver_vars) for sub_solver_vars in solver_vars
-                ]
-            else:
-                return solver_vars.VarName
-
-        self.input_name = extract_var_names(self.net[input_name].solver_vars)
-
-    def alpha_drop_unused(self):
-        optimizable_activations = self.net.get_enabled_opt_act()
-        keep_nodes = self.alpha_start_nodes
-        for m in optimizable_activations:
-            m.drop_unused_alpha(keep_nodes)
-    from lp_mip_solver import (
-    build_solver_model, update_mip_model_fix_relu,
-    build_the_model_mip_refine, build_the_model_mip_or,
-    build_the_model_mip_and, all_node_split_LP, check_lp_cut, update_the_model_cut)
     from input_split.bounding import get_lower_bound_naive
-    from cuts.cut_verification import (
-        enable_cuts, create_cutter, set_cuts, create_mip_building_proc,
-        set_cut_params, get_cut_new_split_history,
-        disable_cut_for_branching)
-    from cuts.infered_cuts import biccos_verification
-
-    from activation_split.decision_precompute import (
-        update_bounds_precompute_extract,
-        update_bounds_precompute_biccos_extract,
-        update_bounds_extract_no_mask_no_precompute,
-    )
 
 class BatchHandler:
     """

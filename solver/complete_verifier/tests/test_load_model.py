@@ -318,31 +318,6 @@ class TestUnzipAndOptimizeOnnx:
         assert result is not None
         assert isinstance(result, onnx.ModelProto)
 
-    def test_optimization_with_existing_optimized_file(self, tmp_path, capsys):
-        """Test that existing optimized file is loaded."""
-        from load_model import unzip_and_optimize_onnx
-
-        import onnx
-        from onnx import helper, TensorProto
-
-        # Create a simple ONNX model
-        X = helper.make_tensor_value_info('X', TensorProto.FLOAT, [1, 5])
-        Y = helper.make_tensor_value_info('Y', TensorProto.FLOAT, [1, 5])
-        node = helper.make_node('Identity', ['X'], ['Y'])
-        graph = helper.make_graph([node], 'test_graph', [X], [Y])
-        model = helper.make_model(graph)
-
-        onnx_path = str(tmp_path / "test_model.onnx")
-        optimized_path = onnx_path + ".optimized"
-
-        onnx.save(model, onnx_path)
-        onnx.save(model, optimized_path)
-
-        result = unzip_and_optimize_onnx(onnx_path, ['some_flag'])
-
-        captured = capsys.readouterr()
-        assert 'Found existed optimized onnx model' in captured.out
-
 
 # ============================================================================
 # inference_onnx Tests

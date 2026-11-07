@@ -12,31 +12,24 @@
 ##        contained in the LICENCE file in this directory.             ##
 ##                                                                     ##
 #########################################################################
-import arguments
-from . import attack_pgd, general_spec_attack
-
-# They are shared with two versions of attack
+# The PGD attack drivers (attack_pgd, general_spec_attack, attack_interface) are not part of this release; their entry
+# points raise.
 from .attack_utils import (
     default_adv_saver, default_adv_verifier, PGDAttackResult,
     reset_attack_stats, get_attack_stats, check_and_save_cex,
     verify_onnxruntime_output_matches_pytorch)
-from .attack_interface import attack, attack_with_general_specs
 
 
-def route(name):
-    def wrapped(*args, **kwargs):
-        if arguments.Config["attack"]["general_attack"]:
-            return getattr(general_spec_attack, name)(*args, **kwargs)
-        else:
-            # For backward compatibility, we still support the old attack_pgd module.
-            # In the future, we will remove this and only use general_spec_attack.
-            return getattr(attack_pgd, name)(*args, **kwargs)
-    return wrapped
+def _not_in_release(name):
+    def removed(*args, **kwargs):
+        from auto_LiRPA.not_in_release import not_in_release
+        not_in_release(f"the PGD attack ({name})")
+    return removed
 
-# They are implemented differently in two versions of attack,
-# so we need to call them dynamically depending on the attack version.
-# Please refer to attack_pgd.py and general_spec_attack.py for specific implementations.
-default_pgd_loss = route("default_pgd_loss")
-default_early_stop_condition = route("default_early_stop_condition")
-default_adv_example_finalizer = route("default_adv_example_finalizer")
-pgd_attack_with_general_specs = route("pgd_attack_with_general_specs")
+
+attack = _not_in_release("attack")
+attack_with_general_specs = _not_in_release("attack_with_general_specs")
+default_pgd_loss = _not_in_release("default_pgd_loss")
+default_early_stop_condition = _not_in_release("default_early_stop_condition")
+default_adv_example_finalizer = _not_in_release("default_adv_example_finalizer")
+pgd_attack_with_general_specs = _not_in_release("pgd_attack_with_general_specs")

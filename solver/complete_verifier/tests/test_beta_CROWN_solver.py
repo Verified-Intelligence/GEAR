@@ -850,35 +850,6 @@ class TestLiRPANetPrintIntermBounds(unittest.TestCase):
         net._print_interm_bounds(lb, ub)
 
 
-class TestLiRPANetExpandTensors(unittest.TestCase):
-    """Tests for LiRPANet._expand_tensors method."""
-
-    def test_expand_tensors_returns_tuple(self):
-        """Test that _expand_tensors returns expected tuple."""
-        model = SimpleModel()
-        in_size = (1, 10)
-        net = LiRPANet(model, in_size, device='cpu')
-
-        # Create a BoundedTensor with uniform bounds (same across batch)
-        data = torch.randn(1, 10)
-        ptb = PerturbationLpNorm(norm=float('inf'), x_L=data - 0.1, x_U=data + 0.1)
-        x = BoundedTensor(data, ptb)
-        net.x = x
-        c = torch.randn(1, 3, 5)
-        net.c = c
-
-        d = {
-            'lower_bounds': {net.final_name: torch.randn(2, 5)},
-            'upper_bounds': {net.final_name: torch.randn(2, 5)},
-        }
-
-        result = net._expand_tensors(d, batch=2)
-
-        self.assertEqual(len(result), 7)
-        interm_bounds, lb_last, ub_last, c_out, new_x, x_Ls, x_Us = result
-        self.assertIsInstance(interm_bounds, dict)
-        self.assertEqual(lb_last.shape[0], 2)
-
 
 class TestLiRPANetConvModel(unittest.TestCase):
     """Tests for LiRPANet with convolutional model."""
@@ -1143,37 +1114,6 @@ class TestBetaFullData(unittest.TestCase):
             BetaFullData.from_domain_dict(
                 domain, bias=False, dtype_map={}, device='cpu')
 
-
-class TestPreprocessConstArguments(unittest.TestCase):
-    """Tests for data captured before activation-split preprocessing."""
-
-    def test_capture_split_node_dtypes(self):
-        from activation_split.stage_arguments import PreprocessConstArguments
-
-        nodes = []
-        for name, dtype in [('layer32', torch.float32),
-                            ('layer64', torch.float64)]:
-            node = MagicMock()
-            node.name = name
-            node.output_dtype = dtype
-            nodes.append(node)
-
-        net = object.__new__(LiRPANet)
-        net.net = MagicMock()
-        net.net.split_nodes = nodes
-        net.net.get_output_dtype.side_effect = lambda node: node.output_dtype
-        net.final_name = 'output'
-        net.x = torch.zeros(1)
-        net.c = torch.ones(1)
-        net.device = torch.device('cpu')
-        net.unstable_mask = {}
-
-        const_args = PreprocessConstArguments.from_net(net)
-
-        self.assertEqual(const_args.dtype_map, {
-            'layer32': torch.float32,
-            'layer64': torch.float64,
-        })
 
 
 class TestLiRPANetBuildHistoryAndSetBounds(unittest.TestCase):
@@ -1742,59 +1682,6 @@ class TestBatchHandlerCurrRhs(unittest.TestCase):
         self.assertIsNotNone(handler.curr_rhs)
         self.assertTrue(torch.equal(handler.curr_rhs, batch_rhs))
 
-
-class TestLiRPANetGetPrimalUpperBound(unittest.TestCase):
-    """Tests for LiRPANet.get_primal_upper_bound method."""
-
-    def test_get_primal_upper_bound_linf(self):
-        """Test get_primal_upper_bound with Linf perturbation."""
-        model = SimpleModel(output_size=2)
-        in_size = (1, 10)
-        net = LiRPANet(model, in_size, device='cpu')
-
-        # Setup x with Linf perturbation
-        data = torch.randn(2, 10)
-        x_L = data - 0.1
-        x_U = data + 0.1
-        ptb = PerturbationLpNorm(norm=float('inf'), x_L=x_L, x_U=x_U)
-        net.x = BoundedTensor(data, ptb)
-
-        # Setup C matrix
-        net.c = torch.tensor([[[1, -1]]]).float()  # Shape: (1, 1, 2)
-
-        # Create A matrix structure
-        A = {
-            net.net.output_name[0]: {
-                net.net.input_name[0]: {
-                    'lA': torch.randn(2, 1, 10)  # (batch, spec, input_dim)
-                }
-            }
-        }
-
-        primal_x, ub = net.get_primal_upper_bound(A)
-
-        self.assertEqual(primal_x.shape[0], 2)
-        self.assertEqual(primal_x.shape[1], 10)
-
-    def test_get_primal_upper_bound_non_linf_raises(self):
-        """Test that get_primal_upper_bound raises for non-Linf norm."""
-        model = SimpleModel()
-        in_size = (1, 10)
-        net = LiRPANet(model, in_size, device='cpu')
-
-        # Setup x with L2 perturbation
-        data = torch.randn(2, 10)
-        ptb = PerturbationLpNorm(norm=2, eps=0.1)
-        net.x = BoundedTensor(data, ptb)
-
-        A = {
-            net.net.output_name[0]: {
-                net.net.input_name[0]: {'lA': torch.randn(2, 1, 10)}
-            }
-        }
-
-        with self.assertRaises(AssertionError):
-            net.get_primal_upper_bound(A)
 
 
 class TestLiRPANetASaved(unittest.TestCase):

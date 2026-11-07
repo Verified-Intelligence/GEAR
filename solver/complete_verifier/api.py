@@ -19,7 +19,6 @@ import contextlib
 import csv
 import os
 import random
-import tempfile
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -36,11 +35,8 @@ from attack import attack, get_attack_stats, reset_attack_stats
 from beta_CROWN_solver import LiRPANet
 from complete_verifier_func import bab as bab_core
 from complete_verifier_func import complete_verifier as complete_verifier_core
-from cuts.cut_utils import terminate_mip_processes
 from incomplete_verifier_func import SpecHandler, incomplete_verifier as incomplete_verifier_core
 from jit_precompile import precompile_jit_kernels
-from lp_mip_solver import mip
-from lp_test import compare_optimized_bounds_against_lp_bounds
 from specifications import vnnlibHandler
 from read_vnnlib import read_vnnlib
 from load_model import load_model_onnx
@@ -3220,6 +3216,9 @@ class ABCrownSolver:
         general_args = arguments.Config['general']
         bab_args = arguments.Config['bab']
         cut_enabled = bab_args['cut']['enabled']
+        if cut_enabled or bab_args['cut']['cplex_cuts']:
+            from auto_LiRPA.not_in_release import not_in_release
+            not_in_release("bab.cut (cutting-plane BaB)")
         debug_args = arguments.Config['debug']
 
         timeout_threshold = float(bab_args['timeout'])
@@ -3249,9 +3248,6 @@ class ABCrownSolver:
         if self.constraint is None:
             raise RuntimeError("constraints must be set before verification.")
         self.vnnlib_handler = self._build_vnnlib_handler(runtime_spec)
-        x = self.vnnlib_handler.x[0:1].to(device)
-        data_min = self.vnnlib_handler.data_min[0:1].to(device)
-        data_max = self.vnnlib_handler.data_max[0:1].to(device)
         if general_args['adhoc_tuning']:
             eval(general_args['adhoc_tuning'])(model_ori, self.vnnlib_handler)
 
@@ -3279,13 +3275,6 @@ class ABCrownSolver:
                 clip_cfg = arguments.Config['bab']['clip_n_verify']
                 clip_cfg['clip_input_domain']['enabled'] = False
                 clip_cfg['clip_interm_domain']['enabled'] = False
-
-        use_temp_cuts_path = (arguments.Config['bab']['cut']['cplex_cuts']
-                              and bab_args['cut']['cuts_path'] is None)
-        temp_cuts_folder = None
-        if use_temp_cuts_path:
-            temp_cuts_folder = tempfile.TemporaryDirectory(prefix='abcrown_cuts_', dir='/tmp')
-            bab_args['cut']['cuts_path'] = temp_cuts_folder.name
 
         rhs_offset_init = arguments.Config['specification']['rhs_offset']
         if rhs_offset_init is not None and not debug_args['sanity_check']:
@@ -3316,9 +3305,8 @@ class ABCrownSolver:
         proof_domain_blocked = False
 
         if debug_args['test_optimized_bounds']:
-            compare_optimized_bounds_against_lp_bounds(
-                model_ori, x, data_ub=data_max, data_lb=data_min, vnnlib=self.vnnlib_handler.vnnlib
-            )
+            from auto_LiRPA.not_in_release import not_in_release
+            not_in_release("debug.test_optimized_bounds (LP comparison)")
 
         if not verified_success:
             pre_primal = self._run_pre_incomplete_primal(
@@ -3391,7 +3379,6 @@ class ABCrownSolver:
                     normalized_status = self._normalize_verify_status(verified_status)
                     return SolveResult(status=normalized_status, success=normalized_status != 'unknown')
                 verified_success = verified_status != 'unknown'
-                model_incomplete = reference.get('model', None)
 
         if not verified_success and arguments.Config['attack']['pgd_order'] == 'after' and not solving_mode:
             verified_status, verified_success, attack_examples, attack_margins, all_adv_candidates = (
@@ -3408,19 +3395,8 @@ class ABCrownSolver:
             and not proof_domain_blocked
             and complete_verifier in ['bab-refine', 'mip']
         ):
-            mip_skip_unsafe = arguments.Config['solver']['mip']['skip_unsafe']
-            if self.spec_handler_incomplete is not None:
-                self.spec_handler_incomplete.adhoc_process_for_mip(reference)
-            verified_status, ret_mip = mip(
-                model_incomplete, reference, self.vnnlib_handler,
-                mip_skip_unsafe=mip_skip_unsafe,
-                pgd_attack_example=[attack_examples, attack_margins],
-                verifier=complete_verifier
-            )
-            verified_success = verified_status != 'unknown'
-            reference.update(ret_mip)
-            if self.spec_handler_incomplete is not None:
-                self.spec_handler_incomplete.adhoc_post_process_for_mip(reference)
+            from auto_LiRPA.not_in_release import not_in_release
+            not_in_release("complete_verifier 'mip' / 'bab-refine' (MIP refinement)")
 
         if (not verified_success
                 and not proof_domain_blocked
@@ -3441,20 +3417,6 @@ class ABCrownSolver:
                 bab_ret=self.logger.bab_ret,
                 reference_dict=reference,
             )
-
-        if (bab_args['cut']['enabled'] and bab_args['cut']['cplex_cuts']
-                and model_incomplete is not None):
-            terminate_mip_processes(
-                model_incomplete.mip_building_proc,
-                getattr(model_incomplete, 'processes', None),
-                watch_dog_proc=getattr(model_incomplete, 'get_cuts_watch_dog_proc', None),
-            )
-            if hasattr(model_incomplete, 'processes'):
-                del model_incomplete.processes
-
-        if temp_cuts_folder is not None:
-            temp_cuts_folder.cleanup()
-            bab_args['cut']['cuts_path'] = None
 
         if debug_args['sanity_check']:
             if 'unknown' not in verified_status:

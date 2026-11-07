@@ -384,55 +384,8 @@ def run_problem(args: argparse.Namespace):
 
     # ---- Merge SCIP cutting planes (if provided) ----
     if getattr(args, 'scip_cuts_file', None):
-        scip_cuts_path = str(_resolve_path(args.scip_cuts_file))
-        from scip_cut_extractor import load_cuts_as_constraints
-        from read_vnnlib import read_vnnlib
-
-        # Determine expected n_vars and domain bounds from vnnlib
-        vnnlib_data = read_vnnlib(str(vnnlib_path))
-        n_vars_vnnlib = None
-        dm_l_cuts = None
-        dm_u_cuts = None
-        if vnnlib_data:
-            bounds_list = vnnlib_data[0][0]  # list of (lb, ub) per var
-            n_vars_vnnlib = len(bounds_list)
-            dm_l_cuts = torch.tensor([lb for lb, _ in bounds_list], dtype=torch.float32)
-            dm_u_cuts = torch.tensor([ub for _, ub in bounds_list], dtype=torch.float32)
-
-        # Filtering parameters (tunable via env vars)
-        max_cuts = int(os.environ.get("SCIP_MAX_CUTS", "20"))
-        slack_tol = float(os.environ.get("SCIP_SLACK_TOL", "0.0"))
-        cosine_dedup = float(os.environ.get("SCIP_COSINE_DEDUP", "0.99"))
-
-        scip_pair = load_cuts_as_constraints(
-            scip_cuts_path,
-            n_vars=n_vars_vnnlib,
-            dm_l=dm_l_cuts,
-            dm_u=dm_u_cuts,
-            max_cuts=max_cuts,
-            slack_tol=slack_tol,
-            cosine_dedup_threshold=cosine_dedup,
-            verbose=True,
-        )
-
-        if scip_pair is not None:
-            scip_A, scip_b = scip_pair
-            n_scip = scip_A.shape[0]
-            if input_linear_constraints is not None:
-                # Merge: concatenate along the constraint dimension
-                orig_A, orig_b = input_linear_constraints
-                scip_A = scip_A.to(dtype=orig_A.dtype)
-                scip_b = scip_b.to(dtype=orig_b.dtype)
-                input_linear_constraints = (
-                    torch.cat([orig_A, scip_A], dim=0),
-                    torch.cat([orig_b, scip_b], dim=0),
-                )
-                print(f"[nlp_example] Merged {n_scip} SCIP cuts with {orig_A.shape[0]} existing constraints -> {input_linear_constraints[0].shape[0]} total")
-            else:
-                input_linear_constraints = (scip_A, scip_b)
-                print(f"[nlp_example] Loaded {n_scip} SCIP cuts as input constraints")
-        else:
-            print(f"[nlp_example] SCIP cuts file loaded but contained 0 usable cuts after filtering")
+        from auto_LiRPA.not_in_release import not_in_release
+        not_in_release('--scip_cuts_file (SCIP cut import)')
 
 
     spec = VerificationSpec.build_spec(

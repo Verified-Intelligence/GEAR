@@ -429,22 +429,3 @@ def test_root_incumbent_keeps_a_lower_verified_root_point(nlp_obj, expect):
     assert root.primal_solution_found and float(root.primal_solution[0]) == P
     assert root.best_primal_x is x and root.warmstart_x is x
 
-
-def test_cert_crown_dual_prices_come_from_the_kernel_and_cover_value_is_unchanged(monkeypatch):
-    import scipy.optimize
-    import arguments
-    from nlp_solver.structure import cert_kernels
-    patterns = combination_ids(6, 2, 'cpu')
-    costs = torch.as_tensor(np.random.default_rng(5).uniform(0, 5, len(patterns)))
-    highs = lp_prices(patterns, costs, 6)
-    conf = arguments.ConfigHandler()
-    conf.construct_config_dict(conf.default_args)
-    conf['solver']['nlp']['cert_crown_dual'] = True
-    monkeypatch.setattr(arguments, 'Config', conf)
-    monkeypatch.setattr(scipy.optimize, 'linprog', lambda *a, **k: (_ for _ in ()).throw(AssertionError('linprog')))
-    monkeypatch.setitem(sys.modules, 'highspy', None)         # an import of HiGHS would fail
-    prices = lp_prices(patterns, costs, 6)
-    assert prices.shape == (6,) and torch.isfinite(prices).all()
-    assert not torch.equal(prices, highs)                       # not HiGHS's; cover() repairs them either way
-    full = CoverPattern(patterns, 6).solve(costs, highs)[0]
-    assert CoverPattern(patterns, 6).solve(costs, prices)[0] == full

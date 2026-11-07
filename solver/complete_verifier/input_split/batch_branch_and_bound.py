@@ -2173,8 +2173,8 @@ def _root_lifted_obbt(root, deadline):
     if (root.nlp_config.get('crown_engine_m1', False)
             or root.nlp_config.get('crown_engine_sigma_main', False)
             or root.nlp_config.get('crown_engine_m2', False)):
-        from input_split.m1_addon import root_addon
-        root_addon(root, deadline)
+        from auto_LiRPA.not_in_release import not_in_release
+        not_in_release("solver.nlp.crown_engine_m1 / crown_engine_m2 / crown_engine_sigma_main (M1/M2 CROWN engine)")
     if root.lifted_setup is not None:
         root.dm_l, root.dm_u = root.lifted_setup.obbt(incumbent_x=root.best_primal_x, time_left=root.time_left())
     root.history.root_width = (root.dm_u[:1] - root.dm_l[:1]).detach().flatten()

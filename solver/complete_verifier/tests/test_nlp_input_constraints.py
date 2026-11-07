@@ -52,37 +52,6 @@ class TestVerificationSpecInputConstraints(unittest.TestCase):
             )
 
 
-class TestPrepareForActBabInputConstraints(unittest.TestCase):
-    """Tests batching of base input constraints through prepare_for_act_bab."""
-
-    def test_batches_base_input_constraints(self):
-        from complete_verifier_func import prepare_for_act_bab
-
-        x = torch.randn(4, 2)
-        c = torch.randn(4, 1, 2)
-        rhs = torch.randn(4, 1)
-        reference_dict = {
-            'base_input_linear_constraints': (
-                torch.arange(16, dtype=torch.float32).view(4, 2, 2),
-                torch.arange(8, dtype=torch.float32).view(4, 2),
-            ),
-            'base_input_constraints': (
-                -torch.arange(16, dtype=torch.float32).view(4, 2, 2),
-                -torch.arange(8, dtype=torch.float32).view(4, 2),
-            ),
-        }
-
-        _, _, _, batch_ref = prepare_for_act_bab(
-            x, c, rhs, reference_dict, batch_size=2, batch_idx=1
-        )
-
-        lin_A, lin_b = batch_ref['base_input_linear_constraints']
-        std_A, std_b = batch_ref['base_input_constraints']
-        self.assertEqual(lin_A.shape, (2, 2, 2))
-        self.assertTrue(torch.equal(lin_b, reference_dict['base_input_linear_constraints'][1][2:4]))
-        self.assertTrue(torch.equal(std_A, reference_dict['base_input_constraints'][0][2:4]))
-        self.assertTrue(torch.equal(std_b, reference_dict['base_input_constraints'][1][2:4]))
-
 
 class TestBoundedTensorInputConstraintCopies(unittest.TestCase):
     """Tests that BoundedTensor helpers preserve immutable base input constraints."""

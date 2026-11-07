@@ -36,24 +36,3 @@ def test_negative_curvature_still_raises_without_single_pass():
         quadratic_lower_bound(*_args(torch.tensor([[1.0, -1.0]], dtype=F64)))
 
 
-def test_compaction_check_is_a_raise():
-    from input_split import m2_async
-    src = inspect.getsource(m2_async)
-    assert "assert bool(torch.isin(ids,self.active_ids)" not in src
-    assert "raise RuntimeError('survivors must be a subset of active lanes')" in src
-
-
-def test_reported_root_floor_is_min_of_m2_bound_and_cutoff():
-    from input_split.m2_interleave import M2Interleave
-    m2 = M2Interleave.__new__(M2Interleave)
-    m2.engine = SimpleNamespace()
-    assert m2.root_floor() == -math.inf
-    m2.engine.m2_state = {'cutoff': 3.0, 'batch': SimpleNamespace(bound=5.0, cutoff=3.0)}
-    assert m2.root_floor() == 3.0
-    m2.engine.m2_state = {'cutoff': 3.0, 'batch': SimpleNamespace(bound=2.0, cutoff=3.0)}
-    assert m2.root_floor() == 2.0
-    m2.engine.m2_state = {'cutoff': 3.0, 'batch': SimpleNamespace(bound=-math.inf, cutoff=3.0)}
-    assert m2.root_floor() == -math.inf
-    # A stale state cutoff (memory error between table move and state write) is capped by the live table's.
-    m2.engine.m2_state = {'cutoff': 3.0, 'batch': SimpleNamespace(bound=5.0, cutoff=1.0)}
-    assert m2.root_floor() == 1.0

@@ -124,24 +124,18 @@ complete_verifier/tests/
 | `test_abcrown_api.py` | API interface tests |
 | `test_alpha_beta.py` | Alpha-beta optimization tests |
 | `test_arguments.py` | Argument configuration tests |
-| `test_bab.py` | Branch and bound tests |
 | `test_beta_CROWN_solver.py` | Beta-CROWN solver tests |
-| `test_branching_domains.py` | Branching domain logic tests |
 | `test_check_counterexample.py` | Counterexample validation tests |
 | `test_complete_verifier_func.py` | Complete verification function tests |
 | `test_data_utils.py` | Data utility tests |
-| `test_domain_clipper.py` | Domain clipping tests |
-| `test_domain_updater.py` | Domain update tests |
 | `test_incomplete_verifier_func.py` | Incomplete verification tests |
 | `test_integration.py` | End-to-end integration tests |
 | `test_jit_precompile.py` | JIT precompilation tests |
 | `test_load_model.py` | Model loading tests |
 | `test_loading.py` | General loading tests |
 | `test_model_defs.py` | Model definition tests |
-| `test_onnx_opt.py` | ONNX optimization tests |
 | `test_prune.py` | Pruning strategy tests |
 | `test_read_vnnlib.py` | VNNLIB parser tests |
-| `test_scip_model.py` | SCIP MIP solver integration tests |
 | `test_specifications.py` | Specification handling tests |
 | `test_tensor_storage.py` | Tensor storage tests |
 | `test_utils.py` | Utility function tests |

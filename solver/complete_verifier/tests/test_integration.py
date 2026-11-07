@@ -461,30 +461,6 @@ class TestIntegrationOnnxOptimization(unittest.TestCase):
     """Tests for ONNX graph optimization."""
 
     @skip_if_no_model
-    def test_compress_onnx_runs(self):
-        """Test that compress_onnx can process the model."""
-        import onnx
-        import tempfile
-        from onnx_opt import compress_onnx
-
-        onnx_model = onnx.load(SIMPLE_MLP_PATH)
-
-        # compress_onnx needs paths
-        with tempfile.NamedTemporaryFile(suffix='.onnx', delete=False) as f:
-            save_path = f.name
-
-        try:
-            optimized = compress_onnx(
-                onnx_model, SIMPLE_MLP_PATH, save_path,
-                onnx_optimization_flags=['none']
-            )
-            self.assertIsNotNone(optimized)
-        finally:
-            import os
-            if os.path.exists(save_path):
-                os.unlink(save_path)
-
-    @skip_if_no_model
     def test_onnx_model_can_be_loaded_and_checked(self):
         """Test that ONNX model is valid."""
         import onnx

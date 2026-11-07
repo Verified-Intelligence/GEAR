@@ -97,23 +97,8 @@ def cert_crown_dual():
 
 
 def halpern_lp(c, A, b, lower, upper, stop=None, deadline=None, budget=100000):
-    """min c.z s.t. A z <= b, lower <= z <= upper by the restarted Halpern kernel (auto_LiRPA.restarted_qp.solve,
-    implied box). Returns (z, y >= 0) or None when the lane proves the box empty. Only a proposal: the callers
-    re-evaluate the box Lagrangian of y with outward intervals. stop: the objective value at which the dual bound is
-    already enough (checked by the kernel at each checkpoint); deadline: wall-clock time.time()."""
-    from auto_LiRPA.restarted_qp import solve
-    from nlp_solver.rigorous_dual import Rows
-    f64 = torch.float64
-    G = torch.as_tensor(np.asarray(A, dtype=np.float64))
-    m, n = G.shape
-    vec = lambda v: torch.as_tensor(np.asarray(v, dtype=np.float64))[None]
-    res = solve(Rows.from_dense(G[None]), vec(c), torch.zeros(1, dtype=f64), vec(b), vec(lower), vec(upper),
-                torch.zeros(1, n, dtype=f64), budget=budget, checkpoint=25, capture=False,
-                stop=None if stop is None else torch.tensor([stop], dtype=f64), deadline=deadline, warm=None,
-                iteration_scheme='halpern', implied_box=True, convergence=1e-9)
-    if bool(res.empty[0]):
-        return None
-    return res.z[0].numpy(), res.best_y[0].clamp(min=0).numpy()
+    from auto_LiRPA.not_in_release import not_in_release
+    not_in_release("solver.nlp.cert_crown_dual (Halpern certificate kernel)")
 
 
 def lp_prices(ids, costs, n):

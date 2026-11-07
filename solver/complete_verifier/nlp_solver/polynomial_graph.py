@@ -67,10 +67,22 @@ import torch
 from auto_LiRPA.bound_ops import (BoundAdd, BoundConcat, BoundConstant, BoundGather, BoundMatMul, BoundMul,
                                   BoundReshape, BoundSqr)
 from auto_LiRPA.cap_log import cap_log
-from auto_LiRPA.compiled_crown import face_nodes
 from auto_LiRPA.optimize_graph import _copy_node_properties
 
 from .structure.forms import exact
+
+
+def face_nodes(net):
+    """the perturbed nonlinear nodes of `net` in net.nodes() order, except the linear family (they have no faces)"""
+    from auto_LiRPA.operators import BoundActivation, BoundLinear, BoundMul
+
+    def nonlinear(node):
+        if isinstance(node, BoundMul):
+            return not node.is_linear_op
+        if isinstance(node, BoundLinear):
+            return sum(i.perturbed for i in node.inputs[:2]) > 1
+        return isinstance(node, BoundActivation)
+    return [node.name for node in net.nodes() if node.perturbed and nonlinear(node) and not isinstance(node, BoundLinear)]
 
 _MOVE = {'BoundGather', 'BoundTranspose', 'BoundReshape', 'BoundConcat', 'BoundUnsqueeze', 'BoundSqueeze',
          'BoundSlice', 'BoundExpand', 'BoundFlatten', 'BoundIdentity', 'BoundSplit', 'BoundGatherElements'}
