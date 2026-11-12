@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import math
 import time
+from dataclasses import replace
 
 import torch
 from torch import nn
@@ -16,6 +17,7 @@ from ..solver import Solver
 from .problem import (DynamicsOptions, DynamicsResult, DynamicsRound, concatenate,
                       reference_samples, sample_box)
 from .training import Normalization, VAPINNTrainer, trajectory_errors
+from .deadline import Budget, BudgetExpired
 
 
 class _Tightened(nn.Module):
@@ -137,30 +139,68 @@ def _refinement_points(problem, n, regions, candidates, generator):
     return torch.cat((region, local))
 
 
-def solve_dynamics(problem, options=None, *, trainer=None):
+def _snapshot(state, budget):
+    return DynamicsResult(state.get('original'), state.get('original_error'), tuple(state.get('rounds', ())),
+        None, False, None, None, state.get('sigma_f'), budget.elapsed(),
+        original_validation=state.get('original_validation'), surrogate_model=state.get('model'),
+        time_limit=budget.limit, phase=budget.phase, pending_surrogate=state.get('last_surrogate'))
+
+
+def solve_dynamics(problem, options=None, *, trainer=None, on_progress=None):
     """Run Algorithm 1's L1 -> L2 cascade, preserving every certificate's scope.
 
     The existing solve() is unchanged. Each L2 round solves a new fixed model;
-    bounds of different models are never merged. Training/test work is outside
-    each Options.time_limit and is included in elapsed_seconds / round timings.
+    bounds of different models are never merged. With total_time_limit, every
+    phase shares one deadline. A process watchdog is needed to preempt a single
+    long-running native kernel or an uncooperative user callback.
     """
     options = DynamicsOptions() if options is None else options
-    start = time.monotonic()
+    budget, state = Budget(options.total_time_limit), {}
+    def phase(name):
+        budget.check(name)
+        if on_progress is not None:
+            on_progress(_snapshot(state, budget).to_json())
+    try:
+        result = _run(problem, options, trainer, budget, state, phase)
+        budget.check()
+    except BudgetExpired:
+        result = replace(_snapshot(state, budget), budget_exhausted=True)
+    return replace(result, time_limit=budget.limit, elapsed_seconds=budget.elapsed())
+
+
+def _reference(problem, z, budget):
+    parts = []
+    for first in range(0, len(z), 128):
+        budget.check()
+        parts.append(reference_samples(problem, z[first:first + 128]))
+        budget.check()
+    return concatenate(*parts)
+
+
+def _run(problem, options, trainer, budget, state, phase):
+    start = budget.start
+    phase('original_compile')
     original, original_error, original_validation = None, None, None
     try:
         if problem.original is None:
             original_error = 'original graph not supplied'
         else:
-            source = problem.original(options.original) if callable(problem.original) and not isinstance(problem.original, Compiled) else problem.original
+            original_options = budget.solve_options(options.original)
+            source = problem.original(original_options) if callable(problem.original) and not isinstance(problem.original, Compiled) else problem.original
             if isinstance(source, Compiled) and source.sense != problem.sense:
                 raise ModelError('original graph and dynamics outputs have different objective senses')
-            original = Solver(options.original).solve(source)
+            phase('original_solve')
+            original = Solver(budget.solve_options(options.original)).solve(source)
     except (UnsupportedModelError, UnsupportedOperatorError, UnsupportedProblemError) as error:
         original_error = f'{type(error).__name__}: {error}'
+    state.update(original=original, original_error=original_error)
+    phase('original_validation')
     if original is not None and original.sense != problem.sense:
         raise ModelError('original graph and dynamics outputs have different objective senses')
     if original is not None and original.solved:
         original_validation = _original_validation(problem, original, options)
+        state['original_validation'] = original_validation
+        budget.check()
         if original_validation['passed']:
             return DynamicsResult(original, original_error, (), 1, True, 'original', original.x,
                                   elapsed_seconds=time.monotonic() - start, original_validation=original_validation)
@@ -172,14 +212,16 @@ def solve_dynamics(problem, options=None, *, trainer=None):
     n = o.train_size or 4096 + 256 * len(problem.box[0])
     nv = o.validation_size or max(2, n // 4)
     rng = torch.Generator().manual_seed(o.seed)
+    phase('reference_data')
     t = time.monotonic()
-    data = reference_samples(problem, sample_box(problem.box, n, rng))
-    validation = reference_samples(problem, sample_box(problem.box, nv, rng))
+    data = _reference(problem, sample_box(problem.box, n, rng), budget)
+    validation = _reference(problem, sample_box(problem.box, nv, rng), budget)
     # Independent generators; neither test set is given to the trainer.
-    tests = tuple(reference_samples(problem, sample_box(problem.box, o.test_size,
-                  torch.Generator().manual_seed(offset + 17 * o.seed))) for offset in (1000000, 2000000))
+    tests = tuple(_reference(problem, sample_box(problem.box, o.test_size,
+                  torch.Generator().manual_seed(offset + 17 * o.seed)), budget) for offset in (1000000, 2000000))
     reference_seconds = time.monotonic() - t
     norm = Normalization(data)
+    state['sigma_f'] = norm.sigma_f
     tau = norm.sigma_f * (.001 if options.tolerance == 'strict' else .01)
     gap_tol = 1e-4 if options.tolerance == 'strict' else tau
     trainer = VAPINNTrainer(o) if trainer is None else trainer
@@ -193,22 +235,32 @@ def solve_dynamics(problem, options=None, *, trainer=None):
             if z.shape[1] == len(problem.box[0]) and ((z >= problem.box[0]) & (z <= problem.box[1])).all():
                 seen = concatenate(seen, reference_samples(problem, z))
     initial, rounds = None, []
+    state['rounds'] = rounds
     for k in range(options.max_refinements + 1):
+        phase('training')
         t = time.monotonic()
-        model = trainer.fit(problem, data, validation, norm, initial, k, tau, device).cpu().double().eval()
+        extra = {}
+        if budget.end is not None and isinstance(trainer, VAPINNTrainer):
+            extra['deadline'] = time.monotonic() + options.training_time_fraction * budget.remaining()
+        model = trainer.fit(problem, data, validation, norm, initial, k, tau, device, **extra).cpu().double().eval()
+        state['model'] = model
+        budget.check()
         training_seconds = time.monotonic() - t
         if initial is None:
             initial = copy.deepcopy(model)
+        phase('calibration')
         with torch.no_grad():
             errors = validation.values[:, 1:] - model(validation.z)[:, 1:]
             margins = torch.quantile(errors, o.quantile, dim=0).clamp_min(0) if errors.shape[1] else torch.zeros(0, dtype=torch.float64)
         if not torch.isfinite(margins).all():
             raise ModelError('nonfinite calibrated margins')
         tightened = _Tightened(model, margins)
+        phase('surrogate_compile')
         compiled = compile(tightened, box=problem.box, objective=0, le=tuple(range(1, data.values.shape[1])),
                            sense=problem.sense, options=options.surrogate)
         candidates, regions = [], []
-        solver = Solver(options.surrogate)
+        phase('surrogate_solve')
+        solver = Solver(budget.solve_options(options.surrogate))
         def incumbent(value, x):
             z = _point(x, len(problem.box[0]))
             if z is not None:
@@ -218,26 +270,33 @@ def solve_dynamics(problem, options=None, *, trainer=None):
         solver.on_incumbent(incumbent)
         solver.on_domains(lambda lower, upper: regions.append((lower, upper)), limit=32)
         result = solver.solve(compiled)
+        state['last_surrogate'] = result
+        phase('surrogate_validation')
         t = time.monotonic()
         point = _point(result.x, len(problem.box[0]))
         if point is not None:
             candidates.append(point)
         if candidates:
-            seen = concatenate(seen, reference_samples(problem, torch.cat(candidates)))
+            seen = concatenate(seen, _reference(problem, torch.cat(candidates), budget))
         metrics = tuple(_metrics(problem, model, margins, test, norm, tau, feas_tol) for test in tests)
         opt = _optimization(problem, model, margins, result, tau, gap_tol, seen, feas_tol)
+        budget.check()
         accepted = opt['passed'] and all(m['passed'] for m in metrics)
         rounds.append(DynamicsRound(k, result, tuple(margins.tolist()), opt, metrics, accepted,
-                                    training_seconds, reference_seconds + time.monotonic() - t, compiled.hash))
+                                    training_seconds, reference_seconds + time.monotonic() - t, compiled.hash,
+                                    getattr(model, 'training_updates', None), getattr(model, 'training_stopped_by_budget', False)))
+        state.pop('last_surrogate', None)
+        phase('round_complete')
         if accepted:
             return DynamicsResult(original, original_error, tuple(rounds), 2, True, 'surrogate', result.x,
                                   norm.sigma_f, time.monotonic() - start,
                                   original_validation=original_validation, surrogate_model=model)
         if k == options.max_refinements:
             break
+        phase('refinement_data')
         t = time.monotonic()
-        acquired = reference_samples(problem, _refinement_points(problem, max(5, math.ceil(n * options.additional_fraction)),
-                                                                  regions, candidates, rng))
+        acquired = _reference(problem, _refinement_points(problem, max(5, math.ceil(n * options.additional_fraction)),
+                                                          regions, candidates, rng), budget)
         holdout = max(1, len(acquired) // 5)
         validation = concatenate(validation, acquired.select(slice(0, holdout)))
         data = concatenate(data, acquired.select(slice(holdout, None)))

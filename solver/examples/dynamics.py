@@ -36,6 +36,7 @@ def residual(trajectory, z):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--device', default='cpu')
+    ap.add_argument('--total-time-limit', type=float, default=10000)
     ap.add_argument('--force-surrogate', action='store_true')
     a = ap.parse_args()
     box = ([0.0], [1.0])
@@ -43,6 +44,7 @@ def main():
         original=lambda options: gr.compile(Original(), box=box, objective=0, le=[1], options=options),
         box=box, simulate=simulate, initial_state=Initial(), outputs=outputs, residual=residual)
     options = gr.DynamicsOptions(
+        total_time_limit=a.total_time_limit,
         original=gr.Options(device=a.device, time_limit=0 if a.force_surrogate else 20),
         surrogate=gr.Options(device=a.device, time_limit=20), max_refinements=1,
         training=gr.VAPINNOptions(train_size=64, validation_size=32, test_size=64,

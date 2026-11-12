@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import copy
 import math
+import time
+_now = time.monotonic
 
 import torch
 from torch import nn
@@ -49,6 +51,7 @@ class TrajectoryNetwork(nn.Module):
                                state_mean=norm.state_mean, state_scale=norm.state_scale,
                                output_mean=norm.output_mean, output_sigma=norm.output_sigma).items():
             self.register_buffer(key, value.clone())
+        self.register_buffer('free', norm.free.clone())
         self.initial_state = copy.deepcopy(problem.initial_state)
         if isinstance(self.initial_state, nn.Module):
             for p in self.initial_state.parameters():
@@ -67,7 +70,7 @@ class TrajectoryNetwork(nn.Module):
         else:
             self.squares = nn.Linear(d, min(2 * d, 16), bias=False, dtype=torch.float64)
         width = d + self.squares.out_features + options.width
-        self.trajectory_head = nn.Linear(width, self.T * self.S, dtype=torch.float64)
+        self.trajectory_head = nn.Linear(width, int(norm.free.sum()), dtype=torch.float64)
         self.functional_head = nn.Linear(width, data.values.shape[1], dtype=torch.float64)
 
     def features(self, z):
@@ -79,7 +82,8 @@ class TrajectoryNetwork(nn.Module):
 
     def evaluate(self, z):
         features = self.features(z)
-        future = self.state_mean + self.state_scale * self.trajectory_head(features)
+        future = self.state_mean.expand(len(z), -1).clone()
+        future[:, self.free] += self.state_scale[self.free] * self.trajectory_head(features)
         traj = torch.cat((self.initial_state(z)[:, None], future.reshape(-1, self.T, self.S)), 1)
         return traj, self.output_mean + self.output_sigma * self.functional_head(features)
 
@@ -158,15 +162,15 @@ class VAPINNTrainer:
     def __init__(self, options):
         self.options = options
 
-    def fit(self, problem, data, validation, norm, initial, round_index, tau, device):
+    def fit(self, problem, data, validation, norm, initial, round_index, tau, device, *, deadline=None):
         o = self.options
         device = o.device or device
         cuda = [torch.device(device).index or 0] if str(device).startswith("cuda") else []
         with torch.random.fork_rng(devices=cuda):
             torch.manual_seed(o.seed + 1000 * round_index)
-            return self._fit(problem, data, validation, norm, initial, round_index, tau, device)
+            return self._fit(problem, data, validation, norm, initial, round_index, tau, device, deadline)
 
-    def _fit(self, problem, data, validation, norm, initial, round_index, tau, device):
+    def _fit(self, problem, data, validation, norm, initial, round_index, tau, device, deadline=None):
         o = self.options
         model = copy.deepcopy(initial) if initial is not None else TrajectoryNetwork(problem, data, norm, o)
         model = model.to(device=device, dtype=torch.float64)
@@ -194,18 +198,24 @@ class VAPINNTrainer:
             with torch.no_grad():
                 phi = model.features(z)
                 phi = torch.cat((phi, phi.new_ones(len(phi), 1)), 1)
-                targets = torch.cat(((true_traj[:, 1:].flatten(1) - model.state_mean) / ss,
+                targets = torch.cat((((true_traj[:, 1:].flatten(1) - model.state_mean) / ss)[:, free],
                                      (true_y - model.output_mean) / sy), 1)
                 gram = phi.T @ phi
                 reg = o.ridge * len(phi) * torch.eye(phi.shape[1], device=device, dtype=phi.dtype)
                 reg[-1, -1] = 0
                 weights = torch.linalg.solve(gram + reg, phi.T @ targets).T
                 for head, w in zip((model.trajectory_head, model.functional_head),
-                                   weights.split((model.T * model.S, len(sy)))):
+                                   weights.split((int(free.sum()), len(sy)))):
                     head.weight.copy_(w[:, :-1]); head.bias.copy_(w[:, -1])
 
         ridge_fit()
+        executed, stopped = 0, False
         for step in range(steps + 1):
+            if deadline is not None and _now() >= deadline:
+                stopped = True
+                if best is None:
+                    best = copy.deepcopy(model).cpu().eval()
+                break
             if step and step % o.ridge_every == 0:
                 ridge_fit()
             if step % o.evaluate_every == 0 or step == steps:
@@ -222,7 +232,8 @@ class VAPINNTrainer:
             r = residual(predicted, zb)
             if r.shape != predicted[:, 1:].shape:
                 raise ModelError("residual must return [batch,T,S] in state units")
-            r2 = (r.flatten(1) / ss).square().mean(1)
+            # Keep every equation; fixed auxiliary coordinates must not dilute the loss.
+            r2 = (r.flatten(1) / ss).square().sum(1) / free.sum().clamp_min(1)
             physics = (r2 * ex).mean()
             error = (yh - yb) / sy
             fidelity = error.square().mean() + torch.relu(-error[:, 1:]).square().mean() if yh.shape[1] > 1 else error.square().mean()
@@ -246,6 +257,9 @@ class VAPINNTrainer:
             optimizer.zero_grad(); loss.backward()
             torch.nn.utils.clip_grad_norm_(params, 10)
             optimizer.step()
+            executed += 1
         if best is None:
             raise ModelError("no finite validation checkpoint from VA-PINN training")
+        best.training_updates = executed
+        best.training_stopped_by_budget = stopped
         return best

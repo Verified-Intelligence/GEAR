@@ -27,6 +27,31 @@ The first command exercises L1. The second gives L1 a zero solve budget to
 exercise L2 on this small example. Tests run both commands through the actual
 GEAR solver and check the returned point, scope and validation records.
 
+## One budget for the complete pipeline
+
+Set `DynamicsOptions(total_time_limit=10000)` to share one wall-clock deadline
+across original compilation/solve, reference simulations, all training rounds,
+surrogate compilation/solve and independent validation. The default `None`
+preserves the previous per-solve behavior. Each native solve receives the smaller
+of its configured limit and the remaining shared time. Each built-in training
+fit uses at most `training_time_fraction` (default 0.7) of the remaining time,
+reserving time for optimization and validation; this is a scheduling allocation,
+not an acceptance criterion. Completed Adam updates and training-budget stops
+are recorded per round.
+
+This deadline is cooperative. A single long native kernel or a caller callback
+needs a process watchdog for strict wall-clock enforcement. Start that watchdog
+before imports/problem construction if those must count toward the experiment.
+GPU queue waiting precedes the experiment's clock. A separately timed L1 wall
+allocation must also cover original compilation if that is the chosen protocol.
+
+`on_progress(snapshot)` receives a JSON-compatible snapshot at phase boundaries.
+An exhausted budget returns `accepted=False`, `budget_exhausted=True`, the last
+phase, the original result and completed rounds. A native L2 result awaiting
+validation is retained in `pending_surrogate`; it has no accepted certificate.
+Bounds retain their original or surrogate scope. A validation check that has not
+finished by the deadline never earns acceptance.
+
 ## Define a dynamics problem
 
 ```python
@@ -43,6 +68,7 @@ problem = gr.DynamicsProblem(
     residual=discrete_residual,
 )
 result = gr.solve_dynamics(problem, gr.DynamicsOptions(
+    total_time_limit=10000,
     original=gr.Options(device="cuda", time_limit=600),
     surrogate=gr.Options(device="cuda", time_limit=600),
 ))

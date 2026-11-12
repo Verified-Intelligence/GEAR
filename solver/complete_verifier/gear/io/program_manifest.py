@@ -22,7 +22,10 @@ MANIFEST = Path(__file__).resolve().parent.parent / "data" / "legacy505.program.
 
 def _tensor(t: torch.Tensor):
     t = t.detach().to("cpu").contiguous()
-    return ["T", str(t.dtype), list(t.shape), hashlib.sha256(t.reshape(-1).view(torch.uint8).numpy().tobytes()).hexdigest()]
+    flat = t.reshape(-1)
+    if flat.stride(0) != 1:
+        flat = flat.clone(memory_format=torch.contiguous_format)
+    return ["T", str(t.dtype), list(t.shape), hashlib.sha256(flat.view(torch.uint8).numpy().tobytes()).hexdigest()]
 
 
 def _enc(v):

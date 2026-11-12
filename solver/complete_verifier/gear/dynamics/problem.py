@@ -105,6 +105,8 @@ class DynamicsOptions:
     tolerance: str = "strict"               # standard: .01 sigma_F; strict: .001 sigma_F
     feasibility_tolerance: float = 1e-6
     additional_fraction: float = .1
+    total_time_limit: Optional[float] = None   # includes simulation, training, compile, solve, validation
+    training_time_fraction: float = .7        # of remaining global time, reserving time for solve/checks
 
     def __post_init__(self):
         if type(self.max_refinements) is not int or self.max_refinements < 0:
@@ -115,6 +117,10 @@ class DynamicsOptions:
             raise OptionError("feasibility_tolerance must be finite and nonnegative")
         if not math.isfinite(self.additional_fraction) or self.additional_fraction <= 0:
             raise OptionError("additional_fraction must be positive and finite")
+        if self.total_time_limit is not None and (not math.isfinite(self.total_time_limit) or self.total_time_limit < 0):
+            raise OptionError('total_time_limit must be finite and nonnegative')
+        if not 0 < self.training_time_fraction < 1:
+            raise OptionError('training_time_fraction must lie in (0,1)')
 
 
 @dataclass(frozen=True)
@@ -176,6 +182,8 @@ class DynamicsRound:
     training_seconds: float
     reference_seconds: float
     compiled_hash: str
+    training_updates: Optional[int] = None
+    training_stopped_by_budget: bool = False
 
 
 @dataclass(frozen=True)
@@ -196,19 +204,26 @@ class DynamicsResult:
     elapsed_seconds: float = 0.0
     original_validation: Optional[dict] = None
     surrogate_model: Any = field(default=None, repr=False, compare=False)
+    time_limit: Optional[float] = None
+    budget_exhausted: bool = False
+    phase: str = 'complete'
+    pending_surrogate: Optional[Result] = None
 
     @property
     def surrogate(self):
-        return self.rounds[-1].result if self.rounds else None
+        return self.pending_surrogate if self.pending_surrogate is not None else self.rounds[-1].result if self.rounds else None
 
     def to_json(self):
         rounds = [dict(index=r.index, result=r.result.to_json(), margins=list(r.margins),
                        optimization=_plain(r.optimization), validation=_plain(r.validation), accepted=r.accepted,
                        training_seconds=r.training_seconds, reference_seconds=r.reference_seconds,
-                       compiled_hash=r.compiled_hash) for r in self.rounds]
+                       compiled_hash=r.compiled_hash, training_updates=r.training_updates,
+                       training_stopped_by_budget=r.training_stopped_by_budget) for r in self.rounds]
         return dict(schema=1, level=self.level, accepted=self.accepted, certificate_scope=self.certificate_scope,
                     validation_kind="empirical" if rounds else None,
                     original=None if self.original is None else self.original.to_json(),
                     original_validation=_plain(self.original_validation),
                     original_error=self.original_error, rounds=rounds, x=self.x, sigma_f=self.sigma_f,
-                    elapsed_seconds=self.elapsed_seconds)
+                    elapsed_seconds=self.elapsed_seconds, time_limit=self.time_limit,
+                    budget_exhausted=self.budget_exhausted, phase=self.phase,
+                    pending_surrogate=None if self.pending_surrogate is None else self.pending_surrogate.to_json())

@@ -19,6 +19,12 @@ def same_bits(a: torch.Tensor, b: torch.Tensor) -> bool:
     if a.dtype != b.dtype or a.shape != b.shape or a.layout != b.layout:
         return False
     a, b = a.detach().cpu().contiguous().reshape(-1), b.detach().cpu().contiguous().reshape(-1)
+    # A singleton expanded tensor can be contiguous yet retain stride zero.
+    # Byte views still require stride one, even for that singleton.
+    if a.stride(0) != 1:
+        a = a.clone(memory_format=torch.contiguous_format)
+    if b.stride(0) != 1:
+        b = b.clone(memory_format=torch.contiguous_format)
     return torch.equal(a.view(torch.uint8), b.view(torch.uint8))
 
 

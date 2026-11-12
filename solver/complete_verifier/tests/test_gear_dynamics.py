@@ -337,3 +337,73 @@ def test_domain_observer_is_read_only_and_optional():
 def test_invalid_cascade_options(kw):
     with pytest.raises(gr.OptionError):
         options(**kw)
+
+
+def test_zero_total_budget_does_not_compile_or_train(monkeypatch):
+    state = harness(monkeypatch, None, None)
+    trainer = Trainer()
+    r = gr.solve_dynamics(problem(), options(total_time_limit=0), trainer=trainer)
+    assert r.budget_exhausted and not r.accepted and r.time_limit == 0
+    assert not state.solves and not trainer.calls and r.phase == 'original_compile'
+    json.dumps(r.to_json(), allow_nan=False)
+
+
+def test_total_budget_includes_reference_data_and_preserves_l1(monkeypatch):
+    deadline = importlib.import_module('gear.dynamics.deadline')
+    clock = [100.0]
+    monkeypatch.setattr(deadline, '_now', lambda: clock[0])
+    l1 = result()
+    state = harness(monkeypatch, l1, None)
+    trainer = Trainer()
+    def costly_reference(z):
+        clock[0] += 11
+        return simulate(z)
+    phases = []
+    r = gr.solve_dynamics(replace(problem(), simulate=costly_reference),
+                         options(total_time_limit=10), trainer=trainer,
+                         on_progress=lambda snapshot: phases.append(snapshot['phase']))
+    assert r.budget_exhausted and not r.accepted and r.original is l1
+    assert r.phase == 'reference_data' and r.elapsed_seconds == 11
+    assert len(state.solves) == 1 and not trainer.calls
+    assert phases == ['original_compile', 'original_solve', 'original_validation', 'reference_data']
+
+
+def test_all_solves_are_capped_by_remaining_shared_budget(monkeypatch):
+    deadline = importlib.import_module('gear.dynamics.deadline')
+    clock = [100.0]
+    monkeypatch.setattr(deadline, '_now', lambda: clock[0])
+    budget = deadline.Budget(10)
+    from gear.config import resolve
+    from gear.solver import _time_limit
+    opts = gr.Options(device='cpu', time_limit=100)
+    clock[0] += 7
+    assert _time_limit(resolve(budget.solve_options(opts)).config) == 3
+    clock[0] += 3
+    with pytest.raises(deadline.BudgetExpired):
+        budget.solve_options(opts)
+
+
+def test_training_deadline_returns_fitted_model_before_first_adam_update(monkeypatch):
+    training = importlib.import_module('gear.dynamics.training')
+    p = problem()
+    data = reference_samples(p, sample_box(p.box, 32, torch.Generator().manual_seed(0)))
+    norm = Normalization(data)
+    monkeypatch.setattr(training, '_now', lambda: 20.)
+    model = training.VAPINNTrainer(options().training).fit(p, data, data, norm, None, 0, .001, 'cpu', deadline=10.)
+    assert model.training_stopped_by_budget and model.training_updates == 0
+    assert torch.isfinite(model(data.z)).all()
+
+
+def test_timeout_during_l2_validation_retains_unvalidated_result(monkeypatch):
+    deadline = importlib.import_module('gear.dynamics.deadline')
+    clock = [100.]
+    monkeypatch.setattr(deadline, '_now', lambda: clock[0])
+    l1, l2 = result(), result(gr.Status.OPTIMAL, -.8, -.8, .4)
+    harness(monkeypatch, l1, l2)
+    def progress(snapshot):
+        if snapshot['phase'] == 'surrogate_validation':
+            clock[0] += 11
+    r = gr.solve_dynamics(problem(), options(total_time_limit=10), trainer=Trainer(), on_progress=progress)
+    assert r.budget_exhausted and not r.accepted and not r.rounds
+    assert r.original is l1 and r.pending_surrogate is l2 and r.surrogate is l2
+    assert r.to_json()['pending_surrogate']['status'] == 'OPTIMAL'

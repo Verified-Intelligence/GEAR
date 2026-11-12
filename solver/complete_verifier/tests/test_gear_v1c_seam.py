@@ -67,3 +67,13 @@ def test_attach_program_refuses_a_model_that_differs_from_the_program():
         next(p for p in g.parameters()).add_(1.0)
     with pytest.raises(gr.InternalError, match="differs from the compiled program"):
         g.__gear_program__(g, (torch.zeros(1, 3),))
+
+
+def test_same_bits_accepts_stride_zero_singletons_and_distinguishes_signed_zero():
+    from gear.lower.seam import same_bits
+    x = torch.tensor([-0.], dtype=torch.float64).as_strided((1,), (0,))
+    assert same_bits(x, torch.tensor([-0.], dtype=torch.float64))
+    assert not same_bits(x, torch.tensor([0.], dtype=torch.float64))
+    from gear.io.program_manifest import _tensor
+    assert _tensor(x) == _tensor(torch.tensor([-0.], dtype=torch.float64))
+    assert _tensor(x) != _tensor(torch.tensor([0.], dtype=torch.float64))
