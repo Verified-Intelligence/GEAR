@@ -2910,6 +2910,7 @@ def _input_bab_loop(root, vnnlib, return_domains, index):
                        progress=domain_snapshot(domains, root))
     if solving_mode:
         export_best_primal(net, domains, best_primal_x, primal_solution, primal_solution_found)
+        _report.record_open_domains(domains)
     if return_domains:
         assert same_or_spec_size, "Currently only support same number of AND specs"
         # Thresholds may have been updated by PGD attack so that different

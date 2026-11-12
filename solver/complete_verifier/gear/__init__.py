@@ -12,6 +12,8 @@ from .errors import (GearError, InternalError, LegacyArtifactError, ModelError, 
 from .options import Batch, DEFAULT_PRESET, Gap, Options, UNSET  # noqa: F401
 from .result import MAX, MIN, Provenance, Replay, Result, Sense, Stats, Status, Termination  # noqa: F401
 from .solver import Solver, solve  # noqa: F401
+from .dynamics import (DynamicsOptions, DynamicsProblem, DynamicsResult, DynamicsRound,  # noqa: F401
+                       VAPINNOptions, VAPINNTrainer, solve_dynamics)
 
 inf = float("inf")
 

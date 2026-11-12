@@ -102,6 +102,13 @@ def record_event(name: str) -> None:
         _sink.events.append(name)
 
 
+def record_open_domains(domains) -> None:
+    """Optional end-of-search observer; no work or storage without a subscriber."""
+    observer = getattr(_sink, 'open_domains', None)
+    if observer is not None:
+        observer(domains)
+
+
 @dataclass(frozen=True)
 class ReplayRecord:
     ok: bool

@@ -224,8 +224,9 @@ class _Interrupt(BaseException):
 class _Sink(report.ResultSink):
     """The WP1 sink, also calling the Solver's callbacks when a bound or an incumbent is reported."""
 
-    def __init__(self, sign: float, on_bound, on_incumbent):
+    def __init__(self, sign: float, on_bound, on_incumbent, on_domains=()):
         self._sign, self._on_bound, self._on_incumbent = sign, on_bound, on_incumbent
+        self._on_domains = on_domains
         self._dual = self._x = None
         super().__init__()
 
@@ -235,6 +236,16 @@ class _Sink(report.ResultSink):
                 fn(*args)
             except Exception as error:
                 raise _Interrupt(error) from error
+
+    def open_domains(self, domains):
+        if not self._on_domains or not len(domains):
+            return
+        count = min(len(domains), max(limit for _, limit in self._on_domains))
+        indices = domains.get_topk_indices(k=count, largest=False)
+        _, lower, upper = domains[indices][:3]
+        lower, upper = lower.detach().cpu().double(), upper.detach().cpu().double()
+        for fn, limit in self._on_domains:
+            self._call((fn,), lower[:limit].clone(), upper[:limit].clone())
 
     @property
     def dual(self):
@@ -378,7 +389,7 @@ class Solver:
 
     def __init__(self, options: Optional[Options] = None):
         self.options = options if options is not None else Options()
-        self._on_incumbent, self._on_bound, self._templates = [], [], {}
+        self._on_incumbent, self._on_bound, self._on_domains, self._templates = [], [], [], {}
 
     def on_incumbent(self, fn) -> None:
         """``fn(value, x)``: a new incumbent, user sense, ``x`` by variable name. An exception ends the solve."""
@@ -387,6 +398,15 @@ class Solver:
     def on_bound(self, fn) -> None:
         """``fn(value)``: a new certified bound, user sense. An exception ends the solve."""
         self._on_bound.append(fn)
+
+    def on_domains(self, fn, *, limit=32) -> None:
+        """At the end of input BaB, fn(lower, upper) receives up to limit open
+        boxes in the solver's search order, as independent CPU float64 copies.
+        Root-only solves may return no boxes. Observing never removes domains.
+        """
+        if type(limit) is not int or limit < 1:
+            raise OptionError('domain callback limit must be a positive integer')
+        self._on_domains.append((fn, limit))
 
     def solve(self, src) -> Result:
         return self._solve(src, None)
@@ -479,7 +499,7 @@ class Solver:
         build = _Build(store if key is not None else None, key)
         solver = ABCrownSolver(spec, model, config=config)
         solver.gear_handoff = _make_handoff(c, build)
-        sink = _Sink(sign, self._on_bound, self._on_incumbent)
+        sink = _Sink(sign, self._on_bound, self._on_incumbent, self._on_domains)
         cpu_before = _cpu_counts()
         report.install(sink)
         t, out, error, internal = _monotonic(), None, None, None

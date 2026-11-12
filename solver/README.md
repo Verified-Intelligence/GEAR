@@ -52,6 +52,11 @@ print(r.status, r.primal_bound, r.dual_bound, r.replay.ok)
 
 `gr.compile` also takes a `torch.nn.Module` with `box=`, `objective=`, `le=`, `eq=` (output indices); a worked example is in the tutorial on the project page.
 
+For discrete dynamics, `gr.solve_dynamics` first solves the original graph and,
+if needed, trains and refines a VA-PINN with reference-model checks and two
+independent test sets. Original and surrogate certificates have separate scopes.
+See [the dynamics API](docs/dynamics.md) and `examples/dynamics.py` for both paths.
+
 ## Default configuration
 
 The default is the configuration `f3` (`complete_verifier/exp_configs/NLP_solver/f3.yaml`, preset `gear-f0`), the configuration frozen after the NeurIPS 2026 submission. `nlp_example.py` takes it with `--config`; the API preset `gear-f0` is the same configuration.
