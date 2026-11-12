@@ -172,11 +172,14 @@ def test_interruption_does_not_start_training(monkeypatch):
     assert not r.accepted and not trainer.calls
 
 
-def test_solver_error_is_retained_when_falling_back(monkeypatch):
-    harness(monkeypatch, result(gr.Status.ERROR, termination=gr.Termination.INTERNAL_ERROR),
+@pytest.mark.parametrize('status', [gr.Status.ERROR, gr.Status.FEASIBLE])
+def test_original_internal_error_stops_before_training(monkeypatch, status):
+    harness(monkeypatch, result(status, p=-.8, d=-1., z=.4, termination=gr.Termination.INTERNAL_ERROR),
             result(gr.Status.OPTIMAL, -.8, -.8, .4))
-    r = gr.solve_dynamics(problem(), options(), trainer=Trainer())
-    assert r.accepted and r.original.status is gr.Status.ERROR
+    trainer = Trainer()
+    r = gr.solve_dynamics(problem(), options(), trainer=trainer)
+    assert not r.accepted and r.original.status is status
+    assert r.phase == 'original_error' and not trainer.calls
 
 
 def test_surrogate_infeasible_never_certifies_original_infeasible(monkeypatch):
@@ -407,3 +410,13 @@ def test_timeout_during_l2_validation_retains_unvalidated_result(monkeypatch):
     assert r.budget_exhausted and not r.accepted and not r.rounds
     assert r.original is l1 and r.pending_surrogate is l2 and r.surrogate is l2
     assert r.to_json()['pending_surrogate']['status'] == 'OPTIMAL'
+
+
+@pytest.mark.parametrize('status', [gr.Status.ERROR, gr.Status.FEASIBLE])
+def test_surrogate_internal_error_stops_before_refinement(monkeypatch, status):
+    harness(monkeypatch, result(), result(status, p=-.8, d=-1., z=.4, termination=gr.Termination.INTERNAL_ERROR))
+    trainer = Trainer()
+    r = gr.solve_dynamics(problem(), options(max_refinements=3), trainer=trainer)
+    assert not r.accepted and r.phase == 'surrogate_error'
+    assert r.pending_surrogate.status == status
+    assert len(trainer.calls) == 1 and not r.rounds

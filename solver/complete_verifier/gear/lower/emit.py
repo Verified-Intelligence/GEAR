@@ -14,6 +14,8 @@ Deliberate differences from ``parse_module`` (values are identical, see the WP12
 - an identity ``slice``/``view``/``reshape`` (same shape in and out, full range, step 1) emits no node, since the
   exported graph is static at batch 1 (an identity reshape written as ``x.reshape(x.shape[0], -1)`` would otherwise
   pin the batch size);
+- batch-preserving Reshape and constant branches of Concat carry GEAR annotations so independently bounded
+  domains can run with batch > 1; batch-one values, shape constants and source replay remain unchanged;
 - node names are ``/<k>`` in emission order.
 """
 from __future__ import annotations
@@ -419,7 +421,15 @@ def _cat(e, node, op):
     e.no_kwargs(node, op)
     tensors = node.args[0]
     dim = node.args[1] if len(node.args) > 1 else 0
-    return e.emit("onnx::Concat", [e.tensor(t, op) for t in tensors], {"axis": int(dim)})
+    attr = {"axis": int(dim)}
+    # Export specializes the source to one point. Constants with a leading
+    # singleton must repeat for each independently bounded solver domain.
+    rank = len(e.shape(tensors[0]))
+    if dim % rank != 0 and any(t in e.input_dep for t in tensors):
+        constants = [i for i, t in enumerate(tensors) if t not in e.input_dep]
+        if constants and all(e.shape(t)[0] == 1 for t in tensors):
+            attr['gear_batch_constants'] = constants
+    return e.emit("onnx::Concat", [e.tensor(t, op) for t in tensors], attr)
 
 
 def _reshape(e, node, op):
@@ -428,7 +438,11 @@ def _reshape(e, node, op):
     shape = e.ints(shape, op, "shape")
     if e.shape(x) == e.shape(node):
         return e.tensor(x, op)  # identity: no node (module docstring)
-    return e.emit("onnx::Reshape", [e.tensor(x, op), e.int_const(shape)], {"allowzero": 0})
+    attr = {"allowzero": 0}
+    if (x in e.input_dep and shape and shape[0] == 1
+            and e.shape(x) and e.shape(x)[0] == 1):
+        attr['gear_batch_reshape'] = True
+    return e.emit("onnx::Reshape", [e.tensor(x, op), e.int_const(shape)], attr)
 
 
 def _flatten(e, node, op):

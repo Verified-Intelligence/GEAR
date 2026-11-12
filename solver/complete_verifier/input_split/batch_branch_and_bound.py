@@ -2704,6 +2704,7 @@ def _input_bab_loop(root, vnnlib, return_domains, index):
                       f"remaining={deadline_batches.deadline - deadline_batches.clock():.6f}s")
             if batch_ == 0:
                 print("Time out! No predicted batch fits before the deadline.")
+                _report.record_event("time_limit")
                 break
             auto_batch_size.record_actual_batch_size(min(batch_, len(domains)))
             oom = False

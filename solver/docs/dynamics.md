@@ -3,7 +3,8 @@
 `gear.solve_dynamics` implements the paper's two-level procedure in the public
 Python API. It first calls the existing GEAR solver on the supplied original
 graph. An optimal incumbent is checked by reference-model simulation before it
-is accepted. A proof of original infeasibility returns immediately. Otherwise,
+is accepted. A proof of original infeasibility returns immediately.
+For an ordinary unsolved or unsupported original graph,
 the pipeline trains a verification-aware physics-informed neural network
 (VA-PINN), calibrates constraint margins, solves the fixed surrogate program and
 checks the optimization and validation criteria. Failed checks cause new
@@ -102,7 +103,12 @@ replayed on it; the adapter does not prove that relationship.
 L1 `Options`. A factory allows an unsupported original compilation to fall back
 to L2. `original=None` explicitly records that no original graph was supplied;
 it is not reported as an original-model solve. Malformed input and missing
-artifacts remain errors. Interruptions do not start training.
+artifacts remain errors. Interruptions do not start training. A native solver
+`INTERNAL_ERROR` also stops immediately: `phase` is `original_error` or
+`surrogate_error`, the failed native result is retained, and no subsequent
+training/refinement is attempted. An implementation error is never treated as
+an ordinary unsuccessful L1 solve. Correct the cause before restarting the
+instance with a fresh experiment budget.
 
 For DAEs with nonexistence, `exists(z,trajectory)` must mark finite placeholder
 paths as false. These points are reference-infeasible; they cannot be accepted

@@ -194,6 +194,9 @@ def _run(problem, options, trainer, budget, state, phase):
     except (UnsupportedModelError, UnsupportedOperatorError, UnsupportedProblemError) as error:
         original_error = f'{type(error).__name__}: {error}'
     state.update(original=original, original_error=original_error)
+    if original is not None and (original.status == Status.ERROR or original.termination == Termination.INTERNAL_ERROR):
+        phase('original_error')
+        return _snapshot(state, budget)
     phase('original_validation')
     if original is not None and original.sense != problem.sense:
         raise ModelError('original graph and dynamics outputs have different objective senses')
@@ -271,6 +274,9 @@ def _run(problem, options, trainer, budget, state, phase):
         solver.on_domains(lambda lower, upper: regions.append((lower, upper)), limit=32)
         result = solver.solve(compiled)
         state['last_surrogate'] = result
+        if result.status == Status.ERROR or result.termination == Termination.INTERNAL_ERROR:
+            phase('surrogate_error')
+            return _snapshot(state, budget)
         phase('surrogate_validation')
         t = time.monotonic()
         point = _point(result.x, len(problem.box[0]))

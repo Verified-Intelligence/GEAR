@@ -115,7 +115,11 @@ def canonical(program, intern=None):
             consts[name] = value
             ids[name] = ident(("C", _tkey(value)))
             continue
-        attr = {k: v for k, v in n.attr.items() if k != "device"}
+        # These annotations affect multi-domain execution only. The batch-one
+        # parse-module comparison still checks the original operators/shapes;
+        # test_gear_torch_batch_shapes checks the new batch semantics separately.
+        attr = {k: v for k, v in n.attr.items()
+                if k not in ("device", "gear_batch_reshape", "gear_batch_constants")}
         ids[name] = ident((n.op, _akey(attr), tuple(ids[i] for i in n.inputs)))
     return [ids[o] for o in nodes_out], intern
 

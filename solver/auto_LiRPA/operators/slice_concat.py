@@ -26,11 +26,18 @@ class BoundConcat(Bound):
     def __init__(self, attr=None, inputs=None, output_index=0, options=None):
         super().__init__(attr, inputs, output_index, options)
         self.axis = attr['axis']
+        self.gear_batch_constants = attr.get('gear_batch_constants', ())
         self.IBP_rets = None
         self.ibp_intermediate = True
 
     def forward(self, *x):  # x is a list of tensors
         x = [(item if isinstance(item, Tensor) else torch.tensor(item)) for item in x]
+        if self.gear_batch_constants:
+            batch = next(item.shape[0] for i, item in enumerate(x)
+                         if i not in self.gear_batch_constants)
+            x = [item.expand(batch, *item.shape[1:])
+                 if i in self.gear_batch_constants else item
+                 for i, item in enumerate(x)]
         self.input_size = [item.shape[self.axis] for item in x]
         self.axis = self.make_axis_non_negative(self.axis)
         return torch.cat(x, dim=int(self.axis))

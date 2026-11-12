@@ -68,6 +68,7 @@ class BoundReshape(Bound):
         super().__init__(attr, inputs, output_index, options)
         # It can be set to `view`, so that `view` instead of `reshape` will be used.
         self.option = options.get('reshape', 'reshape')
+        self.gear_batch_reshape = attr.get('gear_batch_reshape', False)
 
     def _propagate_input_perturbation_state(self, v, states):
         return _preserve_input_perturbation_through_shape(
@@ -75,6 +76,8 @@ class BoundReshape(Bound):
 
     def forward(self, x, shape):
         shape = list(shape)
+        if self.gear_batch_reshape:
+            shape[0] = x.shape[0]
         for i in range(len(shape)):
             if shape[i] == -1:
                 shape[i] = prod(x.shape) // int(prod(shape[:i]) * prod(shape[(i + 1):]))
